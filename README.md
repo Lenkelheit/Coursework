@@ -47,6 +47,8 @@ C# version: 4.0
 
 #### Github Convention
 
+Issues Limit - **15**
+
 Branches name:
 
 * Repository's branches
