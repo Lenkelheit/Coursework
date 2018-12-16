@@ -1,0 +1,17 @@
+C:\Users\Asus\Documents\Visual Studio 2015\Projects\Galagram\Core\bin\Debug\Core.XML
+C:\Users\Asus\Documents\Visual Studio 2015\Projects\Galagram\Core\bin\Debug\Core.dll
+C:\Users\Asus\Documents\Visual Studio 2015\Projects\Galagram\Core\bin\Debug\Core.pdb
+D:\Galagram\_Libraries\Core\Core.dll
+D:\Galagram\_Libraries\Core\Core.pdb
+D:\Galagram\_Libraries\Core\Core.XML
+C:\Users\Asus\Documents\Visual Studio 2015\Projects\Galagram\Core\Galagram\_Libraries\Core\Core.XML
+C:\Users\Asus\Documents\Visual Studio 2015\Projects\Galagram\Core\Galagram\_Libraries\Core\Core.dll
+C:\Users\Asus\Documents\Visual Studio 2015\Projects\Galagram\Core\Galagram\_Libraries\Core\Core.pdb
+C:\Users\Asus\Documents\Visual Studio 2015\Projects\Galagram\Galagram\_Libraries\Core\Core.dll
+C:\Users\Asus\Documents\Visual Studio 2015\Projects\Galagram\Galagram\_Libraries\Core\Core.pdb
+C:\Users\Asus\Documents\Visual Studio 2015\Projects\Galagram\Galagram\_Libraries\Core\Core.XML
+C:\Users\Asus\Documents\Visual Studio 2015\Projects\Galagram\_Libraries\Core\Core.XML
+C:\Users\Asus\Documents\Visual Studio 2015\Projects\Galagram\_Libraries\Core\Core.dll
+C:\Users\Asus\Documents\Visual Studio 2015\Projects\Galagram\_Libraries\Core\Core.pdb
+C:\Users\Asus\Documents\Visual Studio 2015\Projects\Galagram\Core\obj\Debug\Core.dll
+C:\Users\Asus\Documents\Visual Studio 2015\Projects\Galagram\Core\obj\Debug\Core.pdb
