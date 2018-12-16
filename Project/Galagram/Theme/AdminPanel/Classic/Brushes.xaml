@@ -1,0 +1,13 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:Galagram.Theme.AdminPanel.Classic">
+
+    <SolidColorBrush x:Key="OrangeBrush" Color="{StaticResource OrangeColor}" />
+    <SolidColorBrush x:Key="LightGrayColorBrush" Color="{StaticResource LightGrayColor}" />
+    <SolidColorBrush x:Key="DarkGrayColorBrush" Color="{StaticResource DarkGrayColor}" />
+    <SolidColorBrush x:Key="MiddleGrayColorBrush" Color="{StaticResource MiddleGrayColor}" />
+    <SolidColorBrush x:Key="DarkerGrayColorBrush" Color="{StaticResource DarkerGrayColor}" />
+    <SolidColorBrush x:Key="LighterGrayColorBrush" Color="{StaticResource LighterGrayColor}" />
+
+
+</ResourceDictionary>
