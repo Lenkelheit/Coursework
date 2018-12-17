@@ -43,6 +43,20 @@ namespace DataAccess.Context
                 throw new System.NotImplementedException();
             }
         }
+        public MessageRepository MessageRepository
+        {
+            get
+            {
+                throw new System.NotImplementedException();
+            }
+        }
+        public SubjectRepository SubjectRepository
+        {
+            get
+            {
+                throw new System.NotImplementedException();
+            }
+        }
         // CONSTRUCTORS
         public UnitOfWork(string connectionString)
         {
