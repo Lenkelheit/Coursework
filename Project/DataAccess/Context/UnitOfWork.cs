@@ -1,4 +1,4 @@
-﻿using DataAccess.Repositories;
+using DataAccess.Repositories;
 
 namespace DataAccess.Context
 {
@@ -50,6 +50,10 @@ namespace DataAccess.Context
         }
 
         // METHODS
+        public void Save()
+        {
+            throw new System.NotImplementedException();
+        }
         #region IDisposable Support
         protected void Dispose(bool disposing)
         {
