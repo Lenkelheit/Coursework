@@ -12,6 +12,7 @@
     - [Project Configuration](#project-configuration)
     - [Politics](#politics)
     - [Project Convention](#project-convention)
+    - [Log Convention](#log-convention)
     - [Github Convention](#github-convention)
     - [Task Convention](#task-convention)
     - [File Hierarchy](#file-hierarchy)
@@ -44,6 +45,16 @@ C# version: 4.0
 * if somebody want to do changes in someone's bruch he should create separate brunch
 * all issues should have labels, assignees and should be bond to project
 * all pull requests should have labels, assigness and should be bond to project
+
+#### Log Convention
+
+Log Messages has next importancy levels:
+- ![#e5e5e5](https://placehold.it/15/e5e5e5/000000?text=+) `debug` — explain logic step by step
+- ![#ffff46](https://placehold.it/15/ffff46/000000?text=+) `info` — information about work (efficiency)
+- ![#ffc346](https://placehold.it/15/ffc346/000000?text=+) `warn` — something weird happen
+- ![#f03c15](https://placehold.it/15/f03c15/000000?text=+) `error` — error has been occurred
+- ![#000000](https://placehold.it/15/000000/000000?text=+) `fatal` — immediately help required
+
 
 #### Github Convention
 
