@@ -1,11 +1,11 @@
-﻿namespace ViewModel.Commands.User.Follow
+namespace ViewModel.Commands.User.Follow
 {
-    public class DeleteFollow : System.Windows.Input.ICommand
+    public class DeleteFollowCommand : System.Windows.Input.ICommand
     {
         // EVENT
         public event System.EventHandler CanExecuteChanged;
         // CONSTRUCTORS
-        public DeleteFollow(ViewModel.User.FollowViewModel followViewModel)
+        public DeleteFollowCommand(ViewModel.User.FollowViewModel followViewModel)
         {
             throw new System.NotImplementedException();
         }
