@@ -1,4 +1,4 @@
-﻿using System.Windows.Input;
+using System.Windows.Input;
 using System.ComponentModel;
 
 namespace ViewModel.ViewModel.User
@@ -35,7 +35,7 @@ namespace ViewModel.ViewModel.User
                 throw new System.NotImplementedException();
             }
         }
-        public ICommand DeleteFollow
+        public ICommand DeleteFollowCommand
         {
             get
             {
