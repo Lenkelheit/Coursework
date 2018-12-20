@@ -9,14 +9,17 @@ namespace UnitTest.ViewModel.ViewModels.User
         [TestMethod]
         public void SelectedSubjectIndex()
         {
+            Assert.Fail();
         }
         [TestMethod]
         public void Subjects()
         {
+            Assert.Fail();
         }
         [TestMethod]
         public void Message()
         {
+            Assert.Fail();
         }
     }
 }
