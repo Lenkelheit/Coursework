@@ -9,18 +9,22 @@ namespace UnitTest.ViewModel.ViewModels.User
         [TestMethod]
         public void Photo()
         {
+            Assert.Fail();
         }
         [TestMethod]
         public void SelectedCommentIndex()
         {
+            Assert.Fail();
         }
         [TestMethod]
         public void Comments()
         {
+            Assert.Fail();
         }
         [TestMethod]
         public void Text()
         {
+            Assert.Fail();
         }
     }
 }
