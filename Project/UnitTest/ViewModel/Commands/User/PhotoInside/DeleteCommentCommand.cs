@@ -9,6 +9,7 @@ namespace UnitTest.ViewModel.Commands.User.PhotoInside
         [TestMethod]
         public void TestMethod1()
         {
+            Assert.Fail();
         }
     }
 }
