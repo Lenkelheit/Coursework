@@ -13,8 +13,8 @@
     - [Politics](#politics)
     - [Project Convention](#project-convention)
     - [Log Convention](#log-convention)
+    - [Test Convention](#test-convention)
     - [Github Convention](#github-convention)
-    - [Task Convention](#task-convention)
     - [File Hierarchy](#file-hierarchy)
     - [Team Work](#team-work)
   - [Coding Convention](#coding-convention)
@@ -56,6 +56,40 @@ Log Messages has next importancy levels:
 - ![#000000](https://placehold.it/15/000000/000000?text=+) `fatal` — immediately help required
 
 
+#### Test Convention
+
+* one-unit test = one testing block
+* if block testing depend on other objects, it should be mocked
+* unit test can contain multiple scenarios, but they should be separated
+* each scenario should match next template
+
+```C#
+[TestMethod]
+public void TestingBlockName()
+{
+  // BEHAVIOR 
+  // the beginning balance should be reduced by debit amount
+  // TAKE
+  // passed regular parameter
+  // debit amount is less than beginnig balance
+  // RETURN
+  // a positive value after money has been dabit
+  
+  // Arrange
+  double beginningBalance = 11.99;
+  double debitAmount = 4.55;
+  double expected = 7.44;
+  BankAccount account = new BankAccount("Mr. Bryan Walton", beginningBalance);
+
+  // Act
+  account.Debit(debitAmount);
+
+  // Assert
+  double actual = account.Balance;
+  Assert.AreEqual(expected, actual, 0.001, "Account not debited correctly");
+}
+```
+
 #### Github Convention
 
 Issues Limit - **15**
@@ -69,12 +103,6 @@ Branches name:
 * Your branches
   - feature/FeatureName
   - fix/FixName
-
-#### Task Convention
-
-* one-unit test = one testing block
-* if block testing depend on other objects, it should be mocked
-
 
 #### File Hierarchy
 
