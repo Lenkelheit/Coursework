@@ -9,6 +9,7 @@ namespace UnitTest.DataAccess.Context
         [TestMethod]
         public void TestMethod1()
         {
+            Assert.Fail();
         }
     }
 }
