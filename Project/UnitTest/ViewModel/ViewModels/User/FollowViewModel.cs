@@ -9,10 +9,12 @@ namespace UnitTest.ViewModel.ViewModels.User
         [TestMethod]
         public void SelectedFollowIndex()
         {
+            Assert.Fail();
         }
         [TestMethod]
         public void Follow()
         {
+            Assert.Fail();
         }
     }
 }
