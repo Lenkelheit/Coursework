@@ -9,6 +9,7 @@ namespace UnitTest.ViewModel.Commands.User.AskQuestion
         [TestMethod]
         public void TestMethod1()
         {
+            Assert.Fail();
         }
     }
 }
