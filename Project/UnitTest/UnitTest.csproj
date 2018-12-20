@@ -84,6 +84,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="AdditionalAsserts\ExceptionAssert.cs" />
     <Compile Include="DataAccess\Context\AppContext.cs" />
     <Compile Include="DataAccess\Context\UnitOfWork.cs" />
     <Compile Include="DataAccess\Repositories\GenericRepositories.cs" />
