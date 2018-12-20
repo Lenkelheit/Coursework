@@ -83,9 +83,9 @@ public void TestingBlockName()
 
   // Act
   account.Debit(debitAmount);
-
-  // Assert
   double actual = account.Balance;
+  
+  // Assert
   Assert.AreEqual(expected, actual, 0.001, "Account not debited correctly");
 }
 ```
