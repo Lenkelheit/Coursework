@@ -9,14 +9,17 @@ namespace UnitTest.ViewModel.ViewModels.User
         [TestMethod]
         public void User()
         {
+            Assert.Fail();
         }
         [TestMethod]
         public void SelectedPhotoIndex()
         {
+            Assert.Fail();
         }
         [TestMethod]
         public void Photos()
         {
+            Assert.Fail();
         }
     }
 }
