@@ -9,18 +9,22 @@ namespace UnitTest.View.Services
         [TestMethod]
         public void Registrate()
         {
+            Assert.Fail();
         }
         [TestMethod]
         public void UnRegistrate()
         {
+            Assert.Fail();
         }
         [TestMethod]
         public void MakeInstance()
         {
+            Assert.Fail();
         }
         [TestMethod]
         public void ShowMessageWindow()
         {
+            Assert.Fail();
         }
     }
 }
