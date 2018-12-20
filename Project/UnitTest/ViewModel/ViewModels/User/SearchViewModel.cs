@@ -8,15 +8,18 @@ namespace UnitTest.ViewModel.ViewModels.User
     {
         [TestMethod]
         public void Text()
-        {
+        
+            Assert.Fail();
         }
         [TestMethod]
         public void SelectedUserIndex()
         {
+            Assert.Fail();
         }
         [TestMethod]
         public void Users()
         {
+            Assert.Fail();
         }
     }
 }
