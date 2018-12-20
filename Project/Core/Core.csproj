@@ -46,7 +46,6 @@
     <Compile Include="Logger.cs" />
     <Compile Include="LogMode.cs" />
     <Compile Include="Messages\Error\DB.cs" />
-    <Compile Include="Messages\Error\Log.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
