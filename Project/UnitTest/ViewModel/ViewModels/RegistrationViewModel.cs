@@ -9,14 +9,17 @@ namespace UnitTest.ViewModel.ViewModels
         [TestMethod]
         public void Constructors()
         {
+            Assert.Fail();
         }
         [TestMethod]
         public void Nickname()
         {
+            Assert.Fail();
         }
         [TestMethod]
         public void Password()
         {
+            Assert.Fail();
         }
     }
 }
