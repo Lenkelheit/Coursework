@@ -1,0 +1,139 @@
+﻿<Window x:Class="Galagram.Window.User.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        Title="MainWindow" 
+        Height="500" Width="700"
+        MinHeight="500" MinWidth="700"
+        Style="{StaticResource ModalWindowResizable}"
+        WindowStartupLocation="CenterScreen">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="20"/>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!--TOP-->
+        <Grid Grid.Row="0" Background="{StaticResource DarkGridBrush}" MouseDown="MovingWindow">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="20"/>
+                <ColumnDefinition Width="20"/>
+                <ColumnDefinition Width="20"/>
+            </Grid.ColumnDefinitions>
+            
+            <Button Grid.Column="1" 
+                    Click="Minimize" 
+                    Style="{StaticResource TopButton}">
+                <Image Source="/Resources/MenuImg/Minimize.png"/>
+            </Button>
+            <Button Grid.Column="2" 
+                    Click="Maximize" 
+                    Style="{StaticResource TopButton}">
+                <Image Source="/Resources/MenuImg/Maximize.png"/>
+            </Button>
+            <Button Grid.Column="3" 
+                    Click="Exit" 
+                    Style="{StaticResource TopExitButton}">
+                <Image Source="/Resources/MenuImg/Exit.png"/>
+            </Button>
+        </Grid>
+        
+        
+        <!--HEADER-->
+        <Grid Grid.Row="1" Style="{StaticResource HeaderGrid}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="3*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+
+            <Button Grid.Column="0" Style="{StaticResource HeaderButton}">
+                <Image Source="/Resources/MenuImg/Home.png" Margin="5"/>
+            </Button>
+            <Button Grid.Column="1" Style="{StaticResource HeaderButton}">
+                <Image Source="/Resources/MenuImg/Search.png" Margin="5"/>
+            </Button>
+            <Button Grid.Column="2" Style="{StaticResource HeaderButton}">
+                <Image Source="/Resources/MenuImg/Add.png" Margin="5"/>
+            </Button>
+
+            <Label Grid.Column="3" 
+                   Content="Galagram" 
+                   Style="{StaticResource CenterWhiteLabel}"/>
+
+            <Button Grid.Column="4" Style="{StaticResource HeaderButton}">
+                <Image Source="/Resources/MenuImg/Info.png" Margin="5"/>
+            </Button>
+            <Button Grid.Column="5" Style="{StaticResource HeaderButton}">
+                <Image Source="/Resources/MenuImg/Setting.png" Margin="5"/>
+            </Button>
+            <Button Grid.Column="6" Style="{StaticResource HeaderButton}">
+                <Image Source="/Resources/MenuImg/LogOut.png" Margin="5"/>
+            </Button>
+        </Grid>
+        
+        <!--CONTENT-->
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="2*"/>
+            </Grid.ColumnDefinitions>
+
+            <!--LEFT PANEL-->
+            <Grid Grid.Column="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="50"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="40"/>
+                    <RowDefinition Height="40"/>
+                    <RowDefinition Height="40"/>
+                </Grid.RowDefinitions>
+
+                <Label Grid.Row="0" Content="Nickname" Style="{StaticResource CenterLabel}"/>
+                <Image Grid.Row="1" Style="{StaticResource Photo}"
+                       Source="/Resources/OtherImg/NoImg.png" />
+                <Button Grid.Row="2" Content="Follow" Style="{StaticResource ClickButton}"/>
+                <Button Grid.Row="3" Content="Following" Style="{StaticResource ClickButton}"/>
+                <Button Grid.Row="4" Content="Followers" Style="{StaticResource ClickButton}"/>
+            </Grid>
+            
+            <!--RIGHT PANEL-->
+            <ListBox Grid.Column="2" Style="{StaticResource ListBoxAlbum}">
+                <ListBoxItem></ListBoxItem>
+                <ListBoxItem></ListBoxItem>
+                <ListBoxItem></ListBoxItem>
+                <ListBoxItem></ListBoxItem>
+                <ListBoxItem></ListBoxItem>
+                <ListBoxItem></ListBoxItem>
+                <ListBoxItem></ListBoxItem>
+                <ListBoxItem></ListBoxItem>
+                <ListBoxItem></ListBoxItem>
+                <ListBoxItem></ListBoxItem>
+                <ListBoxItem></ListBoxItem>
+                <ListBoxItem></ListBoxItem>
+                <ListBoxItem></ListBoxItem>
+                <ListBoxItem></ListBoxItem>
+                <ListBoxItem></ListBoxItem>
+                <ListBoxItem></ListBoxItem>
+                <ListBoxItem></ListBoxItem>
+                <ListBoxItem></ListBoxItem>
+                <ListBoxItem></ListBoxItem>
+                <ListBoxItem></ListBoxItem>
+                <ListBoxItem></ListBoxItem>
+                <ListBoxItem></ListBoxItem>
+                <ListBoxItem></ListBoxItem>
+                <ListBoxItem></ListBoxItem>
+                <ListBoxItem></ListBoxItem>
+            </ListBox>
+        </Grid>
+    </Grid>
+</Window>

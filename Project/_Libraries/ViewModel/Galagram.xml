@@ -1,0 +1,228 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Galagram</name>
+    </assembly>
+    <members>
+        <member name="T:Galagram.Window.Admin.UserControls.DeleteItem">
+            <summary>
+            Interaction logic for DeleteItem.xaml
+            </summary>
+            <summary>
+            DeleteItem
+            </summary>
+        </member>
+        <member name="M:Galagram.Window.Admin.UserControls.DeleteItem.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
+        </member>
+        <member name="T:Galagram.Window.Admin.UserControls.Messages.MessageInside">
+            <summary>
+            Interaction logic for MessageInside.xaml
+            </summary>
+            <summary>
+            MessageInside
+            </summary>
+        </member>
+        <member name="M:Galagram.Window.Admin.UserControls.Messages.MessageInside.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
+        </member>
+        <member name="T:Galagram.Window.Admin.AdminWindow">
+            <summary>
+            Interaction logic for AdminWindow.xaml
+            </summary>
+            <summary>
+            AdminWindow
+            </summary>
+        </member>
+        <member name="M:Galagram.Window.Admin.AdminWindow.#ctor">
+            <summary>
+            Initialize a new instance of <see cref="T:Galagram.Window.Admin.AdminWindow"/>
+            </summary>
+        </member>
+        <member name="M:Galagram.Window.Admin.AdminWindow.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
+        </member>
+        <member name="T:Galagram.Window.User.AskQuestion">
+            <summary>
+            Interaction logic for AskQuestion.xaml
+            </summary>
+            <summary>
+            AskQuestion
+            </summary>
+        </member>
+        <member name="M:Galagram.Window.User.AskQuestion.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
+        </member>
+        <member name="T:Galagram.Window.User.Follow">
+            <summary>
+            Interaction logic for Follow.xaml
+            </summary>
+            <summary>
+            Follow
+            </summary>
+        </member>
+        <member name="P:Galagram.Window.User.Follow.Header">
+            <summary>
+            Set up title for <see cref="T:Galagram.Window.User.Follow"/>
+            </summary>
+        </member>
+        <member name="M:Galagram.Window.User.Follow.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
+        </member>
+        <member name="T:Galagram.Window.User.MainWindow">
+            <summary>
+            Interaction logic for MainWindow.xaml
+            </summary>
+            <summary>
+            MainWindow
+            </summary>
+        </member>
+        <member name="M:Galagram.Window.User.MainWindow.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
+        </member>
+        <member name="T:Galagram.Window.User.PhotoInside">
+            <summary>
+            Interaction logic for PhotoInside.xaml
+            </summary>
+            <summary>
+            PhotoInside
+            </summary>
+        </member>
+        <member name="M:Galagram.Window.User.PhotoInside.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
+        </member>
+        <member name="T:Galagram.Window.User.Search">
+            <summary>
+            Interaction logic for Search.xaml
+            </summary>
+            <summary>
+            Search
+            </summary>
+        </member>
+        <member name="M:Galagram.Window.User.Search.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
+        </member>
+        <member name="T:Galagram.Window.User.Setting">
+            <summary>
+            Interaction logic for Setting.xaml
+            </summary>
+            <summary>
+            Setting
+            </summary>
+        </member>
+        <member name="M:Galagram.Window.User.Setting.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
+        </member>
+        <member name="T:Galagram.Window.Dialogs.MessageBoxOk">
+            <summary>
+            Interaction logic for MessageBoxOk.xaml
+            </summary>
+            <summary>
+            MessageBoxOk
+            </summary>
+        </member>
+        <member name="P:Galagram.Window.Dialogs.MessageBoxOk.Header">
+            <summary>
+            Set up title for <see cref="T:Galagram.Window.Dialogs.MessageBoxOk"/>
+            </summary>
+        </member>
+        <member name="P:Galagram.Window.Dialogs.MessageBoxOk.Text">
+            <summary>
+            Set up message text for <see cref="T:Galagram.Window.Dialogs.MessageBoxOk"/>
+            </summary>
+        </member>
+        <member name="M:Galagram.Window.Dialogs.MessageBoxOk.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
+        </member>
+        <member name="T:Galagram.Window.Dialogs.MessageBoxYesNo">
+            <summary>
+            Interaction logic for MessageBoxYesNo.xaml
+            </summary>
+            <summary>
+            MessageBoxYesNo
+            </summary>
+        </member>
+        <member name="P:Galagram.Window.Dialogs.MessageBoxYesNo.Header">
+            <summary>
+            Set up title for <see cref="T:Galagram.Window.Dialogs.MessageBoxYesNo"/>
+            </summary>
+        </member>
+        <member name="P:Galagram.Window.Dialogs.MessageBoxYesNo.Text">
+            <summary>
+            Set up message text for <see cref="T:Galagram.Window.Dialogs.MessageBoxYesNo"/>
+            </summary>
+        </member>
+        <member name="M:Galagram.Window.Dialogs.MessageBoxYesNo.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
+        </member>
+        <member name="T:Galagram.Window.Registration">
+            <summary>
+            Interaction logic for MainWindow.xaml
+            </summary>
+            <summary>
+            Registration
+            </summary>
+        </member>
+        <member name="M:Galagram.Window.Registration.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
+        </member>
+        <member name="T:Galagram.App">
+            <summary>
+            Interaction logic for App.xaml
+            </summary>
+            <summary>
+            App
+            </summary>
+        </member>
+        <member name="M:Galagram.App.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
+        </member>
+        <member name="M:Galagram.App.Main">
+            <summary>
+            Application Entry Point.
+            </summary>
+        </member>
+        <member name="T:Galagram.Properties.Resources">
+            <summary>
+              A strongly-typed resource class, for looking up localized strings, etc.
+            </summary>
+        </member>
+        <member name="P:Galagram.Properties.Resources.ResourceManager">
+            <summary>
+              Returns the cached ResourceManager instance used by this class.
+            </summary>
+        </member>
+        <member name="P:Galagram.Properties.Resources.Culture">
+            <summary>
+              Overrides the current thread's CurrentUICulture property for all
+              resource lookups using this strongly typed resource class.
+            </summary>
+        </member>
+    </members>
+</doc>

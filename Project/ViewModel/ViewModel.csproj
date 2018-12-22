@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{854F90F9-41CD-4642-91CA-E254E7E89DB6}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>ViewModel</RootNamespace>
+    <AssemblyName>ViewModel</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\_Libraries\ViewModel\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>..\_Libraries\ViewModel\ViewModel.XML</DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="DataAccess">
+      <HintPath>..\_Libraries\DataAccess\DataAccess.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework">
+      <HintPath>..\_Libraries\EntityFramework\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="Galagram">
+      <HintPath>..\_Libraries\Galagram\Galagram.exe</HintPath>
+    </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Commands\Registration\LogInCommand.cs" />
+    <Compile Include="Commands\Registration\SignUpCommand.cs" />
+    <Compile Include="Commands\RelayCommand.cs" />
+    <Compile Include="Commands\User\AskQuestion\AskCommand.cs" />
+    <Compile Include="Commands\User\Follow\DeleteFollowCommand.cs" />
+    <Compile Include="Commands\User\MainWindow\AskQuestionCommand.cs" />
+    <Compile Include="Commands\User\MainWindow\FollowCommand.cs" />
+    <Compile Include="Commands\User\MainWindow\GoHomeCommand.cs" />
+    <Compile Include="Commands\User\MainWindow\LogOutCommand.cs" />
+    <Compile Include="Commands\User\MainWindow\SearchUserCommand.cs" />
+    <Compile Include="Commands\User\MainWindow\SettingCommand.cs" />
+    <Compile Include="Commands\User\MainWindow\ShowFollowersListCommand.cs" />
+    <Compile Include="Commands\User\MainWindow\ShowFollowingListCommand.cs" />
+    <Compile Include="Commands\User\MainWindow\ShowPhotoCommand.cs" />
+    <Compile Include="Commands\User\MainWindow\UploadPhotoCommand.cs" />
+    <Compile Include="Commands\User\PhotoInside\DeleteCommentCommand.cs" />
+    <Compile Include="Commands\User\PhotoInside\DisLikeCommentCommand.cs" />
+    <Compile Include="Commands\User\PhotoInside\DisLikePhotoCommand.cs" />
+    <Compile Include="Commands\User\PhotoInside\LikeCommentCommand.cs" />
+    <Compile Include="Commands\User\PhotoInside\LikePhotoCommand.cs" />
+    <Compile Include="Commands\User\PhotoInside\WriteCommentCommand.cs" />
+    <Compile Include="Commands\User\Search\OpenProfileCommand.cs" />
+    <Compile Include="Commands\User\Search\SearchCommand.cs" />
+    <Compile Include="Commands\User\Setting\ApplyChangesCommand.cs" />
+    <Compile Include="Commands\User\Setting\LoadNewAvatarCommand.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModel\RegistrationViewModel.cs" />
+    <Compile Include="ViewModel\User\AskQuestionViewModel.cs" />
+    <Compile Include="ViewModel\User\FollowViewModel.cs" />
+    <Compile Include="ViewModel\User\MainWindowViewModel.cs" />
+    <Compile Include="ViewModel\User\PhotoInsideViewModel.cs" />
+    <Compile Include="ViewModel\User\SearchViewModel.cs" />
+    <Compile Include="ViewModel\User\SettingViewModel.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Commands\Admin\" />
+    <Folder Include="ViewModel\Admin\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

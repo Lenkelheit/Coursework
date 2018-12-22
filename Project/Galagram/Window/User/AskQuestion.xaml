@@ -1,0 +1,59 @@
+﻿<Window x:Class="Galagram.Window.User.AskQuestion"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        Title="AskQuestion" 
+        Height="500" Width="600"
+        MinHeight="500" MinWidth="600"
+        Style="{StaticResource ModalWindowResizable}"
+        WindowStartupLocation="CenterScreen">
+    <Grid>
+        <!--SCALING-->
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="100"/>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="40"/>
+        </Grid.RowDefinitions>
+        
+        <!--HEADER-->
+        <Grid Grid.Row="0" Style="{StaticResource HeaderGrid}" MouseDown="MovingWindow">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="60"/>
+            </Grid.ColumnDefinitions>
+
+            <Label Grid.Column="0" Content="Ask Question" Style="{StaticResource HeaderLabel}"/>
+            <Button Grid.Column="1" Click="Exit" Style="{StaticResource HeaderButton}">
+                <Image Source="/Resources/MenuImg/Exit.png"/>
+            </Button>
+        </Grid>
+        <!--CONTENT-->
+        <Label Grid.Row="1" Content="Any questions?" Style="{StaticResource H1Label}"/>
+        <TextBlock Grid.Row="2" Text="If you have any questions or you want to improve our service you can write a little message to us." />
+        <!--SUBJECT-->
+        <Grid Grid.Row="3">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <Label Grid.Column="0" Content="Subject" Style="{StaticResource H1LeftLabel}" />
+            <ComboBox Grid.Column="1">
+                <ComboBoxItem>Item 1</ComboBoxItem>
+                <ComboBoxItem>Item 2</ComboBoxItem>
+                <ComboBoxItem>Item 3</ComboBoxItem>
+            </ComboBox>
+        </Grid>
+        <!--MESSAGE-->
+        <Label Grid.Row="4" Content="Message" Style="{StaticResource H1LeftLabel}"/>
+        <RichTextBox Grid.Row="5"/>
+        <!--BUTTON-->
+        <Button Grid.Row="6" Content="Ask" Style="{StaticResource ClickButton}"/>
+    </Grid>
+</Window>
