@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -8,7 +8,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>UnitTest</RootNamespace>
     <AssemblyName>UnitTest</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
@@ -16,6 +16,7 @@
     <ReferencePath>$(ProgramFiles)\Common Files\microsoft shared\VSTT\$(VisualStudioVersion)\UITestExtensionPackages</ReferencePath>
     <IsCodedUITest>False</IsCodedUITest>
     <TestProjectType>UnitTest</TestProjectType>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -51,10 +52,27 @@
     <Reference Include="Galagram">
       <HintPath>..\_Libraries\Galagram\Galagram.exe</HintPath>
     </Reference>
+    <Reference Include="Microsoft.VisualStudio.TestPlatform.MSTest.TestAdapter">
+      <HintPath>..\_Libraries\UnitTest\Microsoft.VisualStudio.TestPlatform.MSTest.TestAdapter.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.TestPlatform.MSTestAdapter.PlatformServices">
+      <HintPath>..\_Libraries\UnitTest\Microsoft.VisualStudio.TestPlatform.MSTestAdapter.PlatformServices.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.TestPlatform.MSTestAdapter.PlatformServices.Interface">
+      <HintPath>..\_Libraries\UnitTest\Microsoft.VisualStudio.TestPlatform.MSTestAdapter.PlatformServices.Interface.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.TestPlatform.TestFramework">
+      <HintPath>..\_Libraries\UnitTest\Microsoft.VisualStudio.TestPlatform.TestFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.TestPlatform.TestFramework.Extensions">
+      <HintPath>..\_Libraries\UnitTest\Microsoft.VisualStudio.TestPlatform.TestFramework.Extensions.dll</HintPath>
+    </Reference>
     <Reference Include="Moq, Version=4.10.0.0, Culture=neutral, PublicKeyToken=69f491c39445e920, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\_Libraries\UnitTest\Moq.dll</HintPath>
     </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.4.1, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
@@ -68,6 +86,7 @@
     <Reference Include="ViewModel">
       <HintPath>..\_Libraries\ViewModel\ViewModel.dll</HintPath>
     </Reference>
+    <Reference Include="WindowsBase" />
   </ItemGroup>
   <Choose>
     <When Condition="('$(VisualStudioVersion)' == '10.0' or '$(VisualStudioVersion)' == '') and '$(TargetFrameworkVersion)' == 'v3.5'">
@@ -75,60 +94,53 @@
         <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
       </ItemGroup>
     </When>
-    <Otherwise>
-      <ItemGroup>
-        <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework">
-          <Private>False</Private>
-        </Reference>
-      </ItemGroup>
-    </Otherwise>
+    <Otherwise />
   </Choose>
   <ItemGroup>
-    <Compile Include="AdditionalAsserts\ExceptionAssert.cs" />
-    <Compile Include="DataAccess\Context\AppContext.cs" />
-    <Compile Include="DataAccess\Context\UnitOfWork.cs" />
-    <Compile Include="DataAccess\Repositories\GenericRepositories.cs" />
-    <Compile Include="DataAccess\Repositories\CommentLikeRepository.cs" />
-    <Compile Include="DataAccess\Repositories\CommentRepository.cs" />
-    <Compile Include="DataAccess\Repositories\PhotoLikeRepository.cs" />
-    <Compile Include="DataAccess\Repositories\PhotoRepository.cs" />
-    <Compile Include="DataAccess\Repositories\MessageRepository.cs" />
-    <Compile Include="DataAccess\Repositories\SubjectRepository.cs" />
-    <Compile Include="DataAccess\Repositories\UserRepository.cs" />
+    <Compile Include="DataAccess\Context\AppContextTest.cs" />
+    <Compile Include="DataAccess\Context\UnitOfWorkTest.cs" />
+    <Compile Include="DataAccess\Repositories\GenericRepositoriesTest.cs" />
+    <Compile Include="DataAccess\Repositories\CommentLikeRepositoryTest.cs" />
+    <Compile Include="DataAccess\Repositories\CommentRepositoryTest.cs" />
+    <Compile Include="DataAccess\Repositories\PhotoLikeRepositoryTest.cs" />
+    <Compile Include="DataAccess\Repositories\PhotoRepositoryTest.cs" />
+    <Compile Include="DataAccess\Repositories\MessageRepositoryTest.cs" />
+    <Compile Include="DataAccess\Repositories\SubjectRepositoryTest.cs" />
+    <Compile Include="DataAccess\Repositories\UserRepositoryTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ViewModel\Commands\Registration\LogInCommand.cs" />
-    <Compile Include="ViewModel\Commands\Registration\SignUpCommand.cs" />
-    <Compile Include="ViewModel\Commands\RelayCommand.cs" />
-    <Compile Include="ViewModel\Commands\User\AskQuestion\AskCommand.cs" />
-    <Compile Include="ViewModel\Commands\User\Follow\DeleteFollow.cs" />
-    <Compile Include="ViewModel\Commands\User\MainWindow\AskQuestionCommand.cs" />
-    <Compile Include="ViewModel\Commands\User\MainWindow\FollowCommand.cs" />
-    <Compile Include="ViewModel\Commands\User\MainWindow\GoHomeCommand.cs" />
-    <Compile Include="ViewModel\Commands\User\MainWindow\LogOutCommand.cs" />
-    <Compile Include="ViewModel\Commands\User\MainWindow\SearchCommand.cs" />
-    <Compile Include="ViewModel\Commands\User\MainWindow\SettingCommand.cs" />
-    <Compile Include="ViewModel\Commands\User\MainWindow\ShowFollowerListCommand.cs" />
-    <Compile Include="ViewModel\Commands\User\MainWindow\ShowFollowingListCommand.cs" />
-    <Compile Include="ViewModel\Commands\User\MainWindow\ShowPhotoCommand.cs" />
-    <Compile Include="ViewModel\Commands\User\MainWindow\UploadPhotoCommand.cs" />
-    <Compile Include="ViewModel\Commands\User\PhotoInside\DeleteCommentCommand.cs" />
-    <Compile Include="ViewModel\Commands\User\PhotoInside\DisLikeCommentCommand.cs" />
-    <Compile Include="ViewModel\Commands\User\PhotoInside\LikeCommentCommand.cs" />
-    <Compile Include="ViewModel\Commands\User\PhotoInside\DisLikePhotoCommand.cs" />
-    <Compile Include="ViewModel\Commands\User\PhotoInside\LikePhotoCommand.cs" />
-    <Compile Include="ViewModel\Commands\User\PhotoInside\WriteCommentCommand.cs" />
-    <Compile Include="ViewModel\Commands\User\Search\OpenProfileCommand.cs" />
-    <Compile Include="ViewModel\Commands\User\Search\SearchCommand.cs" />
-    <Compile Include="ViewModel\Commands\User\Setting\ApplyChangesCommand.cs" />
-    <Compile Include="ViewModel\Commands\User\Setting\LoadNewAvatarCommand.cs" />
-    <Compile Include="ViewModel\ViewModels\RegistrationViewModel.cs" />
-    <Compile Include="ViewModel\ViewModels\User\AskQuestionViewModel.cs" />
-    <Compile Include="ViewModel\ViewModels\User\FollowViewModel.cs" />
-    <Compile Include="ViewModel\ViewModels\User\MainWindowViewModel.cs" />
-    <Compile Include="ViewModel\ViewModels\User\PhotoInsideViewModel.cs" />
-    <Compile Include="ViewModel\ViewModels\User\SearchViewModel.cs" />
-    <Compile Include="ViewModel\ViewModels\User\SettingViewModel.cs" />
-    <Compile Include="View\Services\WindowManager.cs" />
+    <Compile Include="ViewModel\Commands\Registration\LogInCommandTest.cs" />
+    <Compile Include="ViewModel\Commands\Registration\SignUpCommandTest.cs" />
+    <Compile Include="ViewModel\Commands\RelayCommandTest.cs" />
+    <Compile Include="ViewModel\Commands\User\AskQuestion\AskCommandTest.cs" />
+    <Compile Include="ViewModel\Commands\User\Follow\DeleteFollowTest.cs" />
+    <Compile Include="ViewModel\Commands\User\MainWindow\AskQuestionCommandTest.cs" />
+    <Compile Include="ViewModel\Commands\User\MainWindow\FollowCommandTest.cs" />
+    <Compile Include="ViewModel\Commands\User\MainWindow\GoHomeCommandTest.cs" />
+    <Compile Include="ViewModel\Commands\User\MainWindow\LogOutCommandTest.cs" />
+    <Compile Include="ViewModel\Commands\User\MainWindow\SearchCommandTest.cs" />
+    <Compile Include="ViewModel\Commands\User\MainWindow\SettingCommandTest.cs" />
+    <Compile Include="ViewModel\Commands\User\MainWindow\ShowFollowerListCommandTest.cs" />
+    <Compile Include="ViewModel\Commands\User\MainWindow\ShowFollowingListCommandTest.cs" />
+    <Compile Include="ViewModel\Commands\User\MainWindow\ShowPhotoCommandTest.cs" />
+    <Compile Include="ViewModel\Commands\User\MainWindow\UploadPhotoCommandTest.cs" />
+    <Compile Include="ViewModel\Commands\User\PhotoInside\DeleteCommentCommandTest.cs" />
+    <Compile Include="ViewModel\Commands\User\PhotoInside\DisLikeCommentCommandTest.cs" />
+    <Compile Include="ViewModel\Commands\User\PhotoInside\LikeCommentCommandTest.cs" />
+    <Compile Include="ViewModel\Commands\User\PhotoInside\DisLikePhotoCommandTest.cs" />
+    <Compile Include="ViewModel\Commands\User\PhotoInside\LikePhotoCommandTest.cs" />
+    <Compile Include="ViewModel\Commands\User\PhotoInside\WriteCommentCommandTest.cs" />
+    <Compile Include="ViewModel\Commands\User\Search\OpenProfileCommandTest.cs" />
+    <Compile Include="ViewModel\Commands\User\Search\SearchCommandTest.cs" />
+    <Compile Include="ViewModel\Commands\User\Setting\ApplyChangesCommandTest.cs" />
+    <Compile Include="ViewModel\Commands\User\Setting\LoadNewAvatarCommandTest.cs" />
+    <Compile Include="ViewModel\ViewModels\RegistrationViewModelTest.cs" />
+    <Compile Include="ViewModel\ViewModels\User\AskQuestionViewModelTest.cs" />
+    <Compile Include="ViewModel\ViewModels\User\FollowViewModelTest.cs" />
+    <Compile Include="ViewModel\ViewModels\User\MainWindowViewModelTest.cs" />
+    <Compile Include="ViewModel\ViewModels\User\PhotoInsideViewModelTest.cs" />
+    <Compile Include="ViewModel\ViewModels\User\SearchViewModelTest.cs" />
+    <Compile Include="ViewModel\ViewModels\User\SettingViewModelTest.cs" />
+    <Compile Include="View\Services\WindowManagerTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="ViewModel\Commands\Admin\" />

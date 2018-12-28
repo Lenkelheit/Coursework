@@ -2,6 +2,11 @@ namespace Core.Configuration
 {
     public static class AppConfig
     {
+        static readonly string DIRECTORY_SEPARATOR_STR = System.IO.Path.DirectorySeparatorChar.ToString();
+
+        static readonly string DIRECTORY_EXE_PATH = System.AppDomain.CurrentDomain.BaseDirectory;
+
+
         public static readonly string APP_NAME = "Galagram";
 
         public static readonly string LOG_FILE = null;

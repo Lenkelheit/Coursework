@@ -3,9 +3,12 @@
     /// <summary>
     /// Interaction logic for MessageBoxYesNo.xaml
     /// </summary>
-    public partial class MessageBoxYesNo : System.Windows.Window
+    public partial class MessageBoxYesNo : System.Windows.Window, Interfaces.IMessageBox
     {
         // CONSTRUCTORS
+        /// <summary>
+        /// Initialize a new instance of <see cref="MessageBoxYesNo"/>
+        /// </summary>
         public MessageBoxYesNo()
         {
             InitializeComponent();

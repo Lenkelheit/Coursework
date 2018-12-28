@@ -8,7 +8,7 @@ namespace ViewModel.ViewModel
         // EVENT
         public event PropertyChangedEventHandler PropertyChanged;
         // CONSTRUCTORS
-        public RegistrationViewModel(Galagram.Services.WindowManager windowManager, DataAccess.Context.UnitOfWork unitOfWork)
+        public RegistrationViewModel()
         {
             throw new System.NotImplementedException();
         }

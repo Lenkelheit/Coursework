@@ -86,7 +86,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Services\MessageBoxButton.cs" />
+    <Compile Include="Window\Dialogs\Interfaces\IMessageBox.cs" />
+    <Compile Include="Window\Dialogs\MessageBoxButton.cs" />
     <Compile Include="Services\WindowManager.cs" />
     <Compile Include="Window\Admin\UserControls\DeleteItem.xaml.cs">
       <DependentUpon>DeleteItem.xaml</DependentUpon>
