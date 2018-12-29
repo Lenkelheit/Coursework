@@ -7,7 +7,7 @@ using Galagram.Window.User;
 namespace Galagram.Services
 {
     /// <summary>
-    /// Provides algoriths with window.
+    /// Provides algorithms with window.
     /// <para />
     /// Implements a Factory pattern.
     /// <para />
@@ -26,6 +26,8 @@ namespace Galagram.Services
             factory = new Dictionary<string, Type>();
 
             // registrate all windows
+            // registrate main window
+            Registrate(nameof(Window.Registration), typeof(Window.Registration));
             // registrate dialogs
             Registrate(nameof(MessageBoxOk), typeof(MessageBoxOk));
             Registrate(nameof(MessageBoxYesNo), typeof(MessageBoxYesNo));
@@ -157,7 +159,7 @@ namespace Galagram.Services
         /// A key by which window was registered.
         /// </param>
         /// <param name="viewModel">
-        /// An DataContext for window.
+        /// A DataContext for window.
         /// </param>
         /// <returns>
         /// A <see cref="System.Nullable"/> value of type <see cref="Boolean"/> that specifies whether the activity was accepted (true) or canceled (false).
@@ -267,6 +269,53 @@ namespace Galagram.Services
 
             // show window and return result
             return ((System.Windows.Window)messageBoxWindow).ShowDialog();             
+        }
+        /// <summary>
+        /// Switch current main window to passed one.
+        /// </summary>
+        /// <param name="key">
+        /// A key by which window was registered.
+        /// </param>
+        /// <exception cref="ArgumentNullException">
+        /// Throws when <paramref name="key"/> is null.
+        /// </exception>
+        /// <exception cref="InvalidOperationException">
+        /// Throws when key was not registered before.
+        /// </exception>
+        public void SwitchMainWindow(string key)
+        {
+            SwitchMainWindow(key, null);
+        }
+        /// <summary>
+        /// Switch current main window to passed one.
+        /// </summary>
+        /// <param name="key">
+        /// A key by which window was registered.
+        /// </param>
+        /// <param name="viewModel">
+        /// A DataContext for window.
+        /// </param>
+        /// <exception cref="ArgumentNullException">
+        /// Throws when <paramref name="key"/> is null.
+        /// </exception>
+        /// <exception cref="InvalidOperationException">
+        /// Throws when key was not registered before.
+        /// </exception>
+        public void SwitchMainWindow(string key, object viewModel)
+        {
+            // get current main window
+            System.Windows.Window oldWindow = App.Current.MainWindow;
+
+            // get new window by key
+            System.Windows.Window newWindow = MakeInstance(key);
+            newWindow.DataContext = viewModel;
+
+            // set it as a new main window
+            App.Current.MainWindow = newWindow;
+
+            // switch windows
+            oldWindow.Close();
+            newWindow.ShowDialog();
         }
     }
 }

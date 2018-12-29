@@ -26,7 +26,7 @@
         <TextBlock Grid.Row="1" x:Name="ContentTb"/>
 
         <!--BUTTON-->
-        <Button Grid.Row="2" Content="YES" Style="{StaticResource ClickButton}" Click="Exit"/>
+        <Button Grid.Row="2" Content="OK" Style="{StaticResource ClickButton}" Click="Exit"/>
 
     </Grid>
 </Window>
