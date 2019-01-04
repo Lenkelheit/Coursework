@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -72,7 +72,7 @@
     <Compile Include="Commands\User\PhotoInside\LikeCommentCommand.cs" />
     <Compile Include="Commands\User\PhotoInside\LikePhotoCommand.cs" />
     <Compile Include="Commands\User\PhotoInside\WriteCommentCommand.cs" />
-    <Compile Include="Commands\User\Search\OpenProfileCommand.cs" />
+    <Compile Include="Commands\User\General\OpenProfileCommand.cs" />
     <Compile Include="Commands\User\Search\SearchCommand.cs" />
     <Compile Include="Commands\User\Setting\ApplyChangesCommand.cs" />
     <Compile Include="Commands\User\Setting\LoadNewAvatarCommand.cs" />

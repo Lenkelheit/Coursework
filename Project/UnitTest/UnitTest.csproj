@@ -129,7 +129,7 @@
     <Compile Include="ViewModel\Commands\User\PhotoInside\DisLikePhotoCommandTest.cs" />
     <Compile Include="ViewModel\Commands\User\PhotoInside\LikePhotoCommandTest.cs" />
     <Compile Include="ViewModel\Commands\User\PhotoInside\WriteCommentCommandTest.cs" />
-    <Compile Include="ViewModel\Commands\User\Search\OpenProfileCommandTest.cs" />
+    <Compile Include="ViewModel\Commands\User\General\OpenProfileCommandTest.cs" />
     <Compile Include="ViewModel\Commands\User\Search\SearchCommandTest.cs" />
     <Compile Include="ViewModel\Commands\User\Setting\ApplyChangesCommandTest.cs" />
     <Compile Include="ViewModel\Commands\User\Setting\LoadNewAvatarCommandTest.cs" />

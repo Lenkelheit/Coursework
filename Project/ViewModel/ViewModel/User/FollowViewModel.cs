@@ -42,6 +42,13 @@ namespace ViewModel.ViewModel.User
                 throw new System.NotImplementedException();
             }
         }
+        public ICommand OpenProfileCommand
+        {
+            get
+            {
+                throw new System.NotImplementedException();
+            }
+        }
         // METHODS
         protected virtual void OnPropertyChanged(PropertyChangedEventArgs e)
         {

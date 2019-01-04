@@ -6,8 +6,21 @@ namespace DataAccess.Context
     {
         // FIELDS
         private AppContext context;
+        private static UnitOfWork instance;
 
-        
+        // CONSTRUCTORS
+        public UnitOfWork(string connectionString)
+        {
+            throw new System.NotImplementedException();
+        }
+        static UnitOfWork()
+        {
+            throw new System.NotImplementedException();
+        }
+        ~UnitOfWork()
+        {
+            throw new System.NotImplementedException();
+        }
         // PROPERTIES
         public static UnitOfWork Instance
         {
@@ -65,11 +78,7 @@ namespace DataAccess.Context
                 throw new System.NotImplementedException();
             }
         }
-        // CONSTRUCTORS
-        public UnitOfWork(string connectionString)
-        {
-            throw new System.NotImplementedException();
-        }
+       
 
         // METHODS
         public void Save()
