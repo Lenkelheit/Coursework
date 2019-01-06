@@ -8,9 +8,9 @@ namespace DataAccess.Entities
         public string MainPhotoPath { get; set; }
         public string NickName { get; set; }
         public string Password { get; set; }
-	public ICollection<Photo> Photos { get; set; }
-	public ICollection<User> Followers { get; set; }
-	public ICollection<User> Following { get; set; }
-	public bool IsAdmin { get; set; }        
+	    public ICollection<Photo> Photos { get; set; }
+	    public ICollection<User> Followers { get; set; }
+	    public ICollection<User> Following { get; set; }
+	    public bool IsAdmin { get; set; }        
     }
 }

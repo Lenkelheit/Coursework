@@ -8,7 +8,7 @@ namespace ViewModel.ViewModel.User
         // EVENT
         public event PropertyChangedEventHandler PropertyChanged;
         // CONSTRUCTORS
-        public MainWindowViewModel(Galagram.Services.WindowManager windowManager, DataAccess.Context.UnitOfWork unitOfWork, DataAccess.Entities.User user)
+        public MainWindowViewModel(DataAccess.Entities.User user)
         {
             throw new System.NotImplementedException();
         }

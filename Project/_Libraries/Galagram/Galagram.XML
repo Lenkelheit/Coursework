@@ -4,6 +4,94 @@
         <name>Galagram</name>
     </assembly>
     <members>
+        <member name="T:Galagram.Window.Dialogs.Interfaces.IMessageBox">
+            <summary>
+            Provides basic interaction for Message Boxes.
+            </summary>
+        </member>
+        <member name="P:Galagram.Window.Dialogs.Interfaces.IMessageBox.Header">
+            <summary>
+            Gets or sets the header of MessageBox.
+            </summary>
+        </member>
+        <member name="P:Galagram.Window.Dialogs.Interfaces.IMessageBox.Text">
+            <summary>
+            Gets or sets the text message of MessageBox.
+            </summary>
+        </member>
+        <member name="T:Galagram.Window.Dialogs.MessageBoxButton">
+            <summary>
+             Specifies the buttons that are displayed on a message box. 
+            <para/> 
+            Used as an argument <see cref="M:Galagram.Services.WindowManager.ShowMessageWindow(System.String,System.String,Galagram.Window.Dialogs.MessageBoxButton)"/> method.
+            </summary>
+        </member>
+        <member name="F:Galagram.Window.Dialogs.MessageBoxButton.Ok">
+            <summary>
+            The message box displays an OK button
+            </summary>
+        </member>
+        <member name="F:Galagram.Window.Dialogs.MessageBoxButton.YesNo">
+            <summary>
+            The message box displays YES and NO buttons.
+            </summary>
+        </member>
+        <member name="T:Galagram.Window.Dialogs.MessageBoxOk">
+            <summary>
+            Interaction logic for MessageBoxOk.xaml
+            </summary>
+            <summary>
+            MessageBoxOk
+            </summary>
+        </member>
+        <member name="M:Galagram.Window.Dialogs.MessageBoxOk.#ctor">
+            <summary>
+            Initialize a new instance of <see cref="T:Galagram.Window.Dialogs.MessageBoxOk"/>
+            </summary>
+        </member>
+        <member name="P:Galagram.Window.Dialogs.MessageBoxOk.Header">
+            <summary>
+            Set up title for <see cref="T:Galagram.Window.Dialogs.MessageBoxOk"/>
+            </summary>
+        </member>
+        <member name="P:Galagram.Window.Dialogs.MessageBoxOk.Text">
+            <summary>
+            Set up message text for <see cref="T:Galagram.Window.Dialogs.MessageBoxOk"/>
+            </summary>
+        </member>
+        <member name="M:Galagram.Window.Dialogs.MessageBoxOk.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
+        </member>
+        <member name="T:Galagram.Window.Dialogs.MessageBoxYesNo">
+            <summary>
+            Interaction logic for MessageBoxYesNo.xaml
+            </summary>
+            <summary>
+            MessageBoxYesNo
+            </summary>
+        </member>
+        <member name="M:Galagram.Window.Dialogs.MessageBoxYesNo.#ctor">
+            <summary>
+            Initialize a new instance of <see cref="T:Galagram.Window.Dialogs.MessageBoxYesNo"/>
+            </summary>
+        </member>
+        <member name="P:Galagram.Window.Dialogs.MessageBoxYesNo.Header">
+            <summary>
+            Set up title for <see cref="T:Galagram.Window.Dialogs.MessageBoxYesNo"/>
+            </summary>
+        </member>
+        <member name="P:Galagram.Window.Dialogs.MessageBoxYesNo.Text">
+            <summary>
+            Set up message text for <see cref="T:Galagram.Window.Dialogs.MessageBoxYesNo"/>
+            </summary>
+        </member>
+        <member name="M:Galagram.Window.Dialogs.MessageBoxYesNo.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
+        </member>
         <member name="T:Galagram.Window.Admin.UserControls.DeleteItem">
             <summary>
             Interaction logic for DeleteItem.xaml
@@ -131,52 +219,6 @@
             InitializeComponent
             </summary>
         </member>
-        <member name="T:Galagram.Window.Dialogs.MessageBoxOk">
-            <summary>
-            Interaction logic for MessageBoxOk.xaml
-            </summary>
-            <summary>
-            MessageBoxOk
-            </summary>
-        </member>
-        <member name="P:Galagram.Window.Dialogs.MessageBoxOk.Header">
-            <summary>
-            Set up title for <see cref="T:Galagram.Window.Dialogs.MessageBoxOk"/>
-            </summary>
-        </member>
-        <member name="P:Galagram.Window.Dialogs.MessageBoxOk.Text">
-            <summary>
-            Set up message text for <see cref="T:Galagram.Window.Dialogs.MessageBoxOk"/>
-            </summary>
-        </member>
-        <member name="M:Galagram.Window.Dialogs.MessageBoxOk.InitializeComponent">
-            <summary>
-            InitializeComponent
-            </summary>
-        </member>
-        <member name="T:Galagram.Window.Dialogs.MessageBoxYesNo">
-            <summary>
-            Interaction logic for MessageBoxYesNo.xaml
-            </summary>
-            <summary>
-            MessageBoxYesNo
-            </summary>
-        </member>
-        <member name="P:Galagram.Window.Dialogs.MessageBoxYesNo.Header">
-            <summary>
-            Set up title for <see cref="T:Galagram.Window.Dialogs.MessageBoxYesNo"/>
-            </summary>
-        </member>
-        <member name="P:Galagram.Window.Dialogs.MessageBoxYesNo.Text">
-            <summary>
-            Set up message text for <see cref="T:Galagram.Window.Dialogs.MessageBoxYesNo"/>
-            </summary>
-        </member>
-        <member name="M:Galagram.Window.Dialogs.MessageBoxYesNo.InitializeComponent">
-            <summary>
-            InitializeComponent
-            </summary>
-        </member>
         <member name="T:Galagram.Window.Registration">
             <summary>
             Interaction logic for MainWindow.xaml
@@ -189,6 +231,200 @@
             <summary>
             InitializeComponent
             </summary>
+        </member>
+        <member name="T:Galagram.Services.WindowManager">
+            <summary>
+            Provides algorithms with window.
+            <para />
+            Implements a Factory pattern.
+            <para />
+            Implements a Singleton pattern
+            </summary>
+        </member>
+        <member name="P:Galagram.Services.WindowManager.Instance">
+            <summary>
+            Gets an instance of <see cref="T:Galagram.Services.WindowManager"/>.
+            </summary>
+        </member>
+        <member name="M:Galagram.Services.WindowManager.MakeInstance(System.String)">
+            <summary>
+            Returns a new instance of a window.
+            </summary>
+            <param name="key">
+            A key by which window was registered.
+            </param>
+            <returns>
+            An instance of <see cref="T:System.Windows.Window"/>
+            </returns>
+            <exception cref="T:System.ArgumentNullException">
+            Throws when <paramref name="key"/> is null.
+            </exception>
+            <exception cref="T:System.InvalidOperationException">
+            Throws when key was not registered before.
+            </exception>
+        </member>
+        <member name="M:Galagram.Services.WindowManager.Registrate(System.String,System.Type)">
+            <summary>
+            Registrates a type of the window by current key.
+            </summary>
+            <param name="key">
+            A key by which type is registered.
+            </param>
+            <param name="value">
+            A type of the window
+            </param>
+            <exception cref="T:System.ArgumentNullException">
+            Throws when <paramref name="key"/> or <paramref name="value"/> is null.
+            </exception>
+            <exception cref="T:System.InvalidOperationException">
+            Throws when the key already has been registered
+            </exception>
+            <exception cref="T:System.ArithmeticException">
+            Throws when <paramref name="value"/> can not be registered.
+            </exception>
+        </member>
+        <member name="M:Galagram.Services.WindowManager.UnRegistrate(System.String)">
+            <summary>
+            Unregistrates type by current key
+            </summary>
+            <param name="key">
+            A key by which Type was registered
+            </param>
+            <exception cref="T:System.ArgumentNullException">
+            Throws when <paramref name="key"/> is null.
+            </exception>
+            <exception cref="T:System.InvalidOperationException">
+            Throws when factory does not contain current key
+            </exception>
+        </member>
+        <member name="M:Galagram.Services.WindowManager.ShowWindowDialog(System.String)">
+            <summary>
+            Opens a window and returns only when a newly opened window is closed.
+            </summary>
+            <param name="key">
+            A key by which window was registered.
+            </param>
+            <returns>
+            A <see cref="T:System.Nullable"/> value of type <see cref="T:System.Boolean"/> that specifies whether the activity was accepted (true) or canceled (false).
+            <para/>
+            The return value is the value of the <see cref="P:System.Windows.Window.DialogResult"/> property before a window closes.
+            </returns>    
+            <exception cref="T:System.ArgumentNullException">
+            Throws when <paramref name="key"/> is null.
+            </exception>
+            <exception cref="T:System.InvalidOperationException">
+            Throws when key was not registered before.
+            </exception>
+        </member>
+        <member name="M:Galagram.Services.WindowManager.ShowWindowDialog(System.String,System.Object)">
+            <summary>
+            Opens a window and returns only when a newly opened window is closed.
+            </summary>
+            <param name="key">
+            A key by which window was registered.
+            </param>
+            <param name="viewModel">
+            A DataContext for window.
+            </param>
+            <returns>
+            A <see cref="T:System.Nullable"/> value of type <see cref="T:System.Boolean"/> that specifies whether the activity was accepted (true) or canceled (false).
+            <para/>
+            The return value is the value of the <see cref="P:System.Windows.Window.DialogResult"/> property before a window closes.
+            </returns>    
+            <exception cref="T:System.ArgumentNullException">
+            Throws when <paramref name="key"/> is null.
+            </exception>
+            <exception cref="T:System.InvalidOperationException">
+            Throws when key was not registered before.
+            </exception>
+        </member>
+        <member name="M:Galagram.Services.WindowManager.ShowMessageWindow(System.String)">
+            <summary>
+            Open a message box window and returns only when a newly opened window is closed.
+            </summary>
+            <param name="text">
+            Specify the text of the window.
+            </param>
+            <returns>
+            A <see cref="T:System.Nullable"/> value of type <see cref="T:System.Boolean"/> that specifies whether the activity was accepted (true) or canceled (false).
+            <para/>
+            The return value is the value of the <see cref="P:System.Windows.Window.DialogResult"/> property before a window closes.
+            </returns>    
+            <exception cref="T:System.InvalidOperationException">
+            Throws when message box is not registered.
+            </exception>
+        </member>
+        <member name="M:Galagram.Services.WindowManager.ShowMessageWindow(System.String,System.String)">
+            <summary>
+            Open a message box window and returns only when a newly opened window is closed.
+            </summary>
+            <param name="text">
+            Specify the text of the window.
+            </param>
+            <param name="header">
+            Specify the header text of the window.
+            </param>
+            <returns>
+            A <see cref="T:System.Nullable"/> value of type <see cref="T:System.Boolean"/> that specifies whether the activity was accepted (true) or canceled (false).
+            <para/>
+            The return value is the value of the <see cref="P:System.Windows.Window.DialogResult"/> property before a window closes.
+            </returns>    
+            <exception cref="T:System.InvalidOperationException">
+            Throws when message box is not registered.
+            </exception>
+        </member>
+        <member name="M:Galagram.Services.WindowManager.ShowMessageWindow(System.String,System.String,Galagram.Window.Dialogs.MessageBoxButton)">
+            <summary>
+            Open a message box window and returns only when a newly opened window is closed.
+            </summary>
+            <param name="text">
+            Specify the text of the window.
+            </param>
+            <param name="header">
+            Specify the header text of the window.
+            </param>
+            <param name="buttonType">
+            Specify what buttons will be on the window.
+            </param>
+            <returns>
+            A <see cref="T:System.Nullable"/> value of type <see cref="T:System.Boolean"/> that specifies whether the activity was accepted (true) or canceled (false).
+            <para/>
+            The return value is the value of the <see cref="P:System.Windows.Window.DialogResult"/> property before a window closes.
+            </returns>    
+            <exception cref="T:System.InvalidOperationException">
+            Throws when message box is not registered.
+            </exception>
+        </member>
+        <member name="M:Galagram.Services.WindowManager.SwitchMainWindow(System.String)">
+            <summary>
+            Switch current main window to passed one.
+            </summary>
+            <param name="key">
+            A key by which window was registered.
+            </param>
+            <exception cref="T:System.ArgumentNullException">
+            Throws when <paramref name="key"/> is null.
+            </exception>
+            <exception cref="T:System.InvalidOperationException">
+            Throws when key was not registered before.
+            </exception>
+        </member>
+        <member name="M:Galagram.Services.WindowManager.SwitchMainWindow(System.String,System.Object)">
+            <summary>
+            Switch current main window to passed one.
+            </summary>
+            <param name="key">
+            A key by which window was registered.
+            </param>
+            <param name="viewModel">
+            A DataContext for window.
+            </param>
+            <exception cref="T:System.ArgumentNullException">
+            Throws when <paramref name="key"/> is null.
+            </exception>
+            <exception cref="T:System.InvalidOperationException">
+            Throws when key was not registered before.
+            </exception>
         </member>
         <member name="T:Galagram.App">
             <summary>

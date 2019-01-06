@@ -3,9 +3,12 @@
     /// <summary>
     /// Interaction logic for MessageBoxOk.xaml
     /// </summary>
-    public partial class MessageBoxOk : System.Windows.Window
+    public partial class MessageBoxOk : System.Windows.Window, Interfaces.IMessageBox
     {
         // CONSTRUCTORS
+        /// <summary>
+        /// Initialize a new instance of <see cref="MessageBoxOk"/>
+        /// </summary>
         public MessageBoxOk()
         {
             InitializeComponent();

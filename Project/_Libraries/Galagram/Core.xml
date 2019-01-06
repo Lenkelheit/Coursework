@@ -4,5 +4,34 @@
         <name>Core</name>
     </assembly>
     <members>
+        <member name="T:Core.Messages.Error.View">
+            <summary>
+            Consist of messages that can be thrown in View.
+            </summary>
+        </member>
+        <member name="F:Core.Messages.Error.View.WINDOW_MANAGER_REGISTRATE_INTERFACE_FORMAT">
+            <summary>
+            Passed argument is an interface or abstract class type. WindowManager can not registrate this type. 
+            <para/>
+            Takes argument name.
+            </summary>
+        </member>
+        <member name="F:Core.Messages.Error.View.WINDOW_MANAGER_REGISTRATE_BY_THE_SAME_KEY_FORMAT">
+            <summary>
+            Current key has been already registered.
+            <para/>
+            Takes key name.
+            </summary>
+        </member>
+        <member name="F:Core.Messages.Error.View.WINDOW_MANAGER_NO_SUCH_KEY_FORMAT">
+            <summary>
+            Current key has not been registered before.
+            </summary>
+        </member>
+        <member name="F:Core.Messages.Error.View.WINDOW_MANAGER_MESSAGE_BOX_BUTTONS_WONG_ENUM_VALUE">
+            <summary>
+            The behaviour for passed enum value is not implemented.
+            </summary>
+        </member>
     </members>
 </doc>

@@ -8,7 +8,7 @@ namespace ViewModel.ViewModel.User
         // EVENT
         public event PropertyChangedEventHandler PropertyChanged;
         // CONSTRUCTORS
-        public FollowViewModel(Galagram.Services.WindowManager windowManager, DataAccess.Context.UnitOfWork unitOfWork, DataAccess.Entities.User user)
+        public FollowViewModel(DataAccess.Entities.User user)
         {
             throw new System.NotImplementedException();
         }
@@ -36,6 +36,13 @@ namespace ViewModel.ViewModel.User
             }
         }
         public ICommand DeleteFollowCommand
+        {
+            get
+            {
+                throw new System.NotImplementedException();
+            }
+        }
+        public ICommand OpenProfileCommand
         {
             get
             {
