@@ -260,7 +260,7 @@ namespace Galagram.Services
                     }
                     break;
                 default:
-                    throw new ArgumentOutOfRangeException(Core.Messages.Error.View.WINDOW_MANAGER_MESSAGE_BOX_BUTTONS_WONG_ENUM_VALUE);
+                    throw new ArgumentOutOfRangeException(Core.Messages.Error.View.WINDOW_MANAGER_MESSAGE_BOX_BUTTONS_WRONG_ENUM_VALUE);
             }
 
             // set up all values

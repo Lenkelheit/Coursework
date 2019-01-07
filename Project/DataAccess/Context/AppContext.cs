@@ -18,6 +18,11 @@ namespace DataAccess.Context
         public AppContext(string connectionString)
             : base(connectionString) {  }
 
+        static AppContext()
+        {
+            Database.SetInitializer(new Initializers.AppContextInitializer());
+        }
+
         // METHODS
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

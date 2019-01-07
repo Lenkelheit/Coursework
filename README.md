@@ -28,9 +28,9 @@
 
 #### Project Configuration
 
-C# version: 4.0
+C# version: 7.1
 
-.NET version: 4.5.2
+.NET version: 4.6.2
 
 #### Politics
 
@@ -60,7 +60,7 @@ Log Messages has next importancy levels:
 
 * one-unit test = one testing block
 * if block testing depend on other objects, it should be mocked
-* unit test can contain multiple scenarios, but they should be separated
+* unit test can contain a single scenario, then the name of unit test should match with next pattern — TakeArgument_ReturnArgument_TestingBehaviour
 * each scenario should match next template
 
 ```C#

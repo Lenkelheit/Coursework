@@ -1,7 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Collections.Generic;
 
 namespace DataAccess.Interfaces
 {
@@ -12,12 +12,18 @@ namespace DataAccess.Interfaces
     public interface IGenericRepository<TEntity> where TEntity : class
     {
         /// <summary>
-        /// Property that enale to interact with count of entities in data base
+        /// Counts records in data set
         /// </summary>
         /// <returns>Count of entities</returns>
-        int Count { get; }
+        int Count();
         /// <summary>
-        /// Method that get data from data base
+        /// Counts records in data set which satisfy the condition
+        /// </summary>
+        /// <param name="predicate">The condition by which record should be count</param>
+        /// <returns>Returns the amount of records in data set which satisfy the condition</returns>
+        int Count(Func<TEntity, bool> predicate);
+        /// <summary>
+        /// Returns data from data base
         /// </summary>
         /// <param name="filter">Filter for data</param>
         /// <param name="orderBy">The order of the received items</param>
@@ -27,7 +33,7 @@ namespace DataAccess.Interfaces
                                  Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
                                  string includeProperties = "");
         /// <summary>
-        /// Method that enable to get entity by id
+        /// Returns entity by id
         /// </summary>
         /// <param name="id">Entities id</param>
         /// <returns>Finded entity</returns>
