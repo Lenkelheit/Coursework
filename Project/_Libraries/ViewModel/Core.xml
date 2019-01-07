@@ -6,7 +6,7 @@
     <members>
         <member name="T:Core.Messages.Error.View">
             <summary>
-            Consist of messages that can be thrown in View.
+            Consists of messages that can be thrown in View.
             </summary>
         </member>
         <member name="F:Core.Messages.Error.View.WINDOW_MANAGER_REGISTRATE_INTERFACE_FORMAT">
@@ -28,7 +28,7 @@
             Current key has not been registered before.
             </summary>
         </member>
-        <member name="F:Core.Messages.Error.View.WINDOW_MANAGER_MESSAGE_BOX_BUTTONS_WONG_ENUM_VALUE">
+        <member name="F:Core.Messages.Error.View.WINDOW_MANAGER_MESSAGE_BOX_BUTTONS_WRONG_ENUM_VALUE">
             <summary>
             The behaviour for passed enum value is not implemented.
             </summary>

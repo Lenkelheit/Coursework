@@ -81,7 +81,7 @@ namespace DataAccess.Context
        
 
         // METHODS
-        public void Save()
+        public int Save()
         {
             throw new System.NotImplementedException();
         }

@@ -86,7 +86,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Window\Dialogs\Interfaces\IMessageBox.cs" />
     <Compile Include="Window\Dialogs\MessageBoxButton.cs" />
     <Compile Include="Services\WindowManager.cs" />
     <Compile Include="Window\Admin\UserControls\DeleteItem.xaml.cs">
@@ -153,11 +152,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Window\Dialogs\MessageBoxOk.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Window\Dialogs\MessageBoxYesNo.xaml">
+    <Page Include="Window\Dialogs\MessageBox.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -172,11 +167,8 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Window\Dialogs\MessageBoxOk.xaml.cs">
-      <DependentUpon>MessageBoxOk.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Window\Dialogs\MessageBoxYesNo.xaml.cs">
-      <DependentUpon>MessageBoxYesNo.xaml</DependentUpon>
+    <Compile Include="Window\Dialogs\MessageBox.xaml.cs">
+      <DependentUpon>MessageBox.xaml</DependentUpon>
     </Compile>
     <Compile Include="Window\Registration.xaml.cs">
       <DependentUpon>Registration.xaml</DependentUpon>

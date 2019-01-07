@@ -46,6 +46,7 @@
     </Style>
     <!--COMBO BOX ITEM-->
     <Style TargetType="{x:Type ComboBoxItem}">
+        <Setter Property="BorderThickness" Value="0"/>
 
         <Style.Triggers>
             <Trigger Property="IsMouseOver" Value="true">
@@ -53,14 +54,22 @@
             </Trigger>
         </Style.Triggers>
     </Style>
+    
+    
     <!--SCROLL BAR-->
     <!--SCROLL BAR PAGE BUTTON-->
     <Style x:Key="ScrollBarPageButton" TargetType="{x:Type RepeatButton}">
-        <Setter Property="Visibility" Value="Hidden"/>
         <Setter Property="SnapsToDevicePixels" Value="True"/>
-        <Setter Property="OverridesDefaultStyle" Value="True"/>
         <Setter Property="IsTabStop" Value="False"/>
+        <Setter Property="BorderThickness" Value="0"/>
         <Setter Property="Focusable" Value="False"/>
+        <Setter Property="Background" Value="{StaticResource SilverBrush}"/>
+
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Background" Value="{StaticResource LightBlueBrush}"/>
+            </Trigger>
+        </Style.Triggers>
     </Style>
 
     <!--SCROLL BAR THUMB-->
@@ -69,28 +78,8 @@
         <Setter Property="OverridesDefaultStyle" Value="True"/>
         <Setter Property="IsTabStop" Value="False"/>
         <Setter Property="Focusable" Value="False"/>
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="{x:Type Thumb}">
-                    <Rectangle
-                        x:Name="Rectangle"
-                        SnapsToDevicePixels="True"
-                        Fill="{TemplateBinding Background}"
-                        Width="{TemplateBinding Width}"
-                        Height="{TemplateBinding Height}"/>
-
-                    <ControlTemplate.Triggers>
-                        <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="Rectangle" Property="Fill" Value="{StaticResource BlueHoverBrush}"/>
-                        </Trigger>
-                        <Trigger Property="IsDragging" Value="True">
-                            <Setter TargetName="Rectangle" Property="Fill" Value="{StaticResource BlueBrush}"/>
-                        </Trigger>
-                    </ControlTemplate.Triggers>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-
+        <Setter Property="Template" Value="{StaticResource ScrollBarThumbTemplate}"/>
+        
     </Style>
     <!--SCROLL BAR-->
     <Style x:Key="{x:Type ScrollBar}" TargetType="{x:Type ScrollBar}">
@@ -110,6 +99,8 @@
             </Trigger>
         </Style.Triggers>
     </Style>
+    
+    
     <!--LIST BOX BASE-->
     <Style TargetType="ListBoxItem" x:Key="ListBoxItemBase">
         <Setter Property="Background" Value="{StaticResource WhiteBrush}"/>
@@ -163,6 +154,8 @@
     <Style TargetType="ListBox" x:Key="ListBoxComments">
         <Setter Property="Background" Value="{StaticResource WhiteBrush}"/>
         <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled"/>
+        <Setter Property="ScrollViewer.CanContentScroll" Value="False"/>
 
         <Setter Property="ItemContainerStyle">
             <Setter.Value>

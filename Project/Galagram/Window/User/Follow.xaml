@@ -39,6 +39,9 @@
             <ListBoxItem></ListBoxItem>
             <ListBoxItem></ListBoxItem>
             <ListBoxItem></ListBoxItem>
+            <ListBoxItem></ListBoxItem>
+            <ListBoxItem></ListBoxItem>
+            <ListBoxItem></ListBoxItem>
         </ListBox>
 
     </Grid>

@@ -29,16 +29,26 @@ namespace DataAccess.Repositories
             this.dbSet = context.Set<TEntity>();
         }
 
-        // PROPERTIES
-        /// <summary>
-        /// Counts entities in data set
-        /// </summary>
-        /// <returns>
-        /// Amount of entities
-        /// </returns>
-        public int Count => dbSet.Count();
 
         // METHODS
+
+        /// <summary>
+        /// Counts records in data set
+        /// </summary>
+        /// <returns>Count of entities</returns>
+        public virtual int Count()
+        {
+            return dbSet.Count();
+        }
+        /// <summary>
+        /// Counts records in data set which satisfy the condition
+        /// </summary>
+        /// <param name="predicate">The condition by which record should be count</param>
+        /// <returns>Returns the amount of records in data set which satisfy the condition</returns>
+        public virtual int Count(Func<TEntity, bool> predicate)
+        {
+            return dbSet.Count(predicate);
+        }
         /// <summary>
         /// Gets data from data base
         /// </summary>
