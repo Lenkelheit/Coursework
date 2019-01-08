@@ -4,9 +4,162 @@
         <name>Core</name>
     </assembly>
     <members>
+        <member name="T:Core.Configuration.AppConfig">
+            <summary>
+            Consists of all important configuration to application.
+            </summary>
+        </member>
+        <member name="F:Core.Configuration.AppConfig.APP_NAME">
+            <summary>
+            Name of the application.
+            </summary>
+        </member>
+        <member name="F:Core.Configuration.AppConfig.DIRECTORY_EXE_PATH">
+            <summary>
+            A path to executing file.
+            </summary>
+        </member>
+        <member name="F:Core.Configuration.AppConfig.LOG_FILE">
+            <summary>
+            A path to a file with logs.
+            </summary>
+        </member>
+        <member name="F:Core.Configuration.AppConfig.LOG_TEMPLATE_FORMAT">
+            <summary>
+            Template for logs.
+            <para/>
+            Date, logMode, message.
+            </summary>
+        </member>
+        <member name="F:Core.Configuration.AppConfig.PHOTOS_SAVE_PATH">
+            <summary>
+            A path to saved photos.
+            </summary>
+        </member>
+        <member name="T:Core.Interfaces.IFactory`3">
+            <summary>
+            Represents an interface for Factory Method patern
+            </summary>
+            <typeparam name="TKey">
+            A key type by which creator is registrated
+            </typeparam>
+            <typeparam name="TRegValue">
+            A creator type, which now how to create an instance of the object
+            </typeparam>
+            <typeparam name="TReturnValue">
+            An object type, which instance should be created
+            </typeparam>
+        </member>
+        <member name="M:Core.Interfaces.IFactory`3.Registrate(`0,`1)">
+            <summary>
+            Registrated creator by key
+            </summary>
+            <param name="key">
+            A key by creator is registered
+            </param>
+            <param name="value">
+            A concrete creator
+            </param>
+        </member>
+        <member name="M:Core.Interfaces.IFactory`3.UnRegistrate(`0)">
+            <summary>
+            Unregistrate creator by key
+            </summary>
+            <param name="key">
+            A key by which creator should be unregistered
+            </param>
+        </member>
+        <member name="M:Core.Interfaces.IFactory`3.MakeInstance(`0)">
+            <summary>
+            Returns an instance of the object by key
+            </summary>
+            <param name="key">
+            A key by which instance of the object should be created
+            </param>
+            <returns>
+            An instance of the object, which creator was registered by current key
+            </returns>
+        </member>
+        <member name="T:Core.Logger">
+            <summary>
+            Provides opportunities to log messages
+            </summary>
+        </member>
+        <member name="M:Core.Logger.Log(Core.LogMode,System.String)">
+            <summary>
+            Writes a log to a file 
+            </summary>
+            <param name="logMode">
+            A log level
+            </param>
+            <param name="message">
+            Log message
+            </param>
+        </member>
+        <member name="M:Core.Logger.LogAsync(Core.LogMode,System.String)">
+            <summary>
+            Writes a log to a file asynchronously
+            </summary>
+            <param name="logMode">
+            A log level
+            </param>
+            <param name="message">
+            Log message
+            </param>
+        </member>
+        <member name="T:Core.LogMode">
+            <summary>
+            Log message level
+            </summary>
+        </member>
+        <member name="F:Core.LogMode.Debug">
+            <summary>
+            Explain logic step by step
+            </summary>
+        </member>
+        <member name="F:Core.LogMode.Info">
+            <summary>
+            Information about work, its efficiency
+            </summary>
+        </member>
+        <member name="F:Core.LogMode.Warn">
+            <summary>
+            Something weird happen
+            </summary>
+        </member>
+        <member name="F:Core.LogMode.Error">
+            <summary>
+            Error has been occurred
+            </summary>
+        </member>
+        <member name="F:Core.LogMode.Fatal">
+            <summary>
+            Immediately help required
+            </summary>
+        </member>
+        <member name="T:Core.Messages.Error.DataAccess">
+            <summary>
+             Consists of messages that can be thrown in DaataAccess project.
+            </summary>
+        </member>
+        <member name="F:Core.Messages.Error.DataAccess.CAN_NOT_CONNECT_TO_DB_MESSAGE">
+            <summary>
+            The connection to Data Base has been failed
+            </summary>
+        </member>
+        <member name="F:Core.Messages.Error.DataAccess.NO_FILE_MESSAGE_FORMAT">
+            <summary>
+            An DataBase file has been missed
+            </summary>
+        </member>
+        <member name="F:Core.Messages.Error.DataAccess.NO_SUCH_PROFILE_MESSAGE_FORMAT">
+            <summary>
+            Current user has not been registered before
+            </summary>
+        </member>
         <member name="T:Core.Messages.Error.View">
             <summary>
-            Consists of messages that can be thrown in View.
+            Consists of messages that can be thrown in View project.
             </summary>
         </member>
         <member name="F:Core.Messages.Error.View.WINDOW_MANAGER_REGISTRATE_INTERFACE_FORMAT">
