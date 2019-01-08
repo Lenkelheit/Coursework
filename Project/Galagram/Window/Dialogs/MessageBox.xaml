@@ -1,0 +1,33 @@
+﻿<Window x:Class="Galagram.Window.Dialogs.MessageBox"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        Title="MessageBoxOK" 
+        Height="200" Width="400"
+        MinHeight="150" MinWidth="300"
+        MaxHeight="800" MaxWidth="1000"
+        Style="{StaticResource ModalWindow}"
+        WindowStartupLocation="CenterScreen"
+        SizeToContent="WidthAndHeight">
+    <Grid x:Name="GridMain">
+        <!--SCALING-->
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="2*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!--CONTENT-->
+        <Label Grid.Row="0" Content="MessageBox" 
+               Style="{StaticResource HeaderLabel}" Background="{StaticResource BlueBrush}" 
+               MouseDown="MovingWindow"
+               x:Name="HeaderLbl"/>
+
+        <!--TEXT-->
+        <TextBlock Grid.Row="1" x:Name="ContentTb"/>
+
+        <!--BUTTONS ARE DYNAMIC-->
+    </Grid>
+</Window>

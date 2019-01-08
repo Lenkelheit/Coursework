@@ -21,9 +21,9 @@
         </member>
         <member name="T:Galagram.Window.Dialogs.MessageBoxButton">
             <summary>
-             Specifies the buttons that are displayed on a message box. 
+            Specifies the buttons that are displayed on a message box. 
             <para/> 
-            Used as an argument <see cref="M:Galagram.Services.WindowManager.ShowMessageWindow(System.String,System.String,Galagram.Window.Dialogs.MessageBoxButton)"/> method.
+            Used as an argument <see cref="M:Galagram.Window.Dialogs.MessageBox.ShowDialog(Galagram.Window.Dialogs.MessageBoxButton)"/> method.
             </summary>
         </member>
         <member name="F:Galagram.Window.Dialogs.MessageBoxButton.Ok">
@@ -36,58 +36,41 @@
             The message box displays YES and NO buttons.
             </summary>
         </member>
-        <member name="T:Galagram.Window.Dialogs.MessageBoxOk">
+        <member name="T:Galagram.Window.Dialogs.MessageBox">
             <summary>
             Interaction logic for MessageBoxOk.xaml
             </summary>
             <summary>
-            MessageBoxOk
+            MessageBox
             </summary>
         </member>
-        <member name="M:Galagram.Window.Dialogs.MessageBoxOk.#ctor">
+        <member name="M:Galagram.Window.Dialogs.MessageBox.#ctor">
             <summary>
-            Initialize a new instance of <see cref="T:Galagram.Window.Dialogs.MessageBoxOk"/>
+            Initialize a new instance of <see cref="T:Galagram.Window.Dialogs.MessageBox"/>
             </summary>
         </member>
-        <member name="P:Galagram.Window.Dialogs.MessageBoxOk.Header">
+        <member name="P:Galagram.Window.Dialogs.MessageBox.Header">
             <summary>
-            Set up title for <see cref="T:Galagram.Window.Dialogs.MessageBoxOk"/>
+            Set up title for <see cref="T:Galagram.Window.Dialogs.MessageBox"/>
             </summary>
         </member>
-        <member name="P:Galagram.Window.Dialogs.MessageBoxOk.Text">
+        <member name="P:Galagram.Window.Dialogs.MessageBox.Text">
             <summary>
-            Set up message text for <see cref="T:Galagram.Window.Dialogs.MessageBoxOk"/>
+            Set up message text for <see cref="T:Galagram.Window.Dialogs.MessageBox"/>
             </summary>
         </member>
-        <member name="M:Galagram.Window.Dialogs.MessageBoxOk.InitializeComponent">
+        <member name="M:Galagram.Window.Dialogs.MessageBox.ShowDialog(Galagram.Window.Dialogs.MessageBoxButton)">
             <summary>
-            InitializeComponent
+            Open a window and returns only when the newly opened window is closed
             </summary>
+            <param name="messageBoxButton">
+             Specifies the buttons that are displayed on a message box. 
+            </param>
+            <returns>
+            An ShodDialog result
+            </returns>
         </member>
-        <member name="T:Galagram.Window.Dialogs.MessageBoxYesNo">
-            <summary>
-            Interaction logic for MessageBoxYesNo.xaml
-            </summary>
-            <summary>
-            MessageBoxYesNo
-            </summary>
-        </member>
-        <member name="M:Galagram.Window.Dialogs.MessageBoxYesNo.#ctor">
-            <summary>
-            Initialize a new instance of <see cref="T:Galagram.Window.Dialogs.MessageBoxYesNo"/>
-            </summary>
-        </member>
-        <member name="P:Galagram.Window.Dialogs.MessageBoxYesNo.Header">
-            <summary>
-            Set up title for <see cref="T:Galagram.Window.Dialogs.MessageBoxYesNo"/>
-            </summary>
-        </member>
-        <member name="P:Galagram.Window.Dialogs.MessageBoxYesNo.Text">
-            <summary>
-            Set up message text for <see cref="T:Galagram.Window.Dialogs.MessageBoxYesNo"/>
-            </summary>
-        </member>
-        <member name="M:Galagram.Window.Dialogs.MessageBoxYesNo.InitializeComponent">
+        <member name="M:Galagram.Window.Dialogs.MessageBox.InitializeComponent">
             <summary>
             InitializeComponent
             </summary>

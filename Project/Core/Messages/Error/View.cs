@@ -1,7 +1,7 @@
 ﻿namespace Core.Messages.Error
 {
     /// <summary>
-    /// Consist of messages that can be thrown in View.
+    /// Consists of messages that can be thrown in View.
     /// </summary>
     public static class View
     {
@@ -22,11 +22,11 @@
         /// <summary>
         /// Current key has not been registered before.
         /// </summary>
-        public static readonly string WINDOW_MANAGER_NO_SUCH_KEY_FORMAT= "Key \"{0}\" has not been registered before. ";
+        public static readonly string WINDOW_MANAGER_NO_SUCH_KEY_FORMAT = "Key \"{0}\" has not been registered before.";
 
         /// <summary>
         /// The behaviour for passed enum value is not implemented.
         /// </summary>
-        public static readonly string WINDOW_MANAGER_MESSAGE_BOX_BUTTONS_WONG_ENUM_VALUE = "Current MessageBoxButton enum value is not allowed.";
+        public static readonly string WINDOW_MANAGER_MESSAGE_BOX_BUTTONS_WRONG_ENUM_VALUE = "Current MessageBoxButton enum value is not allowed.";
     }
 }

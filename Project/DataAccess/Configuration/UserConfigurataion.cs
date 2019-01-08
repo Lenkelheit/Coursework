@@ -3,7 +3,7 @@ using System.Data.Entity.ModelConfiguration;
 
 namespace DataAccess.Configuration
 {
-    class UserConfigurataion : EntityTypeConfiguration<User>
+    internal class UserConfigurataion : EntityTypeConfiguration<User>
     {
         public UserConfigurataion()
         {

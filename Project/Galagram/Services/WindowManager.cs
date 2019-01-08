@@ -29,8 +29,7 @@ namespace Galagram.Services
             // registrate main window
             Registrate(nameof(Window.Registration), typeof(Window.Registration));
             // registrate dialogs
-            Registrate(nameof(MessageBoxOk), typeof(MessageBoxOk));
-            Registrate(nameof(MessageBoxYesNo), typeof(MessageBoxYesNo));
+            Registrate(nameof(MessageBox), typeof(MessageBox));
             // registrate user windows
             Registrate(nameof(AskQuestion), typeof(AskQuestion));
             Registrate(nameof(Follow), typeof(Follow));
@@ -244,31 +243,13 @@ namespace Galagram.Services
         public bool? ShowMessageWindow(string text, string header, MessageBoxButton buttonType)
         {
             // prepare window value
-            Window.Dialogs.Interfaces.IMessageBox messageBoxWindow;
-
-            // initialize window with needed buttons
-            switch (buttonType)
-            {
-                case MessageBoxButton.Ok:
-                    {
-                        messageBoxWindow = (MessageBoxOk) MakeInstance(nameof(MessageBoxOk));
-                    }
-                    break;
-                case MessageBoxButton.YesNo:
-                    {
-                        messageBoxWindow = (MessageBoxYesNo) MakeInstance(nameof(MessageBoxYesNo));
-                    }
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException(Core.Messages.Error.View.WINDOW_MANAGER_MESSAGE_BOX_BUTTONS_WONG_ENUM_VALUE);
-            }
-
+            Window.Dialogs.MessageBox messageBoxWindow = new MessageBox();
             // set up all values
             messageBoxWindow.Text = text;
             messageBoxWindow.Header = header;
 
             // show window and return result
-            return ((System.Windows.Window)messageBoxWindow).ShowDialog();             
+            return messageBoxWindow.ShowDialog(buttonType);             
         }
         /// <summary>
         /// Switch current main window to passed one.

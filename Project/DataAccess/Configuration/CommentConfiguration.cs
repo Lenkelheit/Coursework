@@ -3,7 +3,7 @@ using System.Data.Entity.ModelConfiguration;
 
 namespace DataAccess.Configuration
 {
-    class CommentConfiguration : EntityTypeConfiguration<Comment>
+    internal class CommentConfiguration : EntityTypeConfiguration<Comment>
     {
         public CommentConfiguration()
         {

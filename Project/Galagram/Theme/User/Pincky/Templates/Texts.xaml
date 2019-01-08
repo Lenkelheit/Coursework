@@ -4,7 +4,10 @@
 
     <!--TEXT BOX-->
     <ControlTemplate x:Key="ComboBoxTextBox" TargetType="{x:Type TextBox}">
-        <Border x:Name="PART_ContentHost" Focusable="False" Background="{TemplateBinding Background}" />
+        <Border x:Name="PART_ContentHost" Focusable="False" 
+                Background="{TemplateBinding Background}"
+                BorderThickness="{TemplateBinding BorderThickness}"
+                BorderBrush="{TemplateBinding BorderBrush}"/>
     </ControlTemplate>
 
 </ResourceDictionary>
