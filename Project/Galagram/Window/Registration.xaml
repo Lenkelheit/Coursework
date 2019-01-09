@@ -56,7 +56,7 @@
             </Grid.ColumnDefinitions>
 
             <Button Grid.Column="0" Content="Log In" Style="{StaticResource ClickButton}"/>
-            <Button Grid.Column="1" Content="Sign Up" Style="{StaticResource ClickButton}"/>
+            <Button Grid.Column="1" Content="Sign Up" Style="{StaticResource ClickButton}" Click="Button_Click"/>
         </Grid>
     </Grid>
 </Window>

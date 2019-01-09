@@ -1,10 +1,15 @@
 ﻿namespace DataAccess.Repositories
 {
-    public class PhotoLikeRepository : GenericRepository<PhotoRepository>
+    /// <summary>
+    /// Defines algorithms to work with Data Table with <see cref="Entities.PhotoLike"/>
+    /// </summary>
+    public class PhotoLikeRepository : GenericRepository<Entities.PhotoLike>
     {
-        public PhotoLikeRepository(Context.AppContext context) : base(context)
-        {
-            throw new System.NotImplementedException();
-        }
+        /// <summary>
+        /// Initialize a new instance of <see cref="PhotoLikeRepository"/>
+        /// </summary>
+        /// <param name="context">Daata context</param>
+        public PhotoLikeRepository(Context.AppContext context) 
+            : base(context) { }
     }
 }

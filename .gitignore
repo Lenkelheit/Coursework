@@ -246,6 +246,8 @@ ServiceFabricBackup/
 *.mdf
 *.ldf
 *.ndf
+# except that one in test
+!Project/UnitTest/Resources/
 
 # Business Intelligence projects
 *.rdl.data

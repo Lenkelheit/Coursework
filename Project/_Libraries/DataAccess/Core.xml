@@ -1,0 +1,119 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Core</name>
+    </assembly>
+    <members>
+        <member name="T:Core.Configuration.DBConfig">
+            <summary>
+            Consists of all important configuration to DataBase.
+            </summary>
+        </member>
+        <member name="F:Core.Configuration.DBConfig.COMMENT_TEXT_MIN_LENGTH">
+            <summary>
+            Comment text min length
+            </summary>
+        </member>
+        <member name="F:Core.Configuration.DBConfig.COMMENT_TEXT_MAX_LENGTH">
+            <summary>
+            Comment text max length
+            </summary>
+        </member>
+        <member name="F:Core.Configuration.DBConfig.ADMIN_MESSAGE_MIN_LENGTH">
+            <summary>
+            Admin message text min length
+            </summary>
+        </member>
+        <member name="F:Core.Configuration.DBConfig.ADMIN_MESSAGE_MAX_LENGTH">
+            <summary>
+            Admin message text max length
+            </summary>
+        </member>
+        <member name="F:Core.Configuration.DBConfig.ADMIN_MESSAGE_SUBJECT_MIN_LENGTH">
+            <summary>
+            Admin message subject text min length
+            </summary>
+        </member>
+        <member name="F:Core.Configuration.DBConfig.ADMIN_MESSAGE_SUBJECT_MAX_LENGTH">
+            <summary>
+            Admin message subject text max length
+            </summary>
+        </member>
+        <member name="F:Core.Configuration.DBConfig.PHOTO_PATH_MIN_LENGTH">
+            <summary>
+            Photo server path string min length
+            </summary>
+        </member>
+        <member name="F:Core.Configuration.DBConfig.PHOTO_PATH_MAX_LENGTH">
+            <summary>
+            Photo server path string max length
+            </summary>
+        </member>
+        <member name="F:Core.Configuration.DBConfig.PHOTO_EXTENSION">
+            <summary>
+            Allowed photo extension
+            <para/>
+            Should be comma separated and has no spaces
+            </summary>
+        </member>
+        <member name="F:Core.Configuration.DBConfig.AVATAR_MIN_LENGTH">
+            <summary>
+            Avatar server path string min length
+            </summary>
+        </member>
+        <member name="F:Core.Configuration.DBConfig.AVATAR_MAX_LENGTH">
+            <summary>
+            Avatar server path strng max length
+            </summary>
+        </member>
+        <member name="F:Core.Configuration.DBConfig.NICKNAME_MIN_LENGTH">
+            <summary>
+            User nickname text min length
+            </summary>
+        </member>
+        <member name="F:Core.Configuration.DBConfig.NICKNAME_MAX_LENGTH">
+            <summary>
+            User nickname text max length
+            </summary>
+        </member>
+        <member name="F:Core.Configuration.DBConfig.PASSWORD_MIN_LENGTH">
+            <summary>
+            Password text min length
+            </summary>
+        </member>
+        <member name="F:Core.Configuration.DBConfig.PASSWORD_MAX_LENGTH">
+            <summary>
+            Password text max length
+            </summary>
+        </member>
+        <member name="T:Core.Messages.Error.View">
+            <summary>
+            Consists of messages that can be thrown in View.
+            </summary>
+        </member>
+        <member name="F:Core.Messages.Error.View.WINDOW_MANAGER_REGISTRATE_INTERFACE_FORMAT">
+            <summary>
+            Passed argument is an interface or abstract class type. WindowManager can not registrate this type. 
+            <para/>
+            Takes argument name.
+            </summary>
+        </member>
+        <member name="F:Core.Messages.Error.View.WINDOW_MANAGER_REGISTRATE_BY_THE_SAME_KEY_FORMAT">
+            <summary>
+            Current key has been already registered.
+            <para/>
+            Takes key name.
+            </summary>
+        </member>
+        <member name="F:Core.Messages.Error.View.WINDOW_MANAGER_NO_SUCH_KEY_FORMAT">
+            <summary>
+            Current key has not been registered before.
+            </summary>
+        </member>
+        <member name="F:Core.Messages.Error.View.WINDOW_MANAGER_MESSAGE_BOX_BUTTONS_WRONG_ENUM_VALUE">
+            <summary>
+            The behaviour for passed enum value is not implemented.
+            </summary>
+        </member>
+    </members>
+</doc>

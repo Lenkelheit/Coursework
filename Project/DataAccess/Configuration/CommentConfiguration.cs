@@ -7,7 +7,10 @@ namespace DataAccess.Configuration
     {
         public CommentConfiguration()
         {
-            throw new System.NotImplementedException();
+            Property(m => m.Text).IsRequired();
+
+            HasRequired(c => c.Photo).WithMany(p => p.Comments).Map(m => m.MapKey("PhotoId"));
+            HasRequired(c => c.User).WithMany(u => u.Comments).Map(m => m.MapKey("UserId"));            
         }
     }
 }

@@ -4,21 +4,6 @@
         <name>Galagram</name>
     </assembly>
     <members>
-        <member name="T:Galagram.Window.Dialogs.Interfaces.IMessageBox">
-            <summary>
-            Provides basic interaction for Message Boxes.
-            </summary>
-        </member>
-        <member name="P:Galagram.Window.Dialogs.Interfaces.IMessageBox.Header">
-            <summary>
-            Gets or sets the header of MessageBox.
-            </summary>
-        </member>
-        <member name="P:Galagram.Window.Dialogs.Interfaces.IMessageBox.Text">
-            <summary>
-            Gets or sets the text message of MessageBox.
-            </summary>
-        </member>
         <member name="T:Galagram.Window.Dialogs.MessageBoxButton">
             <summary>
             Specifies the buttons that are displayed on a message box. 

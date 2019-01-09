@@ -2,88 +2,163 @@ using DataAccess.Repositories;
 
 namespace DataAccess.Context
 {
+    /// <summary>
+    /// Contains all the repositories
+    /// <para/>
+    /// Implements a Singleton pattern
+    /// </summary>
     public sealed class UnitOfWork
     {
         // FIELDS
         private AppContext context;
-        private static UnitOfWork instance;
+        private static readonly UnitOfWork instance;
+
+        private UserRepository userRepository;
+        private PhotoRepository photoRepository;
+        private PhotoLikeRepository photoLikeRepository;
+        private CommentRepository commentRepository;
+        private CommentLikeRepository commentLikeRepository;
+        private MessageRepository messageRepository;
+        private SubjectRepository subjectRepository;
 
         // CONSTRUCTORS
+        /// <summary>
+        /// Initialize a new instance of <see cref="UnitOfWork"/>
+        /// </summary>
+        /// <param name="connectionString">
+        /// A connection string to Data Base
+        /// </param>
         public UnitOfWork(string connectionString)
         {
-            throw new System.NotImplementedException();
+            context = new AppContext(connectionString);
+
+            userRepository = null;
+            photoRepository = null;
+            photoLikeRepository = null;
+            commentRepository = null;
+            commentLikeRepository = null;
+            messageRepository = null;
+            subjectRepository = null;
+        }
+        /// <summary>
+        /// Initialize a new instance of <see cref="UnitOfWork"/>
+        /// </summary>
+        public UnitOfWork()
+        {
+            context = new AppContext();
+
+            userRepository = null;
+            photoRepository = null;
+            photoLikeRepository = null;
+            commentRepository = null;
+            commentLikeRepository = null;
+            messageRepository = null;
+            subjectRepository = null;
         }
         static UnitOfWork()
         {
-            throw new System.NotImplementedException();
+            instance = new UnitOfWork();
         }
+        /// <summary>
+        /// Release managed resources
+        /// </summary>
         ~UnitOfWork()
         {
-            throw new System.NotImplementedException();
+            context.Dispose();
         }
         // PROPERTIES
-        public static UnitOfWork Instance
-        {
-            get
-            {
-                throw new System.NotImplementedException();
-            }
-        }
+        /// <summary>
+        /// Gets an instance of <see cref="UnitOfWork"/>
+        /// </summary>
+        public static UnitOfWork Instance => instance;
+        /// <summary>
+        /// Gets user repository
+        /// </summary>
         public UserRepository UserRepository
         {
             get
             {
-                throw new System.NotImplementedException();
+                if (userRepository == null) userRepository = new UserRepository(context);
+                return userRepository;
             }
         }
+        /// <summary>
+        /// Gets photo repository
+        /// </summary>
         public PhotoRepository PhotoRepository
         {
             get
             {
-                throw new System.NotImplementedException();
+                if (photoRepository == null) photoRepository = new PhotoRepository(context);
+                return photoRepository;
             }
         }
+        /// <summary>
+        /// Gets photo like repository
+        /// </summary>
         public PhotoLikeRepository PhotoLikeRepository
         {
             get
             {
-                throw new System.NotImplementedException();
+                if (photoLikeRepository == null) photoLikeRepository = new PhotoLikeRepository(context);
+                return photoLikeRepository;
             }
         }
+        /// <summary>
+        /// Gets comment repository
+        /// </summary>
         public CommentRepository CommentRepository
         {
             get
             {
-                throw new System.NotImplementedException();
+                if (commentRepository == null) commentRepository = new CommentRepository(context);
+                return commentRepository;
             }
         }
+        /// <summary>
+        /// Gets comment like repository
+        /// </summary>
         public CommentLikeRepository CommentLikeRepository
         {
             get
             {
-                throw new System.NotImplementedException();
+                if (commentLikeRepository == null) commentLikeRepository = new CommentLikeRepository(context);
+                return commentLikeRepository;
             }
         }
+        /// <summary>
+        /// Gets message repository
+        /// </summary>
         public MessageRepository MessageRepository
         {
             get
             {
-                throw new System.NotImplementedException();
+                if (messageRepository == null) messageRepository = new MessageRepository(context);
+                return messageRepository;
             }
         }
+        /// <summary>
+        /// Gets subject repository
+        /// </summary>
         public SubjectRepository SubjectRepository
         {
             get
             {
-                throw new System.NotImplementedException();
+                if (subjectRepository == null) subjectRepository = new SubjectRepository(context);
+                return subjectRepository;
             }
         }
        
-
         // METHODS
+        /// <summary>
+        /// Confirm all transaction to DataBase
+        /// </summary>
+        /// <returns>
+        /// Amount of transaction that has been confirmed
+        /// </returns>
         public int Save()
         {
-            throw new System.NotImplementedException();
+            return context.SaveChanges();
         }
         
     }

@@ -7,7 +7,7 @@ namespace DataAccess.Configuration
     {
         public SubjectConfiguration()
         {
-            throw new System.NotImplementedException();
+            Property(s => s.Name).IsRequired();
         }
     }
 }
