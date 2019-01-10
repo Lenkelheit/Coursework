@@ -1,6 +1,6 @@
 ﻿namespace ViewModel.Commands.User.MainWindow
 {
-    public class ShowPhotoCommand : System.Windows.Input.ICommand
+    public class ShowPhotoCommand : CommandBase
     {
         // EVENT
         public event System.EventHandler CanExecuteChanged;
@@ -10,12 +10,12 @@
             throw new System.NotImplementedException();
         }
         // MEHTODS
-        public bool CanExecute(object parameter)
+        public override bool CanExecute(object parameter)
         {
             throw new System.NotImplementedException();
         }
 
-        public void Execute(object parameter)
+        public override void Execute(object parameter)
         {
             throw new System.NotImplementedException();
         }

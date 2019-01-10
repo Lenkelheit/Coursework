@@ -6,11 +6,7 @@ namespace Galagram.Window.Dialogs
     /// <summary>
     /// Interaction logic for MessageBoxOk.xaml
     /// </summary>
-<<<<<<< HEAD
     public partial class MessageBox : System.Windows.Window
-=======
-    public partial class MessageBox
->>>>>>> feature/DB
     {
         // CONSTRUCTORS
         /// <summary>

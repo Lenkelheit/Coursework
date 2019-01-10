@@ -1,59 +1,84 @@
 ﻿using System.Windows.Input;
-using System.ComponentModel;
 
 namespace ViewModel.ViewModel
 {
-    public class RegistrationViewModel : INotifyPropertyChanged
+    /// <summary>
+    /// An logic class for <see cref="Galagram.Window.Registration"/>
+    /// </summary>
+    public class RegistrationViewModel : ViewModelBase
     {
-        // EVENT
-        public event PropertyChangedEventHandler PropertyChanged;
+        // FIELD
+        string nickname;
+        string password;
+
+        ICommand logInCommand;
+        ICommand signUpCommand;
         // CONSTRUCTORS
-        public RegistrationViewModel()
+        /// <summary>
+        /// Initialize a new instance of <see cref="RegistrationViewModel"/>
+        /// </summary>
+        public RegistrationViewModel() : base()
         {
-            throw new System.NotImplementedException();
+            nickname = string.Empty;
+            password = string.Empty;
+
+            logInCommand = null;
+            signUpCommand = null;
         }
         // PROPERTIES
+        /// <summary>
+        /// Gets or sets nickname field
+        /// </summary>
         public string Nickname
         {
             get
             {
-                throw new System.NotImplementedException();
+                return nickname;
             }
             set
             {
-                throw new System.NotImplementedException();
+                nickname = value;
+                OnPropertyChanged();
             }
         }
+        /// <summary>
+        /// Gets or sets password field
+        /// </summary>
         public string Password
         {
             get
             {
-                throw new System.NotImplementedException();
+                return password;
             }
             set
             {
-                throw new System.NotImplementedException();
+                password = value;
+                OnPropertyChanged();
             }
         }
         // COMMAND
+        /// <summary>
+        /// Get login action
+        /// </summary>
         public ICommand LogInCommand
         {
             get
             {
-                throw new System.NotImplementedException();
+                if (logInCommand == null) logInCommand = new Commands.Registration.LogInCommand(this);
+                return logInCommand;
             }
         }
+        /// <summary>
+        /// Gets sign up action
+        /// </summary>
         public ICommand SignUpCommand
         {
             get
             {
-                throw new System.NotImplementedException();
+                if (signUpCommand == null) signUpCommand = new Commands.Registration.SignUpCommand(this);
+                return signUpCommand;
             }
         }
-        // METHODS
-        protected virtual void OnPropertyChanged(PropertyChangedEventArgs e)
-        {
-            PropertyChanged?.Invoke(this, e);
-        }
+        
     }
 }

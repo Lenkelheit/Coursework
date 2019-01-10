@@ -1,21 +1,19 @@
 ﻿namespace ViewModel.Commands.User.MainWindow
 {
-    public class LogOutCommand : System.Windows.Input.ICommand
+    public class LogOutCommand : CommandBase
     {
-        // EVENT
-        public event System.EventHandler CanExecuteChanged;
         // CONSTRUCTORS
         public LogOutCommand(ViewModel.User.MainWindowViewModel mainWindowViewModel)
         {
             throw new System.NotImplementedException();
         }
         // MEHTODS
-        public bool CanExecute(object parameter)
+        public override bool CanExecute(object parameter)
         {
             throw new System.NotImplementedException();
         }
 
-        public void Execute(object parameter)
+        public override void Execute(object parameter)
         {
             throw new System.NotImplementedException();
         }

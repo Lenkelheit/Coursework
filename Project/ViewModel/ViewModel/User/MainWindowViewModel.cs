@@ -3,10 +3,8 @@ using System.ComponentModel;
 
 namespace ViewModel.ViewModel.User
 {
-    public class MainWindowViewModel : INotifyPropertyChanged
+    public class MainWindowViewModel : ViewModelBase
     {
-        // EVENT
-        public event PropertyChangedEventHandler PropertyChanged;
         // CONSTRUCTORS
         public MainWindowViewModel(DataAccess.Entities.User user)
         {
@@ -116,11 +114,6 @@ namespace ViewModel.ViewModel.User
             {
                 throw new System.NotImplementedException();
             }
-        }
-        // METHODS
-        protected virtual void OnPropertyChanged(PropertyChangedEventArgs e)
-        {
-            PropertyChanged?.Invoke(this, e);
         }
     }
 }

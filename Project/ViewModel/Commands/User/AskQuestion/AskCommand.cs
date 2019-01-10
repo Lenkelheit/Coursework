@@ -1,21 +1,19 @@
 ﻿namespace ViewModel.Commands.User.AskQuestion
 {
-    public class AskCommand : System.Windows.Input.ICommand
+    public class AskCommand : CommandBase
     {
-        // EVENT
-        public event System.EventHandler CanExecuteChanged;
         // CONSTRUCTORS
         public AskCommand(ViewModel.User.AskQuestionViewModel askQuestionViewModel)
         {
             throw new System.NotImplementedException();
         }
         // MEHTODS
-        public bool CanExecute(object parameter)
+        public override bool CanExecute(object parameter)
         {
             throw new System.NotImplementedException();
         }
 
-        public void Execute(object parameter)
+        public override void Execute(object parameter)
         {
             throw new System.NotImplementedException();
         }

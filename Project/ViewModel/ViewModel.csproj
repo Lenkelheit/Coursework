@@ -16,11 +16,11 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\_Libraries\ViewModel\</OutputPath>
+    <OutputPath>bin\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>..\_Libraries\ViewModel\ViewModel.XML</DocumentationFile>
+    <DocumentationFile>bin\Debug\ViewModel.XML</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -31,17 +31,20 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Core">
+      <HintPath>..\Core\bin\Debug\Core.dll</HintPath>
+    </Reference>
     <Reference Include="DataAccess">
-      <HintPath>..\_Libraries\DataAccess\DataAccess.dll</HintPath>
+      <HintPath>..\DataAccess\bin\Debug\DataAccess.dll</HintPath>
     </Reference>
-    <Reference Include="EntityFramework">
-      <HintPath>..\_Libraries\EntityFramework\EntityFramework.dll</HintPath>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
-    <Reference Include="EntityFramework.SqlServer">
-      <HintPath>..\_Libraries\DataAccess\EntityFramework.SqlServer.dll</HintPath>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
     <Reference Include="Galagram">
-      <HintPath>..\_Libraries\Galagram\Galagram.exe</HintPath>
+      <HintPath>..\Galagram\bin\Debug\Galagram.exe</HintPath>
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="System" />
@@ -55,6 +58,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CommandBase.cs" />
     <Compile Include="Commands\Registration\LogInCommand.cs" />
     <Compile Include="Commands\Registration\SignUpCommand.cs" />
     <Compile Include="Commands\RelayCommand.cs" />
@@ -81,6 +85,7 @@
     <Compile Include="Commands\User\Setting\ApplyChangesCommand.cs" />
     <Compile Include="Commands\User\Setting\LoadNewAvatarCommand.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModelBase.cs" />
     <Compile Include="ViewModel\RegistrationViewModel.cs" />
     <Compile Include="ViewModel\User\AskQuestionViewModel.cs" />
     <Compile Include="ViewModel\User\FollowViewModel.cs" />
@@ -92,6 +97,10 @@
   <ItemGroup>
     <Folder Include="Commands\Admin\" />
     <Folder Include="ViewModel\Admin\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
