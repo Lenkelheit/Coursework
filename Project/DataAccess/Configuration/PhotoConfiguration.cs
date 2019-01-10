@@ -7,7 +7,9 @@ namespace DataAccess.Configuration
     {
         public PhotoConfiguration()
         {
-            throw new System.NotImplementedException();
+            Property(p => p.Path).IsRequired();
+
+            HasRequired(p => p.User).WithMany(u => u.Photos).Map(m => m.MapKey("UserId")).WillCascadeOnDelete(false);
         }
     }
 }

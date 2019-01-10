@@ -3,11 +3,15 @@ using System.Data.Entity.ModelConfiguration;
 
 namespace DataAccess.Configuration
 {
-    internal class MessageConfiguration : EntityTypeConfiguration<MessageConfiguration>
+    internal class MessageConfiguration : EntityTypeConfiguration<Message>
     {
         public MessageConfiguration()
         {
-            throw new System.NotImplementedException();
+            Property(m => m.Text).IsRequired();
+
+
+            HasOptional(m => m.Subject).WithMany(s => s.Messages).Map(m => m.MapKey("SubjectId"));
+            HasRequired(m => m.User).WithMany(u => u.Messages).Map(m => m.MapKey("UserId"));
         }
     }
 }

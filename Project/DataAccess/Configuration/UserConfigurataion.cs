@@ -7,7 +7,14 @@ namespace DataAccess.Configuration
     {
         public UserConfigurataion()
         {
-            throw new System.NotImplementedException();
+            Property(u => u.MainPhotoPath).IsOptional();
+            Property(u => u.NickName).IsRequired();
+            Property(u => u.Password).IsRequired();            
+
+            HasMany(u => u.Followers).WithMany(u => u.Following)
+                .Map(f => f.ToTable("Follower")
+                            .MapLeftKey("UserId")
+                            .MapRightKey("FollowerId"));
         }
     }
 }

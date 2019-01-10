@@ -38,7 +38,7 @@ namespace DataAccess.Repositories
         /// <returns>Count of entities</returns>
         public virtual int Count()
         {
-            return dbSet.Count();
+            return dbSet.AsNoTracking().Count();
         }
         /// <summary>
         /// Counts records in data set which satisfy the condition
@@ -47,7 +47,7 @@ namespace DataAccess.Repositories
         /// <returns>Returns the amount of records in data set which satisfy the condition</returns>
         public virtual int Count(Func<TEntity, bool> predicate)
         {
-            return dbSet.Count(predicate);
+            return dbSet.AsNoTracking().Count(predicate);
         }
         /// <summary>
         /// Gets data from data base

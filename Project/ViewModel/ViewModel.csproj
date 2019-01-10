@@ -37,11 +37,15 @@
     <Reference Include="EntityFramework">
       <HintPath>..\_Libraries\EntityFramework\EntityFramework.dll</HintPath>
     </Reference>
+    <Reference Include="EntityFramework.SqlServer">
+      <HintPath>..\_Libraries\DataAccess\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
     <Reference Include="Galagram">
       <HintPath>..\_Libraries\Galagram\Galagram.exe</HintPath>
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />

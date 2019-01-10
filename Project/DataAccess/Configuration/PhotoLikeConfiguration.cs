@@ -7,7 +7,15 @@ namespace DataAccess.Configuration
     {
         public PhotoLikeConfiguration()
         {
-            throw new System.NotImplementedException();
+            Map(m =>
+            {
+                m.MapInheritedProperties();
+                m.ToTable("PhotoLikes");
+
+            });
+
+            HasRequired(l => l.Photo).WithMany(p => p.Likes).Map(m => m.MapKey("PhotoId"));
+            HasOptional(l => l.User).WithMany(u => u.PhotoLikes).Map(m => m.MapKey("UserId"));
         }
     }
 }
