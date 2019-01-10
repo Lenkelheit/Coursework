@@ -7,7 +7,7 @@
     /// A key type by which creator is registrated
     /// </typeparam>
     /// <typeparam name="TRegValue">
-    /// A creator type, which now how to create an instance of the object
+    /// A creator type, which know how to create an instance of the object
     /// </typeparam>
     /// <typeparam name="TReturnValue">
     /// An object type, which instance should be created
@@ -15,7 +15,7 @@
     public interface IFactory<in TKey, in TRegValue, out TReturnValue>
     {
         /// <summary>
-        /// Registrated creator by key
+        /// Registrate creator by key
         /// </summary>
         /// <param name="key">
         /// A key by creator is registered

@@ -1,7 +1,7 @@
 ﻿namespace Core.Messages.Error
 {
     /// <summary>
-    ///  Consists of messages that can be thrown in DaataAccess project.
+    ///  Consists of messages that can be thrown in DataAccess project.
     /// </summary>
     public static class DataAccess
     {

@@ -3,10 +3,8 @@ using System.ComponentModel;
 
 namespace ViewModel.ViewModel.User
 {
-    public class FollowViewModel : INotifyPropertyChanged
+    public class FollowViewModel : ViewModelBase
     {
-        // EVENT
-        public event PropertyChangedEventHandler PropertyChanged;
         // CONSTRUCTORS
         public FollowViewModel(DataAccess.Entities.User user)
         {
@@ -48,11 +46,6 @@ namespace ViewModel.ViewModel.User
             {
                 throw new System.NotImplementedException();
             }
-        }
-        // METHODS
-        protected virtual void OnPropertyChanged(PropertyChangedEventArgs e)
-        {
-            PropertyChanged?.Invoke(this, e);
         }
     }
 }

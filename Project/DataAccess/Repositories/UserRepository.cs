@@ -58,5 +58,10 @@ namespace DataAccess.Repositories
                                     IsPasswordValid = foundedAccount.Password == password
                                 };
         }
+
+        public Entities.User GetByNickname(string nickname)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

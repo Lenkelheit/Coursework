@@ -1,21 +1,19 @@
 ﻿namespace ViewModel.Commands.User.MainWindow
 {
-    public class SettingCommand : System.Windows.Input.ICommand
+    public class SettingCommand : CommandBase
     {
-        // EVENT
-        public event System.EventHandler CanExecuteChanged;
         // CONSTRUCTORS
         public SettingCommand(ViewModel.User.MainWindowViewModel mainWindowViewModel)
         {
             throw new System.NotImplementedException();
         }
         // MEHTODS
-        public bool CanExecute(object parameter)
+        public override bool CanExecute(object parameter)
         {
             throw new System.NotImplementedException();
         }
 
-        public void Execute(object parameter)
+        public override void Execute(object parameter)
         {
             throw new System.NotImplementedException();
         }

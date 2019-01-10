@@ -1,21 +1,19 @@
 ﻿namespace ViewModel.Commands.User.Setting
 {
-    public class LoadNewAvatarCommand : System.Windows.Input.ICommand
+    public class LoadNewAvatarCommand : CommandBase
     {
-        // EVENT
-        public event System.EventHandler CanExecuteChanged;
         // CONSTRUCTORS
         public LoadNewAvatarCommand(ViewModel.User.SettingViewModel settingViewModel)
         {
             throw new System.NotImplementedException();
         }
         // MEHTODS
-        public bool CanExecute(object parameter)
+        public override bool CanExecute(object parameter)
         {
             throw new System.NotImplementedException();
         }
 
-        public void Execute(object parameter)
+        public override void Execute(object parameter)
         {
             throw new System.NotImplementedException();
         }
