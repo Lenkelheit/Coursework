@@ -1,7 +1,7 @@
 ﻿namespace Core.Messages.Error
 {
     /// <summary>
-    /// Consists of messages that can be thrown in View.
+    /// Consists of messages that can be thrown in View project.
     /// </summary>
     public static class View
     {

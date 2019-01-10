@@ -242,14 +242,13 @@ namespace Galagram.Services
         /// </exception>
         public bool? ShowMessageWindow(string text, string header, MessageBoxButton buttonType)
         {
-            // prepare window value
-            Window.Dialogs.MessageBox messageBoxWindow = new MessageBox();
-            // set up all values
-            messageBoxWindow.Text = text;
-            messageBoxWindow.Header = header;
-
             // show window and return result
-            return messageBoxWindow.ShowDialog(buttonType);             
+            return new MessageBox()
+                    {
+                        // set up all values
+                        Text = text,
+                        Header = header
+                    }.ShowDialog(buttonType);             
         }
         /// <summary>
         /// Switch current main window to passed one.

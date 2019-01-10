@@ -6,7 +6,7 @@ namespace Galagram.Window.Dialogs
     /// <summary>
     /// Interaction logic for MessageBoxOk.xaml
     /// </summary>
-    public partial class MessageBox : System.Windows.Window, Interfaces.IMessageBox
+    public partial class MessageBox : System.Windows.Window
     {
         // CONSTRUCTORS
         /// <summary>
@@ -70,8 +70,10 @@ namespace Galagram.Window.Dialogs
         ///  Specifies the buttons that are displayed on a message box. 
         /// </param>
         /// <returns>
-        /// An ShodDialog result
-        /// </returns>
+        /// A <see cref="System.Nullable"/> value of type <see cref="System.Boolean"/> that specifies whether the activity was accepted (true) or canceled (false).
+        /// <para/>
+        /// The return value is the value of the <see cref="System.Windows.Window.DialogResult"/> property before a window closes.
+        /// </returns>   
         public bool? ShowDialog(MessageBoxButton messageBoxButton)
         {
             // get button Resources
