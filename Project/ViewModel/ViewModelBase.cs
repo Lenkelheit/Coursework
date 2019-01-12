@@ -8,7 +8,7 @@ namespace ViewModel
     /// </summary>
     public abstract class ViewModelBase : INotifyPropertyChanged
     {
-        // FIELDS
+        // FIELDS        
         Galagram.Services.WindowManager windowManager;
         DataAccess.Context.UnitOfWork unitOfWork;
 

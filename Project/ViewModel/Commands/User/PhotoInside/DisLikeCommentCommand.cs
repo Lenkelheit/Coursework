@@ -2,8 +2,6 @@
 {
     public class DisLikeCommentCommand : CommandBase
     {
-        // EVENT
-        public event System.EventHandler CanExecuteChanged;
         // CONSTRUCTORS
         public DisLikeCommentCommand(ViewModel.User.PhotoInsideViewModel photoInsideViewModel)
         {

@@ -2,8 +2,6 @@
 {
     public class DeleteCommentCommand : CommandBase
     {
-        // EVENT
-        public event System.EventHandler CanExecuteChanged;
         // CONSTRUCTORS
         public DeleteCommentCommand(ViewModel.User.PhotoInsideViewModel photoInsideViewModel)
         {

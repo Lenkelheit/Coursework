@@ -48,8 +48,7 @@
     <Compile Include="LogMode.cs" />
     <Compile Include="Messages\Error\DataAccess.cs" />
     <Compile Include="Messages\Error\View.cs" />
-    <Compile Include="Messages\Info\ViewModel\Command\Registration\LogIn.cs" />
-    <Compile Include="Messages\Info\ViewModel\Command\Registration\SignUp.cs" />
+    <Compile Include="Messages\Info\ViewModel\Command\Registration.cs" />
     <Compile Include="Messages\Info\ViewModel\Command\User\AskQuestion\Ask.cs" />
     <Compile Include="Messages\Info\ViewModel\Command\User\Follow\DeleteFollow.cs" />
     <Compile Include="Messages\Info\ViewModel\Command\User\General\OpenProfile.cs" />

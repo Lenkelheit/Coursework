@@ -2,8 +2,6 @@
 {
     public class LikeCommentCommand : CommandBase
     {
-        // EVENT
-        public event System.EventHandler CanExecuteChanged;
         // CONSTRUCTORS
         public LikeCommentCommand(ViewModel.User.PhotoInsideViewModel photoInsideViewModel)
         {

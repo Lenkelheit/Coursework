@@ -36,6 +36,8 @@
         /// </returns>
         public override bool CanExecute(object parameter)
         {
+            Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, $"Can Exetute {nameof(SignUpCommand)}");
+
             return true;
         }
         /// <summary>
@@ -46,47 +48,37 @@
         /// </param>
         public override void Execute(object parameter)
         {
+            Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, $"Exetute {nameof(SignUpCommand)}");
             // checking
-            if (registrationViewModel.Nickname.Length < Core.Configuration.DBConfig.NICKNAME_MIN_LENGTH)
-            {
-                registrationViewModel.WindowManager.ShowMessageWindow(Core.Messages.Info.ViewModel.Command.Registration.SignUp.NICKNAME_TOO_SHORT);
-                Core.Logger.LogAsync(Core.LogMode.Debug, $"User can not sign up, because his nickname is too short {registrationViewModel.Nickname.Length}");
-                return;
-            }
-            if (registrationViewModel.Nickname.Length > Core.Configuration.DBConfig.NICKNAME_MAX_LENGTH)
-            {
-                registrationViewModel.WindowManager.ShowMessageWindow(Core.Messages.Info.ViewModel.Command.Registration.SignUp.NICKNAME_TOO_LONG);
-                Core.Logger.LogAsync(Core.LogMode.Debug, $"User can not sign up, because his nickname is too long {registrationViewModel.Nickname.Length}");
-                return;
-            }
-            if (registrationViewModel.Password.Length < Core.Configuration.DBConfig.PASSWORD_MIN_LENGTH)
-            {
-                registrationViewModel.WindowManager.ShowMessageWindow(Core.Messages.Info.ViewModel.Command.Registration.SignUp.PASSWORD_TOO_SHORT);
-                Core.Logger.LogAsync(Core.LogMode.Debug, $"User can not sign up, because his password is too short {registrationViewModel.Password.Length}");
-                return;
-            }
-            if (registrationViewModel.Nickname.Length > Core.Configuration.DBConfig.PASSWORD_MAX_LENGTH)
-            {
-                registrationViewModel.WindowManager.ShowMessageWindow(Core.Messages.Info.ViewModel.Command.Registration.SignUp.PASSWORD_TOO_LONG);
-                Core.Logger.LogAsync(Core.LogMode.Debug, $"User can not sign up, because his password is too long {registrationViewModel.Password.Length}");
-                return;
-            }
+            if (!registrationViewModel.IsDataValid()) return;
+
             if (!registrationViewModel.UnitOfWork.UserRepository.IsNicknameFree(registrationViewModel.Nickname))
             {
-                registrationViewModel.WindowManager.ShowMessageWindow(Core.Messages.Info.ViewModel.Command.Registration.SignUp.NICKNAME_IS_NOT_AVAILABLE);
-                Core.Logger.LogAsync(Core.LogMode.Debug, $"User can not sign up, because his nickname is not available");
+                registrationViewModel.WindowManager.ShowMessageWindow(Core.Messages.Info.ViewModel.Command.Registration.NICKNAME_IS_NOT_AVAILABLE);
+                Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, $"User can not sign up, because his nickname is not available");
                 return;
             }
 
+
+            // create user
+            Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, "The validation has been passed. Create new user.");
+
+            DataAccess.Entities.User user = new DataAccess.Entities.User()
+            {
+                NickName = registrationViewModel.Nickname,
+                Password = registrationViewModel.Password
+            };
+            Core.Logger.GetLogger.LogAsync(Core.LogMode.Info, $"User with nickname {user.NickName} and password {user.Password} has been created");
+
+            // save new user
+            Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, "Save the user.");
+            registrationViewModel.UnitOfWork.Save();
+
             // open new window with current user
-            Core.Logger.LogAsync(Core.LogMode.Debug, "User signed up. Registration window close. Main window opens.");
+            Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, "User signed up. Registration window close. Main window opens.");
             registrationViewModel.WindowManager.SwitchMainWindow(
                 key: nameof(Galagram.Window.User.MainWindow),
-                viewModel: new ViewModel.User.MainWindowViewModel(user: new DataAccess.Entities.User()
-                {
-                    NickName = registrationViewModel.Nickname,
-                    Password = registrationViewModel.Password
-                }));
+                viewModel: new ViewModel.User.MainWindowViewModel(user));
+            }
         }
-    }
 }

@@ -2,8 +2,6 @@
 {
     public class WriteCommentCommand : CommandBase
     {
-        // EVENT
-        public event System.EventHandler CanExecuteChanged;
         // CONSTRUCTORS
         public WriteCommentCommand(ViewModel.User.PhotoInsideViewModel photoInsideViewModel)
         {

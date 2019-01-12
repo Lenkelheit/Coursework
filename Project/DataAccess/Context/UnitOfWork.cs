@@ -22,13 +22,7 @@ namespace DataAccess.Context
         private SubjectRepository subjectRepository;
 
         // CONSTRUCTORS
-        /// <summary>
-        /// Initialize a new instance of <see cref="UnitOfWork"/>
-        /// </summary>
-        /// <param name="connectionString">
-        /// A connection string to Data Base
-        /// </param>
-        public UnitOfWork(string connectionString)
+        private UnitOfWork(string connectionString)
         {
             context = new AppContext(connectionString);
 
@@ -40,10 +34,7 @@ namespace DataAccess.Context
             messageRepository = null;
             subjectRepository = null;
         }
-        /// <summary>
-        /// Initialize a new instance of <see cref="UnitOfWork"/>
-        /// </summary>
-        public UnitOfWork()
+        private UnitOfWork()
         {
             context = new AppContext();
 

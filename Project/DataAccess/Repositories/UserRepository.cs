@@ -58,10 +58,18 @@ namespace DataAccess.Repositories
                                     IsPasswordValid = foundedAccount.Password == password
                                 };
         }
-
+        /// <summary>
+        /// Gets user by nickname
+        /// </summary>
+        /// <param name="nickname">
+        /// The user nickname by which user should be found.
+        /// </param>
+        /// <returns>
+        /// Returns <see cref="Entities.User"/> if user has been found, otherwise — null.
+        /// </returns>
         public Entities.User GetByNickname(string nickname)
         {
-            throw new System.NotImplementedException();
+            return dbSet.FirstOrDefault(user => user.NickName == nickname);
         }
     }
 }
