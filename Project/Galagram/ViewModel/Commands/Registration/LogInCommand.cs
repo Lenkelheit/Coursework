@@ -53,7 +53,7 @@
             // check if name and password is valid
             Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, $"Check if user nickname and password is in DataBase");
 
-            DataAccess.Structs.ValidNamaAndPassword validNamaAndPassword = registrationViewModel.UnitOfWork.UserRepository.IsDataValid(registrationViewModel.Nickname, registrationViewModel.Password);
+            DataAccess.Structs.ValidNameAndPassword validNamaAndPassword = registrationViewModel.UnitOfWork.UserRepository.IsDataValid(registrationViewModel.Nickname, registrationViewModel.Password);
 
             if (!validNamaAndPassword.IsNameValid)
             {

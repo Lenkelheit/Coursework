@@ -12,7 +12,7 @@ namespace DataAccess.Configuration
             Property(u => u.Password).IsRequired();            
 
             HasMany(u => u.Followers).WithMany(u => u.Following)
-                .Map(f => f.ToTable("Follower")
+                .Map(f => f.ToTable("Followers")
                             .MapLeftKey("UserId")
                             .MapRightKey("FollowerId"));
         }

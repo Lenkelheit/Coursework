@@ -4,7 +4,7 @@ using System.Windows;
 using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-using  Galagram.Services;
+using Galagram.Services;
 
 namespace UnitTest.View.Services
 {

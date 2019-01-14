@@ -25,10 +25,14 @@ namespace DataAccess.Repositories
         /// <returns>
         /// True if nickname is free, otherwise false
         /// </returns>
+        /// <exception cref="System.ArgumentNullException">
+        /// Throws when passed <paramref name="nickName"/> is null
+        /// </exception>
         public bool IsNicknameFree(string nickName)
         {
+            if (string.IsNullOrWhiteSpace(nickName)) throw new System.ArgumentNullException(nameof(nickName));
             // return true with First occurrency
-            return !dbSet.AsNoTracking().Any(user => user.NickName == nickName);
+            return !dbSet.AsNoTracking().AsEnumerable().Any(user => user.NickName == nickName);
         }
         /// <summary>
         /// Checks if current nickname and password is valid
@@ -42,17 +46,27 @@ namespace DataAccess.Repositories
         /// <returns>
         /// Return a structure thet define if Nickname and Password is valid
         /// </returns>
-        public Structs.ValidNamaAndPassword IsDataValid(string nickName, string password)
+        /// <exception cref="System.ArgumentNullException">
+        /// Throws when passed <paramref name="nickName"/> is null
+        /// </exception>
+        /// <exception cref="System.ArgumentNullException">
+        /// Throws when passed <paramref name="password"/> is null
+        /// </exception>
+        public Structs.ValidNameAndPassword IsDataValid(string nickName, string password)
         {
+            // checking
+            if (string.IsNullOrWhiteSpace(nickName)) throw new System.ArgumentNullException(nameof(nickName));
+            if (string.IsNullOrWhiteSpace(password)) throw new System.ArgumentNullException(nameof(password));
+
             // get first user with such nickname
-            Entities.User foundedAccount = dbSet.AsNoTracking().FirstOrDefault(user => user.NickName == nickName);
+            Entities.User foundedAccount = dbSet.AsNoTracking().AsEnumerable().FirstOrDefault(user => user.NickName == nickName);
 
 
             // if no user has been found return both vakue as null
-            if (foundedAccount == null) return new Structs.ValidNamaAndPassword() { IsNameValid = false, IsPasswordValid = false };
+            if (foundedAccount == null) return new Structs.ValidNameAndPassword() { IsNameValid = false, IsPasswordValid = false };
 
             // returns nickname as True and Password if the same
-            return new Structs.ValidNamaAndPassword()
+            return new Structs.ValidNameAndPassword()
                                 {
                                     IsNameValid = true,
                                     IsPasswordValid = foundedAccount.Password == password
@@ -67,8 +81,14 @@ namespace DataAccess.Repositories
         /// <returns>
         /// Returns <see cref="Entities.User"/> if user has been found, otherwise — null.
         /// </returns>
+        /// <exception cref="System.ArgumentNullException">
+        /// Throws when passed <paramref name="nickname"/> is null
+        /// </exception>
         public Entities.User GetByNickname(string nickname)
         {
+            // checking
+            if (string.IsNullOrWhiteSpace(nickname)) throw new System.ArgumentNullException(nameof(nickname));
+            // return user or null
             return dbSet.FirstOrDefault(user => user.NickName == nickname);
         }
     }

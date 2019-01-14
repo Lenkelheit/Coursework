@@ -262,7 +262,6 @@ namespace UnitTest.DataAccess.Context
             user.Photos.Add(photo);
 
             int userId = dbContext.Users.Count() + 1;
-            int photoId = dbContext.Photos.Count() + 1;
 
             // Act
             dbContext.Users.Add(user);
@@ -271,9 +270,29 @@ namespace UnitTest.DataAccess.Context
 
             // Assert
             CollectionAssert.Contains(dbContext.Users.ToArray(), user);
+            CollectionAssert.DoesNotContain(dbContext.Users.Find(userId).Photos.ToArray(), photo);
             CollectionAssert.DoesNotContain(dbContext.Photos.ToArray(), photo);
         }
-        
+        [TestMethod]
+        public void DeleteUser_AndPhoto_Cascade()
+        {
+            Assert.Fail();
+
+            // Arrange
+            Photo photo = new Photo() { Path = "1/54/23.jpg" };
+            User user = new User() { NickName = "John", Password = "1111" };
+            user.Photos.Add(photo);
+
+            // Act
+            dbContext.Users.Add(user);
+            dbContext.Users.Remove(user);
+            dbContext.SaveChanges();
+
+            // Assert
+            CollectionAssert.DoesNotContain(dbContext.Users.ToArray(), user);
+            CollectionAssert.DoesNotContain(dbContext.Photos.ToArray(), photo);
+        }
+
         [TestMethod]
         public void DeletePhotoLike()
         {
@@ -326,7 +345,39 @@ namespace UnitTest.DataAccess.Context
             CollectionAssert.DoesNotContain(dbContext.Users.Find(userId).Photos.ToArray(), photoLike);
             CollectionAssert.DoesNotContain(dbContext.Users.Find(userId).PhotoLikes.ToArray(), photoLike);
         }
-        
+        [TestMethod]
+        public void DeleteUser_AndPhotoLike_Cascade()
+        {
+            //Assert.Fail();
+
+            // Arrange
+            Photo photo = new Photo() { Path = "1/54/23.jpg" };
+            User user1 = new User() { NickName = "John", Password = "1111" };
+            User user2 = new User() { NickName = "Adam", Password = "1111" };
+            PhotoLike photoLike = new PhotoLike() { IsLiked = true, Photo = photo, User = user1 };
+            user2.Photos.Add(photo);
+            user2.PhotoLikes.Add(photoLike);
+
+            int user2Id = dbContext.Users.Count() + 2;
+            int photoId = dbContext.Photos.Count() + 1;
+
+            // Act
+            dbContext.Users.Add(user2);
+            dbContext.Users.Add(user1);
+            dbContext.Users.Remove(user1);
+            dbContext.SaveChanges();
+
+            // Assert
+            CollectionAssert.DoesNotContain(dbContext.Users.ToArray(), user1);
+            CollectionAssert.Contains(dbContext.Users.ToArray(), user2);
+
+            CollectionAssert.Contains(dbContext.Photos.ToArray(), photo);
+            CollectionAssert.Contains(dbContext.Users.Find(user2Id).Photos.ToArray(), photo);
+
+            CollectionAssert.DoesNotContain(dbContext.PhotoLike.ToArray(), photoLike);
+            CollectionAssert.DoesNotContain(dbContext.Photos.Find(photo).Likes.ToArray(), photoLike);
+        }
+
         [TestMethod]
         public void DeleteUser_AndPhotoAndPhotoLike_Cascade()
         {
@@ -542,6 +593,96 @@ namespace UnitTest.DataAccess.Context
 
             CollectionAssert.DoesNotContain(dbContext.Users.Find(userId).CommentLikes.ToArray(), commentLike);
             CollectionAssert.DoesNotContain(dbContext.Comments.Find(commentId).Likes.ToArray(), commentLike);
+        }
+        [TestMethod]
+        public void DeleteUser_AndComment_Cascade()
+        {
+            // Arrange
+            Photo photo1 = new Photo() { Path = "1/54/23.jpg" };
+            Photo photo2 = new Photo() { Path = "1/54/24.jpg" };
+
+            User user1 = new User()
+            {
+                NickName = "John",
+                Password = "1111",
+                Photos = new List<Photo> { photo1, photo2 }
+            };
+            User user2 = new User() { NickName = "Adam", Password = "1111" };
+            Comment comment = new Comment()
+            {
+                Text = "Comment text",
+                Date = DateTime.Now,
+                Photo = photo1,
+                User = user2
+            };
+            
+            int user1Id = dbContext.Users.Count() + 1;
+
+            // Act
+            dbContext.Users.Add(user1);
+            dbContext.Users.Add(user2);
+            dbContext.Users.Remove(user2);
+            dbContext.SaveChanges();
+
+            // Assert
+            CollectionAssert.Contains(dbContext.Users.ToArray(), user1);
+            CollectionAssert.DoesNotContain(dbContext.Users.ToArray(), user2);
+
+            CollectionAssert.DoesNotContain(dbContext.Users.Find(user1Id).Comments.ToArray(), comment);
+            CollectionAssert.DoesNotContain(dbContext.Comments.ToArray(), comment);
+
+            CollectionAssert.Contains(dbContext.Photos.ToArray(), photo1);
+            CollectionAssert.Contains(dbContext.Photos.ToArray(), photo2);            
+        }
+        [TestMethod]
+        public void DeleteUser_AndCommentLike_Cascade()
+        {
+            // Arrange
+            Photo photo1 = new Photo() { Path = "1/54/23.jpg" };
+            Photo photo2 = new Photo() { Path = "1/54/24.jpg" };
+
+            User user1 = new User()
+            {
+                NickName = "John",
+                Password = "1111",
+                Photos = new List<Photo> { photo1, photo2 }
+            };
+            Comment comment = new Comment()
+            {
+                Text = "Comment text",
+                Date = DateTime.Now,
+                Photo = photo1,
+                User = user1                
+            };
+            photo1.Comments.Add(comment);
+            User user2 = new User() { NickName = "Adam", Password = "1111" };
+            CommentLike commentLike = new CommentLike() { IsLiked = true, User = user2 };
+            comment.Likes.Add(commentLike);
+
+            int user1Id = dbContext.Users.Count() + 1;
+            int commentId = dbContext.Comments.Count() + 1;
+
+            // Act
+            dbContext.Users.Add(user1);
+            dbContext.Users.Add(user2);
+            dbContext.Users.Remove(user2);
+            dbContext.SaveChanges();
+
+            // Assert
+            CollectionAssert.Contains(dbContext.Users.ToArray(), user1, "There is no user1 in DB");
+            CollectionAssert.DoesNotContain(dbContext.Users.ToArray(), user2, "User2 is still in DB");
+
+            CollectionAssert.Contains(dbContext.Comments.ToArray(), comment, "There is no such comment in DB");
+            CollectionAssert.Contains(dbContext.Users.Find(user1Id).Comments.ToArray(), comment, "User 1 does not have current comment");
+
+
+            CollectionAssert.Contains(dbContext.Photos.ToArray(), photo1);
+            CollectionAssert.Contains(dbContext.Photos.ToArray(), photo2);
+            CollectionAssert.Contains(dbContext.Users.Find(user1Id).Photos.ToArray(), photo1);
+            CollectionAssert.Contains(dbContext.Users.Find(user1Id).Photos.ToArray(), photo2);
+
+            CollectionAssert.DoesNotContain(dbContext.CommentLike.ToArray(), commentLike, "CommentLike is still in DB");
+            CollectionAssert.DoesNotContain(dbContext.Comments.Find(commentId).Likes.ToArray(), commentLike, "Comment still has like");
         }
         [TestMethod]
         public void DeleteComment_AndCommentLike_Cascade()
@@ -920,6 +1061,32 @@ namespace UnitTest.DataAccess.Context
             CollectionAssert.DoesNotContain(dbContext.Subjects.ToArray(), subject);
             Assert.IsNull(dbContext.Messages.Find(messageId).Subject);
         }
+        [TestMethod]
+        public void DeleteUser_AndMessages_Cascade()
+        {
+            // Arrange
+            User user = new User() { NickName = "John", Password = "1111" };
+            Subject subject = new Subject() { Name = "Subject Name" };
+            Message message = new Message()
+            {
+                Text = "This is message text",
+                Date = DateTime.Now,
+                Subject = subject,
+                User = user
+            };
+
+            // Act
+            dbContext.Users.Add(user);
+            dbContext.Messages.Add(message);
+            dbContext.Users.Remove(user);
+            dbContext.SaveChanges();
+
+            // Assert
+            CollectionAssert.DoesNotContain(dbContext.Users.ToArray(), user, "User");
+            CollectionAssert.DoesNotContain(dbContext.Messages.ToArray(), message, "Message");
+            CollectionAssert.Contains(dbContext.Subjects.ToArray(), subject, "Subject");
+        }
+
         #endregion
     }
 }
