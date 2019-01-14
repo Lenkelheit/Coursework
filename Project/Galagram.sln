@@ -1,17 +1,27 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.168
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Galagram", "Galagram\Galagram.csproj", "{CC1DE968-D54C-477D-AE40-C0DE14B19731}"
+	ProjectSection(ProjectDependencies) = postProject
+		{A45E7081-B247-42AE-B58D-AD90539E2863} = {A45E7081-B247-42AE-B58D-AD90539E2863}
+		{A5D47A88-ABDD-4AD3-806F-ED0703B0FEDA} = {A5D47A88-ABDD-4AD3-806F-ED0703B0FEDA}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core", "Core\Core.csproj", "{A5D47A88-ABDD-4AD3-806F-ED0703B0FEDA}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataAccess", "DataAccess\DataAccess.csproj", "{A45E7081-B247-42AE-B58D-AD90539E2863}"
+	ProjectSection(ProjectDependencies) = postProject
+		{A5D47A88-ABDD-4AD3-806F-ED0703B0FEDA} = {A5D47A88-ABDD-4AD3-806F-ED0703B0FEDA}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTest", "UnitTest\UnitTest.csproj", "{97C241AF-25F0-4BB9-BA73-B9B01CC455CA}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ViewModel", "ViewModel\ViewModel.csproj", "{854F90F9-41CD-4642-91CA-E254E7E89DB6}"
+	ProjectSection(ProjectDependencies) = postProject
+		{CC1DE968-D54C-477D-AE40-C0DE14B19731} = {CC1DE968-D54C-477D-AE40-C0DE14B19731}
+		{A45E7081-B247-42AE-B58D-AD90539E2863} = {A45E7081-B247-42AE-B58D-AD90539E2863}
+		{A5D47A88-ABDD-4AD3-806F-ED0703B0FEDA} = {A5D47A88-ABDD-4AD3-806F-ED0703B0FEDA}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -35,12 +45,11 @@ Global
 		{97C241AF-25F0-4BB9-BA73-B9B01CC455CA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{97C241AF-25F0-4BB9-BA73-B9B01CC455CA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{97C241AF-25F0-4BB9-BA73-B9B01CC455CA}.Release|Any CPU.Build.0 = Release|Any CPU
-		{854F90F9-41CD-4642-91CA-E254E7E89DB6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{854F90F9-41CD-4642-91CA-E254E7E89DB6}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{854F90F9-41CD-4642-91CA-E254E7E89DB6}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{854F90F9-41CD-4642-91CA-E254E7E89DB6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {8CD00A0F-D234-4A7E-BA3E-CB823984B82A}
 	EndGlobalSection
 EndGlobal

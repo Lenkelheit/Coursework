@@ -79,7 +79,7 @@
     <Compile Include="Repositories\PhotoRepository.cs" />
     <Compile Include="Repositories\SubjectRepository.cs" />
     <Compile Include="Repositories\UserRepository.cs" />
-    <Compile Include="Structs\ValidNamaAndPassword.cs" />
+    <Compile Include="Structs\ValidNameAndPassword.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

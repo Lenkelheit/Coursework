@@ -58,7 +58,7 @@
       <HintPath>..\packages\EntityFrameworkTesting.Moq.1.2.2\lib\net45\EntityFramework.Testing.Moq.dll</HintPath>
     </Reference>
     <Reference Include="Galagram">
-      <HintPath>..\_Libraries\Galagram\Galagram.exe</HintPath>
+      <HintPath>..\Galagram\bin\Debug\Galagram.exe</HintPath>
     </Reference>
     <Reference Include="Microsoft.VisualStudio.TestPlatform.TestFramework, Version=14.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\MSTest.TestFramework.1.4.0\lib\net45\Microsoft.VisualStudio.TestPlatform.TestFramework.dll</HintPath>
@@ -102,6 +102,7 @@
     <Compile Include="DataAccess\Repositories\SubjectRepositoryTest.cs" />
     <Compile Include="DataAccess\Repositories\UserRepositoryTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Resources\Classes\DbFiller.cs" />
     <Compile Include="ViewModel\Commands\Registration\LogInCommandTest.cs" />
     <Compile Include="ViewModel\Commands\Registration\SignUpCommandTest.cs" />
     <Compile Include="ViewModel\Commands\RelayCommandTest.cs" />
@@ -142,18 +143,18 @@
     <Folder Include="View\Converters\" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Resources\TestDB.mdf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\TestDB_log.ldf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <DependentUpon>TestDB.mdf</DependentUpon>
+    </Content>
     <Content Include="Resources\DataAccess\Context\AvatarFormat.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\DataAccess\Context\WrongLengthNameOrPassword.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Resources\DataAccess\TestDB.mdf">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Resources\DataAccess\TestDB_log.ldf">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      <DependentUpon>TestDB.mdf</DependentUpon>
     </Content>
   </ItemGroup>
   <ItemGroup>

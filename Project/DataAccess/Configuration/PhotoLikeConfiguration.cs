@@ -15,7 +15,7 @@ namespace DataAccess.Configuration
             });
 
             HasRequired(l => l.Photo).WithMany(p => p.Likes).Map(m => m.MapKey("PhotoId"));
-            HasOptional(l => l.User).WithMany(u => u.PhotoLikes).Map(m => m.MapKey("UserId"));
+            HasRequired(l => l.User).WithMany(u => u.PhotoLikes).Map(m => m.MapKey("UserId"));
         }
     }
 }

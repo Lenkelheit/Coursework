@@ -44,7 +44,10 @@ namespace DataAccess.Repositories
         /// Counts records in data set which satisfy the condition
         /// </summary>
         /// <param name="predicate">The condition by which record should be count</param>
-        /// <returns>Returns the amount of records in data set which satisfy the condition</returns>
+        /// <returns>Returns the amount of records in data set which satisfy the condition</returns> /
+        /// // <exception cref="ArgumentNullException">
+        /// Throws when passed <paramref name="predicate"/> is null
+        /// </exception>
         public virtual int Count(Func<TEntity, bool> predicate)
         {
             return dbSet.AsNoTracking().Count(predicate);
@@ -102,16 +105,33 @@ namespace DataAccess.Repositories
         /// Deletes object by id
         /// </summary>
         /// <param name="id">Objects id</param>
+        /// <exception cref="ArgumentNullException">
+        /// Throws when passed <paramref name="id"/> is null
+        /// </exception>
+        /// <exception cref="InvalidOperationException">
+        /// Throws when there is no records with such id
+        /// </exception>
         public virtual void Delete(object id)
         {
-            Delete(dbSet.Find(id));
+            // find
+            if (id == null) throw new ArgumentNullException(nameof(id));
+            TEntity entityToDelete = dbSet.Find(id);
+
+            // delete finded
+            if (entityToDelete == null) throw new InvalidOperationException(Core.Messages.Error.Repositories.THERE_IS_NO_RECORD_WITH_SUCH_ID);
+            Delete(entityToDelete);
         }
         /// <summary>
         /// Deletes preset entity
         /// </summary>
         /// <param name="entityToDelete">Entity to delete</param>
+        /// <exception cref="ArgumentNullException">
+        /// Throws when passed <paramref name="entityToDelete"/> is null
+        /// </exception>
         public virtual void Delete(TEntity entityToDelete)
         {
+            if (entityToDelete == null) throw new ArgumentNullException(nameof(entityToDelete));
+
             if (context.Entry(entityToDelete).State == EntityState.Detached)
             {
                 dbSet.Attach(entityToDelete);

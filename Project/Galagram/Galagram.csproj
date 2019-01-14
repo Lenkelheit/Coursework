@@ -81,9 +81,6 @@
     <Reference Include="System.Xaml">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
     </Reference>
-    <Reference Include="ViewModel">
-      <HintPath>..\ViewModel\bin\Debug\ViewModel.dll</HintPath>
-    </Reference>
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
@@ -93,6 +90,40 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="ViewModel\CommandBase.cs" />
+    <Compile Include="ViewModel\Commands\Registration\LogInCommand.cs" />
+    <Compile Include="ViewModel\Commands\Registration\SignUpCommand.cs" />
+    <Compile Include="ViewModel\Commands\RelayCommand.cs" />
+    <Compile Include="ViewModel\Commands\User\AskQuestion\AskCommand.cs" />
+    <Compile Include="ViewModel\Commands\User\Follow\DeleteFollowCommand.cs" />
+    <Compile Include="ViewModel\Commands\User\General\OpenProfileCommand.cs" />
+    <Compile Include="ViewModel\Commands\User\MainWindow\AskQuestionCommand.cs" />
+    <Compile Include="ViewModel\Commands\User\MainWindow\FollowCommand.cs" />
+    <Compile Include="ViewModel\Commands\User\MainWindow\GoHomeCommand.cs" />
+    <Compile Include="ViewModel\Commands\User\MainWindow\LogOutCommand.cs" />
+    <Compile Include="ViewModel\Commands\User\MainWindow\SearchUserCommand.cs" />
+    <Compile Include="ViewModel\Commands\User\MainWindow\SettingCommand.cs" />
+    <Compile Include="ViewModel\Commands\User\MainWindow\ShowFollowersListCommand.cs" />
+    <Compile Include="ViewModel\Commands\User\MainWindow\ShowFollowingListCommand.cs" />
+    <Compile Include="ViewModel\Commands\User\MainWindow\ShowPhotoCommand.cs" />
+    <Compile Include="ViewModel\Commands\User\MainWindow\UploadPhotoCommand.cs" />
+    <Compile Include="ViewModel\Commands\User\PhotoInside\DeleteCommentCommand.cs" />
+    <Compile Include="ViewModel\Commands\User\PhotoInside\DisLikeCommentCommand.cs" />
+    <Compile Include="ViewModel\Commands\User\PhotoInside\DisLikePhotoCommand.cs" />
+    <Compile Include="ViewModel\Commands\User\PhotoInside\LikeCommentCommand.cs" />
+    <Compile Include="ViewModel\Commands\User\PhotoInside\LikePhotoCommand.cs" />
+    <Compile Include="ViewModel\Commands\User\PhotoInside\WriteCommentCommand.cs" />
+    <Compile Include="ViewModel\Commands\User\Search\SearchCommand.cs" />
+    <Compile Include="ViewModel\Commands\User\Setting\ApplyChangesCommand.cs" />
+    <Compile Include="ViewModel\Commands\User\Setting\LoadNewAvatarCommand.cs" />
+    <Compile Include="ViewModel\ViewModelBase.cs" />
+    <Compile Include="ViewModel\ViewModel\RegistrationViewModel.cs" />
+    <Compile Include="ViewModel\ViewModel\User\AskQuestionViewModel.cs" />
+    <Compile Include="ViewModel\ViewModel\User\FollowViewModel.cs" />
+    <Compile Include="ViewModel\ViewModel\User\MainWindowViewModel.cs" />
+    <Compile Include="ViewModel\ViewModel\User\PhotoInsideViewModel.cs" />
+    <Compile Include="ViewModel\ViewModel\User\SearchViewModel.cs" />
+    <Compile Include="ViewModel\ViewModel\User\SettingViewModel.cs" />
     <Compile Include="Window\Dialogs\MessageBoxButton.cs" />
     <Compile Include="Services\WindowManager.cs" />
     <Compile Include="Window\Admin\UserControls\DeleteItem.xaml.cs">
@@ -287,6 +318,8 @@
   <ItemGroup>
     <Folder Include="Converters\" />
     <Folder Include="Theme\AdminPanel\Classic\Templates\" />
+    <Folder Include="ViewModel\Commands\Admin\" />
+    <Folder Include="ViewModel\ViewModel\Admin\" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\Ico\ico.ico" />

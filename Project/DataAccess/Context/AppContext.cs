@@ -34,7 +34,7 @@ namespace DataAccess.Context
         /// <summary>
         /// A messages set
         /// </summary>
-        public DbSet<Message> Mossages { get; set; }
+        public DbSet<Message> Messages { get; set; }
         /// <summary>
         /// A subject set
         /// </summary>

@@ -4,18 +4,38 @@ namespace Core
 {
     /// <summary>
     /// Provides opportunities to log messages
+    /// <para/>
+    /// Implements a Singleton pattern
     /// </summary>
-    public static class Logger
+    public class Logger
     {
         // FIELDS
-        private static readonly SemaphoreSlim writeLock; // because writing to file occupy process
+        private readonly SemaphoreSlim writeLock; // because writing to file occupy process
+        private static Logger instance;
+
         // CONSTRUCTORS
-        static Logger()
+        private Logger()
         {
             writeLock = new SemaphoreSlim(initialCount: 1, maxCount: 1);
         }
+        static Logger()
+        {
+            instance = new Logger();
+        }
+        /// <summary>
+        /// Release unmanaged resources
+        /// </summary>
+        ~Logger()
+        {
+            writeLock.Dispose();
+        }
+        // PROPERTIES
+        /// <summary>
+        /// Gets logger instance
+        /// </summary>
+        public static Logger GetLogger => instance;
         // METHODS
-        private static void CreateDirectoryIfNotExist()
+        private void CreateDirectoryIfNotExist()
         {
             System.IO.Directory.CreateDirectory(Configuration.AppConfig.LOG_DIRECTORY);
         }
@@ -28,14 +48,21 @@ namespace Core
         /// <param name="message">
         /// Log message
         /// </param>
-        public static void Log(LogMode logMode, string message)
+        public void Log(LogMode logMode, string message)
         {
-            CreateDirectoryIfNotExist();
+            try
+            {
+                CreateDirectoryIfNotExist();
 
-            System.IO.File.AppendAllText(
-                path: Configuration.AppConfig.LOG_FILE, 
-                contents: string.Format(Configuration.AppConfig.LOG_TEMPLATE_FORMAT, System.DateTime.Now, logMode , message) 
-                );
+                System.IO.File.AppendAllText(
+                    path: Configuration.AppConfig.LOG_FILE, 
+                    contents: string.Format(Configuration.AppConfig.LOG_TEMPLATE_FORMAT, System.DateTime.Now, logMode , message) 
+                    );
+            }
+            finally
+            {
+                writeLock.Release();
+            }
         }
         /// <summary>
         /// Writes a log to a file asynchronously
@@ -46,7 +73,7 @@ namespace Core
         /// <param name="message">
         /// Log message
         /// </param>
-        public static async void LogAsync(LogMode logMode, string message)
+        public async void LogAsync(LogMode logMode, string message)
         {
             try
             {
@@ -54,7 +81,11 @@ namespace Core
 
                 await System.Threading.Tasks.Task.Run(() => CreateDirectoryIfNotExist());
 
-                await System.Threading.Tasks.Task.Run(() => Log(logMode, message));
+                await System.Threading.Tasks.Task.Run(() => 
+                            System.IO.File.AppendAllText(
+                                    path: Configuration.AppConfig.LOG_FILE,
+                                    contents: string.Format(Configuration.AppConfig.LOG_TEMPLATE_FORMAT, System.DateTime.Now, logMode, message)
+                                    ));
             }
             finally
             {
