@@ -1,6 +1,6 @@
 ﻿namespace Core.Messages.Info.ViewModel.Command.User.MainWindow
 {
-    public class AskQuestion
+    public static class AskQuestion
     {
     }
 }

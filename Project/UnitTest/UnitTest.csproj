@@ -143,10 +143,10 @@
     <Folder Include="View\Converters\" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Resources\TestDB.mdf">
+    <Content Include="Resources\DataAccess\TestDB.mdf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Resources\TestDB_log.ldf">
+    <Content Include="Resources\DataAccess\TestDB_log.ldf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <DependentUpon>TestDB.mdf</DependentUpon>
     </Content>

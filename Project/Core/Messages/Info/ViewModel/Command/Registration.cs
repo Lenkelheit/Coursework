@@ -1,9 +1,9 @@
 ﻿namespace Core.Messages.Info.ViewModel.Command
 {
     /// <summary>
-    /// Consists of all messages thet happen in <see cref="ViewModel.Command.Registration"/>
+    /// Consists of all messages thet happen in <see cref="Registration"/> command
     /// </summary>
-    public class Registration
+    public static class Registration
     {
         /// <summary>
         /// Nickname can not be empty

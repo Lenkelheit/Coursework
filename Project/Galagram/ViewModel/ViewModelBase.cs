@@ -11,6 +11,7 @@ namespace Galagram.ViewModel
         // FIELDS        
         readonly Galagram.Services.WindowManager windowManager;
         readonly DataAccess.Context.UnitOfWork unitOfWork;
+        readonly Core.Logger logger;
 
         // EVENTS
         /// <summary>
@@ -26,6 +27,7 @@ namespace Galagram.ViewModel
         {
             windowManager = Galagram.Services.WindowManager.Instance;
             unitOfWork = DataAccess.Context.UnitOfWork.Instance;
+            logger = Core.Logger.GetLogger;
         }
 
         // PROPERTIES
@@ -37,6 +39,10 @@ namespace Galagram.ViewModel
         /// Gets data base access object
         /// </summary>
         public DataAccess.Context.UnitOfWork UnitOfWork => unitOfWork;
+        /// <summary>
+        /// Gets logger
+        /// </summary>
+        public Core.Logger Logger => logger;
 
         // METHODS
         /// <summary>

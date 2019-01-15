@@ -70,6 +70,10 @@
             };
             Core.Logger.GetLogger.LogAsync(Core.LogMode.Info, $"User with nickname {user.NickName} and password {user.Password} has been created");
 
+            // add the user
+            Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, "Add new user.");
+            registrationViewModel.UnitOfWork.UserRepository.Insert(user);
+
             // save new user
             Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, "Save the user.");
             registrationViewModel.UnitOfWork.Save();
