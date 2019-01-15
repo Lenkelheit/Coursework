@@ -143,13 +143,9 @@
     <Folder Include="View\Converters\" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Resources\TestDB.mdf">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Resources\TestDB_log.ldf">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      <DependentUpon>TestDB.mdf</DependentUpon>
-    </Content>
+    <Content Include="Resources\DataAccess\Repositories\RegularSubject.xml" />
+    <Content Include="Resources\DataAccess\Repositories\WrongMessage.xml" />
+    <Content Include="Resources\DataAccess\Repositories\WrongSubject.xml" />
     <Content Include="Resources\DataAccess\Context\AvatarFormat.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

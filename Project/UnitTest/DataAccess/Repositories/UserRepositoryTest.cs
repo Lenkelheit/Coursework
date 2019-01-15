@@ -159,7 +159,7 @@ namespace UnitTest.DataAccess.Repositories
             User expectedUser = dbContext.Users.Find(idToSearch);
 
             // Act
-            User usersFromDb = userRepository.GetByID(idToSearch);
+            User usersFromDb = userRepository.Get(idToSearch);
 
             // Assert
             Assert.AreEqual(expectedUser, usersFromDb);
@@ -173,7 +173,7 @@ namespace UnitTest.DataAccess.Repositories
             User expectedUserFromDb = null;
 
             // Act
-            User actualUserFromDb = userRepository.GetByID(wrongId);
+            User actualUserFromDb = userRepository.Get(wrongId);
 
             // Assert
             Assert.AreEqual(expectedUserFromDb, actualUserFromDb);
@@ -190,7 +190,7 @@ namespace UnitTest.DataAccess.Repositories
             string nameToSearch = expectedUser.NickName;
 
             // Act
-            User usersFromDb = userRepository.GetByNickname(nameToSearch);
+            User usersFromDb = userRepository.Get(nameToSearch);
 
             // Assert
             Assert.AreEqual(expectedUser, usersFromDb);
@@ -204,7 +204,7 @@ namespace UnitTest.DataAccess.Repositories
             string nameToSearch = "The name is wrong";
 
             // Act
-            User usersFromDb = userRepository.GetByNickname(nameToSearch);
+            User usersFromDb = userRepository.Get(nameToSearch);
 
             // Assert
             Assert.AreEqual(expectedUser, usersFromDb);
@@ -335,8 +335,8 @@ namespace UnitTest.DataAccess.Repositories
             Assert.Fail("Fail because regular deleting in DB does not work");
             // Arrange
             UserRepository userRepository = new UserRepository(dbContext);
-            int idToDelete = 2;
-            User expectedDeletedUser = dbContext.Users.Find(idToDelete);
+            User expectedDeletedUser = dbContext.Users.First();
+            int idToDelete = expectedDeletedUser.Id;
 
             // Act
             userRepository.Delete(idToDelete);
@@ -376,7 +376,7 @@ namespace UnitTest.DataAccess.Repositories
             Assert.Fail("Fail because regular deleting in DB does not work");
             // Arrange
             UserRepository userRepository = new UserRepository(dbContext);
-            User userToDelete = dbContext.Users.Find(2);
+            User userToDelete = dbContext.Users.First();
 
             // Act
             userRepository.Delete(userToDelete);
@@ -406,6 +406,7 @@ namespace UnitTest.DataAccess.Repositories
 
             // Act
             userRepository.Delete(entityToDelete: changedUserToDelete);
+            dbContext.SaveChanges();
 
             // Assert
             CollectionAssert.DoesNotContain(dbContext.Users.ToArray(), changedUserToDelete);

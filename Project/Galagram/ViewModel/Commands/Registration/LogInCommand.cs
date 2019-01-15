@@ -74,7 +74,7 @@
             Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, "User logged in. Registration window close. Main window opens.");
             registrationViewModel.WindowManager.SwitchMainWindow(
                 key: nameof(Galagram.Window.User.MainWindow),
-                viewModel: new ViewModel.User.MainWindowViewModel(user: registrationViewModel.UnitOfWork.UserRepository.GetByNickname(registrationViewModel.Nickname)));
+                viewModel: new ViewModel.User.MainWindowViewModel(user: registrationViewModel.UnitOfWork.UserRepository.Get(registrationViewModel.Nickname)));
             
         }
     }
