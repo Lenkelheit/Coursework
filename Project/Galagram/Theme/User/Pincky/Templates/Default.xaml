@@ -9,7 +9,15 @@
     <!--LIST BOX FOR IMAGE IN ALBUM-->
     <ControlTemplate x:Key="ListBoxAlbumImageTemplate" TargetType="ListBoxItem">
         <Button Style="{DynamicResource ButtonBase}" Background="Transparent" Command="{Binding OpenPhoto}">
-            <Image Source="/Resources/OtherImg/NoImg.png" Style="{DynamicResource  PhotoImage}"/>
+            <Image  Style="{DynamicResource PhotoImage}">
+                <Image.Source>
+                    <Binding Path="Path" >
+                        <Binding.FallbackValue>
+                            <ImageSource>/Resources/OtherImg/NoImg.png</ImageSource>
+                        </Binding.FallbackValue>
+                    </Binding>
+                </Image.Source>
+            </Image>
         </Button>
     </ControlTemplate>
     <!--LIST BOX ITEM FOR SEARCH-->

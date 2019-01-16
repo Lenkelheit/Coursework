@@ -3,7 +3,7 @@ using System.Data.Entity;
 
 namespace DataAccess.Initializers
 {
-    internal class AppContextInitializer : DropCreateDatabaseAlways<AppContext>
+    internal class AppContextInitializer : CreateDatabaseIfNotExists<AppContext>
     {
         protected override void Seed(AppContext context)
         {

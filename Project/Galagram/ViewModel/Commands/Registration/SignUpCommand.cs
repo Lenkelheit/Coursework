@@ -26,7 +26,7 @@
 
         // MEHTODS
         /// <summary>
-        /// Check if command  can be executed
+        /// Check if command can be executed
         /// </summary>
         /// <param name="parameter">
         /// Additionals parameters
