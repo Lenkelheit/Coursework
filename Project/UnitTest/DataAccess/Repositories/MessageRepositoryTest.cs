@@ -14,6 +14,7 @@ namespace UnitTest.DataAccess.Repositories
     public class MessageRepositoryTest
     {
         // FIELDS
+        static string connectionString = @"Data Source=(localdb)\MSSQLLocalDB; Integrated Security=True; Initial Catalog=MessageTestDB";
         static DA.AppContext dbContext;
         static Resources.Classes.DbFiller dbFiller;
         // PROPERTIES
@@ -23,12 +24,13 @@ namespace UnitTest.DataAccess.Repositories
         public static void Constructor(TestContext context)
         {
             dbFiller = new Resources.Classes.DbFiller();
-            dbContext = new DA.AppContext(@"Data Source=(localdb)\MSSQLLocalDB;AttachDbFilename=C:\Users\Largo\Source\Repos\Coursework\Project\UnitTest\Resources\DataAccess\TestDB.mdf; Integrated Security=True;Initial Catalog=TestDB");
+            dbContext = new DA.AppContext(connectionString);
         }
         [ClassCleanup]
         public static void Finalizer()
         {
             dbContext.Dispose();
+            System.Data.Entity.Database.Delete(connectionString);
         }
         [TestInitialize]
         public void Filler()

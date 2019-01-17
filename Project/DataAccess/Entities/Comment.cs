@@ -35,6 +35,6 @@ namespace DataAccess.Entities
         /// <summary>
         /// The date when comment has been published
         /// </summary>
-		public System.DateTime Date { get; set; }
+		public System.DateTime Date { get; set; } = System.DateTime.Now;
 	}
 }

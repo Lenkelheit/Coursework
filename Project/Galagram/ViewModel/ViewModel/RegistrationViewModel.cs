@@ -3,7 +3,7 @@
 namespace Galagram.ViewModel.ViewModel
 {
     /// <summary>
-    /// An logic class for <see cref="Galagram.Window.Registration"/>
+    /// A logic class for <see cref="Galagram.Window.Registration"/>
     /// </summary>
     public class RegistrationViewModel : ViewModelBase
     {
@@ -29,7 +29,7 @@ namespace Galagram.ViewModel.ViewModel
             logInCommand  = new Commands.Registration.LogInCommand(this);
             signUpCommand = new Commands.Registration.SignUpCommand(this);
 
-            Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, $"Created {nameof(RegistrationViewModel)}");
+            Logger.LogAsync(Core.LogMode.Debug, $"Created {nameof(RegistrationViewModel)}");
         }
         // PROPERTIES
         /// <summary>
@@ -39,13 +39,13 @@ namespace Galagram.ViewModel.ViewModel
         {
             get
             {
-                Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, $"Get current NickName {nickname}");
+                Logger.LogAsync(Core.LogMode.Debug, $"Get current {nameof(Nickname)} {nickname}");
                 return nickname;
             }
             set
             {
                 nickname = value;
-                Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, $"Set new NickName {nickname}");
+                Logger.LogAsync(Core.LogMode.Debug, $"Set new {nameof(Nickname)} {nickname}");
                 OnPropertyChanged();
             }
         }
@@ -56,25 +56,25 @@ namespace Galagram.ViewModel.ViewModel
         {
             get
             {
-                Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, $"Get current Password {password}");
+                Logger.LogAsync(Core.LogMode.Debug, $"Get current {nameof(Password)} {password}");
                 return password;
             }
             set
             {
                 password = value;
-                Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, $"Set new Password {password}");
+                Logger.LogAsync(Core.LogMode.Debug, $"Set new {nameof(Password)} {password}");
                 OnPropertyChanged();
             }
         }
         // COMMAND
         /// <summary>
-        /// Get login action
+        /// Gets login action
         /// </summary>
         public ICommand LogInCommand
         {
             get
             {
-                Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, $"Get {nameof(LogInCommand)}");
+                Logger.LogAsync(Core.LogMode.Debug, $"Get {nameof(LogInCommand)}");
                 return logInCommand;
             }
         }
@@ -85,7 +85,7 @@ namespace Galagram.ViewModel.ViewModel
         {
             get
             {
-                Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, $"Get {nameof(SignUpCommand)}");
+                Logger.LogAsync(Core.LogMode.Debug, $"Get {nameof(SignUpCommand)}");
                 return signUpCommand;
             }
         }
@@ -101,37 +101,37 @@ namespace Galagram.ViewModel.ViewModel
             if (string.IsNullOrWhiteSpace(this.nickname))
             {
                 WindowManager.ShowMessageWindow(Core.Messages.Info.ViewModel.Command.Registration.NICKNAME_EMPTY);
-                Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, $"User can not sign up or log in, because his nickname is empty");
+                Logger.LogAsync(Core.LogMode.Debug, $"User can not sign up or log in, because his nickname is empty");
                 return false;
             }
             if (string.IsNullOrWhiteSpace(this.password))
             {
                 WindowManager.ShowMessageWindow(Core.Messages.Info.ViewModel.Command.Registration.PASSWORD_EMPTY);
-                Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, $"User can not sign up or log in, because his password is empty");
+                Logger.LogAsync(Core.LogMode.Debug, $"User can not sign up or log in, because his password is empty");
                 return false;
             }
             if (this.nickname.Length < Core.Configuration.DBConfig.NICKNAME_MIN_LENGTH)
             {
                 WindowManager.ShowMessageWindow(Core.Messages.Info.ViewModel.Command.Registration.NICKNAME_TOO_SHORT);
-                Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, $"User can not sign up or log in, because his nickname is too short {this.nickname.Length}");
+                Logger.LogAsync(Core.LogMode.Debug, $"User can not sign up or log in, because his nickname is too short {this.nickname.Length}");
                 return false;
             }
             if (this.nickname.Length > Core.Configuration.DBConfig.NICKNAME_MAX_LENGTH)
             {
                 WindowManager.ShowMessageWindow(Core.Messages.Info.ViewModel.Command.Registration.NICKNAME_TOO_LONG);
-                Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, $"User can not sign up or log in, because his nickname is too long {this.nickname.Length}");
+                Logger.LogAsync(Core.LogMode.Debug, $"User can not sign up or log in, because his nickname is too long {this.nickname.Length}");
                 return false;
             }
             if (this.password.Length < Core.Configuration.DBConfig.PASSWORD_MIN_LENGTH)
             {
                 WindowManager.ShowMessageWindow(Core.Messages.Info.ViewModel.Command.Registration.PASSWORD_TOO_SHORT);
-                Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, $"User can not sign up or log in, because his password is too short {this.password.Length}");
+                Logger.LogAsync(Core.LogMode.Debug, $"User can not sign up or log in, because his password is too short {this.password.Length}");
                 return false;
             }
             if (this.password.Length > Core.Configuration.DBConfig.PASSWORD_MAX_LENGTH)
             {
                 WindowManager.ShowMessageWindow(Core.Messages.Info.ViewModel.Command.Registration.PASSWORD_TOO_LONG);
-                Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, $"User can not sign up or log in, because his password is too long {this.password.Length}");
+                Logger.LogAsync(Core.LogMode.Debug, $"User can not sign up or log in, because his password is too long {this.password.Length}");
                 return false;
             }
 

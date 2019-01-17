@@ -13,6 +13,7 @@ namespace UnitTest.DataAccess.Context
     public class AppContextTest
     {
         // FIELDS
+        static string connectionString = @"Data Source=(localdb)\MSSQLLocalDB; Integrated Security=True; Initial Catalog=AppContextTestDB";
         static DA.AppContext dbContext;
         // PROPERTIES
         public TestContext TestContext { get; set; }
@@ -20,12 +21,13 @@ namespace UnitTest.DataAccess.Context
         [ClassInitialize]
         public static void Constructor(TestContext context)
         {
-            dbContext = new DA.AppContext(@"Data Source=(localdb)\MSSQLLocalDB;AttachDbFilename=C:\Users\Largo\Source\Repos\Coursework\Project\UnitTest\Resources\DataAccess\TestDB.mdf; Integrated Security=True;Initial Catalog=TestDB");
+            dbContext = new DA.AppContext(connectionString);
         }
         [ClassCleanup]
         public static void Finalizer()
         {
             dbContext.Dispose();
+            System.Data.Entity.Database.Delete(connectionString);            
         }
 
         // TEST

@@ -44,16 +44,15 @@
             </Grid.ColumnDefinitions>
 
             <Label Grid.Column="0" Content="Subject" Style="{StaticResource H1LeftLabel}" />
-            <ComboBox Grid.Column="1">
-                <ComboBoxItem>Item 1</ComboBoxItem>
-                <ComboBoxItem>Item 2</ComboBoxItem>
-                <ComboBoxItem>Item 3</ComboBoxItem>
-            </ComboBox>
+            <ComboBox Grid.Column="1" 
+                      ItemsSource="{Binding Subjects}"
+                      DisplayMemberPath="Name"
+                      SelectedIndex="{Binding SelectedSubjectIndex}"/>
         </Grid>
         <!--MESSAGE-->
         <Label Grid.Row="4" Content="Message" Style="{StaticResource H1LeftLabel}"/>
-        <RichTextBox Grid.Row="5"/>
+        <TextBox Grid.Row="5" Style="{StaticResource MessageTextBox}" Text="{Binding Message}"/>
         <!--BUTTON-->
-        <Button Grid.Row="6" Content="Ask" Style="{StaticResource ClickButton}"/>
+        <Button Grid.Row="6" Content="Ask" Style="{StaticResource ClickButton}" Command="{Binding AskCommand}"/>
     </Grid>
 </Window>

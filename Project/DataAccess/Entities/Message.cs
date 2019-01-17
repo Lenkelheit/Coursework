@@ -32,6 +32,6 @@ namespace DataAccess.Entities
         /// <summary>
         /// A date, when message was send
         /// </summary>
-        public System.DateTime Date { get; set; }
+        public System.DateTime Date { get; set; } = System.DateTime.Now;
     }
 }

@@ -69,12 +69,15 @@
         <Setter Property="Margin" Value="5"/>
         <Setter Property="TextWrapping" Value="WrapWithOverflow"/>
     </Style>
-    <!--RICH TEXT BOX-->
-    <Style TargetType="RichTextBox">
+    <!--TEXT BOX FOR MESSAGES-->
+    <Style TargetType="TextBox" x:Key="MessageTextBox" >
         <Setter Property="Margin" Value="5"/>
         <Setter Property="FontSize" Value="16"/>
         <Setter Property="SelectionBrush" Value="{StaticResource PinkBrush}"/>
-        <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto"/>
+        <Setter Property="VerticalScrollBarVisibility" Value="Auto"/>
+        <Setter Property="HorizontalScrollBarVisibility" Value="Disabled"/>
+        <Setter Property="TextWrapping" Value="Wrap"/>
+        <Setter Property="AcceptsReturn" Value="True"/>
     </Style>
     <Style TargetType="Paragraph">
         <Setter Property="Margin" Value="0"/>

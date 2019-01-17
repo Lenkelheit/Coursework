@@ -42,6 +42,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Configuration\AppConfig.cs" />
+    <Compile Include="Configuration\Constants.cs" />
     <Compile Include="Configuration\DBConfig.cs" />
     <Compile Include="Interfaces\IFactory.cs" />
     <Compile Include="Logger.cs" />
