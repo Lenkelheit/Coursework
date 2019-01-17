@@ -50,7 +50,7 @@ namespace DataAccess.Repositories
         /// </exception>
         public virtual int Count(Func<TEntity, bool> predicate)
         {
-            return dbSet.AsNoTracking().Count(predicate);
+            return dbSet.Count(predicate);
         }
         /// <summary>
         /// Gets data from data base
@@ -89,7 +89,7 @@ namespace DataAccess.Repositories
         /// </summary>
         /// <param name="id">Entities id</param>
         /// <returns>Finded entity</returns>
-        public virtual TEntity GetByID(object id)
+        public virtual TEntity Get(object id)
         {
             return dbSet.Find(id);
         }

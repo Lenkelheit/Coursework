@@ -45,7 +45,7 @@
         /// <summary>
         /// Photo server path string max length
         /// </summary>
-        public const int PHOTO_PATH_MAX_LENGTH = 64;
+        public const int PHOTO_PATH_MAX_LENGTH = 256;
         /// <summary>
         /// Allowed photo extension
         /// <para/>
