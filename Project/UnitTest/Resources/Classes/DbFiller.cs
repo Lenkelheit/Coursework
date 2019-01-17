@@ -256,26 +256,26 @@ namespace UnitTest.Resources.Classes
             #region MESSAGES
             // to subject
             // 1
-            Message message1 = new Message { Date = new DateTime(year: 2000, month: 1, day: 15), Subject = subject1, User = user1, Text = "I've just seen a face" };
-            Message message2 = new Message { Date = new DateTime(year: 2001, month: 1, day: 15), Subject = subject1, User = user2, Text = "So maybe tomorrow, I'll find my way home" };
-            Message message3 = new Message { Date = new DateTime(year: 2002, month: 1, day: 15), Subject = subject1, User = user1, Text = "In a crooked little town, they were lost and never found" };
+            Message message1 = new Message { Date = new DateTime(year: 2000, month: 1, day: 1), Subject = subject1, User = user1, Text = "I've just seen a face" };
+            Message message2 = new Message { Date = new DateTime(year: 2001, month: 2, day: 2), Subject = subject1, User = user2, Text = "So maybe tomorrow, I'll find my way home" };
+            Message message3 = new Message { Date = new DateTime(year: 2002, month: 3, day: 3), Subject = subject1, User = user1, Text = "In a crooked little town, they were lost and never found" };
             // 2
-            Message message4 = new Message { Date = new DateTime(year: 2003, month: 1, day: 15), Subject = subject2, User = user2, Text = "Wake me up when september ends" };
-            Message message5 = new Message { Date = new DateTime(year: 2004, month: 1, day: 15), Subject = subject2, User = user1, Text = "What does the fox say?" };
+            Message message4 = new Message { Date = new DateTime(year: 2003, month: 4, day: 4), Subject = subject2, User = user2, Text = "Wake me up when september ends" };
+            Message message5 = new Message { Date = new DateTime(year: 2004, month: 5, day: 5), Subject = subject2, User = user1, Text = "What does the fox say?" };
             // 3
-            Message message6 = new Message { Date = new DateTime(year: 2005, month: 1, day: 15), Subject = subject3, User = user3, Text = "Daydream, I fell asleep amid the flowers, For a couple of hours on a beautiful day" };
-            Message message7 = new Message { Date = new DateTime(year: 2006, month: 1, day: 15), Subject = subject3, User = user1, Text = "We all live in a yellow submarine" };
+            Message message6 = new Message { Date = new DateTime(year: 2005, month: 6, day: 16), Subject = subject3, User = user3, Text = "Daydream, I fell asleep amid the flowers, For a couple of hours on a beautiful day" };
+            Message message7 = new Message { Date = new DateTime(year: 2006, month: 7, day: 17), Subject = subject3, User = user1, Text = "We all live in a yellow submarine" };
             // 4
-            Message message8 = new Message { Date = new DateTime(year: 2007, month: 1, day: 15), Subject = subject4, User = user4, Text = "Just tonight I will stay and well throw it all away" };
-            Message message9 = new Message { Date = new DateTime(year: 2008, month: 1, day: 15), Subject = subject4, User = user1, Text = "Somebody mixed my medicine" };
+            Message message8 = new Message { Date = new DateTime(year: 2007, month: 8, day: 18), Subject = subject4, User = user4, Text = "Just tonight I will stay and well throw it all away" };
+            Message message9 = new Message { Date = new DateTime(year: 2008, month: 9, day: 19), Subject = subject4, User = user1, Text = "Somebody mixed my medicine" };
             // 5
-            Message message10 = new Message { Date = new DateTime(year: 2009, month: 1, day: 15), Subject = subject5, User = user5, Text = "A couple of Gs, an R and an E, an I and an N" };
-            Message message11 = new Message { Date = new DateTime(year: 2010, month: 1, day: 15), Subject = subject5, User = user1, Text = "On candy stripe legs the Spiderman comes, Softly through the shadow of the evening sun" };
-            Message message12 = new Message { Date = new DateTime(year: 2011, month: 1, day: 15), Subject = subject5, User = user5, Text = "Everybody wants to rule the world" };
+            Message message10 = new Message { Date = new DateTime(year: 2009, month: 10, day: 15), Subject = subject5, User = user5, Text = "A couple of Gs, an R and an E, an I and an N" };
+            Message message11 = new Message { Date = new DateTime(year: 2010, month: 11, day: 15), Subject = subject5, User = user1, Text = "On candy stripe legs the Spiderman comes, Softly through the shadow of the evening sun" };
+            Message message12 = new Message { Date = new DateTime(year: 2011, month: 12, day: 15), Subject = subject5, User = user5, Text = "Everybody wants to rule the world" };
             Message message13 = new Message { Date = new DateTime(year: 2012, month: 1, day: 15), Subject = subject5, User = user2, Text = "Don`t tell me I'm wrong, Don't tell that you knew all along" };
             // 6 deleted subject
-            Message message14 = new Message { Date = new DateTime(year: 2013, month: 1, day: 15), Subject = null, User = user1, Text = "Cut my life into pieces" };
-            Message message15 = new Message { Date = new DateTime(year: 2014, month: 1, day: 15), Subject = null, User = user2, Text = "Listen to the wind blow, watch the sun rise, Running in the shadows, damn your love, damn your lies" };
+            Message message14 = new Message { Date = new DateTime(year: 2013, month: 2, day: 15), Subject = null, User = user1, Text = "Cut my life into pieces" };
+            Message message15 = new Message { Date = new DateTime(year: 2014, month: 3, day: 15), Subject = null, User = user2, Text = "Listen to the wind blow, watch the sun rise, Running in the shadows, damn your love, damn your lies" };
             #endregion
 
             #region Adding

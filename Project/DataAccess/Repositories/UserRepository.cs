@@ -84,7 +84,7 @@ namespace DataAccess.Repositories
         /// <exception cref="System.ArgumentNullException">
         /// Throws when passed <paramref name="nickname"/> is null
         /// </exception>
-        public Entities.User GetByNickname(string nickname)
+        public Entities.User Get(string nickname)
         {
             // checking
             if (string.IsNullOrWhiteSpace(nickname)) throw new System.ArgumentNullException(nameof(nickname));

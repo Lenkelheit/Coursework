@@ -37,7 +37,7 @@ namespace DataAccess.Interfaces
         /// </summary>
         /// <param name="id">Entities id</param>
         /// <returns>Finded entity</returns>
-        TEntity GetByID(object id);
+        TEntity Get(object id);
         /// <summary>
         /// Inserts data in data base
         /// </summary>
