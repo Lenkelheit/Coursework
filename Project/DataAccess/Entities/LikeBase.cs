@@ -12,7 +12,7 @@
         /// <summary>
         /// A user that has set the like
         /// </summary>
-        public User User { get; set; }
+        public virtual User User { get; set; }
         /// <summary>
         /// Define is it like or dislike
         /// </summary>

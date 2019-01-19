@@ -1,7 +1,7 @@
 ﻿namespace Galagram.ViewModel.Commands.User.MainWindow
 {
     /// <summary>
-    /// Opens modal window that allow ask question
+    /// Opens modal window that allow to ask question
     /// </summary>
     public class AskQuestionCommand : CommandBase
     {

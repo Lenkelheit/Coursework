@@ -102,7 +102,8 @@
     <Compile Include="ViewModel\Commands\RelayCommand.cs" />
     <Compile Include="ViewModel\Commands\User\AskQuestion\AskCommand.cs" />
     <Compile Include="ViewModel\Commands\User\Follow\DeleteFollowCommand.cs" />
-    <Compile Include="ViewModel\Commands\User\General\OpenProfileCommand.cs" />
+    <Compile Include="ViewModel\Commands\User\Follow\OpenProfileCommand.cs" />
+    <Compile Include="ViewModel\Commands\User\Search\OpenProfileCommand.cs" />
     <Compile Include="ViewModel\Commands\User\MainWindow\AskQuestionCommand.cs" />
     <Compile Include="ViewModel\Commands\User\MainWindow\FollowCommand.cs" />
     <Compile Include="ViewModel\Commands\User\MainWindow\GoHomeCommand.cs" />

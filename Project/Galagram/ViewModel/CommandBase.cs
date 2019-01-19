@@ -8,7 +8,7 @@
         /// <summary>
         /// Occurs when state of the command has been changed
         /// </summary>
-        public event System.EventHandler CanExecuteChanged;
+        public virtual event System.EventHandler CanExecuteChanged;
         /// <summary>
         /// Check if command  can be executed
         /// </summary>

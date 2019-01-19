@@ -24,14 +24,14 @@ namespace DataAccess.Entities
         /// <summary>
         /// A user that has been posted a photo
         /// </summary>
-		public User User { get; set; }
+		public virtual User User { get; set; }
         /// <summary>
         /// A collection of likes and dislikes to photo
         /// </summary>
-		public ICollection<PhotoLike> Likes { get; set; } = new List<PhotoLike>();
+		public virtual ICollection<PhotoLike> Likes { get; set; } = new List<PhotoLike>();
         /// <summary>
         /// A comment collection relative to photo
         /// </summary>
-		public ICollection<Comment> Comments { get; set; } = new List<Comment>();
+		public virtual ICollection<Comment> Comments { get; set; } = new List<Comment>();
     }
 }

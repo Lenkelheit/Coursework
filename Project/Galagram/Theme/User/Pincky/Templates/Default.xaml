@@ -9,7 +9,7 @@
     <!--LIST BOX FOR IMAGE IN ALBUM-->
     <ControlTemplate x:Key="ListBoxAlbumImageTemplate" TargetType="ListBoxItem">
         <Button Style="{DynamicResource ButtonBase}" Background="Transparent" Command="{Binding OpenPhoto}">
-            <Image  Style="{DynamicResource PhotoImage}">
+            <Image Style="{DynamicResource PhotoImage}">
                 <Image.Source>
                     <Binding Path="Path" >
                         <Binding.FallbackValue>
@@ -29,11 +29,19 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             <!--DATA-->
-            <Image Grid.Column="0" Source="/Resources/OtherImg/NoImg.png"
+            <Image Grid.Column="0"
                    Width="50" Height="50"
                    Margin="0"
-                   Stretch="Uniform"/>
-            <Label Grid.Column="1" Content="Nickname" Foreground="{TemplateBinding Foreground}"/>
+                   Stretch="Uniform">
+                <Image.Source>
+                    <Binding Path="User.MainPhotoPath" >
+                        <Binding.FallbackValue>
+                            <ImageSource>/Resources/OtherImg/NoImg.png</ImageSource>
+                        </Binding.FallbackValue>
+                    </Binding>
+                </Image.Source>
+            </Image>
+            <Label Grid.Column="1" Content="{Binding NickName}" Foreground="{TemplateBinding Foreground}"/>
         </Grid>
     </ControlTemplate>
     <!--LIST BOX ITEM FOR FOLLOW-->

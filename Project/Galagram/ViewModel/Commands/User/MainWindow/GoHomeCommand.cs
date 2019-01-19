@@ -52,7 +52,7 @@
 
             Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, $"Set logged user as shown user and switch window.");
 
-            mainWindowViewModel.User = mainWindowViewModel.LoggedUser;
+            mainWindowViewModel.GoToCurrentUser();
             mainWindowViewModel.WindowManager.SwitchMainWindow(nameof(Galagram.Window.User.MainWindow), mainWindowViewModel);
         }
     }

@@ -24,11 +24,11 @@ namespace DataAccess.Entities
         /// <summary>
         /// A user that wrote a comment
         /// </summary>
-        public User User { get; set; }
+        public virtual User User { get; set; }
         /// <summary>
         /// A subject of the message
         /// </summary>
-        public Subject Subject { get; set; }
+        public virtual Subject Subject { get; set; }
         /// <summary>
         /// A date, when message was send
         /// </summary>

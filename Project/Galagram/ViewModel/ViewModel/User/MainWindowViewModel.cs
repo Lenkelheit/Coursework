@@ -29,19 +29,23 @@ namespace Galagram.ViewModel.ViewModel.User
         /// <summary>
         /// Initialize a new instance of <see cref="MainWindowViewModel"/>
         /// </summary>
-        /// <param name="user">
+        /// <param name="loggedUser">
         /// Current user
+        /// </param>
+        /// <param name="shownUser">
+        /// A user, which profile is shown
         /// </param>
         /// <exception cref="System.ArgumentNullException">
         /// Throws when logged user is null
         /// </exception>
-        public MainWindowViewModel(DataAccess.Entities.User user)
+        public MainWindowViewModel(DataAccess.Entities.User loggedUser, DataAccess.Entities.User shownUser)
         {
-            if (user == null) throw new System.ArgumentNullException(nameof(user));
+            if (loggedUser == null) throw new System.ArgumentNullException(nameof(loggedUser));
+            if (shownUser == null) throw new System.ArgumentNullException(nameof(shownUser));
 
-            this.loggedInUser = user;
-            this.currentPageUser = user;
-            this.selectedPhotoIndex = -1;
+            this.loggedInUser = loggedUser;
+            this.currentPageUser = shownUser;
+            this.selectedPhotoIndex = Core.Configuration.Constants.WRONG_INDEX;
             this.photos = new ObservableCollection<DataAccess.Entities.Photo>(currentPageUser.Photos);
 
             this.goHomeCommand = new Commands.User.MainWindow.GoHomeCommand(this);
@@ -96,7 +100,7 @@ namespace Galagram.ViewModel.ViewModel.User
         {
             get
             {
-                Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, $"Gets {nameof(Photos)} with amouunt {photos.Count}");
+                Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, $"Gets {nameof(Photos)} with amount {photos.Count}");
                 return photos;
             }
         }
@@ -215,6 +219,19 @@ namespace Galagram.ViewModel.ViewModel.User
                 Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, $"Gets {nameof(FollowCommand)}");
                 return followCommand;
             }
+        }
+        
+        // METHODS
+        /// <summary>
+        /// Sets logged user as shown one
+        /// </summary>
+        public void GoToCurrentUser()
+        {
+            currentPageUser = loggedInUser;
+            photos = new ObservableCollection<DataAccess.Entities.Photo>(currentPageUser.Photos);
+
+            OnPropertyChanged(nameof(User));
+            OnPropertyChanged(nameof(Photos));
         }
     }
 }

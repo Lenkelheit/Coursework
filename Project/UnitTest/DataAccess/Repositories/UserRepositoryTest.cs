@@ -198,6 +198,52 @@ namespace UnitTest.DataAccess.Repositories
             Assert.AreEqual(expectedUser, usersFromDb);
         }
         [TestMethod]
+        public void GetByNickname_HasAllColumn()
+        {
+            // Arrange
+            UserRepository userRepository = new UserRepository(dbContext);
+            string nameToSearch = "Harold";
+
+            string expectedNickname = "Harold";
+            string expectedPassword = "1111";
+            string expectedAvatarPath = "1223/466/64.jpg";
+            bool expectedIsAdminValue = true;
+            int expectedFollowersAmount = 0;
+            int expectedFollowingAmount = 2;
+            int expectedPhotoAmount = 2;
+            int expectedCommentAmount = 0;
+            int expectedMessagesAmount = 2;
+            int expectedCommentLikeAmount = 3;
+            int expectedPhotoLikeAmount = 4;
+
+            // Act
+            User usersFromDb = userRepository.Get(nameToSearch);
+            string actualNickname = usersFromDb.NickName;
+            string actualPassword = usersFromDb.Password;
+            string actualAvatarPath = usersFromDb.MainPhotoPath;
+            bool actualIsAdminValue = usersFromDb.IsAdmin;
+            int actualFollowersAmount = usersFromDb.Followers.Count;
+            int actualFollowingAmount = usersFromDb.Following.Count;
+            int actualPhotoAmount = usersFromDb.Photos.Count;
+            int actualCommentAmount = usersFromDb.Comments.Count;
+            int actualMessagesAmount = usersFromDb.Messages.Count;
+            int actualCommentLikeAmount = usersFromDb.CommentLikes.Count;
+            int actualPhotoLikeAmount = usersFromDb.PhotoLikes.Count;
+
+            // Assert
+            Assert.AreEqual(expectedNickname, actualNickname, "Nicknames are not the same");
+            Assert.AreEqual(expectedPassword, actualPassword, "Passwords are not the same");
+            Assert.AreEqual(expectedAvatarPath, actualAvatarPath, "Avatar pathes are not the same");
+            Assert.AreEqual(expectedIsAdminValue, actualIsAdminValue, "Is Admin values are not the same");
+            Assert.AreEqual(expectedFollowersAmount, actualFollowersAmount, "Followers amount are not the same");
+            Assert.AreEqual(expectedFollowingAmount, actualFollowingAmount, "Following amount are not the same");
+            Assert.AreEqual(expectedPhotoAmount, actualPhotoAmount, "Photos amount are not the same");
+            Assert.AreEqual(expectedCommentAmount, actualCommentAmount, "Comments amount are not the same");
+            Assert.AreEqual(expectedMessagesAmount, actualMessagesAmount, "Messages amount are not the same");
+            Assert.AreEqual(expectedCommentLikeAmount, actualCommentLikeAmount, "Comment likes amount are not the same");
+            Assert.AreEqual(expectedPhotoLikeAmount, actualPhotoLikeAmount, "Photo likes amount are not the same");
+        }
+        [TestMethod]
         public void GetByWrongNickname_Null()
         {
             // Arrange

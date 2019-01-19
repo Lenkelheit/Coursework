@@ -17,15 +17,15 @@ namespace DataAccess.Entities
         /// <summary>
         /// An user that wrote a comment
         /// </summary>
-		public User User { get; set; }
+		public virtual User User { get; set; }
         /// <summary>
         /// A photo to wich comment has been wriiten
         /// </summary>
-        public Photo Photo { get; set; }
+        public virtual Photo Photo { get; set; }
         /// <summary>
         /// A collection of likes to current comment
         /// </summary>
-		public ICollection<CommentLike> Likes { get; set; } = new List<CommentLike>();
+		public virtual ICollection<CommentLike> Likes { get; set; } = new List<CommentLike>();
         /// <summary>
         /// Comment's text
         /// </summary>
