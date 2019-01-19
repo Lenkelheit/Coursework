@@ -33,7 +33,7 @@ namespace Core.Configuration
         /// <summary>
         /// Folder with photos
         /// </summary>
-        public static readonly string PHOTO_SAVE_FOLDER = string.Join(DIRECTORY_SEPARATOR_STR, DIRECTORY_EXE_PATH, "Images");
+        public static readonly string PHOTOS_SAVE_FOLDER = string.Join(DIRECTORY_SEPARATOR_STR, DIRECTORY_EXE_PATH, "Images");
         /// <summary>
         /// A path to saved photos.
         /// <para/>
@@ -43,6 +43,6 @@ namespace Core.Configuration
         /// {1} — photo id  <para/>
         /// {2} — extension with . <para/>
         /// </summary>
-        public static readonly string PHOTOS_SAVE_PATH_FORMAT = string.Join(DIRECTORY_SEPARATOR_STR, PHOTO_SAVE_FOLDER, "{0}", "{1}{2}");
+        public static readonly string PHOTOS_SAVE_PATH_FORMAT = string.Join(DIRECTORY_SEPARATOR_STR, PHOTOS_SAVE_FOLDER, "{0}", "{1}{2}");
     }
 }

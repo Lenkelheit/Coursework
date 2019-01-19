@@ -61,20 +61,21 @@
                 Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, $"User can not log in, because his nickname is wrong");
                 return;
             }
-            if (!validNamaAndPassword.IsNameValid)
+            if (!validNamaAndPassword.IsPasswordValid)
             {
                 registrationViewModel.WindowManager.ShowMessageWindow(Core.Messages.Info.ViewModel.Command.Registration.PASSWORD_IS_WRONG);
                 Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, $"User can not log in, because his password is wrong");
                 return;
             }
 
-
+            // gets current user
+            DataAccess.Entities.User user = registrationViewModel.UnitOfWork.UserRepository.Get(registrationViewModel.Nickname);
 
             // open new window with current user
             Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, "User logged in. Registration window close. Main window opens.");
             registrationViewModel.WindowManager.SwitchMainWindow(
-                key: nameof(Galagram.Window.User.MainWindow),
-                viewModel: new ViewModel.User.MainWindowViewModel(user: registrationViewModel.UnitOfWork.UserRepository.Get(registrationViewModel.Nickname)));
+                key: nameof(Window.User.MainWindow),
+                viewModel: new ViewModel.User.MainWindowViewModel(loggedUser: user, shownUser: user));
             
         }
     }

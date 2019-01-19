@@ -8,6 +8,6 @@
         /// <summary>
         /// A comment to which like has been set
         /// </summary>
-		public Comment Comment { get; set; }
+		public virtual Comment Comment { get; set; }
 	}
 }

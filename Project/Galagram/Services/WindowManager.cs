@@ -275,27 +275,42 @@ namespace Galagram.Services
         /// <param name="viewModel">
         /// A DataContext for window.
         /// </param>
+        /// <param name="doCloseAllWindow">
+        /// Determines if need to close all windows
+        /// </param>
         /// <exception cref="ArgumentNullException">
         /// Throws when <paramref name="key"/> is null.
         /// </exception>
         /// <exception cref="InvalidOperationException">
         /// Throws when key was not registered before.
         /// </exception>
-        public void SwitchMainWindow(string key, object viewModel)
+        public void SwitchMainWindow(string key, object viewModel, bool doCloseAllWindow = false)
         {
             // get current main window
-            System.Windows.Window oldWindow = App.Current.MainWindow;
+            System.Windows.Window oldMainWindow = App.Current.MainWindow;
 
             // get new window by key
-            System.Windows.Window newWindow = MakeInstance(key);
-            newWindow.DataContext = viewModel;
+            System.Windows.Window newMainWindow = MakeInstance(key);
+            newMainWindow.DataContext = viewModel;
 
             // set it as a new main window
-            App.Current.MainWindow = newWindow;
+            App.Current.MainWindow = newMainWindow;
 
             // switch windows
-            oldWindow.Close();
-            newWindow.ShowDialog();
+            if (doCloseAllWindow)
+            {
+                // close all opened window
+                foreach (System.Windows.Window window in App.Current.Windows)
+                {
+                    if (window != newMainWindow) window.Close();
+                }
+            }
+            else
+            {
+                // close only current main window
+                oldMainWindow.Close();
+            }
+            newMainWindow.ShowDialog();
         }
     }
 }

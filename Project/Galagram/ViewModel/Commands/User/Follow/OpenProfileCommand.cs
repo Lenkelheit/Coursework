@@ -1,9 +1,9 @@
-﻿namespace Galagram.ViewModel.Commands.User.Search
+﻿namespace Galagram.ViewModel.Commands.User.Follow
 {
     public class OpenProfileCommand : CommandBase
     {
         // CONSTRUCTORS
-        public OpenProfileCommand(int userId)
+        public OpenProfileCommand(ViewModel.User.FollowViewModel followViewModel)
         {
             throw new System.NotImplementedException();
         }

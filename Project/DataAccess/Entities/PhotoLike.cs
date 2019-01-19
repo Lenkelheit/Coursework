@@ -8,6 +8,6 @@
         /// <summary>
         /// A photo to which like has been set
         /// </summary>
-        public Photo Photo { get; set; }
+        public virtual Photo Photo { get; set; }
     }
 }

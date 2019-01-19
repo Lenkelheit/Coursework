@@ -32,7 +32,7 @@ namespace Galagram.ViewModel.Commands.User.MainWindow
         /// Check if command can be executed
         /// </summary>
         /// <param name="parameter">
-        /// Additionals parameters
+        /// Additional parameters
         /// </param>
         /// <returns>
         /// True if command can be executed, otherwise — false
@@ -78,9 +78,14 @@ namespace Galagram.ViewModel.Commands.User.MainWindow
                         Path = serverPath
                     };
 
-                    Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, "Add photo to view");
-                    mainWindowViewModel.Photos.Add(photo);
+                    // add photo to a view, if only user is on his own page
+                    if (mainWindowViewModel.IsCurrentUserShown)
+                    {
+                        Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, "Add photo to view");
+                        mainWindowViewModel.Photos.Add(photo);
+                    }
 
+                    // insert photo to DB
                     Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, "Insert photo to photo repositories");
                     mainWindowViewModel.UnitOfWork.PhotoRepository.Insert(photo);                   
                 }
@@ -89,7 +94,7 @@ namespace Galagram.ViewModel.Commands.User.MainWindow
                 Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, "Save changes to DataBase");                             
                 mainWindowViewModel.UnitOfWork.Save();
 
-                // go to your profile
+                // go to your profile, if can
                 if (mainWindowViewModel.GoHomeCommand.CanExecute(null))
                 {
                     Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, "Go to your profile");
@@ -101,13 +106,13 @@ namespace Galagram.ViewModel.Commands.User.MainWindow
         private string CopyPhotoToServer(string pathToPhoto, int userId, int photoId)
         {
             // create photo folder if neaded
-            if (!System.IO.Directory.Exists(Core.Configuration.AppConfig.PHOTO_SAVE_FOLDER))
+            if (!System.IO.Directory.Exists(Core.Configuration.AppConfig.PHOTOS_SAVE_FOLDER))
             {
                 Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, "Create photo folder");
-                System.IO.Directory.CreateDirectory(Core.Configuration.AppConfig.PHOTO_SAVE_FOLDER);
+                System.IO.Directory.CreateDirectory(Core.Configuration.AppConfig.PHOTOS_SAVE_FOLDER);
             }
             // create folder for current user if neaded
-            string userFolder = string.Join(System.IO.Path.DirectorySeparatorChar.ToString(), Core.Configuration.AppConfig.PHOTO_SAVE_FOLDER, userId);
+            string userFolder = string.Join(System.IO.Path.DirectorySeparatorChar.ToString(), Core.Configuration.AppConfig.PHOTOS_SAVE_FOLDER, userId);
             if (!System.IO.Directory.Exists(userFolder))
             {
                 Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, "Create user folder");

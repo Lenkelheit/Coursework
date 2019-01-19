@@ -25,6 +25,6 @@ namespace DataAccess.Entities
         /// <summary>
         /// A collection of messages with current subject
         /// </summary>
-        public ICollection<Message> Messages { get; set; } = new List<Message>();
+        public virtual ICollection<Message> Messages { get; set; } = new List<Message>();
     }
 }

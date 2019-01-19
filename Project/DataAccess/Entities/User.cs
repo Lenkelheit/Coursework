@@ -36,31 +36,31 @@ namespace DataAccess.Entities
         /// <summary>
         /// A collection of photos posted by user
         /// </summary>
-	    public ICollection<Photo> Photos { get; set; } = new List<Photo>();
+	    public virtual ICollection<Photo> Photos { get; set; } = new List<Photo>();
         /// <summary>
         /// A follower collection
         /// </summary>
-	    public ICollection<User> Followers { get; set; } = new List<User>();
+	    public virtual ICollection<User> Followers { get; set; } = new List<User>();
         /// <summary>
         /// A following collection
         /// </summary>
-	    public ICollection<User> Following { get; set; } = new List<User>();
+	    public virtual ICollection<User> Following { get; set; } = new List<User>();
         /// <summary>
         /// A comments collection
         /// </summary>
-        public ICollection<Comment> Comments { get; set; } = new List<Comment>();
+        public virtual ICollection<Comment> Comments { get; set; } = new List<Comment>();
         /// <summary>
         /// A likes to photo collection
         /// </summary>
-        public ICollection<PhotoLike> PhotoLikes { get; set; } = new List<PhotoLike>();
+        public virtual ICollection<PhotoLike> PhotoLikes { get; set; } = new List<PhotoLike>();
         /// <summary>
         /// A like to comments collection
         /// </summary>
-        public ICollection<CommentLike> CommentLikes { get; set; } = new List<CommentLike>();
+        public virtual ICollection<CommentLike> CommentLikes { get; set; } = new List<CommentLike>();
         /// <summary>
         /// A messages collection
         /// </summary>
-        public ICollection<Message> Messages { get; set; } = new List<Message>();
+        public virtual ICollection<Message> Messages { get; set; } = new List<Message>();
         /// <summary>
         /// Defines is current user an admin
         /// </summary>
