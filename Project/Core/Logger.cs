@@ -48,6 +48,7 @@ namespace Core
         /// <param name="message">
         /// Log message
         /// </param>
+        [System.Obsolete("Core.Logger.Log has been deprecated. Please use other method Core.Logger.LogAsync", false)]
         public void Log(LogMode logMode, string message)
         {
             try

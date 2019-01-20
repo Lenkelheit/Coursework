@@ -16,7 +16,7 @@ namespace Core.Configuration
         /// </summary>
         public static readonly string DIRECTORY_EXE_PATH = System.AppDomain.CurrentDomain.BaseDirectory;
 
-
+        // LOG
         internal static readonly string LOG_DIRECTORY = string.Join(DIRECTORY_SEPARATOR_STR, DIRECTORY_EXE_PATH, "Log");
         /// <summary>
         /// A path to a file with logs.
@@ -29,7 +29,20 @@ namespace Core.Configuration
         /// </summary>
         public static readonly string LOG_TEMPLATE_FORMAT = "-{0}- [{1}] \t {2}\n";
 
+        // AVATARS
+        /// <summary>
+        /// Folder with avatars
+        /// </summary>
+        public static readonly string AVATAR_FOLDER = string.Join(DIRECTORY_SEPARATOR_STR, DIRECTORY_EXE_PATH, "Avatars");
+        /// <summary>
+        /// A path to avatar image
+        /// <para/>
+        /// {0} — avatar name, user id <para/>
+        /// {1} — extension with . <para/>
+        /// </summary>
+        public static readonly string AVATAR_FORMAT = string.Join(DIRECTORY_SEPARATOR_STR, AVATAR_FOLDER, "{0}{1}");
 
+        // PHOTOS
         /// <summary>
         /// Folder with photos
         /// </summary>
@@ -44,5 +57,18 @@ namespace Core.Configuration
         /// {2} — extension with . <para/>
         /// </summary>
         public static readonly string PHOTOS_SAVE_PATH_FORMAT = string.Join(DIRECTORY_SEPARATOR_STR, PHOTOS_SAVE_FOLDER, "{0}", "{1}{2}");
+        
+        // TEMP
+        /// <summary>
+        /// Folder with temporary files
+        /// </summary>
+        public static readonly string TEMP_FOLDER = string.Join(DIRECTORY_SEPARATOR_STR, DIRECTORY_EXE_PATH, "Temp");
+        /// <summary>
+        /// A path to temporary file
+        /// <para/>
+        /// {0} — temp file name <para/>
+        /// {1} — extension with . <para/>
+        /// </summary>
+        public static readonly string TEMP_FILE_FORMAT = string.Join(DIRECTORY_SEPARATOR_STR, TEMP_FOLDER, "{0}{1}");
     }
 }
