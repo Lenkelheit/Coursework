@@ -44,22 +44,38 @@
             </Grid.ColumnDefinitions>
             
             <!--IMAGE-->
-            <Image Grid.Row="0" Grid.Column="0" Source="/Resources/OtherImg/NoImg.png" Margin="5"/>
+            <Image Grid.Row="0" Grid.Column="0" Margin="5">
+                <Image.Source>
+                    <Binding Path="TempAvatarPath">
+                        <Binding.TargetNullValue>
+                            <ImageSource>/Resources/OtherImg/NoImg.png</ImageSource>
+                        </Binding.TargetNullValue>
+                        <Binding.FallbackValue>
+                            <ImageSource>/Resources/OtherImg/NoImg.png</ImageSource>
+                        </Binding.FallbackValue>
+                    </Binding>
+                </Image.Source>
+            </Image>
 
             <Button Grid.Row="0" Grid.Column="1" Content="load new image" 
                     Style="{StaticResource ClickButton}"
-                    Height="50" Margin="15"/>
+                    Height="50" Margin="15"
+                    Command="{Binding LoadNewAvatarCommand}"/>
             <!--CONFIG-->
             <Label Grid.Row="1" Grid.Column="0" Content="Nickname" Style="{StaticResource H1LeftLabel}"/>
             <Label Grid.Row="2" Grid.Column="0" Content="Password" Style="{StaticResource H1LeftLabel}"/>
             <Label Grid.Row="3" Grid.Column="0" Content="New Password" Style="{StaticResource H1LeftLabel}"/>
 
-            <TextBox Grid.Row="1" Grid.Column="1"/>
-            <TextBox Grid.Row="2" Grid.Column="1"/>
-            <TextBox Grid.Row="3" Grid.Column="1"/>
+            <TextBox Grid.Row="1" Grid.Column="1" 
+                     Text="{Binding NewNickname, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            <TextBox Grid.Row="2" Grid.Column="1" 
+                     Text="{Binding Password,    Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            <TextBox Grid.Row="3" Grid.Column="1" 
+                     Text="{Binding NewPassword, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
         </Grid>
         
         <!--BUTTON-->        
-        <Button Grid.Row="3" Content="Apply Changes" Style="{StaticResource ClickButton}"/>
+        <Button Grid.Row="3" Content="Apply Changes" Style="{StaticResource ClickButton}"
+                Command="{Binding ApplyChangesCommand}"/>
     </Grid>
 </Window>

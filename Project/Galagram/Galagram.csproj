@@ -123,6 +123,7 @@
     <Compile Include="ViewModel\Commands\User\Search\SearchCommand.cs" />
     <Compile Include="ViewModel\Commands\User\Setting\ApplyChangesCommand.cs" />
     <Compile Include="ViewModel\Commands\User\Setting\LoadNewAvatarCommand.cs" />
+    <Compile Include="ViewModel\Enums\User\SettingField.cs" />
     <Compile Include="ViewModel\ViewModelBase.cs" />
     <Compile Include="ViewModel\ViewModel\RegistrationViewModel.cs" />
     <Compile Include="ViewModel\ViewModel\User\AskQuestionViewModel.cs" />
@@ -177,11 +178,19 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Theme\User\Pincky\Styles\Collections.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Theme\User\Pincky\Styles\Default.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Theme\User\Pincky\Styles\Texts.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Theme\User\Pincky\Templates\Collections.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

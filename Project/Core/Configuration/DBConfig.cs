@@ -62,7 +62,7 @@
         /// <summary>
         /// Avatar server path strng max length
         /// </summary>
-        public const int AVATAR_MAX_LENGTH = 64;
+        public const int AVATAR_MAX_LENGTH = 264;
 
         /// <summary>
         /// User nickname text min length

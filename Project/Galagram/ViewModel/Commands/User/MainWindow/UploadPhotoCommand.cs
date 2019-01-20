@@ -62,6 +62,7 @@ namespace Galagram.ViewModel.Commands.User.MainWindow
             {
                 Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, "Adding photo");
 
+                int insertedPhotoCount = 0; // cuz Count() do not change after insert, needs for multiple photos adding
                 foreach (var photoPath in openFileDialog.FileNames)
                 {
                     Core.Logger.GetLogger.LogAsync(Core.LogMode.Info, $"Photo path {photoPath}");
@@ -69,9 +70,10 @@ namespace Galagram.ViewModel.Commands.User.MainWindow
                     string serverPath = CopyPhotoToServer(
                         pathToPhoto: photoPath,
                         userId: mainWindowViewModel.LoggedUser.Id,
-                        photoId: mainWindowViewModel.UnitOfWork.PhotoRepository.Count() + 1);
+                        photoId: mainWindowViewModel.UnitOfWork.PhotoRepository.Count() + 1 + insertedPhotoCount);
                     Core.Logger.GetLogger.LogAsync(Core.LogMode.Info, $"Server photo path {serverPath}");
 
+                    // create photo
                     DataAccess.Entities.Photo photo = new DataAccess.Entities.Photo
                     {
                         User = mainWindowViewModel.LoggedUser,
@@ -87,7 +89,8 @@ namespace Galagram.ViewModel.Commands.User.MainWindow
 
                     // insert photo to DB
                     Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, "Insert photo to photo repositories");
-                    mainWindowViewModel.UnitOfWork.PhotoRepository.Insert(photo);                   
+                    mainWindowViewModel.UnitOfWork.PhotoRepository.Insert(photo);
+                    ++insertedPhotoCount;
                 }
 
                 // save to DB

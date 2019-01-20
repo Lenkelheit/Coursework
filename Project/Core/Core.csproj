@@ -52,16 +52,10 @@
     <Compile Include="Messages\Error\View.cs" />
     <Compile Include="Messages\Info\ViewModel\Command\Registration.cs" />
     <Compile Include="Messages\Info\ViewModel\Command\User\AskQuestion\Ask.cs" />
-    <Compile Include="Messages\Info\ViewModel\Command\User\Follow\DeleteFollow.cs" />
-    <Compile Include="Messages\Info\ViewModel\Command\User\General\OpenProfile.cs" />
-    <Compile Include="Messages\Info\ViewModel\Command\User\MainWindow\AskQuestion.cs" />
+    <Compile Include="Messages\Info\ViewModel\Command\User\Setting\ApplyChanges.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Messages\Info\ViewModel\Command\User\PhotoInside\" />
-    <Folder Include="Messages\Info\ViewModel\Command\User\Search\" />
-    <Folder Include="Messages\Info\ViewModel\Command\User\Setting\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

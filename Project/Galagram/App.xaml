@@ -12,10 +12,12 @@
                 <ResourceDictionary Source="Theme/User/Pincky/Brushes.xaml" />
                     <!--TEMPLATES-->
                 <ResourceDictionary Source="Theme/User/Pincky/Templates/Default.xaml" />
+                <ResourceDictionary Source="Theme/User/Pincky/Templates/Collections.xaml" />
                 <ResourceDictionary Source="Theme/User/Pincky/Templates/Buttons.xaml" />
                 <ResourceDictionary Source="Theme/User/Pincky/Templates/Texts.xaml" />
                     <!--STYLES-->
                 <ResourceDictionary Source="Theme/User/Pincky/Styles/Default.xaml" />
+                <ResourceDictionary Source="Theme/User/Pincky/Styles/Collections.xaml" />
                 <ResourceDictionary Source="Theme/User/Pincky/Styles/Buttons.xaml" />
                 <ResourceDictionary Source="Theme/User/Pincky/Styles/Texts.xaml" />
                 

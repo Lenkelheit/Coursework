@@ -36,7 +36,7 @@
         /// <summary>
         /// Password is wrong
         /// </summary>
-        public static readonly string PASSWORD_IS_WRONG = "Current password is wrond";
+        public static readonly string PASSWORD_IS_WRONG = "Current password is wrong";
         /// <summary>
         /// Nickname is not available message
         /// </summary>
