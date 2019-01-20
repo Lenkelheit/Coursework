@@ -10,7 +10,8 @@
         MinHeight="300" MinWidth="500"
         WindowStartupLocation="CenterScreen"
         Style="{StaticResource ModalWindowResizable}">
-    <Grid>
+
+    <Grid FocusManager.FocusedElement="{Binding ElementName=SearchTextBox}">
         <!--SCALING-->
         <Grid.RowDefinitions>
             <RowDefinition Height="40"/>
@@ -26,7 +27,8 @@
             </Grid.ColumnDefinitions>
 
             <Label Grid.Column="0" Content="Search" Style="{StaticResource HeaderLabel}"/>
-            <Button Grid.Column="1" Click="Exit" Style="{StaticResource HeaderButton}">
+            <Button Grid.Column="1" Click="Exit" Style="{StaticResource HeaderButton}"
+                    IsCancel="True">
                 <Image Source="/Resources/MenuImg/Exit.png"/>
             </Button>
         </Grid>
@@ -37,8 +39,11 @@
                 <ColumnDefinition Width="60"/>
             </Grid.ColumnDefinitions>
 
-            <TextBox Grid.Column="0" Text="{Binding Text, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}"/>
+            <TextBox Grid.Column="0" 
+                     Text="{Binding Text, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}"
+                     Name="SearchTextBox"/>
             <Button Grid.Column="1" Style="{StaticResource ImgButton}"
+                    IsDefault="True"
                     Command="{Binding SearchCommand}">
                 <Image Source="/Resources/MenuImg/Search.png"/>
             </Button>

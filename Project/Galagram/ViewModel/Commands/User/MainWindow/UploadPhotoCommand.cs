@@ -69,14 +69,14 @@ namespace Galagram.ViewModel.Commands.User.MainWindow
                     // copy photo to server
                     string serverPath = CopyPhotoToServer(
                         pathToPhoto: photoPath,
-                        userId: mainWindowViewModel.LoggedUser.Id,
+                        userId: mainWindowViewModel.DataStorage.LoggedUser.Id,
                         photoId: mainWindowViewModel.UnitOfWork.PhotoRepository.Count() + 1 + insertedPhotoCount);
                     Core.Logger.GetLogger.LogAsync(Core.LogMode.Info, $"Server photo path {serverPath}");
 
                     // create photo
                     DataAccess.Entities.Photo photo = new DataAccess.Entities.Photo
                     {
-                        User = mainWindowViewModel.LoggedUser,
+                        User = mainWindowViewModel.DataStorage.LoggedUser,
                         Path = serverPath
                     };
 

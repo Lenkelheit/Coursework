@@ -6,7 +6,7 @@ namespace Galagram.ViewModel.ViewModel.User
     public class PhotoInsideViewModel : ViewModelBase
     {
         // CONSTRUCTORS
-        public PhotoInsideViewModel(DataAccess.Entities.User user)
+        public PhotoInsideViewModel()
         {
             throw new System.NotImplementedException();
         }

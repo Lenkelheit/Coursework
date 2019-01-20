@@ -46,7 +46,7 @@
             Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, $"Execute {nameof(SearchUserCommand)}");
 
             Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, $"Opens search window modal");
-            mainWindowViewModel.WindowManager.ShowWindowDialog(nameof(Window.User.Search), new ViewModel.User.SearchViewModel(mainWindowViewModel.LoggedUser));
+            mainWindowViewModel.WindowManager.ShowWindowDialog(nameof(Window.User.Search), new ViewModel.User.SearchViewModel());
         }
     }
 }

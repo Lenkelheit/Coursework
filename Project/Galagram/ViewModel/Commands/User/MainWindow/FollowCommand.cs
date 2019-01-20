@@ -46,8 +46,20 @@
             Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, $"Execute {nameof(FollowCommand)}");
 
             Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, $"Gets to shwon user followers current user");
-            mainWindowViewModel.User.Followers.Add(mainWindowViewModel.LoggedUser);
+
+            bool isFollowing = mainWindowViewModel.IsFollowing;
+            if (isFollowing)// unfollow
+            {
+                mainWindowViewModel.User.Followers.Remove(mainWindowViewModel.DataStorage.LoggedUser);
+            }
+            else // follow
+            {
+                mainWindowViewModel.User.Followers.Add(mainWindowViewModel.DataStorage.LoggedUser);
+            }
+            mainWindowViewModel.IsFollowing = !isFollowing;
+
             mainWindowViewModel.UnitOfWork.UserRepository.Update(mainWindowViewModel.User);
+            mainWindowViewModel.UnitOfWork.UserRepository.Update(mainWindowViewModel.DataStorage.LoggedUser);
             mainWindowViewModel.UnitOfWork.Save();
         }
     }

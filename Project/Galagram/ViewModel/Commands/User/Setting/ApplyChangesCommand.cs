@@ -55,9 +55,9 @@ namespace Galagram.ViewModel.Commands.User.Setting
                 return;
             }
 
-            if (settingViewModel.Password != settingViewModel.User.Password)
+            if (settingViewModel.Password != settingViewModel.DataStorage.LoggedUser.Password)
             {
-                settingViewModel.Logger.LogAsync(Core.LogMode.Debug, $"Changes can not be applied. Password is wrong. User password = {settingViewModel.User.Password}, written password = {settingViewModel.Password}");
+                settingViewModel.Logger.LogAsync(Core.LogMode.Debug, $"Changes can not be applied. Password is wrong. User password = {settingViewModel.DataStorage.LoggedUser.Password}, written password = {settingViewModel.Password}");
                 settingViewModel.WindowManager.ShowMessageWindow(Core.Messages.Info.ViewModel.Command.User.Setting.ApplyChanges.PASSWORD_IS_NOT_THE_SAME);
                 return;
             }
@@ -66,7 +66,7 @@ namespace Galagram.ViewModel.Commands.User.Setting
             if (settingViewModel.DoesFieldChanged((int)SettingFieldChanged.Avatar))
             {
                 settingViewModel.Logger.LogAsync(Core.LogMode.Debug, "Sets new avatar");
-                settingViewModel.Logger.LogAsync(Core.LogMode.Info, $"Old avatar = {settingViewModel.User.MainPhotoPath}, temp avatar = {settingViewModel.TempAvatarPath}");
+                settingViewModel.Logger.LogAsync(Core.LogMode.Info, $"Old avatar = {settingViewModel.DataStorage.LoggedUser.MainPhotoPath}, temp avatar = {settingViewModel.TempAvatarPath}");
 
                 // create folder if not exist
                 if (!System.IO.Directory.Exists(Core.Configuration.AppConfig.AVATAR_FOLDER))
@@ -78,36 +78,36 @@ namespace Galagram.ViewModel.Commands.User.Setting
                 // generate constant avatar path
                 settingViewModel.Logger.LogAsync(Core.LogMode.Debug, "Move avatar to constant folder");
                 string tempAvatarPath = settingViewModel.TempAvatarPath;
-                string constAvatarPath = string.Format(Core.Configuration.AppConfig.AVATAR_FORMAT, settingViewModel.User.Id, System.IO.Path.GetExtension(tempAvatarPath));
+                string constAvatarPath = string.Format(Core.Configuration.AppConfig.AVATAR_FORMAT, settingViewModel.DataStorage.LoggedUser.Id, System.IO.Path.GetExtension(tempAvatarPath));
 
                 // move photo to thet folder
                 System.IO.File.Copy(tempAvatarPath, constAvatarPath, overwrite: true);
                 settingViewModel.Logger.LogAsync(Core.LogMode.Info, $"Temp avatar = {tempAvatarPath}, const avatar = {constAvatarPath}");
 
                 // set new avatar
-                settingViewModel.User.MainPhotoPath = constAvatarPath;
+                settingViewModel.DataStorage.LoggedUser.MainPhotoPath = constAvatarPath;
                 settingViewModel.TempAvatarPath = constAvatarPath;
             }
 
             if (settingViewModel.DoesFieldChanged((int)SettingFieldChanged.Nickname))
             {
                 settingViewModel.Logger.LogAsync(Core.LogMode.Debug, "Sets new nickname");
-                settingViewModel.Logger.LogAsync(Core.LogMode.Info, $"Old nickname = {settingViewModel.User.NickName}, new nickname = {settingViewModel.NewNickname}");
+                settingViewModel.Logger.LogAsync(Core.LogMode.Info, $"Old nickname = {settingViewModel.DataStorage.LoggedUser.NickName}, new nickname = {settingViewModel.NewNickname}");
 
-                settingViewModel.User.NickName = settingViewModel.NewNickname;
+                settingViewModel.DataStorage.LoggedUser.NickName = settingViewModel.NewNickname;
             }
 
             if (settingViewModel.DoesFieldChanged((int)SettingFieldChanged.Password))
             {
                 settingViewModel.Logger.LogAsync(Core.LogMode.Debug, "Sets new password");
-                settingViewModel.Logger.LogAsync(Core.LogMode.Info, $"Old password = {settingViewModel.User.Password}, new password = {settingViewModel.Password}");
+                settingViewModel.Logger.LogAsync(Core.LogMode.Info, $"Old password = {settingViewModel.DataStorage.LoggedUser.Password}, new password = {settingViewModel.Password}");
 
-                settingViewModel.User.Password = settingViewModel.NewPassword;
+                settingViewModel.DataStorage.LoggedUser.Password = settingViewModel.NewPassword;
             }
 
             // update databese
             settingViewModel.Logger.LogAsync(Core.LogMode.Debug, "Update user");
-            settingViewModel.UnitOfWork.UserRepository.Update(settingViewModel.User);
+            settingViewModel.UnitOfWork.UserRepository.Update(settingViewModel.DataStorage.LoggedUser);
             settingViewModel.UnitOfWork.Save();
 
             // reset fields

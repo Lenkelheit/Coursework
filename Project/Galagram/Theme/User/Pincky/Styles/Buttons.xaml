@@ -25,6 +25,25 @@
             </Trigger>
         </Style.Triggers>
     </Style>
+    <!--CLICK BUTTON FOLLOW-->
+    <Style TargetType="Button" x:Key="FollowButton" BasedOn="{StaticResource ClickButton}">
+        <Style.Triggers>
+            <!--VISIBILITY-->
+            <DataTrigger Binding="{Binding IsCurrentUserShown}" Value="True">
+                <Setter Property="Visibility" Value="Collapsed"/>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding IsCurrentUserShown}" Value="False">
+                <Setter Property="Visibility" Value="Visible"/>
+            </DataTrigger>
+            <!--TEXT-->
+            <DataTrigger Binding="{Binding IsFollowing}" Value="True">
+                <Setter Property="Content" Value="Un Follow"/>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding IsFollowing}" Value="False">
+                <Setter Property="Content" Value="Follow"/>
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
     <!--LIKE PHOTO BUTTON-->
     <Style TargetType="Button" x:Key="LikePhotoButton" BasedOn="{StaticResource ButtonBase}">
         <Setter Property="Background" Value="{StaticResource WhiteBrush}"/>

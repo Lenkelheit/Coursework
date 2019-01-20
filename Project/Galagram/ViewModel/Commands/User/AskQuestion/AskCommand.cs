@@ -25,7 +25,7 @@
         {
             this.askQuestionViewModel = askQuestionViewModel;
         }
-        // MEHTODS
+        // METHODS
         /// <summary>
         /// Check if command  can be executed
         /// </summary>
@@ -61,7 +61,7 @@
             {
                 Subject = askQuestionViewModel.Subjects[askQuestionViewModel.SelectedSubjectIndex],
                 Text = askQuestionViewModel.Message,
-                User = askQuestionViewModel.User,
+                User = askQuestionViewModel.DataStorage.LoggedUser,
             };
             Core.Logger.GetLogger.LogAsync(Core.LogMode.Info, $"Create new message with: Subject: {message.Subject.Name}, Message Length: {message.Text.Length}, Messge: {message.Text}, User NickName: {message.User.NickName}, Date: {message.Date}");
 

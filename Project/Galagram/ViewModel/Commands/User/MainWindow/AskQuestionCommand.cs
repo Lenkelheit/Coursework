@@ -51,7 +51,7 @@
             Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, $"Execute {nameof(AskQuestionCommand)}");
 
             Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, $"Open modal AskQuestion window");
-            mainWindowViewModel.WindowManager.ShowWindowDialog(nameof(Window.User.AskQuestion), new ViewModel.User.AskQuestionViewModel(mainWindowViewModel.LoggedUser));
+            mainWindowViewModel.WindowManager.ShowWindowDialog(nameof(Window.User.AskQuestion), new ViewModel.User.AskQuestionViewModel());
         }
     }
 }

@@ -96,6 +96,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Services\DataStorage.cs" />
     <Compile Include="ViewModel\CommandBase.cs" />
     <Compile Include="ViewModel\Commands\Registration\LogInCommand.cs" />
     <Compile Include="ViewModel\Commands\Registration\SignUpCommand.cs" />
@@ -123,6 +124,7 @@
     <Compile Include="ViewModel\Commands\User\Search\SearchCommand.cs" />
     <Compile Include="ViewModel\Commands\User\Setting\ApplyChangesCommand.cs" />
     <Compile Include="ViewModel\Commands\User\Setting\LoadNewAvatarCommand.cs" />
+    <Compile Include="ViewModel\Enums\User\FollowMode.cs" />
     <Compile Include="ViewModel\Enums\User\SettingField.cs" />
     <Compile Include="ViewModel\ViewModelBase.cs" />
     <Compile Include="ViewModel\ViewModel\RegistrationViewModel.cs" />

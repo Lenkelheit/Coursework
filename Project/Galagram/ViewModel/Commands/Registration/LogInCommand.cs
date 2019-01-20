@@ -70,12 +70,14 @@
 
             // gets current user
             DataAccess.Entities.User user = registrationViewModel.UnitOfWork.UserRepository.Get(registrationViewModel.Nickname);
+            registrationViewModel.DataStorage.LoggedUser = user;
+            registrationViewModel.DataStorage.ShownUser = user;
 
             // open new window with current user
             Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, "User logged in. Registration window close. Main window opens.");
             registrationViewModel.WindowManager.SwitchMainWindow(
                 key: nameof(Window.User.MainWindow),
-                viewModel: new ViewModel.User.MainWindowViewModel(loggedUser: user, shownUser: user));
+                viewModel: new ViewModel.User.MainWindowViewModel());
             
         }
     }
