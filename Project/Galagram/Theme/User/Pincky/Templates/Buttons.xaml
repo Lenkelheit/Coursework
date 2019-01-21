@@ -3,9 +3,10 @@
 
     <!--BUTTON-->
     <ControlTemplate TargetType="Button" x:Key="ButtonTemplate">
-        <Border Background="{TemplateBinding Background}"
-                            BorderBrush="{StaticResource BlackBrush}" 
-                            BorderThickness="{TemplateBinding BorderThickness}">
+        <Border 
+                Background="{TemplateBinding Background}"
+                BorderBrush="{StaticResource BlackBrush}" 
+                BorderThickness="{TemplateBinding BorderThickness}">
             <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
         </Border>
     </ControlTemplate>
@@ -26,7 +27,7 @@
         </ControlTemplate.Triggers>
     </ControlTemplate>
 
-
+    <!--BUTTONS FOR LIKE AND DISLIKE COMMENT-->
     <ControlTemplate TargetType="Button" x:Key="PlusButtonTemplate">
         <Path x:Name="PlusPath" 
             Data="M0,5 H10 M5,5 V10Z"

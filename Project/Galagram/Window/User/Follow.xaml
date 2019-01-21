@@ -36,8 +36,8 @@
 
         <!--FOLLOW LIST BOX-->
         <ListBox Grid.Row="2" Style="{StaticResource ListBoxFollow}"
-                 SelectedIndex="{Binding SelectedFollowIndex, Mode=OneWayToSource}"
-                 ItemsSource="{Binding Follow}">
+            SelectedIndex="{Binding SelectedFollowIndex, Mode=OneWayToSource}"
+            ItemsSource="{Binding Follow}">
 
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="MouseDoubleClick">

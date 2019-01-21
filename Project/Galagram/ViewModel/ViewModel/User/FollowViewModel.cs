@@ -1,5 +1,6 @@
 using System.Linq;
 using System.Windows.Input;
+using System.Collections.ObjectModel;
 
 namespace Galagram.ViewModel.ViewModel.User
 {
@@ -13,7 +14,8 @@ namespace Galagram.ViewModel.ViewModel.User
 
         DataAccess.Entities.User shownUser;
         int selectedFollowIndex;
-        DataAccess.Entities.User[] follow;
+        #warning set it to array after optimization in future milestones
+        ObservableCollection<DataAccess.Entities.User> follow;
 
         ICommand deleteFollowCommand;
         ICommand openProfileCommand;
@@ -36,11 +38,11 @@ namespace Galagram.ViewModel.ViewModel.User
 
             if (followMode == Enums.User.FollowMode.Followers)
             {
-                this.follow = shownUser.Followers.ToArray();
+                this.follow = new ObservableCollection<DataAccess.Entities.User>(shownUser.Followers);
             }
             else if (followMode == Enums.User.FollowMode.Following)
             {
-                this.follow = shownUser.Following.ToArray();
+                this.follow = new ObservableCollection<DataAccess.Entities.User>(shownUser.Following);
             }
 
             this.deleteFollowCommand = new Commands.User.Follow.DeleteFollowCommand(this);
@@ -48,6 +50,10 @@ namespace Galagram.ViewModel.ViewModel.User
         }
 
         // PROPERTIES
+        /// <summary>
+        /// Gets mode in which window is oppened
+        /// </summary>
+        public Enums.User.FollowMode FollowMode => followMode;
         /// <summary>
         /// Gets follow window header
         /// </summary>
@@ -73,7 +79,7 @@ namespace Galagram.ViewModel.ViewModel.User
         /// <summary>
         /// Gets or sets follow user
         /// </summary>
-        public DataAccess.Entities.User[] Follow
+        public ObservableCollection<DataAccess.Entities.User> Follow
         {
             get
             {
@@ -82,7 +88,7 @@ namespace Galagram.ViewModel.ViewModel.User
             }
             set
             {
-                Logger.LogAsync(Core.LogMode.Debug, $"Sets follow user. Amount {value.Length}");
+                Logger.LogAsync(Core.LogMode.Debug, $"Sets follow user. Amount {value.Count}");
                 follow = value;
 
                 OnPropertyChanged();

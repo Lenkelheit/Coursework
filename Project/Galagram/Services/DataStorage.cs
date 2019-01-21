@@ -7,11 +7,25 @@
     /// </summary>
     public class DataStorage
     {
+        // FIELDS
+        static DataStorage instance;
+
+        // CONSTRUCTORS
+        private DataStorage()
+        {
+            LoggedUser = null;
+            ShownUser = null;
+        }
+        static DataStorage()
+        {
+            instance = new DataStorage();
+        }
+
         // PROPERTIES
         /// <summary>
         /// Gets an instance of <see cref="DataStorage"/>
         /// </summary>
-        public static DataStorage Instance { get; } = new DataStorage();
+        public static DataStorage Instance => instance;
         /// <summary>
         /// Gets or sets Logged user
         /// </summary>
@@ -25,7 +39,6 @@
         /// Gets true if current user and shown user is the same, otherwise — false
         /// </summary>
         public bool IsCurrentUserShown => LoggedUser == ShownUser;
-
 
         // METHODS
         /// <summary>

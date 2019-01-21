@@ -70,7 +70,6 @@ namespace UnitTest.DataAccess.Repositories
             int actualSubjectWith4Messages = subjectRepository.Count(subject => {Console.WriteLine(subject.Messages.Count); return subject.Messages.Count == 4; });
 
             // Assert
-            // probably fail because lazy loading
             Assert.AreEqual(expectedSubjectWithMessagesInDb, actualSubjectWith4Messages);
         }
         #endregion

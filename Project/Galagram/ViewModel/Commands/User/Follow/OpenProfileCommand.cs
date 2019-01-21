@@ -45,8 +45,16 @@
         {
             Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, $"Exetute {nameof(OpenProfileCommand)}");
 
+            // get selected index
+            int index = followViewModel.SelectedFollowIndex;
+            if (index == Core.Configuration.Constants.WRONG_INDEX)
+            {
+                Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, $"Execute {nameof(OpenProfileCommand)} suspended. Wrong index value {index}");
+                return;
+            }
+
             // gets user id
-            int userId = followViewModel.Follow[followViewModel.SelectedFollowIndex].Id;
+            int userId = followViewModel.Follow[index].Id;
             Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, $"User id {userId}");
 
             // sets new shown user

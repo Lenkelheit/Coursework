@@ -1,3 +1,6 @@
+using D = DataAccess.Entities;
+using Galagram.ViewModel.Enums.User;
+
 namespace Galagram.ViewModel.Commands.User.Follow
 {
     /// <summary>
@@ -39,12 +42,39 @@ namespace Galagram.ViewModel.Commands.User.Follow
         /// Execute the command
         /// </summary>
         /// <param name="parameter">
-        /// Command parameter
+        /// User to delete
         /// </param>
         public override void Execute(object parameter)
         {
             Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, $"Exetute {nameof(DeleteFollowCommand)}");
-            throw new System.NotImplementedException();
+
+            // gets user to delete
+            D.User userToUnFollow = (D.User)parameter;
+            Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, $"User nickname to unfollow {userToUnFollow.NickName}");
+
+            // unfolow someone from you
+            // or
+            // unfollow oneself from somebody
+            if (followViewModel.FollowMode == FollowMode.Followers)
+            {
+                Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, "Remove user from followers");
+                followViewModel.DataStorage.ShownUser.Followers.Remove(userToUnFollow);
+            }
+            else if (followViewModel.FollowMode == FollowMode.Following)
+            {
+                Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, "Remove user from following");
+                followViewModel.DataStorage.ShownUser.Following.Remove(userToUnFollow);
+            }
+
+            // update view
+            Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, "Update view");
+            followViewModel.Follow.Remove(userToUnFollow);
+
+            // update DB
+            Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, "Save changes to DataBase");
+            followViewModel.UnitOfWork.UserRepository.Update(followViewModel.DataStorage.LoggedUser);
+            followViewModel.UnitOfWork.UserRepository.Update(followViewModel.DataStorage.ShownUser);
+            followViewModel.UnitOfWork.Save();            
         }
     }
 }

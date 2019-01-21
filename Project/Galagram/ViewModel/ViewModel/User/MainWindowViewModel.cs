@@ -53,6 +53,7 @@ namespace Galagram.ViewModel.ViewModel.User
             this.showPhotoCommand = new Commands.User.MainWindow.ShowPhotoCommand(this);
             this.uploadPhotoCommand = new Commands.User.MainWindow.UploadPhotoCommand(this);
         }
+
         // PROPERTIES
         /// <summary>
         /// Gets or sets user that is shown
@@ -106,6 +107,8 @@ namespace Galagram.ViewModel.ViewModel.User
         public bool IsCurrentUserShown => DataStorage.IsCurrentUserShown;
         /// <summary>
         /// Determines if logged user follow shown user
+        /// <para/>
+        /// Is data trigger for Follow button
         /// </summary>
         public bool IsFollowing
         {
@@ -245,6 +248,22 @@ namespace Galagram.ViewModel.ViewModel.User
 
             OnPropertyChanged(nameof(User));
             OnPropertyChanged(nameof(Photos));
+        }
+        /// <summary>
+        /// Updates property <see cref="MainWindowViewModel.IsFollowing"/> in strict way
+        /// </summary>
+        public void IsFollowingUpdateExplicitly()
+        {
+            if (IsCurrentUserShown)
+            {
+                this.isFollowing = false;
+            }
+            else
+            {
+                this.isFollowing = DataStorage.ShownUser.Followers.Contains(DataStorage.LoggedUser);
+            }
+
+            OnPropertyChanged(nameof(IsFollowing));
         }
     }
 }
