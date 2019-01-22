@@ -107,30 +107,19 @@
 
                 <Label Grid.Row="0" Content="{Binding User.NickName, Mode=OneTime}" Style="{StaticResource CenterLabel}"/>
                 <Image Grid.Row="1" Style="{StaticResource Photo}">
-                    <!--="{Binding User.MainPhotoPath, TargetNullValue='/Resources/OtherImg/NoImg.png'}" />-->
                     <Image.Source>
                         <Binding Path="User.MainPhotoPath" >
                             <Binding.TargetNullValue>
                                 <ImageSource>/Resources/OtherImg/NoImg.png</ImageSource>
                             </Binding.TargetNullValue>
+                            <Binding.FallbackValue>
+                                <ImageSource>/Resources/OtherImg/NoImg.png</ImageSource>
+                            </Binding.FallbackValue>
                         </Binding>
                     </Image.Source>
-                </Image>                       
-                <Button Grid.Row="2" Content="Follow" 
-                        Command="{Binding FollowCommand}">
-                    <Button.Style>
-                        <Style TargetType="Button" BasedOn="{StaticResource ClickButton}">
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding IsCurrentUserShown}" Value="True">
-                                    <Setter Property="Visibility" Value="Collapsed"/>
-                                </DataTrigger>
-                                <DataTrigger Binding="{Binding IsCurrentUserShown}" Value="False">
-                                    <Setter Property="Visibility" Value="Visible"/>
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </Button.Style>
-                </Button>
+                </Image>
+                <Button Grid.Row="2" Style="{StaticResource FollowButton}"
+                        Command="{Binding FollowCommand}"/>
                 <Button Grid.Row="3" Content="Following" Style="{StaticResource ClickButton}"
                         Command="{Binding ShowFollowingListCommand}"/>
                 <Button Grid.Row="4" Content="Followers" Style="{StaticResource ClickButton}"

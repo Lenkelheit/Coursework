@@ -51,7 +51,7 @@
             Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, $"Execute {nameof(SettingCommand)}");
 
             Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, $"Open modal Setting window");
-            mainWindowViewModel.WindowManager.ShowWindowDialog(nameof(Window.User.Setting), new ViewModel.User.SettingViewModel(mainWindowViewModel.LoggedUser));
+            mainWindowViewModel.WindowManager.ShowWindowDialog(nameof(Window.User.Setting), new ViewModel.User.SettingViewModel());
         }
     }
 }

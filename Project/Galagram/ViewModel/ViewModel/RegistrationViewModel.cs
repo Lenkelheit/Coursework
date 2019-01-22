@@ -23,9 +23,6 @@ namespace Galagram.ViewModel.ViewModel
             nickname = string.Empty;
             password = string.Empty;
 
-            logInCommand = null;
-            signUpCommand = null;
-
             logInCommand  = new Commands.Registration.LogInCommand(this);
             signUpCommand = new Commands.Registration.SignUpCommand(this);
 

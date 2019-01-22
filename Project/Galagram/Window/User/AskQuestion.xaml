@@ -53,6 +53,8 @@
         <Label Grid.Row="4" Content="Message" Style="{StaticResource H1LeftLabel}"/>
         <TextBox Grid.Row="5" Style="{StaticResource MessageTextBox}" Text="{Binding Message}"/>
         <!--BUTTON-->
-        <Button Grid.Row="6" Content="Ask" Style="{StaticResource ClickButton}" Command="{Binding AskCommand}"/>
+        <Button Grid.Row="6" Content="Ask" Style="{StaticResource ClickButton}"
+                IsDefault="True"
+                Command="{Binding AskCommand}"/>
     </Grid>
 </Window>

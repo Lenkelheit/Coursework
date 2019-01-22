@@ -49,12 +49,14 @@
             int userId = searchViewModel.Users[searchViewModel.SelectedUserIndex].Id;
             Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, $"User id {userId}");
 
+            // sets shown user
+            searchViewModel.DataStorage.ShownUser = DataAccess.Context.UnitOfWork.Instance.UserRepository.Get(userId);
+
             // open new window with current user
             Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, $"Close all window. Open new Window with current profile");
             Services.WindowManager.Instance.SwitchMainWindow(
                 key: nameof(Window.User.MainWindow),
-                viewModel: new ViewModel.User.MainWindowViewModel(loggedUser: searchViewModel.loggedUser, 
-                                                                  shownUser: DataAccess.Context.UnitOfWork.Instance.UserRepository.Get(userId)),
+                viewModel: new ViewModel.User.MainWindowViewModel(),
                 doCloseAllWindow: true);
         }
     }

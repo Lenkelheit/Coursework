@@ -9,7 +9,6 @@ namespace Galagram.ViewModel.ViewModel.User
     public class AskQuestionViewModel : ViewModelBase
     {
         // FIELDS
-        readonly DataAccess.Entities.User user;
         readonly DataAccess.Entities.Subject[] subjects;
         int selectedSubjectIndex;
         string messageText;
@@ -20,12 +19,8 @@ namespace Galagram.ViewModel.ViewModel.User
         /// <summary>
         /// Initialize a new instance of <see cref="AskQuestionViewModel"/>
         /// </summary>
-        /// <param name="user">
-        /// Current user
-        /// </param>
-        public AskQuestionViewModel(DataAccess.Entities.User user)
+        public AskQuestionViewModel()
         {
-            this.user = user;
             this.subjects = UnitOfWork.SubjectRepository.Get().ToArray();
             this.selectedSubjectIndex = Core.Configuration.Constants.WRONG_INDEX;
             this.messageText = string.Empty;
@@ -33,17 +28,6 @@ namespace Galagram.ViewModel.ViewModel.User
             this.askCommand = new Commands.User.AskQuestion.AskCommand(this);
         }
         // PROPERTIES
-        /// <summary>
-        /// Gets current user
-        /// </summary>
-        public DataAccess.Entities.User User
-        {
-            get
-            {
-                Logger.LogAsync(Core.LogMode.Debug, $"Gets current user");
-                return user;
-            }
-        }
         /// <summary>
         /// Gets or sets current subject index
         /// </summary>

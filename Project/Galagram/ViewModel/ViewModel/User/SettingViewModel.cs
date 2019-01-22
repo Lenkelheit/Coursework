@@ -12,8 +12,7 @@ namespace Galagram.ViewModel.ViewModel.User
     {
         // FIELDS
         System.Collections.BitArray changedField;
-
-        DataAccess.Entities.User user;
+        
         string tempAvatarPath;
         string newNickname;
         string password;
@@ -25,17 +24,11 @@ namespace Galagram.ViewModel.ViewModel.User
         /// <summary>
         /// Initialize a new instance of <see cref="SearchViewModel"/>
         /// </summary>
-        /// <param name="user">
-        /// A user that logged in
-        /// </param>
-        public SettingViewModel(DataAccess.Entities.User user)
+        public SettingViewModel()
         {
-            if (user == null) throw new System.ArgumentNullException(nameof(user));
-
             this.changedField = new System.Collections.BitArray(System.Enum.GetNames(typeof(SettingFieldChanged)).Length);
-
-            this.user = user;
-            this.tempAvatarPath = user.MainPhotoPath;
+            
+            this.tempAvatarPath = DataStorage.LoggedUser.MainPhotoPath;
             this.newNickname = string.Empty;
             this.password = string.Empty;
             this.newPassword = string.Empty;
@@ -44,10 +37,6 @@ namespace Galagram.ViewModel.ViewModel.User
             this.loadNewAvatarCommand = new Commands.User.Setting.LoadNewAvatarCommand(this);
         }
         // PROPERTIES
-        /// <summary>
-        /// Get a logged user
-        /// </summary>
-        public DataAccess.Entities.User User => user;
         /// <summary>
         /// Gets or sets temporary avatar that is shown
         /// </summary>
@@ -63,7 +52,7 @@ namespace Galagram.ViewModel.ViewModel.User
             {
                 Logger.LogAsync(Core.LogMode.Debug, $"Sets new temp avatar path. Old = {tempAvatarPath}, new = {value}");
                 tempAvatarPath = value;
-                changedField.Set((int)SettingFieldChanged.Avatar, user.MainPhotoPath != tempAvatarPath);
+                changedField.Set((int)SettingFieldChanged.Avatar, DataStorage.LoggedUser.MainPhotoPath != tempAvatarPath);
 
                 OnPropertyChanged();
             }
@@ -82,7 +71,7 @@ namespace Galagram.ViewModel.ViewModel.User
             {
                 Logger.LogAsync(Core.LogMode.Debug, $"Gets or sets {nameof(NewNickname)}. Old value = {newNickname}, new value = {newNickname}");
                 newNickname = value;
-                changedField.Set((int)SettingFieldChanged.Nickname, user.NickName != newNickname);
+                changedField.Set((int)SettingFieldChanged.Nickname, DataStorage.LoggedUser.NickName != newNickname);
 
                 OnPropertyChanged();
             }
@@ -121,7 +110,7 @@ namespace Galagram.ViewModel.ViewModel.User
             {
                 Logger.LogAsync(Core.LogMode.Debug, $"Sets new {nameof(NewPassword)}. Old value = {newPassword}, new value = {value}");
                 newPassword = value;
-                changedField.Set((int)SettingFieldChanged.Password, user.Password != newPassword);
+                changedField.Set((int)SettingFieldChanged.Password, DataStorage.LoggedUser.Password != newPassword);
 
                 OnPropertyChanged();
             }

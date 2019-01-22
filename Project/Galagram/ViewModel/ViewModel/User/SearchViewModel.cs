@@ -9,7 +9,6 @@ namespace Galagram.ViewModel.ViewModel.User
     public class SearchViewModel : ViewModelBase
     {
         // FIELDS
-        internal DataAccess.Entities.User loggedUser;
         string searchText;
         int selectedUserIndex;
         DataAccess.Entities.User[] foundedUsers;
@@ -20,12 +19,8 @@ namespace Galagram.ViewModel.ViewModel.User
         /// <summary>
         /// Initialize a new instance of <see cref="SearchViewModel"/>
         /// </summary>
-        /// <param name="user">
-        /// An logged user
-        /// </param>
-        public SearchViewModel(DataAccess.Entities.User user)
+        public SearchViewModel()
         {
-            this.loggedUser = user;
             this.searchText = string.Empty;
             this.selectedUserIndex = Core.Configuration.Constants.WRONG_INDEX;
             this.foundedUsers = null;

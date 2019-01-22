@@ -10,10 +10,9 @@ namespace Galagram.ViewModel.ViewModel.User
     public class MainWindowViewModel : ViewModelBase
     {
         // FIELDS
-        DataAccess.Entities.User loggedInUser; // user that logged in or signed up
-        DataAccess.Entities.User currentPageUser; // user which page is shown
         int selectedPhotoIndex;
         ObservableCollection<DataAccess.Entities.Photo> photos;
+        bool isFollowing;
 
         ICommand goHomeCommand;
         ICommand askQuestionCommand;
@@ -29,24 +28,19 @@ namespace Galagram.ViewModel.ViewModel.User
         /// <summary>
         /// Initialize a new instance of <see cref="MainWindowViewModel"/>
         /// </summary>
-        /// <param name="loggedUser">
-        /// Current user
-        /// </param>
-        /// <param name="shownUser">
-        /// A user, which profile is shown
-        /// </param>
-        /// <exception cref="System.ArgumentNullException">
-        /// Throws when logged user is null
-        /// </exception>
-        public MainWindowViewModel(DataAccess.Entities.User loggedUser, DataAccess.Entities.User shownUser)
+        public MainWindowViewModel()
         {
-            if (loggedUser == null) throw new System.ArgumentNullException(nameof(loggedUser));
-            if (shownUser == null) throw new System.ArgumentNullException(nameof(shownUser));
-
-            this.loggedInUser = loggedUser;
-            this.currentPageUser = shownUser;
             this.selectedPhotoIndex = Core.Configuration.Constants.WRONG_INDEX;
-            this.photos = new ObservableCollection<DataAccess.Entities.Photo>(currentPageUser.Photos);
+            this.photos = new ObservableCollection<DataAccess.Entities.Photo>(DataStorage.ShownUser.Photos);
+
+            if (IsCurrentUserShown)
+            {
+                this.isFollowing = false;
+            }
+            else
+            {
+                this.isFollowing = DataStorage.ShownUser.Followers.Contains(DataStorage.LoggedUser);
+            }
 
             this.goHomeCommand = new Commands.User.MainWindow.GoHomeCommand(this);
             this.askQuestionCommand = new Commands.User.MainWindow.AskQuestionCommand(this);
@@ -59,6 +53,7 @@ namespace Galagram.ViewModel.ViewModel.User
             this.showPhotoCommand = new Commands.User.MainWindow.ShowPhotoCommand(this);
             this.uploadPhotoCommand = new Commands.User.MainWindow.UploadPhotoCommand(this);
         }
+
         // PROPERTIES
         /// <summary>
         /// Gets or sets user that is shown
@@ -68,11 +63,11 @@ namespace Galagram.ViewModel.ViewModel.User
             get
             {
                 Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, $"Gets {nameof(User)}");
-                return currentPageUser;
+                return DataStorage.ShownUser;
             }
             set
             {
-                currentPageUser = value;
+                DataStorage.ShownUser = value;
                 Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, $"Sets {nameof(User)}");
                 OnPropertyChanged();
             }
@@ -104,12 +99,33 @@ namespace Galagram.ViewModel.ViewModel.User
                 return photos;
             }
         }
-        // COMMANDS
-        internal DataAccess.Entities.User LoggedUser => loggedInUser;
         /// <summary>
         /// Gets true if current user and shown user is the same, otherwise — false
+        /// <para/>
+        /// Is data trigger for Follow button
         /// </summary>
-        public bool IsCurrentUserShown => loggedInUser == currentPageUser;
+        public bool IsCurrentUserShown => DataStorage.IsCurrentUserShown;
+        /// <summary>
+        /// Determines if logged user follow shown user
+        /// <para/>
+        /// Is data trigger for Follow button
+        /// </summary>
+        public bool IsFollowing
+        {
+            get
+            {
+                Logger.LogAsync(Core.LogMode.Debug, $"Gets {nameof(IsFollowing)}, with value = {isFollowing}");
+                return isFollowing;
+            }
+            set
+            {
+                Logger.LogAsync(Core.LogMode.Debug, $"Sets {nameof(IsFollowing)}. OldValue = {isFollowing}, new value = {value}");
+                isFollowing = value;
+
+                OnPropertyChanged();
+            }
+        }
+        // COMMANDS
         /// <summary>
         /// Gets go home action
         /// </summary>
@@ -195,7 +211,7 @@ namespace Galagram.ViewModel.ViewModel.User
             get
             {
                 Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, $"Gets {nameof(ShowFollowingListCommand)}");
-                return showFollowersListCommand;
+                return showFollowingListCommand;
             }
         }
         /// <summary>
@@ -227,11 +243,27 @@ namespace Galagram.ViewModel.ViewModel.User
         /// </summary>
         public void GoToCurrentUser()
         {
-            currentPageUser = loggedInUser;
-            photos = new ObservableCollection<DataAccess.Entities.Photo>(currentPageUser.Photos);
+            DataStorage.ShowLoggedUser();
+            photos = new ObservableCollection<DataAccess.Entities.Photo>(DataStorage.ShownUser.Photos);
 
             OnPropertyChanged(nameof(User));
             OnPropertyChanged(nameof(Photos));
+        }
+        /// <summary>
+        /// Updates property <see cref="MainWindowViewModel.IsFollowing"/> in strict way
+        /// </summary>
+        public void IsFollowingUpdateExplicitly()
+        {
+            if (IsCurrentUserShown)
+            {
+                this.isFollowing = false;
+            }
+            else
+            {
+                this.isFollowing = DataStorage.ShownUser.Followers.Contains(DataStorage.LoggedUser);
+            }
+
+            OnPropertyChanged(nameof(IsFollowing));
         }
     }
 }

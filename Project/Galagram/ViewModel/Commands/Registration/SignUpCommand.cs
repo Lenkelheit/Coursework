@@ -77,12 +77,16 @@
             // save new user
             Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, "Save the user.");
             registrationViewModel.UnitOfWork.Save();
-            
+
+            // sets data
+            registrationViewModel.DataStorage.LoggedUser = user;
+            registrationViewModel.DataStorage.ShownUser = user;
+
             // open new window with current user
             Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, "User signed up. Registration window close. Main window opens.");
             registrationViewModel.WindowManager.SwitchMainWindow(
                 key: nameof(Galagram.Window.User.MainWindow),
-                viewModel: new ViewModel.User.MainWindowViewModel(loggedUser: user, shownUser: user));
+                viewModel: new ViewModel.User.MainWindowViewModel());
             }
         }
 }

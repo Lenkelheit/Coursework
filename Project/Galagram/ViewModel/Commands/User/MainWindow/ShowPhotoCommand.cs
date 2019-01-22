@@ -51,7 +51,7 @@
             Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, $"Execute {nameof(ShowPhotoCommand)}");
 
             Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, $"Open modal PhotoInside window");
-            mainWindowViewModel.WindowManager.ShowWindowDialog(nameof(Window.User.PhotoInside), new ViewModel.User.PhotoInsideViewModel(mainWindowViewModel.LoggedUser));
+            mainWindowViewModel.WindowManager.ShowWindowDialog(nameof(Window.User.PhotoInside), new ViewModel.User.PhotoInsideViewModel());
         }
     }
 }
