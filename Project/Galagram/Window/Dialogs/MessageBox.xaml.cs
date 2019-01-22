@@ -86,7 +86,8 @@ namespace Galagram.Window.Dialogs
                 Button okButton = new Button()
                 {
                     Content = "Ok",
-                    Style = buttonStyle
+                    Style = buttonStyle,
+                    IsDefault = true
                 };
                 okButton.Click += Yes;
                 // set position
@@ -108,7 +109,8 @@ namespace Galagram.Window.Dialogs
                 Button yesButton = new Button()
                 {
                     Content = "Yes",
-                    Style = buttonStyle
+                    Style = buttonStyle,
+                    IsDefault = true
                 };
                 yesButton.Click += Yes;
 

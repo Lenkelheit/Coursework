@@ -7,6 +7,11 @@
             <ResourceDictionary.MergedDictionaries>
 
                 <!--USER PART-->
+                    <!--RESOURCES-->
+                        <!--VALUES-->
+                <ResourceDictionary Source="Theme/Resources/Values.xaml" />
+                        <!--CONVERTERS-->
+                <ResourceDictionary Source="Theme/Resources/Converters.xaml" />
                     <!--COLORS-->
                 <ResourceDictionary Source="Theme/User/Pincky/Colors.xaml" />
                 <ResourceDictionary Source="Theme/User/Pincky/Brushes.xaml" />

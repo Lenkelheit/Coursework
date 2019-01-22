@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
 using static Core.Configuration.DBConfig;
@@ -8,8 +9,9 @@ namespace DataAccess.Entities
     /// <summary>
     /// Maps to Comments table
     /// </summary>
-	public class Comment
+	public class Comment : INotifyPropertyChanged
 	{
+        // PROPERTIES
         /// <summary>
         /// Unique indetifier
         /// </summary>
@@ -36,5 +38,24 @@ namespace DataAccess.Entities
         /// The date when comment has been published
         /// </summary>
 		public System.DateTime Date { get; set; } = System.DateTime.Now;
-	}
+
+        #region NotifyOnPropertyChanged
+        // this part is used to updates comment likes on click. Check LikeCommentCommad
+        /// <summary>
+        /// Occurs when property changed
+        /// </summary>
+        public event PropertyChangedEventHandler PropertyChanged;
+        
+        /// <summary>
+        /// Invoke <see cref="PropertyChanged"/>
+        /// </summary>
+        /// <param name="proppertyName">
+        /// Property name that has been updated
+        /// </param>
+        public void PropertyUpdates(string proppertyName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(proppertyName));
+        }
+        #endregion
+    }
 }

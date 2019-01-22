@@ -5,6 +5,7 @@
     /// </summary>
     public class CommentRepository : GenericRepository<Entities.Comment>
     {
+        // CONSTRUCTORS
         /// <summary>
         /// Initialize a new instance of <see cref="CommentRepository"/>
         /// </summary>

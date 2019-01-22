@@ -47,6 +47,7 @@
     <Compile Include="Interfaces\IFactory.cs" />
     <Compile Include="Logger.cs" />
     <Compile Include="LogMode.cs" />
+    <Compile Include="Messages\Error\App.cs" />
     <Compile Include="Messages\Error\DataAccess.cs" />
     <Compile Include="Messages\Error\Repositories.cs" />
     <Compile Include="Messages\Error\View.cs" />

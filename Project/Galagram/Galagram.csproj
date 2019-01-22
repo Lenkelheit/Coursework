@@ -96,7 +96,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Converters\TwoUserConverter.cs" />
+    <Compile Include="Converters\CommentCollectionToLengthConverter.cs" />
+    <Compile Include="Converters\ItemsToArrayConverter.cs" />
+    <Compile Include="Converters\UserConverter.cs" />
     <Compile Include="Services\DataStorage.cs" />
     <Compile Include="ViewModel\CommandBase.cs" />
     <Compile Include="ViewModel\Commands\Registration\LogInCommand.cs" />
@@ -117,8 +119,6 @@
     <Compile Include="ViewModel\Commands\User\MainWindow\ShowPhotoCommand.cs" />
     <Compile Include="ViewModel\Commands\User\MainWindow\UploadPhotoCommand.cs" />
     <Compile Include="ViewModel\Commands\User\PhotoInside\DeleteCommentCommand.cs" />
-    <Compile Include="ViewModel\Commands\User\PhotoInside\DisLikeCommentCommand.cs" />
-    <Compile Include="ViewModel\Commands\User\PhotoInside\DisLikePhotoCommand.cs" />
     <Compile Include="ViewModel\Commands\User\PhotoInside\LikeCommentCommand.cs" />
     <Compile Include="ViewModel\Commands\User\PhotoInside\LikePhotoCommand.cs" />
     <Compile Include="ViewModel\Commands\User\PhotoInside\WriteCommentCommand.cs" />
@@ -177,6 +177,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Theme\Resources\Converters.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Theme\User\Pincky\Styles\Buttons.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -194,6 +198,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Theme\User\Pincky\Templates\Collections.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Theme\Resources\Values.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

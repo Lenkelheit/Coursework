@@ -2,26 +2,23 @@
 using System.Windows.Data;
 using System.Globalization;
 
-using DataAccess.Entities;
-
 namespace Galagram.Converters
 {
     /// <summary>
-    /// Compares two users.
+    /// Pack multiple items to array.
     /// <para/>
-    /// Very specific converter
-    /// <para/>
-    /// Has been used in follow list, to show delete button, when logged user visit other user pagges
+    /// Has been used to pack multiple parameters in one and passed it to <see cref="Galagram.ViewModel.Commands.User.PhotoInside.LikeCommentCommand"/>
     /// </summary>
-    public class TwoUserCompareConverter : IMultiValueConverter
+    [ValueConversion(sourceType: typeof(object[]), targetType: typeof(object))]
+    public class ItemsToArrayConverter : IMultiValueConverter
     {
         /// <summary>
-        /// Covert two users to boolean value in way comparing them.
+        /// Covert multiple items to an array
         /// </summary>
         /// <param name="values">
-        /// Two users. <para/>
-        /// 1 - user from follow list <para/>
-        /// 2 - logged user
+        /// Two users. <para/> 
+        /// 1 - logged user <para/>
+        /// 2 - user from follow list or from comment section <para/>
         /// </param>
         /// <param name="targetType">
         /// The type of the binding target property.
@@ -39,12 +36,7 @@ namespace Galagram.Converters
         /// </returns>
         public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
-            User user1 = values[0] as User;// user from follow list
-            User user2 = (User)values[1];// logged user
-
-            if (user1 == null) return false; // disconnected item
-
-            return user1 == user2;
+            return values.Clone();
         }
         /// <summary>
         /// Not expected behavior.

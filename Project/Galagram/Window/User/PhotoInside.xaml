@@ -27,7 +27,7 @@
             <Label 
                    x:Name="HeaderLbl"
                    Grid.Column="0" 
-                   Content="Photo Inside"
+                   Content="Photo"
                    Style="{StaticResource HeaderLabel}"/>
             <Button Grid.Column="1" Click="Exit" Style="{StaticResource HeaderButton}">
                 <Image Source="/Resources/MenuImg/Exit.png"/>
@@ -42,13 +42,22 @@
             </Grid.ColumnDefinitions>
 
             <!--IMAGE-->
-            <Image Grid.Column="0" Source="/Resources/OtherImg/NoImg.png" Style="{StaticResource Photo}"/>
+            <Image Grid.Column="0" Style="{StaticResource Photo}">
+                <Image.Source>
+                    <Binding Path="Photo.Path" >
+                        <Binding.FallbackValue>
+                            <ImageSource>/Resources/OtherImg/NoImg.png</ImageSource>
+                        </Binding.FallbackValue>
+                        <Binding.TargetNullValue>
+                            <ImageSource>/Resources/OtherImg/NoImg.png</ImageSource>
+                        </Binding.TargetNullValue>
+                    </Binding>
+                </Image.Source>
+            </Image>
+            
             <!--COMMENTS-->
-            <ListBox Grid.Column="1" Style="{StaticResource ListBoxComments}">
-                <ListBoxItem></ListBoxItem>
-                <ListBoxItem></ListBoxItem>
-                <ListBoxItem></ListBoxItem>
-            </ListBox>
+            <ListBox Grid.Column="1" Style="{StaticResource ListBoxComments}"
+                     ItemsSource="{Binding Comments}"/>
         </Grid>      
         
         <!--BUTTONS-->
@@ -64,20 +73,31 @@
             </Grid.ColumnDefinitions>
             
             <!--LIKE-->
-            <Button Grid.Column="0" Style="{StaticResource LikePhotoButton}">
+            <Button Grid.Column="0" Style="{StaticResource LikePhotoButton}"
+                    Command="{Binding LikePhotoCommand}" CommandParameter="True">
                 <Image Source="/Resources/InterfaceImage/Heart.png" Margin="10"/>
             </Button>
-            <Label Grid.Column="1" Content="0" Style="{StaticResource CenterLabel}"/>
+            <Label Grid.Column="1" Style="{StaticResource CenterLabel}" 
+                   Content="{Binding LikeDislikeAmount.LikesAmount}"/>
 
-            <Button Grid.Column="2" Style="{StaticResource DisLikePhotoButton}">
+            <Button Grid.Column="2" Style="{StaticResource DisLikePhotoButton}"
+                    Command="{Binding LikePhotoCommand}" CommandParameter="False">
                 <Image Source="/Resources/InterfaceImage/BrokenHeart.png" Margin="10"/>
             </Button>
-            <Label Grid.Column="3" Content="0" Style="{StaticResource CenterLabel}"/>
+            <Label Grid.Column="3" Style="{StaticResource CenterLabel}"
+                   Content="{Binding  LikeDislikeAmount.DisLikesAmount}"/>
             
 
             <!--WRITE YOUR COMMENT-->
-            <RichTextBox Grid.Column="4"/>
-            <Button Grid.Column="5" Content="Write" Style="{StaticResource ClickButton}"/>
+            <TextBox Grid.Column="4" 
+                     Style="{StaticResource MessageTextBox}" 
+                     Margin="1"
+                     ScrollViewer.VerticalScrollBarVisibility="Hidden"
+                     MaxLength="{Binding MaxCommentLength}"
+                     Text="{Binding CommentText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            <Button Grid.Column="5" Content="Write" 
+                    Style="{StaticResource ClickButton}"
+                    Command="{Binding WriteCommentCommand}"/>
 
         </Grid>
     </Grid>

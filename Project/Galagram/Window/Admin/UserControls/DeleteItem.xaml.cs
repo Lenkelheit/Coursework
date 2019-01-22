@@ -5,10 +5,16 @@
     /// </summary>
     public partial class DeleteItem : System.Windows.Controls.UserControl
     {
+        /// <summary>
+        /// Initialize a new instance of <see cref="DeleteItem"/>
+        /// </summary>
         public DeleteItem()
         {
             InitializeComponent();
         }
+        /// <summary>
+        /// Gets or sets delete item name
+        /// </summary>
         public string DeleteItemName
         {
             get

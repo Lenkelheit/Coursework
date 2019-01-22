@@ -130,8 +130,9 @@
             <ListBox Grid.Column="2" Style="{StaticResource ListBoxAlbum}"
                      SelectedIndex="{Binding SelectedPhotoIndex}"
                      ItemsSource="{Binding Photos}">
+                
                 <i:Interaction.Triggers>
-                    <i:EventTrigger EventName="PreviewMouseLeftButtonDown">
+                    <i:EventTrigger EventName="MouseDoubleClick">
                         <i:InvokeCommandAction Command="{Binding ShowPhotoCommand}"/>
                     </i:EventTrigger>
                 </i:Interaction.Triggers>

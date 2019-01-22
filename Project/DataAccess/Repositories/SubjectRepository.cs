@@ -5,6 +5,7 @@
     /// </summary>
     public class SubjectRepository : GenericRepository<Entities.Subject>
     {
+        // CONVERTERS
         /// <summary>
         /// Initialize a new instance of <see cref="SubjectRepository"/>
         /// </summary>

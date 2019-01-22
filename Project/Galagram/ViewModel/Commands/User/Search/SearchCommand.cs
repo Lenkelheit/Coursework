@@ -41,6 +41,8 @@ namespace Galagram.ViewModel.Commands.User.Search
         // METHODS
         /// <summary>
         /// Check if command can be executed
+        /// <para/>
+        /// Can not be executed if search text is empty
         /// </summary>
         /// <param name="parameter">
         /// Additionals parameters

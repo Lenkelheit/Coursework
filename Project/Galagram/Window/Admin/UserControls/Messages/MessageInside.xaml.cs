@@ -5,6 +5,9 @@
     /// </summary>
     public partial class MessageInside : System.Windows.Controls.UserControl
     {
+        /// <summary>
+        /// Initialize a new instance of <see cref="MessageInside"/>
+        /// </summary>
         public MessageInside()
         {
             InitializeComponent();

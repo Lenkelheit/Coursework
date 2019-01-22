@@ -1,4 +1,8 @@
-﻿namespace DataAccess.Entities
+﻿using System;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace DataAccess.Entities
 {
     /// <summary>
     /// An abstract class for <see cref="CommentLike"/> and <see cref="PhotoLike"/>
@@ -8,7 +12,8 @@
         /// <summary>
         /// Unique indetifier
         /// </summary>
-        public int Id { get; set; }
+        [Key, DatabaseGenerated (DatabaseGeneratedOption.Identity)]
+        public Guid Id { get; set; } // Guide because TPC
         /// <summary>
         /// A user that has set the like
         /// </summary>

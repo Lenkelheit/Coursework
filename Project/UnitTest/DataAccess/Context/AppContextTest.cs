@@ -554,6 +554,49 @@ namespace UnitTest.DataAccess.Context
             CollectionAssert.Contains(dbContext.Comments.Find(commentId).Likes.ToArray(), commentLike);
         }
         [TestMethod]
+        public void DeleteComment()
+        {
+            // Arrange
+            Photo photo1 = new Photo() { Path = "1/54/23.jpg" };
+            Photo photo2 = new Photo() { Path = "1/54/24.jpg" };
+
+            User user1 = new User()
+            {
+                NickName = "John",
+                Password = "1111",
+                Photos = new List<Photo> { photo1, photo2 }
+            };
+            User user2 = new User() { NickName = "Adam", Password = "1111" };
+            Comment comment = new Comment()
+            {
+                Text = "Comment text",
+                Date = DateTime.Now,
+                Photo = photo1,
+                User = user2
+            };
+
+            int user1Id = dbContext.Users.Count() + 1;
+
+            // Act
+            dbContext.Users.Add(user1);
+            dbContext.Users.Add(user2);
+            dbContext.Photos.Add(photo1);
+            dbContext.Photos.Add(photo2);
+            dbContext.Comments.Add(comment);
+            dbContext.Comments.Remove(comment);
+            dbContext.SaveChanges();
+
+            // Assert
+            CollectionAssert.Contains(dbContext.Users.ToArray(), user1);
+            CollectionAssert.Contains(dbContext.Users.ToArray(), user2);
+
+            CollectionAssert.DoesNotContain(dbContext.Users.Find(user1Id).Comments.ToArray(), comment);
+            CollectionAssert.DoesNotContain(dbContext.Comments.ToArray(), comment);
+
+            CollectionAssert.Contains(dbContext.Photos.ToArray(), photo1);
+            CollectionAssert.Contains(dbContext.Photos.ToArray(), photo2);
+        }
+        [TestMethod]
         public void DeleteCommentLike()
         {
             // Arrange
