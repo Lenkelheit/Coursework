@@ -12,6 +12,7 @@
         {
             InitializeComponent();
         }
+
         // METHODS
         private void MovingWindow(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
@@ -20,29 +21,29 @@
                 this.DragMove();
             }
         }
-
+        // currently just test method
         private void Button_Click(object sender, System.Windows.RoutedEventArgs e)
         {
-            Content.Child = new UserControls.Messages.MessageInside()
+            MainContent.Child = new UserControls.Messages.MessageInside()
             {
-                Width = Content.Width,
-                Height = Content.Height,
+                Width = MainContent.Width,
+                Height = MainContent.Height,
             };
         }
 
         private void Button_Click_1(object sender, System.Windows.RoutedEventArgs e)
         {
-            Content.Child = new UserControls.DeleteItem()
+            MainContent.Child = new UserControls.DeleteItem()
             {
-                Width = Content.Width,
-                Height = Content.Height,
+                Width = MainContent.Width,
+                Height = MainContent.Height,
                 DeleteItemName = "test"
             };
         }
 
         private void Button_Click_2(object sender, System.Windows.RoutedEventArgs e)
         {
-            Content.Child = null;
+            MainContent.Child = null;
         }
     }
 }

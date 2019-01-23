@@ -50,8 +50,21 @@
         {
             Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, $"Execute {nameof(ShowPhotoCommand)}");
 
-            Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, $"Open modal PhotoInside window");
-            mainWindowViewModel.WindowManager.ShowWindowDialog(nameof(Window.User.PhotoInside), new ViewModel.User.PhotoInsideViewModel());
+            // gets index 
+            Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, "Gets photo index");
+            int index = mainWindowViewModel.SelectedPhotoIndex;
+            Core.Logger.GetLogger.LogAsync(Core.LogMode.Info, $"{nameof(index)} = {index}");
+
+            // check index
+            if (index == Core.Configuration.Constants.WRONG_INDEX)
+            {
+                Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, "Operation canceled. Wrong index");
+                return;
+            }
+            
+            Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, $"Open modal {nameof(Window.User.PhotoInside)} window");
+            mainWindowViewModel.WindowManager.ShowWindowDialog(key: nameof(Window.User.PhotoInside), 
+                                                               viewModel: new ViewModel.User.PhotoInsideViewModel(photo: mainWindowViewModel.Photos[index]));
         }
     }
 }

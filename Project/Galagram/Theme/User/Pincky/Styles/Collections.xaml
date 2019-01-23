@@ -37,6 +37,7 @@
     <Style TargetType="ListBox" x:Key="ListBoxFollow">
         <Setter Property="VirtualizingStackPanel.IsVirtualizing" Value="True"/>
         <Setter Property="VirtualizingStackPanel.VirtualizationMode" Value="Recycling"/>
+        <Setter Property="VirtualizingStackPanel.ScrollUnit" Value="Pixel"/>        
         <Setter Property="Background" Value="{StaticResource WhiteBrush}"/>
         <Setter Property="BorderThickness" Value="0"/>
         <Setter Property="Margin" Value="0, 20, 0, 0"/>
@@ -70,7 +71,7 @@
             </Setter.Value>
         </Setter>
     </Style>
-    <!--LIST BOX FOR ALBUM-->
+    <!--LIST BOX FOR PHOTOS-->
     <Style TargetType="ListBox" x:Key="ListBoxAlbum">
         <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled"/>
 

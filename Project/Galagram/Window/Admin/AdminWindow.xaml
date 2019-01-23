@@ -61,7 +61,7 @@
         </Grid>
 
         <Border Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="3" Grid.RowSpan="8"
-                         x:Name="Content" Background="#16212B">
+                         x:Name="MainContent" Background="#16212B">
         </Border>
 
 
