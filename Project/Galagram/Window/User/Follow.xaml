@@ -1,0 +1,50 @@
+﻿<Window x:Class="Galagram.Window.User.Follow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        Title="Follow"
+        Height="300" Width="400"
+        MinHeight="300" MinWidth="500"
+        WindowStartupLocation="CenterScreen"
+        Style="{StaticResource ModalWindowResizable}">
+    <Grid>
+        <!--SCALING-->
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        
+        <!--HEADER-->
+        <Grid Grid.Row="0" Style="{StaticResource HeaderGrid}" MouseDown="MovingWindow">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="60"/>
+            </Grid.ColumnDefinitions>
+
+            <Label 
+                   Grid.Column="0" 
+                   Content="{Binding WindowName}"
+                   Style="{StaticResource HeaderLabel}"/>
+            
+            <Button Grid.Column="1" Click="Exit" Style="{StaticResource HeaderButton}">
+                <Image Source="/Resources/MenuImg/Exit.png"/>
+            </Button>
+        </Grid>
+
+        <!--FOLLOW LIST BOX-->
+        <ListBox Grid.Row="2" Style="{StaticResource ListBoxFollow}"
+            SelectedIndex="{Binding SelectedFollowIndex, Mode=OneWayToSource}"
+            ItemsSource="{Binding Follow}">
+
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="MouseDoubleClick">
+                    <i:InvokeCommandAction Command="{Binding OpenProfileCommand}"/>
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+        </ListBox>
+
+    </Grid>
+</Window>

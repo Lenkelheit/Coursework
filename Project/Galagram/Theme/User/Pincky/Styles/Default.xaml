@@ -1,0 +1,126 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:Galagram.Theme.User.Pincky.Styles">
+    <!--WINDOW-->
+    <Style TargetType="Window" x:Key="ModalWindow">
+        <Setter Property="ResizeMode" Value="NoResize"/>
+        <Setter Property="WindowStyle" Value="None"/>
+    </Style>
+    <Style TargetType="Window" x:Key="ModalWindowResizable">
+        <Setter Property="AllowsTransparency" Value="True"/>
+        <Setter Property="ResizeMode" Value="CanResizeWithGrip"/>
+        <Setter Property="WindowStyle" Value="None"/>
+    </Style>
+
+
+
+
+    <!--GRID-->
+    <Style TargetType="Grid" x:Key="HeaderGrid">
+        <Setter Property="Background" Value="{StaticResource BlueBrush}"/>
+    </Style>
+
+    <!--COMBO BOX-->
+    <Style x:Key="{x:Type ComboBox}" TargetType="{x:Type ComboBox}">
+        <Setter Property="SnapsToDevicePixels" Value="True"/>
+        <Setter Property="OverridesDefaultStyle" Value="True"/>
+        <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto"/>
+        <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto"/>
+        <Setter Property="ScrollViewer.CanContentScroll" Value="True"/>
+
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="MinWidth" Value="120"/>
+        <Setter Property="MinHeight" Value="20"/>
+        <Setter Property="Foreground" Value="{StaticResource DarkBrush}"/>
+        <Setter Property="Background" Value="{StaticResource WhiteSmokeBrush}"/>
+        <Setter Property="Template" Value="{StaticResource ComboBoxTemplate}"/>
+
+        <Style.Triggers>
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="Foreground" Value="{StaticResource DarkBrush}"/>
+            </Trigger>
+            <Trigger Property="IsGrouping" Value="True">
+                <Setter Property="ScrollViewer.CanContentScroll" Value="False"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+    <!--COMBO BOX ITEM-->
+    <Style TargetType="{x:Type ComboBoxItem}">
+        <Setter Property="BorderThickness" Value="0"/>
+
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="true">
+                <Setter Property="Background" Value="{StaticResource LightBlueBrush}" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+    
+    
+    <!--SCROLL BAR-->
+    <!--SCROLL BAR PAGE BUTTON-->
+    <Style x:Key="ScrollBarPageButton" TargetType="{x:Type RepeatButton}">
+        <Setter Property="SnapsToDevicePixels" Value="True"/>
+        <Setter Property="IsTabStop" Value="False"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="Focusable" Value="False"/>
+        <Setter Property="Background" Value="{StaticResource SilverBrush}"/>
+
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Background" Value="{StaticResource LightBlueBrush}"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <!--SCROLL BAR THUMB-->
+    <Style x:Key="ScrollBarThumb" TargetType="{x:Type Thumb}">
+        <Setter Property="SnapsToDevicePixels" Value="True"/>
+        <Setter Property="OverridesDefaultStyle" Value="True"/>
+        <Setter Property="IsTabStop" Value="False"/>
+        <Setter Property="Focusable" Value="False"/>
+        <Setter Property="Template" Value="{StaticResource ScrollBarThumbTemplate}"/>
+        
+    </Style>
+    <!--SCROLL BAR-->
+    <Style x:Key="{x:Type ScrollBar}" TargetType="{x:Type ScrollBar}">
+        <Setter Property="SnapsToDevicePixels" Value="True"/>
+        <Setter Property="OverridesDefaultStyle" Value="True"/>
+
+        <Style.Triggers>
+            <Trigger Property="Orientation" Value="Horizontal">
+                <Setter Property="Width" Value="Auto"/>
+                <Setter Property="Height" Value="18" />
+                <Setter Property="Template" Value="{StaticResource HorizontalScrollBar}" />
+            </Trigger>
+            <Trigger Property="Orientation" Value="Vertical">
+                <Setter Property="Width" Value="18"/>
+                <Setter Property="Height" Value="Auto" />
+                <Setter Property="Template" Value="{StaticResource VerticalScrollBar}" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+    
+    
+
+    <!--IMAGE PHOTO-->
+    <Style TargetType="Image" x:Key="Photo">
+        <Setter Property="Margin" Value="0"/>
+        <Setter Property="Stretch" Value="Uniform"/>
+    </Style>
+    <!--IMAGE PICTURE-->
+    <Style TargetType="Image" x:Key="PhotoImage">
+        <Setter Property="Width" Value="100"/>
+        <Setter Property="Height" Value="100"/>
+        <Setter Property="Margin" Value="5"/>
+        <Setter Property="Stretch" Value="Uniform"/>
+
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Margin" Value="10"/>
+                <Setter Property="Width" Value="90"/>
+                <Setter Property="Height" Value="90"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+</ResourceDictionary>
