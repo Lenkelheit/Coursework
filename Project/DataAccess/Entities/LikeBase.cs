@@ -10,7 +10,7 @@ namespace DataAccess.Entities
     public abstract class LikeBase
     {
         /// <summary>
-        /// Unique indetifier
+        /// Unique identifier
         /// </summary>
         [Key, DatabaseGenerated (DatabaseGeneratedOption.Identity)]
         public Guid Id { get; set; } // Guide because TPC

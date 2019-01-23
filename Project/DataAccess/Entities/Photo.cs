@@ -11,7 +11,7 @@ namespace DataAccess.Entities
     public class Photo
     {
         /// <summary>
-        /// Unique indetifier
+        /// Unique identifier
         /// </summary>
 		public int Id { get; set; }
         /// <summary>

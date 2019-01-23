@@ -8,14 +8,22 @@
         /// <summary>
         /// Password is empty
         /// </summary>
-        public static string EMPTY_PASSWORD = string.Concat("Changes will not be setted", System.Environment.NewLine, "Password field is empty");
+        public readonly static string EMPTY_PASSWORD = string.Concat("Changes will not be setted", System.Environment.NewLine, "Password field is empty");
         /// <summary>
         /// User's password and written one is different
         /// </summary>
-        public static string PASSWORD_IS_NOT_THE_SAME = string.Concat("Changes will not be setted", System.Environment.NewLine, "Password field is wrong");
+        public readonly static string PASSWORD_IS_NOT_THE_SAME = string.Concat("Changes will not be setted", System.Environment.NewLine, "Password field is wrong");
+        /// <summary>
+        /// User can not change nickname, it is occupied
+        /// </summary>
+        public readonly static string NICKNAME_IS_NOT_FREE = string.Concat("Nickname can not be changed", System.Environment.NewLine, "Current nickname is occupied");
+        /// <summary>
+        /// Any of the fields were not changed
+        /// </summary>
+        public readonly static string NO_CHANGES = "There were no changes";
         /// <summary>
         /// All changes has been successfully applied
         /// </summary>
-        public static string CHANGES_APPLIED = "All changes has been successfully applied";
+        public readonly static string CHANGES_APPLIED = "All changes has been successfully applied";
     }
 }

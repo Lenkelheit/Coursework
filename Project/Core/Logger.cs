@@ -53,6 +53,8 @@ namespace Core
         {
             try
             {
+                writeLock.Wait();
+
                 CreateDirectoryIfNotExist();
 
                 System.IO.File.AppendAllText(

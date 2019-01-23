@@ -105,7 +105,7 @@
                     <RowDefinition Height="40"/>
                 </Grid.RowDefinitions>
 
-                <Label Grid.Row="0" Content="{Binding User.NickName, Mode=OneTime}" Style="{StaticResource CenterLabel}"/>
+                <Label Grid.Row="0" Content="{Binding User.NickName, Mode=OneWay}" Style="{StaticResource CenterLabel}"/>
                 <Image Grid.Row="1" Style="{StaticResource Photo}">
                     <Image.Source>
                         <Binding Path="User.MainPhotoPath" >

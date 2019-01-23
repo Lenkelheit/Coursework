@@ -17,13 +17,13 @@ namespace DataAccess.Repositories
 
         // METHODS
         /// <summary>
-        /// Gets user like if it exist
+        /// Gets user like if it exists
         /// </summary>
         /// <param name="comment">
         /// Rated comment 
         /// </param>
         /// <param name="user">
-        /// User that prabable set
+        /// User that probably sets the like
         /// </param>
         /// <returns>
         /// An instance of <see cref="Entities.CommentLike"/> if user rated comment, otherwise — null

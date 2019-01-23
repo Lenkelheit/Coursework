@@ -17,7 +17,7 @@ namespace DataAccess.Repositories
 
         // METHODS
         /// <summary>
-        /// Gets amount of likes an dislikes to current photo
+        /// Gets amount of likes and dislikes to current photo
         /// </summary>
         /// <param name="photo">
         /// An instance of <see cref="Entities.Photo"/> in which likes should be counted

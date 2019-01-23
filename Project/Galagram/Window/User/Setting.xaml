@@ -25,7 +25,8 @@
             </Grid.ColumnDefinitions>
 
             <Label Grid.Column="0" Content="Setting" Style="{StaticResource HeaderLabel}"/>
-            <Button Grid.Column="1" Click="Exit" Style="{StaticResource HeaderButton}">
+            <Button Grid.Column="1" Click="Exit" Style="{StaticResource HeaderButton}"
+                    Command="{Binding CleanOnCloseCommand}">
                 <Image Source="/Resources/MenuImg/Exit.png"/>
             </Button>
         </Grid>
@@ -46,7 +47,7 @@
             <!--IMAGE-->
             <Image Grid.Row="0" Grid.Column="0" Margin="5">
                 <Image.Source>
-                    <Binding Path="TempAvatarPath">
+                    <Binding Path="TempAvatarPath" UpdateSourceTrigger="PropertyChanged">
                         <Binding.TargetNullValue>
                             <ImageSource>/Resources/OtherImg/NoImg.png</ImageSource>
                         </Binding.TargetNullValue>

@@ -15,7 +15,7 @@ namespace Galagram.Converters
     public class CommentCollectionToLengthConverter : IValueConverter
     {
         /// <summary>
-        /// Turn collection to its size
+        /// Turns collection to its size
         /// </summary>
         /// <param name="value">
         /// Object thet inherit ICollection interface
