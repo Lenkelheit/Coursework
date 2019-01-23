@@ -47,7 +47,9 @@
             <!--IMAGE-->
             <Image Grid.Row="0" Grid.Column="0" Margin="5">
                 <Image.Source>
-                    <Binding Path="TempAvatarPath" UpdateSourceTrigger="PropertyChanged">
+                    <Binding Path="TempAvatarPath" 
+                             UpdateSourceTrigger="PropertyChanged"
+                             Converter="{StaticResource ImageConverter}">
                         <Binding.TargetNullValue>
                             <ImageSource>/Resources/OtherImg/NoImg.png</ImageSource>
                         </Binding.TargetNullValue>

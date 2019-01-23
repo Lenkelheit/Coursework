@@ -93,10 +93,11 @@ namespace Galagram.ViewModel.Commands.User.Setting
                 string constAvatarPath = string.Format(Core.Configuration.AppConfig.AVATAR_FORMAT, settingViewModel.DataStorage.LoggedUser.Id, System.IO.Path.GetExtension(tempAvatarPath));
 
                 // move photo to that folder
-                settingViewModel.TempAvatarPath = null;
+                // move if not exist, overwrite if exist
                 System.IO.File.Copy(tempAvatarPath, constAvatarPath, overwrite: true);
 
                 // sets new avatar
+                // sets if null, do nothing if exist
                 settingViewModel.DataStorage.LoggedUser.MainPhotoPath = constAvatarPath;
             }
             #endregion
