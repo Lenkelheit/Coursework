@@ -265,5 +265,12 @@ namespace Galagram.ViewModel.ViewModel.User
 
             OnPropertyChanged(nameof(IsFollowing));
         }
+        /// <summary>
+        /// Raise <see cref="ViewModelBase.PropertyChanged"/> on <see cref="MainWindowViewModel.User"/>
+        /// </summary>
+        public void UpdateShownUser()
+        {
+            OnPropertyChanged(nameof(User));
+        }
     }
 }

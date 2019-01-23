@@ -1,4 +1,5 @@
-﻿using System.Windows.Input;
+﻿using System.Linq;
+using System.Windows.Input;
 using System.ComponentModel;
 
 using Galagram.ViewModel.Enums.User;
@@ -20,6 +21,8 @@ namespace Galagram.ViewModel.ViewModel.User
 
         ICommand applyChangesCommand;
         ICommand loadNewAvatarCommand;
+        ICommand cleanOnCloseCommand;
+
         // CONSTRUCTORS
         /// <summary>
         /// Initialize a new instance of <see cref="SearchViewModel"/>
@@ -35,7 +38,9 @@ namespace Galagram.ViewModel.ViewModel.User
 
             this.applyChangesCommand = new Commands.User.Setting.ApplyChangesCommand(this);
             this.loadNewAvatarCommand = new Commands.User.Setting.LoadNewAvatarCommand(this);
+            this.cleanOnCloseCommand = new Commands.User.Setting.CleanOnCloseCommand(this);
         }
+
         // PROPERTIES
         /// <summary>
         /// Gets or sets temporary avatar that is shown
@@ -50,9 +55,9 @@ namespace Galagram.ViewModel.ViewModel.User
             }
             set
             {
-                Logger.LogAsync(Core.LogMode.Debug, $"Sets new temp avatar path. Old = {tempAvatarPath}, new = {value}");
+                Logger.LogAsync(Core.LogMode.Debug, $"Sets {nameof(TempAvatarPath)}. Old = {tempAvatarPath}, new = {value}");
                 tempAvatarPath = value;
-                changedField.Set((int)SettingFieldChanged.Avatar, DataStorage.LoggedUser.MainPhotoPath != tempAvatarPath);
+                changedField.Set((int)SettingFieldChanged.Avatar, tempAvatarPath != null);
 
                 OnPropertyChanged();
             }
@@ -71,7 +76,7 @@ namespace Galagram.ViewModel.ViewModel.User
             {
                 Logger.LogAsync(Core.LogMode.Debug, $"Gets or sets {nameof(NewNickname)}. Old value = {newNickname}, new value = {newNickname}");
                 newNickname = value;
-                changedField.Set((int)SettingFieldChanged.Nickname, DataStorage.LoggedUser.NickName != newNickname);
+                changedField.Set((int)SettingFieldChanged.Nickname, DataStorage.LoggedUser.NickName != newNickname && !string.IsNullOrWhiteSpace(newNickname));
 
                 OnPropertyChanged();
             }
@@ -110,7 +115,7 @@ namespace Galagram.ViewModel.ViewModel.User
             {
                 Logger.LogAsync(Core.LogMode.Debug, $"Sets new {nameof(NewPassword)}. Old value = {newPassword}, new value = {value}");
                 newPassword = value;
-                changedField.Set((int)SettingFieldChanged.Password, DataStorage.LoggedUser.Password != newPassword);
+                changedField.Set((int)SettingFieldChanged.Password, DataStorage.LoggedUser.Password != newPassword && !string.IsNullOrWhiteSpace(newPassword));
 
                 OnPropertyChanged();
             }
@@ -141,9 +146,21 @@ namespace Galagram.ViewModel.ViewModel.User
                 return loadNewAvatarCommand;
             }
         }
+        /// <summary>
+        /// Gets action to clean up all garbage after setting
+        /// </summary>
+        public ICommand CleanOnCloseCommand
+        {
+            get
+            {
+                Logger.LogAsync(Core.LogMode.Debug, $"Gets {nameof(cleanOnCloseCommand)}");
+
+                return cleanOnCloseCommand;
+            }
+        }
         // METHODS
         /// <summary>
-        /// Gets value if filled has been changed
+        /// Gets value if field has been changed
         /// </summary>
         /// <param name="fielIndex">
         /// Field index
@@ -156,7 +173,17 @@ namespace Galagram.ViewModel.ViewModel.User
             return changedField.Get(fielIndex);
         }
         /// <summary>
-        /// Sets all field to empty
+        /// Gets indicator if any field has been changed
+        /// </summary>
+        /// <returns>
+        /// True if any field has been changed, otherwise — false
+        /// </returns>
+        public bool DoesFieldChanged()
+        {
+            return changedField.Cast<bool>().Any(v => v == true);
+        }
+        /// <summary>
+        /// Sets all fields to empty
         /// </summary>
         public void ResetFields()
         {
@@ -169,6 +196,102 @@ namespace Galagram.ViewModel.ViewModel.User
             OnPropertyChanged(nameof(Password));
 
             changedField.SetAll(false);
+        }
+        /// <summary>
+        /// Creates folder with temporary file, if current folder does not exist yet
+        /// <para/>
+        /// And LOG message about it
+        /// </summary>
+        public void CreateTempFolderIfNotExist()
+        {
+            // create temp folder
+            if (!System.IO.Directory.Exists(Core.Configuration.AppConfig.TEMP_FOLDER))
+            {
+                Logger.LogAsync(Core.LogMode.Debug, "Create Temp Folder");
+                System.IO.Directory.CreateDirectory(Core.Configuration.AppConfig.TEMP_FOLDER);
+            }
+        }
+        /// <summary>
+        /// Generates for passed file temp file name
+        /// </summary>
+        /// <param name="fileExtension">
+        /// File extension with . 
+        /// </param>
+        /// <returns>
+        /// Free file name
+        /// </returns>
+        public string GetRandomTempFileName(string fileExtension)
+        {
+            System.Random random = new System.Random();
+            string serverPath;
+
+            // gets random free name
+            do
+            {
+                int fileHashName = random.Next().GetHashCode();
+
+                serverPath = string.Format(Core.Configuration.AppConfig.TEMP_FILE_FORMAT, fileHashName, fileExtension);
+            } while (System.IO.File.Exists(serverPath));
+
+            return serverPath;
+        }
+        /// <summary>
+        /// Check if nickname and password pass all validations rule
+        /// </summary>
+        /// <returns>
+        /// True if nickname and password is correct, otherwise — false
+        /// </returns>
+        public bool IsNewNicknameValid()
+        {
+            if (string.IsNullOrWhiteSpace(this.newNickname))
+            {
+                WindowManager.ShowMessageWindow(Core.Messages.Info.ViewModel.Command.Registration.NICKNAME_EMPTY);
+                Logger.LogAsync(Core.LogMode.Debug, $"User can not change nickname, because his nickname is empty");
+                return false;
+            }
+            if (this.newNickname.Length < Core.Configuration.DBConfig.NICKNAME_MIN_LENGTH)
+            {
+                WindowManager.ShowMessageWindow(Core.Messages.Info.ViewModel.Command.Registration.NICKNAME_TOO_SHORT);
+                Logger.LogAsync(Core.LogMode.Debug, $"User can not change nickname, because his nickname is too short {this.newNickname.Length}");
+                return false;
+            }
+            if (this.newNickname.Length > Core.Configuration.DBConfig.NICKNAME_MAX_LENGTH)
+            {
+                WindowManager.ShowMessageWindow(Core.Messages.Info.ViewModel.Command.Registration.NICKNAME_TOO_LONG);
+                Logger.LogAsync(Core.LogMode.Debug, $"User can not change nickname, because his nickname is too long {this.newNickname.Length}");
+                return false;
+            }
+            return true;
+        }
+        /// <summary>
+        /// Check if nickname and password pass all validations rule
+        /// </summary>
+        /// <returns>
+        /// True if nickname and password is correct, otherwise — false
+        /// </returns>
+        public bool IsNewPasswordValid()
+        {
+            if (string.IsNullOrWhiteSpace(this.newPassword))
+            {
+                WindowManager.ShowMessageWindow(Core.Messages.Info.ViewModel.Command.Registration.PASSWORD_EMPTY);
+                Logger.LogAsync(Core.LogMode.Debug, $"User can not change password, because his password is empty");
+                return false;
+            }
+
+            if (this.newPassword.Length < Core.Configuration.DBConfig.PASSWORD_MIN_LENGTH)
+            {
+                WindowManager.ShowMessageWindow(Core.Messages.Info.ViewModel.Command.Registration.PASSWORD_TOO_SHORT);
+                Logger.LogAsync(Core.LogMode.Debug, $"User can not change password, because his password is too short {this.newPassword.Length}");
+                return false;
+            }
+            if (this.newPassword.Length > Core.Configuration.DBConfig.PASSWORD_MAX_LENGTH)
+            {
+                WindowManager.ShowMessageWindow(Core.Messages.Info.ViewModel.Command.Registration.PASSWORD_TOO_LONG);
+                Logger.LogAsync(Core.LogMode.Debug, $"User can not change password, because his password is too long {this.newPassword.Length}");
+                return false;
+            }
+
+            return true;
         }
     }
 }
