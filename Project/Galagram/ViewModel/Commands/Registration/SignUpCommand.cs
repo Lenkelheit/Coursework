@@ -24,7 +24,7 @@
             this.registrationViewModel = registrationViewModel;
         }
 
-        // MEHTODS
+        // METHODS
         /// <summary>
         /// Check if command can be executed
         /// </summary>

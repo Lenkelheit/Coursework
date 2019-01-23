@@ -11,11 +11,11 @@ namespace DataAccess.Entities
     public class User
     {
         /// <summary>
-        /// Unique indetifier
+        /// Unique identifier
         /// </summary>
         public int Id { get; set; }
         /// <summary>
-        /// A local path tp avatar
+        /// A local path to avatar
         /// </summary>
         [MinLength(AVATAR_MIN_LENGTH)]
         [MaxLength(AVATAR_MAX_LENGTH)]

@@ -11,15 +11,15 @@ namespace Galagram.Converters
     /// <para/>
     /// Very specific converter
     /// <para/>
-    /// Has been used in follow list, to show delete button, when logged user visit other user pagges
+    /// Has been used in follow list, to show delete button, when logged user visit other user pages
     /// <para/>
-    /// Has been used in comment section, to show delete button, when logged user visit other user pagges
+    /// Has been used in comment section, to show delete button, when logged user visit other user pages
     /// </summary>
     [ValueConversion(sourceType: typeof(User[]), targetType: typeof(bool))]
     public class UserCompareConverter : IMultiValueConverter
     {
         /// <summary>
-        /// Covert two users to boolean value in way comparing them.
+        /// Converts two users to boolean value in way comparing them.
         /// </summary>
         /// <param name="values">
         /// Two users. <para/> 

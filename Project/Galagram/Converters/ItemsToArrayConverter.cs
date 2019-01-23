@@ -5,7 +5,7 @@ using System.Globalization;
 namespace Galagram.Converters
 {
     /// <summary>
-    /// Pack multiple items to array.
+    /// Packs multiple items to array.
     /// <para/>
     /// Has been used to pack multiple parameters in one and passed it to <see cref="Galagram.ViewModel.Commands.User.PhotoInside.LikeCommentCommand"/>
     /// </summary>
@@ -13,7 +13,7 @@ namespace Galagram.Converters
     public class ItemsToArrayConverter : IMultiValueConverter
     {
         /// <summary>
-        /// Covert multiple items to an array
+        /// Converts multiple items to an array
         /// </summary>
         /// <param name="values">
         /// Two users. <para/> 

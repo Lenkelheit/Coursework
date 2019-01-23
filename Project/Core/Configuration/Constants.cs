@@ -8,6 +8,6 @@
         /// <summary>
         /// Used when index is not set, or has a wrong value
         /// </summary>
-        public const int WRONG_INDEX = -1;
+        public static readonly int WRONG_INDEX = -1;
     }
 }

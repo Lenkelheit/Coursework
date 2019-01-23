@@ -9,14 +9,23 @@ namespace Core.Configuration
         /// Name of the application.
         /// </summary>
         public static readonly string APP_NAME = "Galagram";
+        /// <summary>
+        /// Determines if need to close application on fatal error
+        /// </summary>
+        public static readonly bool DO_CLOSE_APP_ON_FATAL_ERROR = false;
 
+
+        // FOLDER CONFIG
+        #region FOLDER CONFIG
         internal static readonly string DIRECTORY_SEPARATOR_STR = System.IO.Path.DirectorySeparatorChar.ToString();
         /// <summary>
         /// A path to executing file.
         /// </summary>
         public static readonly string DIRECTORY_EXE_PATH = System.AppDomain.CurrentDomain.BaseDirectory;
+        #endregion
 
         // LOG
+        #region LOG
         internal static readonly string LOG_DIRECTORY = string.Join(DIRECTORY_SEPARATOR_STR, DIRECTORY_EXE_PATH, "Log");
         /// <summary>
         /// A path to a file with logs.
@@ -28,8 +37,10 @@ namespace Core.Configuration
         /// Date, logMode, message.
         /// </summary>
         public static readonly string LOG_TEMPLATE_FORMAT = "-{0}- [{1}] \t {2}\n";
+        #endregion
 
-        // AVATARS
+        // AVATAR
+        #region AVATAR
         /// <summary>
         /// Folder with avatars
         /// </summary>
@@ -41,8 +52,10 @@ namespace Core.Configuration
         /// {1} — extension with . <para/>
         /// </summary>
         public static readonly string AVATAR_FORMAT = string.Join(DIRECTORY_SEPARATOR_STR, AVATAR_FOLDER, "{0}{1}");
+        #endregion
 
         // PHOTOS
+        #region PHOTOS
         /// <summary>
         /// Folder with photos
         /// </summary>
@@ -57,8 +70,10 @@ namespace Core.Configuration
         /// {2} — extension with . <para/>
         /// </summary>
         public static readonly string PHOTOS_SAVE_PATH_FORMAT = string.Join(DIRECTORY_SEPARATOR_STR, PHOTOS_SAVE_FOLDER, "{0}", "{1}{2}");
-        
+        #endregion
+
         // TEMP
+        #region TEMP
         /// <summary>
         /// Folder with temporary files
         /// </summary>
@@ -70,5 +85,6 @@ namespace Core.Configuration
         /// {1} — extension with . <para/>
         /// </summary>
         public static readonly string TEMP_FILE_FORMAT = string.Join(DIRECTORY_SEPARATOR_STR, TEMP_FOLDER, "{0}{1}");
+        #endregion
     }
 }

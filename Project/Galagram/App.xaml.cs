@@ -32,6 +32,11 @@ namespace Galagram
             e.Handled = true;
 
             Services.WindowManager.Instance.ShowMessageWindow(Core.Messages.Error.App.FATAL_ERROR_CONTINUE);
+
+            if (Core.Configuration.AppConfig.DO_CLOSE_APP_ON_FATAL_ERROR)
+            {
+                this.Shutdown();
+            }
         }
     }
 }
