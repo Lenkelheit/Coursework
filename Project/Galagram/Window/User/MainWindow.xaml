@@ -111,10 +111,10 @@
                         <Binding Path="User.MainPhotoPath"
                                  Converter="{StaticResource ImageConverter}">
                             <Binding.TargetNullValue>
-                                <ImageSource>/Resources/OtherImg/NoImg.png</ImageSource>
+                                <ImageSource>/Resources/OtherImg/NoAvatar.png</ImageSource>
                             </Binding.TargetNullValue>
                             <Binding.FallbackValue>
-                                <ImageSource>/Resources/OtherImg/NoImg.png</ImageSource>
+                                <ImageSource>/Resources/OtherImg/NoAvatar.png</ImageSource>
                             </Binding.FallbackValue>
                         </Binding>
                     </Image.Source>
