@@ -8,10 +8,10 @@
             <Image.Source>
                 <Binding Path="Path" >
                     <Binding.FallbackValue>
-                        <ImageSource>/Resources/OtherImg/NoImg.png</ImageSource>
+                        <ImageSource>/Resources/OtherImg/NoPhoto.png</ImageSource>
                     </Binding.FallbackValue>
                     <Binding.TargetNullValue>
-                        <ImageSource>/Resources/OtherImg/NoImg.png</ImageSource>
+                        <ImageSource>/Resources/OtherImg/NoPhoto.png</ImageSource>
                     </Binding.TargetNullValue>
                 </Binding>
             </Image.Source>
@@ -34,10 +34,10 @@
                 <Image.Source>
                     <Binding Path="MainPhotoPath" >
                         <Binding.FallbackValue>
-                            <ImageSource>/Resources/OtherImg/NoImg.png</ImageSource>
+                            <ImageSource>/Resources/OtherImg/NoAvatar.png</ImageSource>
                         </Binding.FallbackValue>
                         <Binding.TargetNullValue>
-                            <ImageSource>/Resources/OtherImg/NoImg.png</ImageSource>
+                            <ImageSource>/Resources/OtherImg/NoAvatar.png</ImageSource>
                         </Binding.TargetNullValue>
                     </Binding>
                 </Image.Source>
@@ -65,10 +65,10 @@
                 <Image.Source>
                     <Binding Path="MainPhotoPath" >
                         <Binding.FallbackValue>
-                            <ImageSource>/Resources/OtherImg/NoImg.png</ImageSource>
+                            <ImageSource>/Resources/OtherImg/NoAvatar.png</ImageSource>
                         </Binding.FallbackValue>
                         <Binding.TargetNullValue>
-                            <ImageSource>/Resources/OtherImg/NoImg.png</ImageSource>
+                            <ImageSource>/Resources/OtherImg/NoAvatar.png</ImageSource>
                         </Binding.TargetNullValue>
                     </Binding>
                 </Image.Source>
@@ -116,10 +116,10 @@
                     <Image.Source> 
                         <Binding Path="User.MainPhotoPath" >
                             <Binding.FallbackValue>
-                                <ImageSource>/Resources/OtherImg/NoImg.png</ImageSource>
+                                <ImageSource>/Resources/OtherImg/NoAvatar.png</ImageSource>
                             </Binding.FallbackValue>
                             <Binding.TargetNullValue>
-                                <ImageSource>/Resources/OtherImg/NoImg.png</ImageSource>
+                                <ImageSource>/Resources/OtherImg/NoAvatar.png</ImageSource>
                             </Binding.TargetNullValue>
                         </Binding>
                     </Image.Source>

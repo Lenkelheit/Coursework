@@ -342,7 +342,7 @@
     <Resource Include="Resources\MenuImg\Search.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\OtherImg\NoImg.png" />
+    <Resource Include="Resources\OtherImg\NoAvatar.png" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Theme\AdminPanel\Classic\Templates\" />
@@ -352,6 +352,9 @@
   <ItemGroup>
     <Resource Include="Resources\Ico\ico.ico" />
     <Resource Include="Resources\Ico\png.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\OtherImg\NoPhoto.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
