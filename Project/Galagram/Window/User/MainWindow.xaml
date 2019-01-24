@@ -108,7 +108,8 @@
                 <Label Grid.Row="0" Content="{Binding User.NickName, Mode=OneWay}" Style="{StaticResource CenterLabel}"/>
                 <Image Grid.Row="1" Style="{StaticResource Photo}">
                     <Image.Source>
-                        <Binding Path="User.MainPhotoPath" >
+                        <Binding Path="User.MainPhotoPath"
+                                 Converter="{StaticResource ImageConverter}">
                             <Binding.TargetNullValue>
                                 <ImageSource>/Resources/OtherImg/NoImg.png</ImageSource>
                             </Binding.TargetNullValue>
