@@ -76,7 +76,7 @@
 
             <!--ELEMENTS-->
             <Viewbox Height="{Binding Path=ActualHeight, ElementName=StackPanel}">
-                <CheckBox />
+                <CheckBox Name="CheckBox"/>
             </Viewbox>
             <Viewbox>
                 <Label
@@ -89,6 +89,9 @@
         <ControlTemplate.Triggers>
             <Trigger Property="IsSelected" Value="True">
                 <Setter TargetName="StackPanel" Property="Background" Value="{StaticResource GrayColorBrushV3}"/>
+            </Trigger>
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter TargetName="CheckBox" Property="Visibility" Value="Collapsed"/>
             </Trigger>
         </ControlTemplate.Triggers>
     </ControlTemplate>

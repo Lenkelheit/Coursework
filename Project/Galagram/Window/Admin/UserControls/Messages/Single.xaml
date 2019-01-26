@@ -36,7 +36,7 @@
                Style="{StaticResource ItemLabel_Admin}"/>
         <TextBox Grid.Row="1" Grid.Column="1" 
                  Text="Author Name"
-                 IsEnabled="False"
+                 IsReadOnly="True"
                  Style="{StaticResource ItemTextBox_Admin}"/>
         <!--SUBJECT-->
         <Label Grid.Row="2" Grid.Column="0" 
@@ -60,6 +60,7 @@
                Style="{StaticResource ItemLabel_Admin}"/>
 
         <TextBox Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2"
+                 IsReadOnly="True"
                  Text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras accumsan mi a quam viverra luctus. Suspendisse ut vulputate nisi, nec fermentum libero. Morbi sollicitudin, orci sit amet congue cursus, nibh nunc lobortis orci, et hendrerit arcu nunc a lorem. Curabitur dignissim risus non diam ornare mattis ac vitae elit. Suspendisse euismod gravida diam et varius. Sed quis commodo magna. Nunc a ex nec erat feugiat dapibus. Donec id nulla et dolor efficitur convallis. Maecenas vel sem neque. Vivamus volutpat quam ac urna condimentum, vitae posuere neque scelerisque. Aenean et lacinia dolor."
                  Style="{StaticResource ItemTextBoxMultiline_Admin}"/>
 

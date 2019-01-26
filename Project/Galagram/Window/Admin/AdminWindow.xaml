@@ -3,10 +3,6 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        
-        xmlns:g="clr-namespace:Galagram.Window.Admin.UserControls.Users"
-        
-        
         mc:Ignorable="d"
         Title="AdminWindow" 
         Height="600" Width="1000"
@@ -62,11 +58,7 @@
         <!--MAIN CONTENT-->
         <Border Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="3" Grid.RowSpan="8"
                 Style="{StaticResource ContentBorder}">
-            <ContentControl>
-                <ContentControl.Content>
-                    <g:Single/>
-                </ContentControl.Content>
-            </ContentControl>
+            <ContentControl Content="null"/>
         </Border>
 
 

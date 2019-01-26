@@ -33,7 +33,6 @@
                        Style="{StaticResource ItemLabel_Admin}"/>
         <TextBox Grid.Row="1" Grid.Column="1" 
                          Text="Author Name"
-                         IsEnabled="False"
                          Style="{StaticResource ItemTextBox_Admin}"/>
         <!--PHOTO-->
         <Label Grid.Row="2" Grid.Column="0" 

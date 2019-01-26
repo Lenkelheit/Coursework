@@ -1,17 +1,19 @@
 ﻿<Application x:Class="Galagram.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             StartupUri="Window/Admin/AdminWindow.xaml">
+             StartupUri="Window/Registration.xaml">
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
 
-                <!--USER PART-->
-                    <!--RESOURCES-->
-                        <!--VALUES-->
+                <!--RESOURCES-->
+                    <!--VALUES-->
                 <ResourceDictionary Source="Theme/Resources/Values.xaml" />
-                        <!--CONVERTERS-->
+                    <!--CONVERTERS-->
                 <ResourceDictionary Source="Theme/Resources/Converters.xaml" />
+
+                
+                <!--USER PART-->
                     <!--COLORS-->
                 <ResourceDictionary Source="Theme/User/Pincky/Colors.xaml" />
                 <ResourceDictionary Source="Theme/User/Pincky/Brushes.xaml" />
