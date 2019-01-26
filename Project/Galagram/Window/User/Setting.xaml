@@ -62,6 +62,7 @@
 
             <Button Grid.Row="0" Grid.Column="1" Content="load new image" 
                     Style="{StaticResource ClickButton}"
+                    FontSize="22"
                     Height="50" Margin="15"
                     Command="{Binding LoadNewAvatarCommand}"/>
             <!--CONFIG-->

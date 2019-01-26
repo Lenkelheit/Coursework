@@ -1,0 +1,75 @@
+﻿<UserControl x:Class="Galagram.Window.Admin.UserControls.Messages.Single"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="600" d:DesignWidth="900">
+    <Grid>
+        <!--SCALING-->
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="50"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <!--CONTENT-->
+        <!--ID-->
+        <Label Grid.Row="0" Grid.Column="0" 
+               Content="Message ID"
+               Style="{StaticResource ItemLabel_Admin}"/>
+        <TextBox Grid.Row="0" Grid.Column="1" 
+                 IsReadOnly="True"
+                 Text="#"
+                 Style="{StaticResource ItemTextBox_Admin}"/>
+        <!--AUTHOR-->
+        <Label Grid.Row="1" Grid.Column="0" 
+               Content="Author"
+               Style="{StaticResource ItemLabel_Admin}"/>
+        <TextBox Grid.Row="1" Grid.Column="1" 
+                 Text="Author Name"
+                 IsEnabled="False"
+                 Style="{StaticResource ItemTextBox_Admin}"/>
+        <!--SUBJECT-->
+        <Label Grid.Row="2" Grid.Column="0" 
+               Content="Subject"
+               Style="{StaticResource ItemLabel_Admin}"/>
+        <TextBox Grid.Row="2" Grid.Column="1" 
+                 Text="Subject name"
+                 IsReadOnly="True"
+                 Style="{StaticResource ItemTextBox_Admin}"/>
+        <!--DATE-->
+        <Label Grid.Row="3" Grid.Column="0" 
+               Content="Date"
+               Style="{StaticResource ItemLabel_Admin}"/>
+        <TextBox Grid.Row="3" Grid.Column="1" 
+                 IsReadOnly="True"
+                 Text="22/12/2014"
+                 Style="{StaticResource ItemTextBox_Admin}"/>
+        <!--TEXT-->
+        <Label Grid.Row="4" Grid.Column="0" 
+               Content="Text"
+               Style="{StaticResource ItemLabel_Admin}"/>
+
+        <TextBox Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2"
+                 Text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras accumsan mi a quam viverra luctus. Suspendisse ut vulputate nisi, nec fermentum libero. Morbi sollicitudin, orci sit amet congue cursus, nibh nunc lobortis orci, et hendrerit arcu nunc a lorem. Curabitur dignissim risus non diam ornare mattis ac vitae elit. Suspendisse euismod gravida diam et varius. Sed quis commodo magna. Nunc a ex nec erat feugiat dapibus. Donec id nulla et dolor efficitur convallis. Maecenas vel sem neque. Vivamus volutpat quam ac urna condimentum, vitae posuere neque scelerisque. Aenean et lacinia dolor."
+                 Style="{StaticResource ItemTextBoxMultiline_Admin}"/>
+
+        <!--BUTTONS-->
+        <Button Grid.Row="6" Grid.Column="0"  
+                Style="{StaticResource AdminButton}"
+                Content="Go Back"/>
+        <Button Grid.Row="6" Grid.Column="1"  
+                Style="{StaticResource AdminButton}"
+                Content="Delete"/>
+
+    </Grid>
+</UserControl>

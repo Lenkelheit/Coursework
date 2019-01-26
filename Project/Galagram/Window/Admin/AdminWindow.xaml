@@ -3,10 +3,14 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        
+        xmlns:g="clr-namespace:Galagram.Window.Admin.UserControls.Users"
+        
+        
         mc:Ignorable="d"
         Title="AdminWindow" 
-        Height="500" Width="800"
-        MinHeight="500" MinWidth="800"        
+        Height="600" Width="1000"
+        MinHeight="600" MinWidth="1000"        
         WindowStartupLocation="CenterScreen"
         Style="{StaticResource ModalWindowResizable}">
     
@@ -21,7 +25,7 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="50"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
@@ -39,29 +43,30 @@
                MouseDown="MovingWindow"/>
 
         <!--HEADER-->
-        <Label Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="3" Content="AdminPanel"
+        <Label Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="3" 
+               Content="AdminPanel"
                Style="{StaticResource HeaderLabelAdmin}"
                MouseDown="MovingWindow"/>
 
         <!--MENU-->
-        <Grid Grid.Row="1" Grid.Column="0" Grid.RowSpan="8" Background="#37424B">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
-            </Grid.RowDefinitions>
+        <ListBox Grid.Row="1" Grid.Column="0" Grid.RowSpan="8"
+                 Style="{StaticResource ListBoxAdminMenu}">
 
-            <Button Content="messages" Grid.Row="0" Style="{StaticResource AdminButton}" Click="Button_Click_1"/>
-            <Button Content="users" Grid.Row="1" Style="{StaticResource AdminButton}" Click="Button_Click"/>
-            <Button Content="comments" Grid.Row="2" Style="{StaticResource AdminButton}"/>
-            <Button Content="subjects" Grid.Row="3" Style="{StaticResource AdminButton}" Click="Button_Click_2"/>
-            <Button Content="exit" Grid.Row="4" Style="{StaticResource AdminButton}"/>
-        </Grid>
-
+            <ListBoxItem Content="Message"/>
+            <ListBoxItem Content="Users"/>
+            <ListBoxItem Content="Comments"/>
+            <ListBoxItem Content="Subject"/>
+            <ListBoxItem Content="Exit"/>
+        </ListBox>
+        
+        <!--MAIN CONTENT-->
         <Border Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="3" Grid.RowSpan="8"
-                         x:Name="MainContent" Background="#16212B">
+                Style="{StaticResource ContentBorder}">
+            <ContentControl>
+                <ContentControl.Content>
+                    <g:Single/>
+                </ContentControl.Content>
+            </ContentControl>
         </Border>
 
 
