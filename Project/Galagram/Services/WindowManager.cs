@@ -89,9 +89,9 @@ namespace Galagram.Services
         /// Throws when <paramref name="key"/> or <paramref name="value"/> is null.
         /// </exception>
         /// <exception cref="InvalidOperationException">
-        /// Throws when the key already has been registered
+        /// Throws when the value with key already has been registered
         /// </exception>
-        /// <exception cref="ArithmeticException">
+        /// <exception cref="ArgumentException">
         /// Throws when <paramref name="value"/> can not be registered.
         /// </exception>
         public void Registrate(string key, Type value)

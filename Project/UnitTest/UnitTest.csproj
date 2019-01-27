@@ -135,6 +135,7 @@
     <Compile Include="ViewModel\ViewModels\User\PhotoInsideViewModelTest.cs" />
     <Compile Include="ViewModel\ViewModels\User\SearchViewModelTest.cs" />
     <Compile Include="ViewModel\ViewModels\User\SettingViewModelTest.cs" />
+    <Compile Include="View\Services\NavigationManagerTest.cs" />
     <Compile Include="View\Services\WindowManagerTest.cs" />
   </ItemGroup>
   <ItemGroup>
