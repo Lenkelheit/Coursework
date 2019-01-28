@@ -28,5 +28,10 @@
         /// The behaviour for passed enum value is not implemented.
         /// </summary>
         public static readonly string WINDOW_MANAGER_MESSAGE_BOX_BUTTONS_WRONG_ENUM_VALUE = "Current MessageBoxButton enum value is not allowed.";
+
+        /// <summary>
+        /// Modal window is not opened at all or is not opened as modal
+        /// </summary>
+        public static readonly string WINDOW_MANAGER_MODAL_WINDOW_IS_NOT_OPENED = "Modal window by current key is not opened";
     }
 }
