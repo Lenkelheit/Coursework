@@ -9,7 +9,7 @@ namespace DataAccess.Configuration
         {
             Property(p => p.Path).IsRequired();
 
-            HasRequired(p => p.User).WithMany(u => u.Photos).Map(m => m.MapKey("UserId")).WillCascadeOnDelete(false);
+            HasRequired(p => p.User).WithMany(u => u.Photos).Map(m => m.MapKey("UserId"));
         }
     }
 }

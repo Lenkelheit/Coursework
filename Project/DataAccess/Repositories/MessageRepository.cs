@@ -5,6 +5,7 @@
     /// </summary>
     public class MessageRepository : GenericRepository<Entities.Message>
     {
+        // CONSTRUCTORS
         /// <summary>
         /// Initialize a new instance of <see cref="MessageRepository"/>
         /// </summary>
