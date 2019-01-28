@@ -11,7 +11,7 @@ namespace DataAccess.Repositories
         /// <summary>
         /// Initialize a new instance of <see cref="PhotoLikeRepository"/>
         /// </summary>
-        /// <param name="context">Daata context</param>
+        /// <param name="context">Data context</param>
         public PhotoLikeRepository(Context.AppContext context) 
             : base(context) { }
 
