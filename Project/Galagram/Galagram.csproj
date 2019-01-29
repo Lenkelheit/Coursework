@@ -101,6 +101,8 @@
     <Compile Include="Converters\ItemsToArrayConverter.cs" />
     <Compile Include="Converters\UserConverter.cs" />
     <Compile Include="Services\DataStorage.cs" />
+    <Compile Include="Services\WindowManagerInitializers\DefaultWindowInitializers.cs" />
+    <Compile Include="Services\WindowManagerInitializers\WindowManagerInitializerBase.cs" />
     <Compile Include="ViewModel\CommandBase.cs" />
     <Compile Include="ViewModel\Commands\Registration\LogInCommand.cs" />
     <Compile Include="ViewModel\Commands\Registration\SignUpCommand.cs" />
@@ -137,7 +139,7 @@
     <Compile Include="ViewModel\ViewModel\User\PhotoInsideViewModel.cs" />
     <Compile Include="ViewModel\ViewModel\User\SearchViewModel.cs" />
     <Compile Include="ViewModel\ViewModel\User\SettingViewModel.cs" />
-    <Compile Include="Window\Dialogs\MessageBoxButton.cs" />
+    <Compile Include="Window\Enums\MessageBoxButton.cs" />
     <Compile Include="Services\WindowManager.cs" />
     <Compile Include="Window\Admin\UserControls\DeleteItem.xaml.cs">
       <DependentUpon>DeleteItem.xaml</DependentUpon>
@@ -145,6 +147,8 @@
     <Compile Include="Window\Admin\UserControls\Messages\MessageInside.xaml.cs">
       <DependentUpon>MessageInside.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Window\Interfaces\IFileDialog.cs" />
+    <Compile Include="Window\Interfaces\IMessageBox.cs" />
     <Compile Include="Window\User\AskQuestion.xaml.cs">
       <DependentUpon>AskQuestion.xaml</DependentUpon>
     </Compile>

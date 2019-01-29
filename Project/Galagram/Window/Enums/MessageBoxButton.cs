@@ -1,9 +1,9 @@
-﻿namespace Galagram.Window.Dialogs
+﻿namespace Galagram.Window.Enums
 {
     /// <summary>
     /// Specifies the buttons that are displayed on a message box. 
     /// <para/> 
-    /// Used as an argument <see cref="Galagram.Window.Dialogs.MessageBox.ShowDialog(MessageBoxButton)"/> method.
+    /// Used as an argument <see cref="Galagram.Window.Dialogs.MessageBox.ShowDialog(System.Windows.MessageBoxButton)"/> method.
     /// </summary>
     public enum MessageBoxButton
     {

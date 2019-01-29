@@ -28,5 +28,12 @@
         /// The behaviour for passed enum value is not implemented.
         /// </summary>
         public static readonly string WINDOW_MANAGER_MESSAGE_BOX_BUTTONS_WRONG_ENUM_VALUE = "Current MessageBoxButton enum value is not allowed.";
+
+        /// <summary>
+        /// Dialog window does not inherit default interface
+        /// <para/>
+        /// {0} — interface name
+        /// </summary>
+        public static readonly string WINDOW_MANAGER_DIALOG_DOES_NOT_INHERIT_DEFAULT_INTERFACE_FORMAT = string.Concat("Dialog does not inherit default interface", System.Environment.NewLine, "The default interface for this dialog is {0}");
     }
 }

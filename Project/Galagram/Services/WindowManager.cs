@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 
+using Galagram.Window.Interfaces;
 using Galagram.Window.Dialogs;
+using Galagram.Window.Enums;
 using Galagram.Window.User;
 
 namespace Galagram.Services
@@ -17,6 +19,8 @@ namespace Galagram.Services
     {
         // FIELDS
         static WindowManager instance; // singleton
+        static WindowManagerInitializers.WindowManagerInitializerBase initializerBase;
+
         IDictionary<string, Type> factory; // a factory has string as a key and WindowType as a value
 
         // CONSTRUCTORS
@@ -25,21 +29,14 @@ namespace Galagram.Services
             // initialize all fields
             factory = new Dictionary<string, Type>();
 
-            // registrate all windows
-            // registrate main window
-            Registrate(nameof(Window.Registration), typeof(Window.Registration));
-            // registrate dialogs
-            Registrate(nameof(MessageBox), typeof(MessageBox));
-            // registrate user windows
-            Registrate(nameof(AskQuestion), typeof(AskQuestion));
-            Registrate(nameof(Follow), typeof(Follow));
-            Registrate(nameof(MainWindow), typeof(MainWindow));
-            Registrate(nameof(PhotoInside), typeof(PhotoInside));
-            Registrate(nameof(Search), typeof(Search));
-            Registrate(nameof(Setting), typeof(Setting));
+            // registrate default window
+            initializerBase?.Initialize(this);
         }
         static WindowManager()
         {
+            // initialize window initializer
+            initializerBase = new WindowManagerInitializers.DefaultWindowInitializers();
+
             // initialize singleton value
             instance = new WindowManager();
         }
@@ -240,15 +237,22 @@ namespace Galagram.Services
         /// <exception cref="InvalidOperationException">
         /// Throws when message box is not registered.
         /// </exception>
+        /// <exception cref="InvalidCastException">
+        /// Throws when registered dialog does not inherit default interface
+        /// </exception>
         public bool? ShowMessageWindow(string text, string header, MessageBoxButton buttonType)
         {
+            // make default instance             
+            IMessageBox messageBox = MakeInstance(nameof(MessageBox)) as IMessageBox;            
+            // throw exception if not the message box
+            if (messageBox == null) throw new InvalidCastException(string.Concat(Core.Messages.Error.View.WINDOW_MANAGER_DIALOG_DOES_NOT_INHERIT_DEFAULT_INTERFACE_FORMAT, nameof(IMessageBox)));
+            
+            // set up all values
+            messageBox.Header = header;
+            messageBox.Text = text;
+
             // show window and return result
-            return new MessageBox()
-                    {
-                        // set up all values
-                        Text = text,
-                        Header = header
-                    }.ShowDialog(buttonType);             
+            return messageBox.ShowDialog(buttonType);             
         }
         /// <summary>
         /// Switch current main window to passed one.
