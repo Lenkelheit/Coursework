@@ -1,6 +1,7 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:local="clr-namespace:Galagram.Theme.User.Pincky.Styles">
+                    xmlns:local="clr-namespace:Galagram.Theme.User.Pincky.Styles"
+                    xmlns:c="clr-namespace:Galagram.Window.UserControls">
     <!--WINDOW-->
     <Style TargetType="Window" x:Key="ModalWindow">
         <Setter Property="ResizeMode" Value="NoResize"/>
@@ -107,7 +108,7 @@
         <Setter Property="Margin" Value="0"/>
         <Setter Property="Stretch" Value="Uniform"/>
     </Style>
-    <!--IMAGE PICTURE-->
+    <!--IMAGE ALBUM PICTURE-->
     <Style TargetType="Image" x:Key="PhotoImage">
         <Setter Property="Width" Value="100"/>
         <Setter Property="Height" Value="100"/>
@@ -121,6 +122,38 @@
                 <Setter Property="Height" Value="90"/>
             </Trigger>
         </Style.Triggers>
+    </Style>
+    <!--DROP WINDOW IMAGE-->
+    <Style TargetType="Image" x:Key="DropImage">
+        <Setter Property="Width" Value="100"/>
+        <Setter Property="Height" Value="100"/>
+        <Setter Property="Margin" Value="5"/>
+        <Setter Property="Stretch" Value="Uniform"/>
+    </Style>
+
+    <!--DROP WINDOW-->
+    <Style TargetType="{x:Type c:CornersContentControl}" x:Key="DropPanelRegular">
+        <!--colors-->
+        <Setter Property="Fill" Value="{StaticResource LightBlueBrushV2}"/>
+        <Setter Property="Stroke" Value="{StaticResource BlackBrush}"/>
+        
+        <!--sizes-->
+        <Setter Property="StrokeDashLine" Value="15"/>
+        <Setter Property="StrokeDashSpace" Value="10"/>
+        <Setter Property="StrokeThickness" Value="5"/>
+        <Setter Property="Margin" Value="15"/>
+    </Style>
+    
+    <Style TargetType="{x:Type c:CornersContentControl}" x:Key="DropPanelOnHover">
+        <!--colors-->
+        <Setter Property="Fill" Value="{StaticResource LightBlueBrush}"/>
+        <Setter Property="Stroke" Value="{StaticResource BlackBrush}"/>
+
+        <!--sizes-->
+        <Setter Property="StrokeDashSpace" Value="13"/>
+        <Setter Property="Margin" Value="17"/>
+        <Setter Property="StrokeDashLine" Value="15"/>
+        <Setter Property="StrokeThickness" Value="5"/>
     </Style>
 
 </ResourceDictionary>

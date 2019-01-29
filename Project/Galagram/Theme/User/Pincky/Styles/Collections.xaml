@@ -73,6 +73,7 @@
     </Style>
     <!--LIST BOX FOR PHOTOS-->
     <Style TargetType="ListBox" x:Key="ListBoxAlbum">
+        <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto"/>
         <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled"/>
 
         <Setter Property="Template">
@@ -84,10 +85,27 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
+        
         <Setter Property="ItemContainerStyle">
             <Setter.Value>
                 <Style TargetType="ListBoxItem" BasedOn="{StaticResource ListBoxItemBase}">
                     <Setter Property="Template" Value="{StaticResource ListBoxAlbumImageTemplate}"/>
+                </Style>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!--LiST BOX WITH DROPPED IMAGES-->
+    <Style TargetType="ListBox" x:Key="ListBoxDropImage">
+        <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled"/>
+        <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="VirtualizingPanel.ScrollUnit" Value="Pixel"/>
+
+        <Setter Property="ItemContainerStyle">
+            <Setter.Value>
+                <Style TargetType="ListBoxItem">
+                    <Setter Property="Template" Value="{StaticResource ListBoxDropImageTemplate}"/>
                 </Style>
             </Setter.Value>
         </Setter>

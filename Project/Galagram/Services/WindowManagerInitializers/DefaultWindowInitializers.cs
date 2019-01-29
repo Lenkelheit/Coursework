@@ -21,6 +21,7 @@ namespace Galagram.Services.WindowManagerInitializers
             windowManager.Registrate(nameof(Window.Registration), typeof(Window.Registration));
             // registrate dialogs
             windowManager.Registrate(nameof(MessageBox), typeof(MessageBox));
+            windowManager.Registrate(nameof(DropWindow), typeof(DropWindow));
             // registrate user windows
             windowManager.Registrate(nameof(AskQuestion), typeof(AskQuestion));
             windowManager.Registrate(nameof(Follow), typeof(Follow));

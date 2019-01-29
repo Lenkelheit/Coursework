@@ -6,6 +6,11 @@
     public static class View
     {
         /// <summary>
+        /// The filter string for DropWindow is invalid.
+        /// </summary>
+        public static readonly string DROP_WINDOW_WRONG_FILTER_STRING = "The filter string is invalid.";
+
+        /// <summary>
         /// Passed argument is an interface or abstract class type. WindowManager can not registrate this type. 
         /// <para/>
         /// Takes argument name.

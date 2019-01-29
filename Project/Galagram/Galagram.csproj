@@ -139,6 +139,9 @@
     <Compile Include="ViewModel\ViewModel\User\PhotoInsideViewModel.cs" />
     <Compile Include="ViewModel\ViewModel\User\SearchViewModel.cs" />
     <Compile Include="ViewModel\ViewModel\User\SettingViewModel.cs" />
+    <Compile Include="Window\Dialogs\DropWindow.xaml.cs">
+      <DependentUpon>DropWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Window\Enums\MessageBoxButton.cs" />
     <Compile Include="Services\WindowManager.cs" />
     <Compile Include="Window\Admin\UserControls\DeleteItem.xaml.cs">
@@ -149,6 +152,7 @@
     </Compile>
     <Compile Include="Window\Interfaces\IFileDialog.cs" />
     <Compile Include="Window\Interfaces\IMessageBox.cs" />
+    <Compile Include="Window\UserControls\CornersContentControl.cs" />
     <Compile Include="Window\User\AskQuestion.xaml.cs">
       <DependentUpon>AskQuestion.xaml</DependentUpon>
     </Compile>
@@ -220,6 +224,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Window\Admin\UserControls\Messages\MessageInside.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Window\Dialogs\DropWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -359,6 +367,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\OtherImg\NoPhoto.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\InterfaceImage\DropDown.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

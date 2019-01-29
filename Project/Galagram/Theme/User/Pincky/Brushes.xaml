@@ -14,6 +14,7 @@
     <SolidColorBrush x:Key="BlueBrush" Color="{StaticResource BlueColor}"/>
     <SolidColorBrush x:Key="BlueHoverBrush" Color="{StaticResource BlueHoverColor}"/>
     <SolidColorBrush x:Key="LightBlueBrush" Color="{StaticResource LightBlueColor}"/>
+    <SolidColorBrush x:Key="LightBlueBrushV2" Color="{StaticResource LightBlueColorV2}"/>
     <SolidColorBrush x:Key="SilverBrush" Color="{StaticResource SilverColor}"/>
     <SolidColorBrush x:Key="DarkSilverBrush" Color="{StaticResource DarkSilverColor}"/>
 
