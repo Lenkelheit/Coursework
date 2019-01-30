@@ -6,18 +6,87 @@
     <Style TargetType="Label" x:Key="TopLeftLabel">
         <Setter Property="Background" Value="{StaticResource OrangeBrush}"/>
         <Setter Property="FontSize" Value="25"/>
+        <Setter Property="BorderThickness" Value="0"/>
         <Setter Property="Foreground" Value="{StaticResource WhiteBrush}"/>
         <Setter Property="HorizontalContentAlignment" Value="Center"/>
         <Setter Property="VerticalContentAlignment" Value="Center"/>
         <Setter Property="FontWeight" Value="DemiBold"/>
     </Style>
+    
     <!--HEADER LABEL ADMIN-->
     <Style TargetType="Label" x:Key="HeaderLabelAdmin">
-        <Setter Property="Background" Value="{StaticResource LightGrayColorBrush}"/>
+        <Setter Property="Background" Value="{StaticResource GrayColorBrushV2}"/>
         <Setter Property="FontSize" Value="25"/>
         <Setter Property="VerticalContentAlignment" Value="Center"/>
         <Setter Property="FontWeight" Value="Bold"/>
         <Setter Property="Padding" Value="15, 0, 0, 0"/>
     </Style>
+    
+    <!--CENTER LABEL HEADER-->
+    <Style TargetType="Label" x:Key="CenterHeaderLabel_Admin">
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        <Setter Property="FontSize" Value="20"/>
+        <Setter Property="Foreground" Value="{StaticResource WhiteBrush}"/>
+    </Style>
+    
+    <!--IMPORTANT RED LABEL-->
+    <Style TargetType="Label" x:Key="ImportantLabel_Admin">
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        <Setter Property="FontSize" Value="20"/>
+        <Setter Property="Foreground" Value="{StaticResource RedBrush}"/>
+    </Style>
 
+    <!--LABEL FOR EACH ITEM-->
+    <Style TargetType="Label" x:Key="ItemLabel_Admin">
+        <Setter Property="Foreground" Value="{StaticResource WhiteBrush}"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="HorizontalContentAlignment" Value="Left"/>
+        <Setter Property="FontSize" Value="24"/>
+    </Style>
+    
+    <!--LABEL IN INTERFACE-->
+    <Style TargetType="Label" BasedOn="{StaticResource ItemLabel_Admin}" x:Key="InterfaceLabel_Admin">
+        <Setter Property="FontSize" Value="20"/>
+    </Style>
+
+    <!--TEXT BOX VALUE FOR EACH ITEM-->
+    <Style TargetType="TextBox" x:Key="ItemTextBox_Admin">
+        <Setter Property="Template" Value="{StaticResource TextBoxTemplate}"/>
+        <Setter Property="FontSize" Value="18"/>
+        <Setter Property="Margin" Value="5"/>
+        <Setter Property="HorizontalContentAlignment" Value="Left"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="Background" Value="{StaticResource GrayColorBrushV1}"/>
+        <!--TRIGGERS-->
+        <Style.Triggers>
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="Background" Value="{StaticResource GrayColorBrushV5}"/>
+                <Setter Property="Foreground" Value="{StaticResource WhiteSmokeBrush}"/>
+                <Setter Property="BorderBrush" Value="{StaticResource GrayColorBrushV5}"/>
+            </Trigger>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="BorderBrush" Value="{StaticResource GrayColorBrushV5}"/>
+            </Trigger>
+            <Trigger Property="IsFocused" Value="True">
+                <Setter Property="BorderBrush" Value="{StaticResource GrayColorBrushV4}"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+    
+    <!--TEXT FOR ITEMS WITH LOTS OF TEXT-->
+    <Style TargetType="TextBox" BasedOn="{StaticResource ItemTextBox_Admin}" x:Key="ItemTextBoxMultiline_Admin">
+        <Setter Property="TextWrapping" Value="Wrap"/>
+        <Setter Property="VerticalScrollBarVisibility" Value="Hidden"/>
+    </Style>
+
+    
+    <!--LABEL IN LIST BOX WITH PHOTO IN ADMIN PANEL-->
+    <Style TargetType="Label" x:Key="ListBoxPhotoLabel_Admin">
+        <Setter Property="Margin" Value="0"/>
+        <Setter Property="Padding" Value="0"/>
+        <Setter Property="FontSize" Value="8"/>
+        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+    </Style>
 </ResourceDictionary>

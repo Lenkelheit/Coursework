@@ -64,6 +64,7 @@
             <StackPanel Grid.Row="0" Grid.Column="1">
                 <Button Content="load new image" 
                     Style="{StaticResource ClickButton}"
+                    FontSize="22"
                     Height="50" Margin="15"
                     Command="{Binding LoadNewAvatarCommand}"/>
                 <Button Content="reset avatar" 

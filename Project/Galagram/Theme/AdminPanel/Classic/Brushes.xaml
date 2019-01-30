@@ -3,11 +3,18 @@
                     xmlns:local="clr-namespace:Galagram.Theme.AdminPanel.Classic">
 
     <SolidColorBrush x:Key="OrangeBrush" Color="{StaticResource OrangeColor}" />
-    <SolidColorBrush x:Key="LightGrayColorBrush" Color="{StaticResource LightGrayColor}" />
-    <SolidColorBrush x:Key="DarkGrayColorBrush" Color="{StaticResource DarkGrayColor}" />
-    <SolidColorBrush x:Key="MiddleGrayColorBrush" Color="{StaticResource MiddleGrayColor}" />
-    <SolidColorBrush x:Key="DarkerGrayColorBrush" Color="{StaticResource DarkerGrayColor}" />
-    <SolidColorBrush x:Key="LighterGrayColorBrush" Color="{StaticResource LighterGrayColor}" />
+    <SolidColorBrush x:Key="LightOrangeBrush" Color="{StaticResource LightOrangeColor}"/>
+    <SolidColorBrush x:Key="RedBrush" Color="{StaticResource RedColor}"/>
+
+    <!--Gray brushes are sorted depending on their saturation-->
+    <!--Closer to black, lowwer they are-->
+    <!--Check colors for better understanding-->
+    <SolidColorBrush x:Key="GrayColorBrushV1" Color="{StaticResource GrayColorV1}" />
+    <SolidColorBrush x:Key="GrayColorBrushV2" Color="{StaticResource GrayColorV2}" />
+    <SolidColorBrush x:Key="GrayColorBrushV3" Color="{StaticResource GrayColorV3}" />
+    <SolidColorBrush x:Key="GrayColorBrushV4" Color="{StaticResource GrayColorV4}" />
+    <SolidColorBrush x:Key="GrayColorBrushV5" Color="{StaticResource GrayColorV5}" />
+    <SolidColorBrush x:Key="GrayColorBrushV6" Color="{StaticResource GrayColorV6}" />
 
 
 </ResourceDictionary>
