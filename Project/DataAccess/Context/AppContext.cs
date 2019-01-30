@@ -1,4 +1,5 @@
 ﻿using System.Data.Entity;
+using System.Linq;
 
 using DataAccess.Entities;
 using DataAccess.Configuration;
@@ -78,6 +79,23 @@ namespace DataAccess.Context
             modelBuilder.Configurations.Add(new UserConfigurataion());
 
             base.OnModelCreating(modelBuilder);
+        }
+
+        /// <summary>
+        /// Saves all changes made in this context to the underlying database.
+        /// </summary>
+        /// <returns>
+        /// Amount of transaction that has been confirmed.
+        /// </returns>
+        public override int SaveChanges()
+        {
+            PhotoLike.Local.Where(ph => ph.Photo == null && ph.User == null).ToList().ForEach(ph => PhotoLike.Remove(ph));
+
+            Comments.Local.Where(c => c.Photo == null && c.User == null).ToList().ForEach(c => Comments.Remove(c));
+
+            CommentLike.Where(cl => cl.Comment == null && cl.User == null).ToList().ForEach(cl => CommentLike.Remove(cl));
+
+            return base.SaveChanges();
         }
     }
 }

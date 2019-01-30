@@ -60,7 +60,7 @@
         /// </summary>
         public const int AVATAR_MIN_LENGTH = 4;
         /// <summary>
-        /// Avatar server path strng max length
+        /// Avatar server path string max length
         /// </summary>
         public const int AVATAR_MAX_LENGTH = 264;
 
