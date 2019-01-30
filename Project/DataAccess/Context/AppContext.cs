@@ -89,11 +89,13 @@ namespace DataAccess.Context
         /// </returns>
         public override int SaveChanges()
         {
-            PhotoLike.Local.Where(ph => ph.Photo == null && ph.User == null).ToList().ForEach(ph => PhotoLike.Remove(ph));
+            PhotoLike.Local.Where(ph => ph.Photo == null || ph.User == null).ToList().ForEach(ph => PhotoLike.Remove(ph));
 
-            Comments.Local.Where(c => c.Photo == null && c.User == null).ToList().ForEach(c => Comments.Remove(c));
+            Photos.Local.Where(p => p.User == null).ToList().ForEach(p => Photos.Remove(p));
 
-            CommentLike.Where(cl => cl.Comment == null && cl.User == null).ToList().ForEach(cl => CommentLike.Remove(cl));
+            CommentLike.Local.Where(cl => cl.Comment == null || cl.User == null).ToList().ForEach(cl => CommentLike.Remove(cl));
+
+            Comments.Local.Where(c => c.Photo == null || c.User == null).ToList().ForEach(c => Comments.Remove(c));
 
             return base.SaveChanges();
         }

@@ -93,7 +93,13 @@
   </Choose>
   <ItemGroup>
     <Compile Include="DataAccess\Context\AppContextTest.cs" />
-    <Compile Include="DataAccess\Repositories\GenericRepositoriesTest.cs" />
+    <Compile Include="DataAccess\Entities\UserTest.cs" />
+    <Compile Include="DataAccess\Entities\SubjectTest.cs" />
+    <Compile Include="DataAccess\Entities\PhotoLikeTest.cs" />
+    <Compile Include="DataAccess\Entities\CommentLikeTest.cs" />
+    <Compile Include="DataAccess\Entities\PhotoTest.cs" />
+    <Compile Include="DataAccess\Entities\MessageTest.cs" />
+    <Compile Include="DataAccess\Entities\CommentTest.cs" />
     <Compile Include="DataAccess\Repositories\CommentLikeRepositoryTest.cs" />
     <Compile Include="DataAccess\Repositories\CommentRepositoryTest.cs" />
     <Compile Include="DataAccess\Repositories\PhotoLikeRepositoryTest.cs" />
@@ -143,14 +149,33 @@
     <Folder Include="View\Converters\" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Resources\DataAccess\Repositories\RegularSubject.xml" />
-    <Content Include="Resources\DataAccess\Repositories\WrongComment.xml" />
-    <Content Include="Resources\DataAccess\Repositories\WrongMessage.xml" />
-    <Content Include="Resources\DataAccess\Repositories\WrongSubject.xml" />
-    <Content Include="Resources\DataAccess\Context\AvatarFormat.xml">
+    <Content Include="Resources\DataAccess\Repositories\AvatarFormat.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Resources\DataAccess\Context\WrongLengthNameOrPassword.xml">
+    <Content Include="Resources\DataAccess\Repositories\RegularSubject.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\DataAccess\Repositories\WrongComment.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\DataAccess\Repositories\WrongLengthNameOrPassword.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\DataAccess\Repositories\WrongMessage.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\DataAccess\Repositories\WrongPhotoExtension.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\DataAccess\Repositories\WrongAvatarPathOrExtension.xml">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\DataAccess\Repositories\WrongPhotoPath.xml">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\DataAccess\Repositories\WrongSubject.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

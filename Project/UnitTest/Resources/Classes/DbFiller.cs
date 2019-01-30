@@ -288,8 +288,8 @@ namespace UnitTest.Resources.Classes
                                                         comment10, comment11, comment12, comment13, comment14, comment15, comment16, comment17, comment18, comment19,
                                                         comment20, comment21, comment22, comment23, comment24, comment25, comment26, comment27, comment28, comment29, comment30});
             dbContext.CommentLike.AddRange(new CommentLike[] { commentLike1, commentLike2, commentLike3, commentLike4, commentLike5, commentLike6, commentLike7, commentLike8, commentLike9,
-                                                               commentLike11, commentLike12, commentLike13, commentLike14, commentLike15, commentLike16, commentLike17, commentLike18, commentLike19,
-                                                               commentLike20, commentLike21, commentLike22 });
+                                                               commentLike10 ,commentLike11, commentLike12, commentLike13, commentLike14, commentLike15, commentLike16, commentLike17,
+                                                               commentLike18, commentLike19, commentLike20, commentLike21, commentLike22 });
             dbContext.Subjects.AddRange(new Subject[] { subject1, subject2, subject3, subject4, subject5 });
             dbContext.Messages.AddRange(new Message[] { message1, message2, message3, message4, message5, message6, message7, message8, message9,
                                                         message10, message11, message12, message13, message14, message15 });
