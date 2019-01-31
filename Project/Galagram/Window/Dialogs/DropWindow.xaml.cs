@@ -190,6 +190,7 @@ namespace Galagram.Window.Dialogs
         private void Upload(object sender, RoutedEventArgs e)
         {
             fileNames = uploadedFiles.Where(File.Exists).ToArray();
+            if (fileNames.Length == 0) fileNames = null; 
 
             DialogResult = true;
             Close();

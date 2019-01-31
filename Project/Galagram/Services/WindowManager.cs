@@ -20,14 +20,16 @@ namespace Galagram.Services
         static WindowManager instance; // singleton
         static WindowManagerInitializerBase initializerBase;
 
-        IDictionary<string, Type> factory; // a factory has string as a key and WindowType as a value
+        IDictionary<string, Type> factory; // a factory has string as a key and WindowType as a value, create window by current key
         IDictionary<string, System.Windows.Window> modalWindows; // all currently opened modal windows
+        IDictionary<object, System.Windows.Window> presentationWindow; // not modal window
 
         // CONSTRUCTORS
         private WindowManager()
         {
             // initialize all fields
             factory = new Dictionary<string, Type>();
+            presentationWindow = new Dictionary<object, System.Windows.Window>();
             modalWindows = new Dictionary<string, System.Windows.Window>();
 
             // registrate default window
@@ -41,7 +43,6 @@ namespace Galagram.Services
             // initialize singleton value
             instance = new WindowManager();
         }
-
         // PROPERTIES
         /// <summary>
         /// Gets an instance of <see cref=" WindowManager"/>.
@@ -67,9 +68,8 @@ namespace Galagram.Services
             instance.factory.Clear();
             windowInitializers.Initialize(instance);
         }
-
         // factory interface implementation
-        #region Factory Implementation
+        #region factory implementation
         /// <summary>
         /// Returns a new instance of a window.
         /// </summary>
@@ -108,9 +108,9 @@ namespace Galagram.Services
         /// Throws when <paramref name="key"/> or <paramref name="value"/> is null.
         /// </exception>
         /// <exception cref="InvalidOperationException">
-        /// Throws when the key already has been registered
+        /// Throws when the value with key already has been registered
         /// </exception>
-        /// <exception cref="ArithmeticException">
+        /// <exception cref="ArgumentException">
         /// Throws when <paramref name="value"/> can not be registered.
         /// </exception>
         public void Registrate(string key, Type value)
@@ -203,9 +203,8 @@ namespace Galagram.Services
             modalWindows.Add(key, window);
 
             // show window
-            return window.ShowDialog();            
+            return window.ShowDialog();
         }
-        
         /// <summary>
         /// Closes a window opened as modal
         /// </summary>
@@ -234,16 +233,15 @@ namespace Galagram.Services
 
             // close window or do nothing
             openedModalWindow.Close();
-            
+
             // remove window from dictionary
             modalWindows.Remove(key);
         }
         #endregion
         // message box
         #region MessageBox
-        // MESSAGE BOX
         /// <summary>
-        /// Opens a message box window and returns only when a newly opened window is closed.
+        /// Open a message box window and returns only when a newly opened window is closed.
         /// </summary>
         /// <param name="text">
         /// Specify the text of the window.
@@ -261,7 +259,7 @@ namespace Galagram.Services
             return ShowMessageWindow(text, String.Empty, MessageBoxButton.Ok);
         }
         /// <summary>
-        /// Opens a message box window and returns only when a newly opened window is closed.
+        /// Open a message box window and returns only when a newly opened window is closed.
         /// </summary>
         /// <param name="text">
         /// Specify the text of the window.
@@ -307,16 +305,16 @@ namespace Galagram.Services
         public bool? ShowMessageWindow(string text, string header, MessageBoxButton buttonType)
         {
             // make default instance             
-            IMessageBox messageBox = MakeInstance(initializerBase.MessageBoxName) as IMessageBox;            
+            IMessageBox messageBox = MakeInstance(initializerBase.MessageBoxName) as IMessageBox;
             // throw exception if not the message box
             if (messageBox == null) throw new InvalidCastException(string.Concat(Core.Messages.Error.View.WINDOW_MANAGER_DIALOG_DOES_NOT_INHERIT_DEFAULT_INTERFACE_FORMAT, nameof(IMessageBox)));
-            
+
             // sets up all values
             messageBox.Header = header;
             messageBox.Text = text;
 
             // show window and return result
-            return messageBox.ShowDialog(buttonType);             
+            return messageBox.ShowDialog(buttonType);
         }
         #endregion
         // open file dialog
@@ -376,7 +374,8 @@ namespace Galagram.Services
             return null;
         }
         #endregion
-        
+        // main window
+        #region main window
         /// <summary>
         /// Switch current main window to passed one.
         /// </summary>
@@ -434,6 +433,8 @@ namespace Galagram.Services
 
                 // clear all modal window list
                 modalWindows.Clear();
+                // clear presentation window list
+                presentationWindow.Clear();
             }
             else
             {
@@ -442,5 +443,68 @@ namespace Galagram.Services
             }
             newMainWindow.ShowDialog();
         }
+        #endregion
+        // presentation
+        #region presentation
+        /// <summary>
+        /// Shows window as presentation
+        /// </summary>
+        /// <param name="key">
+        /// A key by which window was registered
+        /// </param>
+        /// <param name="viewModel">
+        /// A DataContext for window
+        /// </param>
+        /// <exception cref="ArgumentNullException">
+        /// Throws when <paramref name="key"/> or <paramref name="viewModel"/> is null.
+        /// </exception>
+        /// <exception cref="InvalidOperationException">
+        /// Throws when key was not registered before.
+        /// </exception>
+        public void ShowPresentation(string key, object viewModel)
+        {
+            // check, key is checked in MakeInstance
+            if (viewModel == null) throw new ArgumentNullException(nameof(viewModel));
+
+            // create window
+            System.Windows.Window window = MakeInstance(key);
+            // set view model
+            window.DataContext = viewModel;
+
+            // add it to window
+            presentationWindow.Add(viewModel, window);
+
+            // show it
+            window.Show();
+        }
+        /// <summary>
+        /// Close opened as presentation window 
+        /// </summary>
+        /// <param name="viewModel">
+        /// A DataContext for window
+        /// </param>
+        /// <exception cref="ArgumentNullException">
+        /// Throws when <paramref name="viewModel"/> is null.
+        /// </exception>
+        /// <exception cref="InvalidOperationException">
+        /// Throws when window with current DataContext is not shown
+        /// </exception>
+        public void ClosePresentation(object viewModel)
+        {
+            // check
+            if (viewModel == null) throw new ArgumentNullException(nameof(viewModel));
+
+            // try get opened window. throws exception if window is not shwon
+            System.Windows.Window openedWindow;
+            if (!presentationWindow.TryGetValue(viewModel, out openedWindow))
+            {
+                throw new InvalidOperationException(Core.Messages.Error.View.WINDOW_MANAGER_WINDOW_IS_NOT_OPENED);
+            }
+            // remove opened window from list
+            presentationWindow.Remove(viewModel);
+            // close this window
+            openedWindow.Close();
+        }
+        #endregion
     }
 }

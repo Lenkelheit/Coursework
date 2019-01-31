@@ -10,6 +10,7 @@ namespace Galagram.ViewModel
     {
         // FIELDS        
         readonly Galagram.Services.WindowManager windowManager;
+        readonly Galagram.Services.NavigationManager navigationManager;
         readonly DataAccess.Context.UnitOfWork unitOfWork;
         readonly Core.Logger logger;
         readonly Services.DataStorage dataStorage;
@@ -27,6 +28,7 @@ namespace Galagram.ViewModel
         public ViewModelBase()
         {
             windowManager = Galagram.Services.WindowManager.Instance;
+            navigationManager = Galagram.Services.NavigationManager.Instance;
             unitOfWork = DataAccess.Context.UnitOfWork.Instance;
             logger = Core.Logger.GetLogger;
             dataStorage = Services.DataStorage.Instance;
@@ -37,6 +39,10 @@ namespace Galagram.ViewModel
         /// Gets window manager
         /// </summary>
         public Galagram.Services.WindowManager WindowManager => windowManager;
+        /// <summary>
+        /// Gets navigation manager
+        /// </summary>
+        public Galagram.Services.NavigationManager NavigationManager => navigationManager;
         /// <summary>
         /// Gets data base access object
         /// </summary>
@@ -70,6 +76,32 @@ namespace Galagram.ViewModel
         protected virtual void OnPropertyChanged([CallerMemberName]string name = "")
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+        }
+        /// <summary>
+        /// Sets property value and raise <see cref="OnPropertyChanged(string)"/>
+        /// </summary>
+        /// <typeparam name="T">
+        /// A property type
+        /// </typeparam>
+        /// <param name="storage">
+        /// Original property
+        /// </param>
+        /// <param name="value">
+        /// New value of the property
+        /// </param>
+        /// <param name="propertyName">
+        /// Property name thet raise  <see cref="OnPropertyChanged(string)"/>
+        /// </param>
+        /// <returns>
+        /// True if property has been changed, otherwise — false
+        /// </returns>
+        protected virtual bool SetProperty<T>(ref T storage, T value, string propertyName = "")
+        {
+            if (System.Collections.Generic.EqualityComparer<T>.Default.Equals(storage, value))  return false;
+
+            storage = value;
+            OnPropertyChanged(propertyName);
+            return true;
         }
     }
 }

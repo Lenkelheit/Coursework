@@ -52,7 +52,9 @@
 
                 <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
                     <Image Source="/Resources/InterfaceImage/DropDown.png" Width="150"/>
-                    <TextBlock Text="Drag file here" TextAlignment="Center"/>
+                    <TextBlock Text="Drag file here" 
+                               TextAlignment="Center"
+                               FontSize="22"/>
                 </StackPanel>
 
             </c:CornersContentControl>
