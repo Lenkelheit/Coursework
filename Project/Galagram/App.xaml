@@ -6,12 +6,14 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
 
-                <!--USER PART-->
-                    <!--RESOURCES-->
-                        <!--VALUES-->
+                <!--RESOURCES-->
+                    <!--VALUES-->
                 <ResourceDictionary Source="Theme/Resources/Values.xaml" />
-                        <!--CONVERTERS-->
+                    <!--CONVERTERS-->
                 <ResourceDictionary Source="Theme/Resources/Converters.xaml" />
+
+                
+                <!--USER PART-->
                     <!--COLORS-->
                 <ResourceDictionary Source="Theme/User/Pincky/Colors.xaml" />
                 <ResourceDictionary Source="Theme/User/Pincky/Brushes.xaml" />
@@ -32,9 +34,13 @@
                     <!--COLORS-->
                 <ResourceDictionary Source="Theme/AdminPanel/Classic/Colors.xaml"/>
                 <ResourceDictionary Source="Theme/AdminPanel/Classic/Brushes.xaml"/>
+                    <!--TEMPLATES-->
+                <ResourceDictionary Source="Theme/AdminPanel/Classic/Templates/Collections.xaml"/>
                     <!--STYLES-->
+                <ResourceDictionary Source="Theme/AdminPanel/Classic/Styles/Default.xaml"/>
                 <ResourceDictionary Source="Theme/AdminPanel/Classic/Styles/Texts.xaml"/>
                 <ResourceDictionary Source="Theme/AdminPanel/Classic/Styles/Buttons.xaml"/>
+                <ResourceDictionary Source="Theme/AdminPanel/Classic/Styles/Collections.xaml"/>
 
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>

@@ -35,5 +35,23 @@ namespace DataAccess.Repositories
                 DisLikesAmount = photo.Likes.Count - likeCount
             };
         }
+        /// <summary>
+        /// Deletes preset photo.
+        /// </summary>
+        /// <param name="entityToDelete">Photo to delete.</param>
+        /// <exception cref="System.ArgumentNullException">
+        /// Throws when passed <paramref name="entityToDelete"/> is null.
+        /// </exception>
+        public override void Delete(Entities.Photo entityToDelete)
+        {
+            if (entityToDelete == null) throw new System.ArgumentNullException(nameof(entityToDelete));
+
+            dbSet.Attach(entityToDelete);
+            entityToDelete.Likes.ToList().ForEach(l => l.Photo = null);
+            entityToDelete.Comments.ToList().ForEach(c => c.Photo = null);
+            context.Entry(entityToDelete).State = System.Data.Entity.EntityState.Modified;
+
+            base.Delete(entityToDelete);
+        }
     }
 }

@@ -1,0 +1,155 @@
+﻿<UserControl x:Class="Galagram.Window.Admin.UserControls.Comments.Single"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Galagram.Window.Admin.UserControls.Comments"
+             mc:Ignorable="d" 
+             d:DesignHeight="500" d:DesignWidth="800">
+    <Grid>
+        <!--SCALING-->
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="50"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <!--CONTENT-->
+        <ScrollViewer Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="50"/>
+                    <RowDefinition Height="50"/>
+                    <RowDefinition Height="50"/>
+                    <RowDefinition Height="50"/>
+                    <RowDefinition Height="50"/>
+                    <RowDefinition Height="100"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+
+                <!--ID-->
+                <Label Grid.Row="0" Grid.Column="0" 
+                       Content="Comment ID"
+                       Style="{StaticResource ItemLabel_Admin}"/>
+                <TextBox Grid.Row="0" Grid.Column="1" 
+                         Text="#"
+                         Style="{StaticResource ItemTextBox_Admin}"/>
+                <!--AUTHOR-->
+                <Label Grid.Row="1" Grid.Column="0" 
+                       Content="Author"
+                       Style="{StaticResource ItemLabel_Admin}"/>
+                <TextBox Grid.Row="1" Grid.Column="1" 
+                         Text="Author Name"
+                         IsEnabled="False"
+                         Style="{StaticResource ItemTextBox_Admin}"/>
+                <!--PHOTO-->
+                <Label Grid.Row="2" Grid.Column="0" 
+                       Content="Photo"
+                       Style="{StaticResource ItemLabel_Admin}"/>
+                <WrapPanel Grid.Row="2" Grid.Column="1"  HorizontalAlignment="Center">
+                    <Image Width="50" Height="50">
+                        <Image.Source>
+                            <Binding Path="null">
+                                <Binding.TargetNullValue>
+                                    <ImageSource>/Resources/OtherImg/NoPhoto.png</ImageSource>
+                                </Binding.TargetNullValue>
+                                <Binding.FallbackValue>
+                                    <ImageSource>/Resources/OtherImg/NoPhoto.png</ImageSource>
+                                </Binding.FallbackValue>
+                            </Binding>
+                        </Image.Source>
+                    </Image>
+
+                    <Button Style="{StaticResource AdminInterfaceButton}"
+                            MinWidth="100"
+                            Content="select new" />
+                    <Button Style="{StaticResource AdminInterfaceButton}" 
+                            MinWidth="100"
+                            Content="reset" />
+                </WrapPanel>
+                <!--DATE-->
+                <Label Grid.Row="3" Grid.Column="0" 
+                       Content="Date"
+                       Style="{StaticResource ItemLabel_Admin}"/>
+                <DatePicker Grid.Row="3" Grid.Column="1" >
+                    <DatePicker.Resources>
+                        <Style TargetType="{x:Type DatePickerTextBox}">
+                            <Setter Property="Control.Template">
+                                <Setter.Value>
+                                    <ControlTemplate>
+                                        <TextBox x:Name="PART_TextBox" 
+                                                 Style="{StaticResource ItemTextBox_Admin}"
+                                                 IsReadOnly="True"
+                                                 Text="{Binding Path=SelectedDate, 
+                                                            RelativeSource={RelativeSource AncestorType={x:Type DatePicker}}}" />
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </DatePicker.Resources>
+                </DatePicker>
+                <!--TEXT-->
+                <Label Grid.Row="4" Grid.Column="0" 
+                       Content="Text"
+                       Style="{StaticResource ItemLabel_Admin}"/>
+
+                <TextBox Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2"
+                         Text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras accumsan mi a quam viverra luctus. Suspendisse ut vulputate nisi, nec fermentum libero. Morbi sollicitudin, orci sit amet congue cursus, nibh nunc lobortis orci, et hendrerit arcu nunc a lorem. Curabitur dignissim risus non diam ornare mattis ac vitae elit. Suspendisse euismod gravida diam et varius. Sed quis commodo magna. Nunc a ex nec erat feugiat dapibus. Donec id nulla et dolor efficitur convallis. Maecenas vel sem neque. Vivamus volutpat quam ac urna condimentum, vitae posuere neque scelerisque. Aenean et lacinia dolor."
+                         Style="{StaticResource ItemTextBoxMultiline_Admin}"/>
+
+                <Grid Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="2">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="50"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <!--LIKE-->
+                    <Label Grid.Row="0" Grid.Column="0" 
+                       Content="Like"
+                       Style="{StaticResource ItemLabel_Admin}"/>
+                    <Label Grid.Row="0" Grid.Column="1" 
+                       Content="###"
+                       Style="{StaticResource ItemLabel_Admin}"/>
+
+                    <ListBox Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"
+                             Style="{StaticResource CheckedListBox}"/>
+                    <!--DISLIKE-->
+                    <Label Grid.Row="0" Grid.Column="2" 
+                       Content="Dislike"
+                       Style="{StaticResource ItemLabel_Admin}"/>
+                    <Label Grid.Row="0" Grid.Column="3" 
+                       Content="###"
+                       Style="{StaticResource ItemLabel_Admin}"/>
+                    <ListBox Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="2"
+                             Style="{StaticResource CheckedListBox}"/>
+                </Grid>
+                
+            </Grid>           
+            
+        </ScrollViewer>
+       
+
+        <!--BUTTONS-->
+        <Button Grid.Row="8" Grid.Column="0"  
+                Style="{StaticResource AdminButton}"
+                Content="Go Back"/>
+        <Button Grid.Row="8" Grid.Column="1"  
+                Style="{StaticResource AdminButton}"
+                Content="Delete"/>
+    </Grid>
+</UserControl>

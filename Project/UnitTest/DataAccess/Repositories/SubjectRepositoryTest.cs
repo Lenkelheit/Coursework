@@ -196,8 +196,6 @@ namespace UnitTest.DataAccess.Repositories
             dataAccessMethod: DataAccessMethod.Random)]
         public void AddSubjectWithWrongNameLength()
         {
-            // test with wrong min length fail
-
             // Arrange
             SubjectRepository subjectRepository = new SubjectRepository(dbContext);
             Subject subject = new Subject { Name = Convert.ToString(TestContext.DataRow["Name"]) };
@@ -218,10 +216,11 @@ namespace UnitTest.DataAccess.Repositories
         {
             // Arrange
             SubjectRepository subjectRepository = new SubjectRepository(dbContext);
-            Subject expectedDeletedSubject = dbContext.Subjects.First();
+            Subject expectedDeletedSubject = dbContext.Subjects.First(s => s.Name == "Subject 1");
             int idToDelete = expectedDeletedSubject.Id;
 
             // Act
+            // This subject has messages that must have "subject: null" when one will be deleted.
             subjectRepository.Delete(idToDelete);
             dbContext.SaveChanges();
 
@@ -258,9 +257,10 @@ namespace UnitTest.DataAccess.Repositories
         {
             // Arrange
             SubjectRepository subjectRepository = new SubjectRepository(dbContext);
-            Subject subjectToDelete = dbContext.Subjects.First();
+            Subject subjectToDelete = dbContext.Subjects.First(s => s.Name == "Subject 1");
 
             // Act
+            // This subject has messages that must have "subject: null" when one will be deleted.
             subjectRepository.Delete(subjectToDelete);
             dbContext.SaveChanges();
 
@@ -283,7 +283,7 @@ namespace UnitTest.DataAccess.Repositories
             // Arrange
             SubjectRepository subjectRepository = new SubjectRepository(dbContext);
             Subject changedSubjectToDelete = dbContext.Subjects.Where(s => s.Name == "Subject 1").First();
-            changedSubjectToDelete.Name += "Chnaged it";
+            changedSubjectToDelete.Name += "Changed it";
 
             // Act
             subjectRepository.Delete(entityToDelete: changedSubjectToDelete);

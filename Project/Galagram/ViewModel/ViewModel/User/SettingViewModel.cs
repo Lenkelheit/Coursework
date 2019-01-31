@@ -22,6 +22,7 @@ namespace Galagram.ViewModel.ViewModel.User
         ICommand applyChangesCommand;
         ICommand loadNewAvatarCommand;
         ICommand closeCommand;
+        ICommand resetAvatar;
 
         // CONSTRUCTORS
         /// <summary>
@@ -39,6 +40,7 @@ namespace Galagram.ViewModel.ViewModel.User
             this.applyChangesCommand = new Commands.User.Setting.ApplyChangesCommand(this);
             this.loadNewAvatarCommand = new Commands.User.Setting.LoadNewAvatarCommand(this);
             this.closeCommand = new Commands.User.Setting.CloseCommand(this);
+            this.resetAvatar = new Commands.User.Setting.ResetAvatarCommand(this);
         }
 
         // PROPERTIES
@@ -57,7 +59,7 @@ namespace Galagram.ViewModel.ViewModel.User
             {
                 Logger.LogAsync(Core.LogMode.Debug, $"Sets {nameof(TempAvatarPath)}. Old = {tempAvatarPath}, new = {value}");
                 tempAvatarPath = value;
-                changedField.Set((int)SettingFieldChanged.Avatar, tempAvatarPath != null);
+                changedField.Set((int)SettingFieldChanged.Avatar, true);
 
                 OnPropertyChanged();
             }
@@ -158,6 +160,19 @@ namespace Galagram.ViewModel.ViewModel.User
                 return closeCommand;
             }
         }
+        /// <summary>
+        /// Resets avatar to its default value
+        /// </summary>
+        public ICommand ResetAvatarCommand
+        {
+            get
+            {
+                Logger.LogAsync(Core.LogMode.Debug, $"Gets {nameof(ResetAvatarCommand)}");
+
+                return resetAvatar;
+            }
+        }
+
         // METHODS
         /// <summary>
         /// Gets value if field has been changed

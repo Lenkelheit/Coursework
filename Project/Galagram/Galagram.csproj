@@ -127,6 +127,7 @@
     <Compile Include="ViewModel\Commands\User\Setting\ApplyChangesCommand.cs" />
     <Compile Include="ViewModel\Commands\User\Setting\CloseCommand.cs" />
     <Compile Include="ViewModel\Commands\User\Setting\LoadNewAvatarCommand.cs" />
+    <Compile Include="ViewModel\Commands\User\Setting\ResetAvatarCommand.cs" />
     <Compile Include="ViewModel\Enums\User\FollowMode.cs" />
     <Compile Include="ViewModel\Enums\User\SettingField.cs" />
     <Compile Include="ViewModel\EventToCommandBehavior.cs" />
@@ -138,13 +139,37 @@
     <Compile Include="ViewModel\ViewModel\User\PhotoInsideViewModel.cs" />
     <Compile Include="ViewModel\ViewModel\User\SearchViewModel.cs" />
     <Compile Include="ViewModel\ViewModel\User\SettingViewModel.cs" />
+    <Compile Include="Window\Admin\UserControls\Comments\All.xaml.cs">
+      <DependentUpon>All.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Window\Admin\UserControls\Comments\Single.xaml.cs">
+      <DependentUpon>Single.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Window\Admin\UserControls\Messages\All.xaml.cs">
+      <DependentUpon>All.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Window\Admin\UserControls\Photo\Single.xaml.cs">
+      <DependentUpon>Single.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Window\Admin\UserControls\Subjects\All.xaml.cs">
+      <DependentUpon>All.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Window\Admin\UserControls\Subjects\Single.xaml.cs">
+      <DependentUpon>Single.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Window\Admin\UserControls\Users\All.xaml.cs">
+      <DependentUpon>All.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Window\Admin\UserControls\Users\Single.xaml.cs">
+      <DependentUpon>Single.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Window\Dialogs\MessageBoxButton.cs" />
     <Compile Include="Services\WindowManager.cs" />
     <Compile Include="Window\Admin\UserControls\DeleteItem.xaml.cs">
       <DependentUpon>DeleteItem.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Window\Admin\UserControls\Messages\MessageInside.xaml.cs">
-      <DependentUpon>MessageInside.xaml</DependentUpon>
+    <Compile Include="Window\Admin\UserControls\Messages\Single.xaml.cs">
+      <DependentUpon>Single.xaml</DependentUpon>
     </Compile>
     <Compile Include="Window\User\AskQuestion.xaml.cs">
       <DependentUpon>AskQuestion.xaml</DependentUpon>
@@ -176,7 +201,19 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Theme\AdminPanel\Classic\Styles\Collections.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Theme\AdminPanel\Classic\Styles\Default.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Theme\AdminPanel\Classic\Styles\Texts.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Theme\AdminPanel\Classic\Templates\Collections.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -212,11 +249,43 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Window\Admin\UserControls\Comments\All.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Window\Admin\UserControls\Comments\Single.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Window\Admin\UserControls\DeleteItem.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Window\Admin\UserControls\Messages\MessageInside.xaml">
+    <Page Include="Window\Admin\UserControls\Messages\All.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Window\Admin\UserControls\Messages\Single.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Window\Admin\UserControls\Photo\Single.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Window\Admin\UserControls\Subjects\All.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Window\Admin\UserControls\Subjects\Single.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Window\Admin\UserControls\Users\All.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Window\Admin\UserControls\Users\Single.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -346,7 +415,6 @@
     <Resource Include="Resources\OtherImg\NoAvatar.png" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Theme\AdminPanel\Classic\Templates\" />
     <Folder Include="ViewModel\Commands\Admin\" />
     <Folder Include="ViewModel\ViewModel\Admin\" />
   </ItemGroup>
@@ -356,6 +424,18 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\OtherImg\NoPhoto.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\AdminImg\DataGrid\eye.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\AdminImg\DataGrid\edit.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\AdminImg\DataGrid\remove.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\InterfaceImage\Conversation.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
