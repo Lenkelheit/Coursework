@@ -7,7 +7,7 @@
     <Color x:Key="RedColor">#FF0000</Color>
     
     <!--Gray colors are sorted depending on their saturation-->
-    <!--Closer to black, lowwer they are-->
+    <!--Closer to black, lower they are-->
     <!--Avg shows average values from RGB-->
     <Color x:Key="GrayColorV1">#E6E6E6</Color><!--avg 230-->
     <Color x:Key="GrayColorV2">#EEEAED</Color><!--avg 235-->

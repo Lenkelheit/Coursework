@@ -1,8 +1,9 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 
 using Galagram.Window.Dialogs;
 using Galagram.Window.User;
+
 
 namespace Galagram.Services
 {
@@ -18,8 +19,8 @@ namespace Galagram.Services
         // FIELDS
         static WindowManager instance; // singleton
         IDictionary<string, Type> factory; // a factory has string as a key and WindowType as a value
-        IDictionary<object, System.Windows.Window> presentationWindow; // not modal window
         IDictionary<string, System.Windows.Window> modalWindows; // all currently opened modal windows
+        IDictionary<object, System.Windows.Window> presentationWindow; // not modal window
 
         // CONSTRUCTORS
         private WindowManager()
@@ -47,20 +48,6 @@ namespace Galagram.Services
             // initialize singleton value
             instance = new WindowManager();
         }
-        /// <summary>
-        /// Default finalizer
-        /// </summary>
-        ~WindowManager()
-        {
-            factory.Clear();
-            factory = null;
-
-            presentationWindow.Clear();
-            presentationWindow = null;
-
-            instance = null;
-        }
-
         // PROPERTIES
         /// <summary>
         /// Gets an instance of <see cref=" WindowManager"/>.
@@ -106,9 +93,9 @@ namespace Galagram.Services
         /// Throws when <paramref name="key"/> or <paramref name="value"/> is null.
         /// </exception>
         /// <exception cref="InvalidOperationException">
-        /// Throws when the key already has been registered
+        /// Throws when the value with key already has been registered
         /// </exception>
-        /// <exception cref="ArithmeticException">
+        /// <exception cref="ArgumentException">
         /// Throws when <paramref name="value"/> can not be registered.
         /// </exception>
         public void Registrate(string key, Type value)
@@ -199,9 +186,8 @@ namespace Galagram.Services
             modalWindows.Add(key, window);
 
             // show window
-            return window.ShowDialog();            
+            return window.ShowDialog();
         }
-
         /// <summary>
         /// Closes a window opened as modal
         /// </summary>
@@ -230,7 +216,7 @@ namespace Galagram.Services
 
             // close window or do nothing
             openedModalWindow.Close();
-            
+
             // remove window from dictionary
             modalWindows.Remove(key);
         }
@@ -298,11 +284,11 @@ namespace Galagram.Services
         {
             // show window and return result
             return new MessageBox()
-                    {
-                        // set up all values
-                        Text = text,
-                        Header = header
-                    }.ShowDialog(buttonType);             
+            {
+                // set up all values
+                Text = text,
+                Header = header
+            }.ShowDialog(buttonType);
         }
         /// <summary>
         /// Switch current main window to passed one.
@@ -358,11 +344,11 @@ namespace Galagram.Services
                 {
                     if (window != newMainWindow) window.Close();
                 }
-                
-                // clear presentation window list
-                presentationWindow.Clear();
+
                 // clear all modal window list
                 modalWindows.Clear();
+                // clear presentation window list
+                presentationWindow.Clear();
             }
             else
             {
@@ -420,7 +406,7 @@ namespace Galagram.Services
         {
             // check
             if (viewModel == null) throw new ArgumentNullException(nameof(viewModel));
-            
+
             // try get opened window. throws exception if window is not shwon
             System.Windows.Window openedWindow;
             if (!presentationWindow.TryGetValue(viewModel, out openedWindow))

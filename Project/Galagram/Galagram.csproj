@@ -101,6 +101,7 @@
     <Compile Include="Converters\ItemsToArrayConverter.cs" />
     <Compile Include="Converters\UserConverter.cs" />
     <Compile Include="Services\DataStorage.cs" />
+    <Compile Include="Services\NavigationManager.cs" />
     <Compile Include="ViewModel\CommandBase.cs" />
     <Compile Include="ViewModel\Commands\Registration\LogInCommand.cs" />
     <Compile Include="ViewModel\Commands\Registration\SignUpCommand.cs" />
