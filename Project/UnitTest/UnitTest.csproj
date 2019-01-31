@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="..\packages\MSTest.TestAdapter.1.4.0\build\net45\MSTest.TestAdapter.props" Condition="Exists('..\packages\MSTest.TestAdapter.1.4.0\build\net45\MSTest.TestAdapter.props')" />
   <PropertyGroup>
@@ -141,6 +141,7 @@
     <Compile Include="ViewModel\ViewModels\User\PhotoInsideViewModelTest.cs" />
     <Compile Include="ViewModel\ViewModels\User\SearchViewModelTest.cs" />
     <Compile Include="ViewModel\ViewModels\User\SettingViewModelTest.cs" />
+    <Compile Include="View\Services\NavigationManagerTest.cs" />
     <Compile Include="View\Services\WindowManagerTest.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -1,21 +1,23 @@
-﻿namespace Galagram.ViewModel.Commands.User.Setting
+﻿using System;
+
+namespace Galagram.ViewModel.Commands.User.Setting
 {
     /// <summary>
-    /// Clean all garbage resources
+    /// Resets avatar to its default value
     /// </summary>
-    public class CleanOnCloseCommand : CommandBase
+    public class ResetAvatarCommand : CommandBase
     {
         // FIELDS
         ViewModel.User.SettingViewModel settingViewModel;
 
         // CONSTRUCTORS
         /// <summary>
-        /// Initialize a new instance of <see cref="CleanOnCloseCommand"/>
+        /// Initialize a new instance of <see cref="ResetAvatarCommand"/>
         /// </summary>
         /// <param name="settingViewModel">
         /// An instance of <see cref="ViewModel.User.SettingViewModel"/>
         /// </param>
-        public CleanOnCloseCommand(ViewModel.User.SettingViewModel settingViewModel)
+        public ResetAvatarCommand(ViewModel.User.SettingViewModel settingViewModel)
         {
             this.settingViewModel = settingViewModel;
         }
@@ -32,7 +34,7 @@
         /// </returns>
         public override bool CanExecute(object parameter)
         {
-            Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, $"Can execute {nameof(CleanOnCloseCommand)}");
+            Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, $"Can execute {nameof(ResetAvatarCommand)}");
             return true;
         }
         /// <summary>
@@ -43,14 +45,11 @@
         /// </param>
         public override void Execute(object parameter)
         {
-            Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, $"Execute {nameof(CleanOnCloseCommand)}");
+            Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, $"Execute {nameof(ResetAvatarCommand)}");
 
-            // remove temp folder and all its content, if folder exist
-            if (System.IO.Directory.Exists(Core.Configuration.AppConfig.TEMP_FOLDER))
-            {
-                settingViewModel.Logger.LogAsync(Core.LogMode.Debug, "Remove temp folder");
-                System.IO.Directory.Delete(Core.Configuration.AppConfig.TEMP_FOLDER, true);
-            }
+            // sets temp avatar path to NULL
+            Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, $"Sets {nameof(settingViewModel.TempAvatarPath)} to NULL");
+            settingViewModel.TempAvatarPath = null;
         }
     }
 }

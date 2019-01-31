@@ -46,10 +46,10 @@
                 <Image.Source>
                     <Binding Path="Photo.Path" >
                         <Binding.FallbackValue>
-                            <ImageSource>/Resources/OtherImg/NoImg.png</ImageSource>
+                            <ImageSource>/Resources/OtherImg/NoPhoto.png</ImageSource>
                         </Binding.FallbackValue>
                         <Binding.TargetNullValue>
-                            <ImageSource>/Resources/OtherImg/NoImg.png</ImageSource>
+                            <ImageSource>/Resources/OtherImg/NoPhoto.png</ImageSource>
                         </Binding.TargetNullValue>
                     </Binding>
                 </Image.Source>
@@ -90,9 +90,7 @@
 
             <!--WRITE YOUR COMMENT-->
             <TextBox Grid.Column="4" 
-                     Style="{StaticResource MessageTextBox}" 
-                     Margin="1"
-                     ScrollViewer.VerticalScrollBarVisibility="Hidden"
+                     Style="{StaticResource WriteCommentTextBox_User}"                      
                      MaxLength="{Binding MaxCommentLength}"
                      Text="{Binding CommentText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
             <Button Grid.Column="5" Content="Write" 
