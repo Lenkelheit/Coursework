@@ -146,7 +146,8 @@
                 <TextBlock Grid.Column="1" 
                     Text="{Binding User.NickName}" 
                     Foreground="{TemplateBinding Foreground}"
-                    FontSize="16"/>
+                    Margin="5, 0, 0, 0"
+                    FontSize="20"/>
 
                 <!--DELETE-->
 
@@ -166,7 +167,8 @@
                         TextWrapping="WrapWithOverflow"
                         HorizontalAlignment="Left"
                         VerticalAlignment="Top"
-                        MaxWidth="{TemplateBinding MaxWidth}"
+                        MaxWidth="{TemplateBinding MaxWidth}"                       
+                        Style="{DynamicResource DefaultTextBox}"
                         Text="{Binding Text}"
                         FontSize="14"/>
 
@@ -198,6 +200,7 @@
                            VerticalAlignment="Top"
                            TextAlignment="Center"
                            Margin="0"
+                           Style="{DynamicResource DefaultTextBox}"
                            Text="{Binding Path=Likes, 
                                           Converter={StaticResource CommentCollectionToLengthConverter}, 
                                           ConverterParameter={StaticResource True}}"
@@ -227,6 +230,7 @@
                 <!--DATE-->
                 <TextBlock Grid.Column="4"
                            Text="{Binding Date}"
+                           Style="{DynamicResource DefaultTextBox}"
                            FontSize="14"
                            Margin="0"
                            HorizontalAlignment="Right"

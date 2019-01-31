@@ -40,5 +40,10 @@
         /// {0} — interface name
         /// </summary>
         public static readonly string WINDOW_MANAGER_DIALOG_DOES_NOT_INHERIT_DEFAULT_INTERFACE_FORMAT = string.Concat("Dialog does not inherit default interface", System.Environment.NewLine, "The default interface for this dialog is {0}");
+
+        /// Modal window is not opened at all or is not opened as modal
+        /// </summary>
+        public static readonly string WINDOW_MANAGER_MODAL_WINDOW_IS_NOT_OPENED = "Modal window by current key is not opened";
+
     }
 }

@@ -31,17 +31,17 @@ namespace DataAccess.Repositories
         public bool IsNicknameFree(string nickName)
         {
             if (string.IsNullOrWhiteSpace(nickName)) throw new System.ArgumentNullException(nameof(nickName));
-            // return true with First occurrency
+            // return true with First occurrence
             return !dbSet.AsNoTracking().AsEnumerable().Any(user => user.NickName == nickName);
         }
         /// <summary>
-        /// Checks if current nickname and password is valid
+        /// Checks if current nickname and password are valid
         /// </summary>
         /// <param name="nickName">
-        /// The nickname thet should be checked
+        /// The nickname that should be checked
         /// </param>
         /// <param name="password">
-        /// The password thet should be checked
+        /// The password that should be checked
         /// </param>
         /// <returns>
         /// Return a structure thet define if Nickname and Password is valid
@@ -62,7 +62,7 @@ namespace DataAccess.Repositories
             Entities.User foundedAccount = dbSet.AsNoTracking().AsEnumerable().FirstOrDefault(user => user.NickName == nickName);
 
 
-            // if no user has been found return both vakue as null
+            // if no user has been found return both value as null
             if (foundedAccount == null) return new Structs.ValidNameAndPassword() { IsNameValid = false, IsPasswordValid = false };
 
             // returns nickname as True and Password if the same
@@ -91,5 +91,24 @@ namespace DataAccess.Repositories
             // return user or null
             return dbSet.FirstOrDefault(user => user.NickName == nickname);
         }
+        /// <summary>
+        /// Deletes preset user.
+        /// </summary>
+        /// <param name="entityToDelete">User to delete.</param>
+        /// <exception cref="System.ArgumentNullException">
+        /// Throws when passed <paramref name="entityToDelete"/> is null.
+        /// </exception>
+        public override void Delete(Entities.User entityToDelete)
+        {
+            if (entityToDelete == null) throw new System.ArgumentNullException(nameof(entityToDelete));
+
+            dbSet.Attach(entityToDelete);
+            entityToDelete.PhotoLikes.ToList().ForEach(l => l.User = null);
+            entityToDelete.Comments.ToList().ForEach(l => l.User = null);
+            entityToDelete.CommentLikes.ToList().ForEach(l => l.User = null);
+            context.Entry(entityToDelete).State = System.Data.Entity.EntityState.Modified;
+
+            base.Delete(entityToDelete);
+        } 
     }
 }

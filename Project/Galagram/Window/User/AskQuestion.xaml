@@ -35,7 +35,9 @@
         </Grid>
         <!--CONTENT-->
         <Label Grid.Row="1" Content="Any questions?" Style="{StaticResource H1Label}"/>
-        <TextBlock Grid.Row="2" Text="If you have any questions or you want to improve our service you can write a little message to us." />
+        <TextBlock Grid.Row="2" 
+                   Text="If you have any questions or you want to improve our service you can write a little message to us." 
+                   Style="{StaticResource DefaultTextBox}"/>
         <!--SUBJECT-->
         <Grid Grid.Row="3">
             <Grid.ColumnDefinitions>

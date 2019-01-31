@@ -23,15 +23,18 @@
 
     <!--COMBO BOX-->
     <Style x:Key="{x:Type ComboBox}" TargetType="{x:Type ComboBox}">
+
+        <Setter Property="FontSize" Value="20"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="MinWidth" Value="120"/>
+        <Setter Property="MinHeight" Value="20"/>
+
         <Setter Property="SnapsToDevicePixels" Value="True"/>
         <Setter Property="OverridesDefaultStyle" Value="True"/>
         <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto"/>
         <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto"/>
         <Setter Property="ScrollViewer.CanContentScroll" Value="True"/>
-
-        <Setter Property="BorderThickness" Value="0"/>
-        <Setter Property="MinWidth" Value="120"/>
-        <Setter Property="MinHeight" Value="20"/>
+        
         <Setter Property="Foreground" Value="{StaticResource DarkBrush}"/>
         <Setter Property="Background" Value="{StaticResource WhiteSmokeBrush}"/>
         <Setter Property="Template" Value="{StaticResource ComboBoxTemplate}"/>
@@ -47,6 +50,7 @@
     </Style>
     <!--COMBO BOX ITEM-->
     <Style TargetType="{x:Type ComboBoxItem}">
+        <Setter Property="FontSize" Value="22"/>
         <Setter Property="BorderThickness" Value="0"/>
 
         <Style.Triggers>

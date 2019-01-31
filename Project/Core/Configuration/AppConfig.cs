@@ -36,7 +36,7 @@ namespace Core.Configuration
         /// <para/>
         /// Date, logMode, message.
         /// </summary>
-        public static readonly string LOG_TEMPLATE_FORMAT = "-{0}- [{1}] \t {2}\n";
+        public static readonly string LOG_TEMPLATE_FORMAT = "-{0}- [{1}] \t {2}" + System.Environment.NewLine;
         #endregion
 
         // AVATAR
