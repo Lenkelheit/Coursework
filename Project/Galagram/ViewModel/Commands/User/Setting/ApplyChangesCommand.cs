@@ -78,27 +78,39 @@ namespace Galagram.ViewModel.Commands.User.Setting
             if (settingViewModel.DoesFieldChanged((int)SettingFieldChanged.Avatar))
             {
                 settingViewModel.Logger.LogAsync(Core.LogMode.Debug, "Sets new avatar");
-                settingViewModel.Logger.LogAsync(Core.LogMode.Info, $"Avatar = {settingViewModel.DataStorage.LoggedUser.MainPhotoPath}, temp avatar = {settingViewModel.TempAvatarPath}");
 
-                // create folder if not exist
-                if (!System.IO.Directory.Exists(Core.Configuration.AppConfig.AVATAR_FOLDER))
-                {
-                    settingViewModel.Logger.LogAsync(Core.LogMode.Debug, "Create avatar folder");
-                    System.IO.Directory.CreateDirectory(Core.Configuration.AppConfig.AVATAR_FOLDER);
-                }
-
-                // move to constant avatar path
-                settingViewModel.Logger.LogAsync(Core.LogMode.Debug, "Move avatar to constant folder");
                 string tempAvatarPath = settingViewModel.TempAvatarPath;
-                string constAvatarPath = string.Format(Core.Configuration.AppConfig.AVATAR_FORMAT, settingViewModel.DataStorage.LoggedUser.Id, System.IO.Path.GetExtension(tempAvatarPath));
+                settingViewModel.Logger.LogAsync(Core.LogMode.Info, $"Avatar = {settingViewModel.DataStorage.LoggedUser.MainPhotoPath}, temp avatar = {tempAvatarPath}");
 
-                // move photo to that folder
-                // move if not exist, overwrite if exist
-                System.IO.File.Copy(tempAvatarPath, constAvatarPath, overwrite: true);
+                if (string.IsNullOrEmpty(tempAvatarPath))// reset avatar
+                {
+                    settingViewModel.Logger.LogAsync(Core.LogMode.Debug, "Reset avatar");
+                    settingViewModel.DataStorage.LoggedUser.MainPhotoPath = null;
+                }
+                else // set new avatar
+                {
+                    
+                    settingViewModel.Logger.LogAsync(Core.LogMode.Debug, "Sets new avatar");
 
-                // sets new avatar
-                // sets if null, do nothing if exist
-                settingViewModel.DataStorage.LoggedUser.MainPhotoPath = constAvatarPath;
+                    // create folder if not exist
+                    if (!System.IO.Directory.Exists(Core.Configuration.AppConfig.AVATAR_FOLDER))
+                    {
+                        settingViewModel.Logger.LogAsync(Core.LogMode.Debug, "Create avatar folder");
+                        System.IO.Directory.CreateDirectory(Core.Configuration.AppConfig.AVATAR_FOLDER);
+                    }
+
+                    // move to constant avatar path
+                    settingViewModel.Logger.LogAsync(Core.LogMode.Debug, "Move avatar to constant folder");
+                    string constAvatarPath = string.Format(Core.Configuration.AppConfig.AVATAR_FORMAT, settingViewModel.DataStorage.LoggedUser.Id, System.IO.Path.GetExtension(tempAvatarPath));
+
+                    // move photo to that folder
+                    // move if not exist, overwrite if exist
+                    System.IO.File.Copy(tempAvatarPath, constAvatarPath, overwrite: true);
+
+                    // sets new avatar
+                    // sets if null, do nothing if exist
+                    settingViewModel.DataStorage.LoggedUser.MainPhotoPath = constAvatarPath;
+                }
             }
             #endregion
 

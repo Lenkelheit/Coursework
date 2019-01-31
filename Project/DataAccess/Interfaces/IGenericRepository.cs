@@ -6,7 +6,7 @@ using System.Collections.Generic;
 namespace DataAccess.Interfaces
 {
     /// <summary>
-    /// Reprents interface for classes which will proxy behind data acsess and buisness logic
+    /// Reprents interface for classes which will proxy behind data access and buisness logic
     /// </summary>
     /// <typeparam name="TEntity">Data class work with</typeparam>
     public interface IGenericRepository<TEntity> where TEntity : class

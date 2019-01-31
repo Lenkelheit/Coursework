@@ -67,7 +67,6 @@ namespace UnitTest.DataAccess.Repositories
             int expectedMessageWithoutSubjectInDb = 2;
 
             // Act
-            // probably fail because lazy loading or because check data in DB
             int actualMessageWithoutSubjectInDb = messageRepository.Count(message => message.Subject == null);
 
             // Assert
@@ -211,17 +210,15 @@ namespace UnitTest.DataAccess.Repositories
             dataAccessMethod: DataAccessMethod.Random)]
         public void AddWrongMessage_Exception()
         {
-            Assert.Fail("throws exception, but not the one that was expected");
             // Arrange
             MessageRepository messageRepository = new MessageRepository(dbContext);
-            bool hasUser = Convert.ToBoolean(TestContext.DataRow["HasUser"]);
             bool hasSubject = Convert.ToBoolean(TestContext.DataRow["HasSubject"]);
             Message message = new Message
             {
-                Date = new DateTime(year: Convert.ToInt32(TestContext.DataRow["Year"]), 
-                                    month: Convert.ToInt32(TestContext.DataRow["Month"]), 
+                Date = new DateTime(year: Convert.ToInt32(TestContext.DataRow["Year"]),
+                                    month: Convert.ToInt32(TestContext.DataRow["Month"]),
                                     day: Convert.ToInt32(TestContext.DataRow["Day"])),
-                User = hasUser ? dbContext.Users.First() : null,
+                User = dbContext.Users.First(),
                 Subject = hasSubject ? dbContext.Subjects.First() : null,
                 Text = Convert.ToString(TestContext.DataRow["Text"])
             };

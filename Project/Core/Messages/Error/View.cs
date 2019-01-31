@@ -33,5 +33,8 @@
         /// The window is not shown.
         /// </summary>
         public static readonly string WINDOW_MANAGER_WINDOW_IS_NOT_OPENED = "Window for this view model is not displayed.";
+        /// Modal window is not opened at all or is not opened as modal
+        /// </summary>
+        public static readonly string WINDOW_MANAGER_MODAL_WINDOW_IS_NOT_OPENED = "Modal window by current key is not opened";
     }
 }
