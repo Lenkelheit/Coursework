@@ -125,11 +125,12 @@
     <Compile Include="ViewModel\Commands\User\PhotoInside\WriteCommentCommand.cs" />
     <Compile Include="ViewModel\Commands\User\Search\SearchCommand.cs" />
     <Compile Include="ViewModel\Commands\User\Setting\ApplyChangesCommand.cs" />
-    <Compile Include="ViewModel\Commands\User\Setting\CleanOnCloseCommand.cs" />
+    <Compile Include="ViewModel\Commands\User\Setting\CloseCommand.cs" />
     <Compile Include="ViewModel\Commands\User\Setting\LoadNewAvatarCommand.cs" />
     <Compile Include="ViewModel\Commands\User\Setting\ResetAvatarCommand.cs" />
     <Compile Include="ViewModel\Enums\User\FollowMode.cs" />
     <Compile Include="ViewModel\Enums\User\SettingField.cs" />
+    <Compile Include="ViewModel\EventToCommandBehavior.cs" />
     <Compile Include="ViewModel\ViewModelBase.cs" />
     <Compile Include="ViewModel\ViewModel\RegistrationViewModel.cs" />
     <Compile Include="ViewModel\ViewModel\User\AskQuestionViewModel.cs" />
