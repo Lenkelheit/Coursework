@@ -22,9 +22,5 @@
                 this.DragMove();
             }
         }
-        private void Exit(object sender, System.Windows.RoutedEventArgs e)
-        {
-            this.Close();
-        }
     }
 }

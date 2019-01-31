@@ -10,7 +10,7 @@ namespace DataAccess.Entities
     /// Maps to Comments table
     /// </summary>
 	public class Comment : INotifyPropertyChanged
-	{
+    {
         // PROPERTIES
         /// <summary>
         /// Unique identifier
@@ -21,7 +21,7 @@ namespace DataAccess.Entities
         /// </summary>
 		public virtual User User { get; set; }
         /// <summary>
-        /// A photo to wich comment has been wriiten
+        /// A photo to which comment has been written
         /// </summary>
         public virtual Photo Photo { get; set; }
         /// <summary>
@@ -40,12 +40,12 @@ namespace DataAccess.Entities
 		public System.DateTime Date { get; set; } = System.DateTime.Now;
 
         #region NotifyOnPropertyChanged
-        // this part is used to updates comment likes on click. Check LikeCommentCommad
+        // this part is used to updates comment likes on click. Check LikeCommentCommand
         /// <summary>
         /// Occurs when property changed
         /// </summary>
         public event PropertyChangedEventHandler PropertyChanged;
-        
+
         /// <summary>
         /// Invoke <see cref="PropertyChanged"/>
         /// </summary>

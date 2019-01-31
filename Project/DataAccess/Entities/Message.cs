@@ -30,7 +30,7 @@ namespace DataAccess.Entities
         /// </summary>
         public virtual Subject Subject { get; set; }
         /// <summary>
-        /// A date, when message was send
+        /// A date, when message was sent
         /// </summary>
         public System.DateTime Date { get; set; } = System.DateTime.Now;
     }

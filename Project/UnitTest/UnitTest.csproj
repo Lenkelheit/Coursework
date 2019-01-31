@@ -145,6 +145,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Resources\DataAccess\Repositories\RegularSubject.xml" />
+    <Content Include="Resources\DataAccess\Repositories\WrongComment.xml" />
     <Content Include="Resources\DataAccess\Repositories\WrongMessage.xml" />
     <Content Include="Resources\DataAccess\Repositories\WrongSubject.xml" />
     <Content Include="Resources\DataAccess\Context\AvatarFormat.xml">

@@ -1,0 +1,155 @@
+﻿<UserControl x:Class="Galagram.Window.Admin.UserControls.Comments.All"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Galagram.Window.Admin.UserControls.Comments"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid>
+        <!--SCALING-->
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="70"/>
+            <RowDefinition Height="70"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <!--HEADER-->
+        <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"
+            Content="Comments" 
+            Style="{StaticResource CenterHeaderLabel_Admin}"/>
+
+        <!--FILTER, TEXT, FROM TO, USER NICKNAME PATTERS-->
+        <Grid Grid.Row="1" Grid.Column="0" Grid.RowSpan="2">
+            <!--smaller scaling-->
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <!--FILTER-->
+            <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="4"
+                   Content="Filter"
+                   Style="{StaticResource CenterHeaderLabel_Admin}"/>
+
+            <!--SUBJECT TEXT-->
+            <Label Grid.Row="1" Grid.Column="0"
+                   Content="text: "
+                   Style="{StaticResource InterfaceLabel_Admin}"/>
+            <TextBox Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3"
+                     Style="{StaticResource ItemTextBox_Admin}"/>
+            
+
+            <!--FROM-->
+            <Label Grid.Row="2" Grid.Column="0" 
+                   Content="from"
+                   Style="{StaticResource InterfaceLabel_Admin}"/>
+            <DatePicker Grid.Row="2" Grid.Column="1"/>
+            <!--TO-->
+            <Label Grid.Row="2" Grid.Column="2" 
+                   Content="to"
+                   Style="{StaticResource InterfaceLabel_Admin}"/>
+            <DatePicker Grid.Row="2" Grid.Column="3"/>
+            
+            <!--USER NICK-->
+            <Label Grid.Row="3" Grid.Column="0"
+                   Content="user"
+                   Style="{StaticResource InterfaceLabel_Admin}"/>
+            <TextBox Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="3"
+                     Style="{StaticResource ItemTextBox_Admin}"/>            
+        </Grid>
+
+        <!--FILTER BUTTON-->
+        <Button Grid.Row="1" Grid.Column="1"
+                Content="Filter"
+                Margin="10"
+                Style="{StaticResource AdminInterfaceButton}"/>
+        <!--RESET BUTTON-->
+        <Button Grid.Row="2" Grid.Column="1"
+                Content="Reset"
+                Margin="10"
+                Style="{StaticResource AdminInterfaceButton}"/>
+
+        <!--DATA GRID-->
+        <DataGrid Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2"
+                  Style="{StaticResource DataGridAdmin}">
+            <DataGrid.Resources>
+                <Style TargetType="ScrollBar"/>
+            </DataGrid.Resources>
+
+            <!--cols-->
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="ID" Binding="{Binding Id}"
+                                    MinWidth="80"
+                                    Width="80"/>
+                <DataGridTextColumn Header="User&#x0a;Nickname" 
+                                    MinWidth="100"
+                                    Width="100"/>
+                <DataGridTextColumn Header="Text" 
+                                    MinWidth="50"
+                                    Width="*"/>
+                <DataGridTextColumn Header="Date"
+                                    Binding="{Binding Date}"
+                                    MinWidth="100"
+                                    Width="100"/>
+                <DataGridTemplateColumn Header="Read" 
+                                        CanUserSort="False"  
+                                        CanUserResize="False"
+                                        Width="40"
+                                        CellTemplate="{StaticResource ReadColumnGridTemplate}"/>
+                <DataGridTemplateColumn Header="Edit" 
+                                        CanUserSort="False"  
+                                        CanUserResize="False"
+                                        Width="40"
+                                        CellTemplate="{StaticResource EditColumnGridTemplate}"/>
+                <DataGridTemplateColumn Header="Delete" 
+                                        CanUserSort="False"  
+                                        CanUserResize="False"
+                                        Width="40"
+                                        CellTemplate="{StaticResource RemoveColumnGridTemplate}"/>
+            </DataGrid.Columns>
+
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+        </DataGrid>
+    </Grid>
+</UserControl>

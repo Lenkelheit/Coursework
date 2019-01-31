@@ -25,8 +25,8 @@
             </Grid.ColumnDefinitions>
 
             <Label Grid.Column="0" Content="Setting" Style="{StaticResource HeaderLabel}"/>
-            <Button Grid.Column="1" Click="Exit" Style="{StaticResource HeaderButton}"
-                    Command="{Binding CleanOnCloseCommand}">
+            <Button Grid.Column="1" Style="{StaticResource HeaderButton}"
+                    Command="{Binding CloseCommand}">
                 <Image Source="/Resources/MenuImg/Exit.png"/>
             </Button>
         </Grid>
@@ -60,10 +60,18 @@
                 </Image.Source>
             </Image>
 
-            <Button Grid.Row="0" Grid.Column="1" Content="load new image" 
+            <!--AVATAR BUTTONS-->
+            <StackPanel Grid.Row="0" Grid.Column="1">
+                <Button Content="load new image" 
                     Style="{StaticResource ClickButton}"
+                    FontSize="22"
                     Height="50" Margin="15"
                     Command="{Binding LoadNewAvatarCommand}"/>
+                <Button Content="reset avatar" 
+                    Style="{StaticResource ClickButton}"
+                    Height="50" Margin="15"
+                    Command="{Binding ResetAvatarCommand}"/>
+            </StackPanel>
             <!--CONFIG-->
             <Label Grid.Row="1" Grid.Column="0" Content="Nickname" Style="{StaticResource H1LeftLabel}"/>
             <Label Grid.Row="2" Grid.Column="0" Content="Password" Style="{StaticResource H1LeftLabel}"/>

@@ -18,12 +18,14 @@ namespace Galagram.Services
         // FIELDS
         static WindowManager instance; // singleton
         IDictionary<string, Type> factory; // a factory has string as a key and WindowType as a value
+        IDictionary<string, System.Windows.Window> modalWindows; // all currently opened modal windows
 
         // CONSTRUCTORS
         private WindowManager()
         {
             // initialize all fields
             factory = new Dictionary<string, Type>();
+            modalWindows = new Dictionary<string, System.Windows.Window>();
 
             // registrate all windows
             // registrate main window
@@ -177,8 +179,44 @@ namespace Galagram.Services
             System.Windows.Window window = MakeInstance(key);
             // set view model
             window.DataContext = viewModel;
+
+            // save modal window to dictionary
+            modalWindows.Add(key, window);
+
             // show window
             return window.ShowDialog();            
+        }
+        /// <summary>
+        /// Closes a window opened as modal
+        /// </summary>
+        /// <param name="key">
+        /// A key by which window was opened.
+        /// </param>
+        /// <exception cref="ArgumentNullException">
+        /// Throws when <paramref name="key"/> is null.
+        /// </exception>
+        /// <exception cref="InvalidOperationException">
+        /// Throws when window is not opened.
+        /// </exception>
+        public void CloseModalWindow(string key)
+        {
+            // checking
+            if (string.IsNullOrWhiteSpace(key)) throw new System.ArgumentNullException(key);
+
+            // try get window
+            System.Windows.Window openedModalWindow;
+            if (modalWindows.TryGetValue(key, out openedModalWindow) == false)
+            {
+                // window is not opened
+                // or is not opened as modal
+                throw new InvalidOperationException(Core.Messages.Error.View.WINDOW_MANAGER_MODAL_WINDOW_IS_NOT_OPENED);
+            }
+
+            // close window or do nothing
+            openedModalWindow.Close();
+            
+            // remove window from dictionary
+            modalWindows.Remove(key);
         }
         // MESSAGE BOX
         /// <summary>
@@ -304,6 +342,9 @@ namespace Galagram.Services
                 {
                     if (window != newMainWindow) window.Close();
                 }
+
+                // clear all modal window list
+                modalWindows.Clear();
             }
             else
             {

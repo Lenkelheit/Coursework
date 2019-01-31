@@ -7,7 +7,7 @@ using System.Collections.Generic;
 namespace DataAccess.Repositories
 {
     /// <summary>
-    /// Proxy data acsess and view model
+    /// Proxy data access and view model
     /// </summary>
     /// <typeparam name="TEntity">
     /// Data class work with
@@ -29,9 +29,7 @@ namespace DataAccess.Repositories
             this.dbSet = context.Set<TEntity>();
         }
 
-
         // METHODS
-
         /// <summary>
         /// Counts records in data set
         /// </summary>
@@ -44,8 +42,8 @@ namespace DataAccess.Repositories
         /// Counts records in data set which satisfy the condition
         /// </summary>
         /// <param name="predicate">The condition by which record should be count</param>
-        /// <returns>Returns the amount of records in data set which satisfy the condition</returns> /
-        /// // <exception cref="ArgumentNullException">
+        /// <returns>Returns the amount of records in data set which satisfy the condition</returns>
+        /// <exception cref="ArgumentNullException">
         /// Throws when passed <paramref name="predicate"/> is null
         /// </exception>
         public virtual int Count(Func<TEntity, bool> predicate)

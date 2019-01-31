@@ -380,7 +380,6 @@ namespace UnitTest.DataAccess.Repositories
         [TestMethod]
         public void DeleteByKey()
         {
-            Assert.Fail("Fail because regular deleting in DB does not work");
             // Arrange
             UserRepository userRepository = new UserRepository(dbContext);
             User expectedDeletedUser = dbContext.Users.First();
@@ -421,7 +420,6 @@ namespace UnitTest.DataAccess.Repositories
         [TestMethod]
         public void DeleteByValue()
         {
-            Assert.Fail("Fail because regular deleting in DB does not work");
             // Arrange
             UserRepository userRepository = new UserRepository(dbContext);
             User userToDelete = dbContext.Users.First();
@@ -446,7 +444,6 @@ namespace UnitTest.DataAccess.Repositories
         [TestMethod]
         public void DeleteByChangedValue()
         {
-            Assert.Fail("Fail because regular deleting in DB does not work");
             // Arrange
             UserRepository userRepository = new UserRepository(dbContext);
             User changedUserToDelete = dbContext.Users.Where(u => u.NickName == "John").First();

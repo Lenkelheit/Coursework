@@ -281,15 +281,15 @@ namespace UnitTest.Resources.Classes
             #region Adding
             dbContext.Users.AddRange(new User[] { user1, user2, user3, user4, user5 });
             dbContext.Photos.AddRange(new Photo[] { photo1, photo2, photo3, photo4, photo5, photo6, photo7, photo8, photo9, photo10, photo11, photo12, photo13 });
-            //dbContext.PhotoLike.AddRange(new PhotoLike[] { photoLike1, photoLike2, photoLike3, photoLike4, photoLike5, photoLike6, photoLike7, photoLike8, photoLike9,
-            //                                               photoLike10, photoLike11, photoLike12, photoLike13, photoLike14, photoLike15, photoLike16, photoLike17, photoLike18, photoLike19,
-            //                                               photoLike20, photoLike21, photoLike22, photoLike23, photoLike24, photoLike25, photoLike26, photoLike27 });
+            dbContext.PhotoLike.AddRange(new PhotoLike[] { photoLike1, photoLike2, photoLike3, photoLike4, photoLike5, photoLike6, photoLike7, photoLike8, photoLike9,
+                                                           photoLike10, photoLike11, photoLike12, photoLike13, photoLike14, photoLike15, photoLike16, photoLike17, photoLike18, photoLike19,
+                                                           photoLike20, photoLike21, photoLike22, photoLike23, photoLike24, photoLike25, photoLike26, photoLike27 });
             dbContext.Comments.AddRange(new Comment[] { comment1, comment2, comment3, comment4, comment5, comment6, comment7, comment8, comment9,
                                                         comment10, comment11, comment12, comment13, comment14, comment15, comment16, comment17, comment18, comment19,
                                                         comment20, comment21, comment22, comment23, comment24, comment25, comment26, comment27, comment28, comment29, comment30});
-            //dbContext.CommentLike.AddRange(new CommentLike[] { commentLike1, commentLike2, commentLike3, commentLike4, commentLike5, commentLike6, commentLike7, commentLike8, commentLike9,
-            //                                                   commentLike11, commentLike12, commentLike13, commentLike14, commentLike15, commentLike16, commentLike17, commentLike18, commentLike19,
-            //                                                   commentLike20, commentLike21, commentLike22 });
+            dbContext.CommentLike.AddRange(new CommentLike[] { commentLike1, commentLike2, commentLike3, commentLike4, commentLike5, commentLike6, commentLike7, commentLike8, commentLike9,
+                                                               commentLike11, commentLike12, commentLike13, commentLike14, commentLike15, commentLike16, commentLike17, commentLike18, commentLike19,
+                                                               commentLike20, commentLike21, commentLike22 });
             dbContext.Subjects.AddRange(new Subject[] { subject1, subject2, subject3, subject4, subject5 });
             dbContext.Messages.AddRange(new Message[] { message1, message2, message3, message4, message5, message6, message7, message8, message9,
                                                         message10, message11, message12, message13, message14, message15 });
