@@ -8,6 +8,17 @@ namespace Galagram.Services.WindowManagerInitializers
     /// </summary>
     public class DefaultWindowInitializers : WindowManagerInitializerBase
     {
+        // PROPERTIES
+        /// <summary>
+        /// Gets message box name
+        /// </summary>
+        public override string MessageBoxName => nameof(MessageBox);
+        /// <summary>
+        /// Gets open file dialog name
+        /// </summary>
+        public override string OpenFileDialogName => nameof(DropWindow);
+
+        // METHODS
         /// <summary>
         /// Initialize <see cref="WindowManager"/> with default window
         /// </summary>

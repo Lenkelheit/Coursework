@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.IO;
+using System.Linq;
 using System.Windows;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -93,6 +94,7 @@ namespace Galagram.Window.Dialogs
             }
             set
             {
+                // the same format as in DataBase
                 if (!Regex.IsMatch(input: value, pattern: FILTER_REGEX_PATTERN))
                 {
                     throw new System.ArgumentException(Core.Messages.Error.View.DROP_WINDOW_WRONG_FILTER_STRING);
@@ -102,7 +104,7 @@ namespace Galagram.Window.Dialogs
 
                 // reset extension allowed
                 allowedExtension.Clear();
-                foreach (string extension in filter.Split(',').Select(ext => '.' + ext))
+                foreach (string extension in filter.Split(',').Select(ext => '.' + ext))// for each regular extension .ext
                 {
                     allowedExtension.Add(extension);
                 }
@@ -187,7 +189,7 @@ namespace Galagram.Window.Dialogs
         }
         private void Upload(object sender, RoutedEventArgs e)
         {
-            fileNames = uploadedFiles.Where(filePath => System.IO.File.Exists(filePath)).ToArray();
+            fileNames = uploadedFiles.Where(File.Exists).ToArray();
 
             DialogResult = true;
             Close();

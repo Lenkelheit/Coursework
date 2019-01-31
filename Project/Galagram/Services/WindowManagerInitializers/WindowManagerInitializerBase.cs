@@ -5,6 +5,17 @@
     /// </summary>
     public abstract class WindowManagerInitializerBase
     {
+        // PROPERTIES
+        /// <summary>
+        /// Gets message box name
+        /// </summary>
+        public abstract string MessageBoxName { get; }
+        /// <summary>
+        /// Gets open file dialog name
+        /// </summary>
+        public abstract string OpenFileDialogName { get; }
+
+        // METHODS
         /// <summary>
         /// If overriden, initialize <see cref="WindowManager"/> with default window
         /// </summary>

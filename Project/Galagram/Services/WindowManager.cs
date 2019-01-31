@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 
-using Galagram.Window.Interfaces;
-using Galagram.Window.Dialogs;
 using Galagram.Window.Enums;
-using Galagram.Window.User;
+using Galagram.Window.Interfaces;
+using Galagram.Services.WindowManagerInitializers;
 
 namespace Galagram.Services
 {
@@ -19,7 +18,7 @@ namespace Galagram.Services
     {
         // FIELDS
         static WindowManager instance; // singleton
-        static WindowManagerInitializers.WindowManagerInitializerBase initializerBase;
+        static WindowManagerInitializerBase initializerBase;
 
         IDictionary<string, Type> factory; // a factory has string as a key and WindowType as a value
 
@@ -35,7 +34,7 @@ namespace Galagram.Services
         static WindowManager()
         {
             // initialize window initializer
-            initializerBase = new WindowManagerInitializers.DefaultWindowInitializers();
+            initializerBase = new DefaultWindowInitializers();
 
             // initialize singleton value
             instance = new WindowManager();
@@ -48,6 +47,27 @@ namespace Galagram.Services
         public static WindowManager Instance => instance;
 
         // METHODS
+        /// <summary>
+        /// Sets window initializer
+        /// </summary>
+        /// <param name="windowInitializers">
+        /// An instance of class that inheir from <see cref="DefaultWindowInitializers"/>
+        /// </param>
+        public static void SetInitializer(DefaultWindowInitializers windowInitializers)
+        {
+            // checking
+            if (windowInitializers == null) throw new ArgumentNullException(nameof(windowInitializers));
+
+            // change initializer
+            initializerBase = windowInitializers;
+
+            // initialize with new value
+            instance.factory.Clear();
+            windowInitializers.Initialize(instance);
+        }
+
+        // factory interface implementation
+        #region Factory Implementation
         /// <summary>
         /// Returns a new instance of a window.
         /// </summary>
@@ -126,7 +146,9 @@ namespace Galagram.Services
             // unregistrate
             factory.Remove(key);
         }
-        // WINDOW
+        #endregion
+        // dialog window
+        #region DialogWindow
         /// <summary>
         /// Opens a window and returns only when a newly opened window is closed.
         /// </summary>
@@ -177,9 +199,11 @@ namespace Galagram.Services
             // show window
             return window.ShowDialog();            
         }
-        // MESSAGE BOX
+        #endregion
+        // message box
+        #region MessageBox
         /// <summary>
-        /// Open a message box window and returns only when a newly opened window is closed.
+        /// Opens a message box window and returns only when a newly opened window is closed.
         /// </summary>
         /// <param name="text">
         /// Specify the text of the window.
@@ -197,7 +221,7 @@ namespace Galagram.Services
             return ShowMessageWindow(text, String.Empty, MessageBoxButton.Ok);
         }
         /// <summary>
-        /// Open a message box window and returns only when a newly opened window is closed.
+        /// Opens a message box window and returns only when a newly opened window is closed.
         /// </summary>
         /// <param name="text">
         /// Specify the text of the window.
@@ -218,7 +242,7 @@ namespace Galagram.Services
             return ShowMessageWindow(text, header, MessageBoxButton.Ok);
         }
         /// <summary>
-        /// Open a message box window and returns only when a newly opened window is closed.
+        /// Opens a message box window and returns only when a newly opened window is closed.
         /// </summary>
         /// <param name="text">
         /// Specify the text of the window.
@@ -243,17 +267,76 @@ namespace Galagram.Services
         public bool? ShowMessageWindow(string text, string header, MessageBoxButton buttonType)
         {
             // make default instance             
-            IMessageBox messageBox = MakeInstance(nameof(MessageBox)) as IMessageBox;            
+            IMessageBox messageBox = MakeInstance(initializerBase.MessageBoxName) as IMessageBox;            
             // throw exception if not the message box
             if (messageBox == null) throw new InvalidCastException(string.Concat(Core.Messages.Error.View.WINDOW_MANAGER_DIALOG_DOES_NOT_INHERIT_DEFAULT_INTERFACE_FORMAT, nameof(IMessageBox)));
             
-            // set up all values
+            // sets up all values
             messageBox.Header = header;
             messageBox.Text = text;
 
             // show window and return result
             return messageBox.ShowDialog(buttonType);             
         }
+        #endregion
+        // open file dialog
+        #region OpenFileDialog
+        /// <summary>
+        /// Opens file dialog to upload files
+        /// <para/>
+        /// Allowed only single file to upload
+        /// </summary>
+        /// <param name="filterString">
+        /// Determines what types of files are allowed
+        /// </param>
+        /// <returns>
+        /// An array that contains one file name for each selected file, or null if user canceled operation.
+        /// </returns>
+        /// <exception cref="InvalidOperationException">
+        /// Throws when key was not registered before.
+        /// </exception>
+        /// <exception cref="ArgumentException">
+        /// The filter string for current openFileDialog is invalid.
+        /// </exception>
+        public string[] OpenFileDialog(string filterString)
+        {
+            return OpenFileDialog(filterString, isMultiselectAllowed: false);
+        }
+        /// <summary>
+        /// Opens file dialog to upload files
+        /// </summary>
+        /// <param name="filterString">
+        /// Determines what types of files are allowed
+        /// </param>
+        /// <param name="isMultiselectAllowed">
+        /// Determines whether dialog allows users to select multiple files.
+        /// </param>
+        /// <returns>
+        /// An array that contains one file name for each selected file, or null if user canceled operation.
+        /// </returns>
+        /// <exception cref="InvalidOperationException">
+        /// Throws when key was not registered before.
+        /// </exception>
+        /// <exception cref="ArgumentException">
+        /// The filter string for current openFileDialog is invalid.
+        /// </exception>
+        public string[] OpenFileDialog(string filterString, bool isMultiselectAllowed)
+        {
+            // make generic instance 
+            IFileDialog openFileDialog = MakeInstance(initializerBase.OpenFileDialogName) as IFileDialog;
+            // throw exception if not the file dialog
+            if (openFileDialog == null) throw new InvalidCastException(string.Concat(Core.Messages.Error.View.WINDOW_MANAGER_DIALOG_DOES_NOT_INHERIT_DEFAULT_INTERFACE_FORMAT, nameof(IFileDialog)));
+
+            // sets up values
+            openFileDialog.Multiselect = isMultiselectAllowed;
+            openFileDialog.Filter = filterString;
+
+            // show dialog and return result or NULL if user canceled operation
+            if (openFileDialog.ShowDialog() == true) return openFileDialog.FileNames;
+            return null;
+        }
+        #endregion
+        
         /// <summary>
         /// Switch current main window to passed one.
         /// </summary>
