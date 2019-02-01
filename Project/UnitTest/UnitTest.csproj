@@ -107,6 +107,7 @@
     <Compile Include="DataAccess\Repositories\MessageRepositoryTest.cs" />
     <Compile Include="DataAccess\Repositories\SubjectRepositoryTest.cs" />
     <Compile Include="DataAccess\Repositories\UserRepositoryTest.cs" />
+    <Compile Include="GeneralDatabaseCreatorAndDeleter\DatabaseCreatorAndDeleter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Resources\Classes\DbFiller.cs" />
     <Compile Include="ViewModel\Commands\Registration\LogInCommandTest.cs" />

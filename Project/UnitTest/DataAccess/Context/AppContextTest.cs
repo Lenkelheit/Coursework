@@ -13,7 +13,7 @@ namespace UnitTest.DataAccess.Context
     public class AppContextTest
     {
         // FIELDS
-        static string connectionString = @"Data Source=(localdb)\MSSQLLocalDB; Integrated Security=True; Initial Catalog=AppContextTestDB";
+        static string connectionString = @"Data Source=(localdb)\MSSQLLocalDB; Integrated Security=True; Initial Catalog=TestDB";
         static DA.AppContext dbContext;
         // PROPERTIES
         public TestContext TestContext { get; set; }
@@ -27,7 +27,6 @@ namespace UnitTest.DataAccess.Context
         public static void Finalizer()
         {
             dbContext.Dispose();
-            System.Data.Entity.Database.Delete(connectionString);            
         }
 
         // TEST

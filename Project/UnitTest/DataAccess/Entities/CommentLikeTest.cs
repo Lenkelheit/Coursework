@@ -12,7 +12,7 @@ namespace UnitTest.DataAccess.Entities
     public class CommentLikeTest
     {
         // FIELDS
-        static string connectionString = @"Data Source=(localdb)\MSSQLLocalDB; Integrated Security=True; Initial Catalog=CommentLikeTestDB";
+        static string connectionString = @"Data Source=(localdb)\MSSQLLocalDB; Integrated Security=True; Initial Catalog=TestDB";
         static DA.AppContext dbContext;
         static Resources.Classes.DbFiller dbFiller;
         // PROPERTIES
@@ -28,7 +28,6 @@ namespace UnitTest.DataAccess.Entities
         public static void Finalizer()
         {
             dbContext.Dispose();
-            System.Data.Entity.Database.Delete(connectionString);
         }
         [TestInitialize]
         public void Filler()
