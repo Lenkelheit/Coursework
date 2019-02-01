@@ -31,6 +31,8 @@ namespace Galagram.Services
             modalWindows = new Dictionary<string, System.Windows.Window>();
 
             // registrate all windows
+            // registrate admin window
+            Registrate(nameof(Window.Admin.AdminWindow), typeof(Window.Admin.AdminWindow));
             // registrate main window
             Registrate(nameof(Window.Registration), typeof(Window.Registration));
             // registrate dialogs

@@ -20,7 +20,7 @@
 
         <!--HEADER-->
         <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"
-            Content="Comments" 
+            Content="Subject" 
             Style="{StaticResource CenterHeaderLabel_Admin}"/>
 
         <!--DATA GRID-->

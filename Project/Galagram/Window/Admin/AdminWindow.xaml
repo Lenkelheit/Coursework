@@ -46,19 +46,14 @@
 
         <!--MENU-->
         <ListBox Grid.Row="1" Grid.Column="0" Grid.RowSpan="8"
-                 Style="{StaticResource ListBoxAdminMenu}">
+                 Style="{StaticResource ListBoxAdminMenu}"
+                 ItemsSource="{Binding MenuItems}"
+                 SelectedIndex="{Binding MenuItemIndex}"/>
 
-            <ListBoxItem Content="Message"/>
-            <ListBoxItem Content="Users"/>
-            <ListBoxItem Content="Comments"/>
-            <ListBoxItem Content="Subject"/>
-            <ListBoxItem Content="Exit"/>
-        </ListBox>
-        
         <!--MAIN CONTENT-->
         <Border Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="3" Grid.RowSpan="8"
                 Style="{StaticResource ContentBorder}">
-            <ContentControl Content="null"/>
+            <ContentControl x:Name="ContentControl"/>
         </Border>
 
 

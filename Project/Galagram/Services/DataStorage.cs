@@ -34,6 +34,10 @@
         /// Gets or sets Shown user
         /// </summary>
         public DataAccess.Entities.User ShownUser { get; set; }
+        /// <summary>
+        /// Gets or sets admin window content control
+        /// </summary>
+        public System.Windows.Controls.ContentControl AdminWindowContentControl { get; set; }
 
         /// <summary>
         /// Gets true if current user and shown user is the same, otherwise — false
@@ -47,6 +51,15 @@
         public void ShowLoggedUser()
         {
             ShownUser = LoggedUser;
+        }
+        /// <summary>
+        /// Sets all properties to their default values
+        /// </summary>
+        public void Reset()
+        {
+            LoggedUser = null;
+            ShownUser = null;
+            AdminWindowContentControl.Content = null;
         }
     }
 }
