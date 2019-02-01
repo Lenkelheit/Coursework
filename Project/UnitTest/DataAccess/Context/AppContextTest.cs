@@ -58,7 +58,7 @@ namespace UnitTest.DataAccess.Context
         [TestMethod]
         [DataSource(
             providerInvariantName: "Microsoft.VisualStudio.TestTools.DataSource.XML",
-            connectionString: @"..\..\Resources\DataAccess\Context\WrongLengthNameOrPassword.xml",
+            connectionString: @"..\..\Resources\DataAccess\Repositories\WrongLengthNameOrPassword.xml",
             tableName: "User",
             dataAccessMethod: DataAccessMethod.Random)]
         public void AddUsersWithWrongLengthNameOrPassword()
@@ -82,7 +82,7 @@ namespace UnitTest.DataAccess.Context
         [TestMethod]
         [DataSource(
             providerInvariantName: "Microsoft.VisualStudio.TestTools.DataSource.XML",
-            connectionString: @"..\..\Resources\DataAccess\Context\AvatarFormat.xml",
+            connectionString: @"..\..\Resources\DataAccess\Repositories\AvatarFormat.xml",
             tableName: "User",
             dataAccessMethod: DataAccessMethod.Random)]
         public void AvatarFormatTest_AddRegularUserWithAvatar()
@@ -221,7 +221,7 @@ namespace UnitTest.DataAccess.Context
             CollectionAssert.Contains(dbContext.Photos.Find(photoId).Likes.ToArray(), photoLike);
         }
         [TestMethod]
-        public void AddPhotoLikeWithoutUser_Exception()
+        public void AddPhotoLikeWithoutPhoto_Exception()
         {
             // Arrange
             User user = new User() { NickName = "John", Password = "1111" };
@@ -238,7 +238,7 @@ namespace UnitTest.DataAccess.Context
             ((IObjectContextAdapter)dbContext).ObjectContext.Detach(photoLike);
         }
         [TestMethod]
-        public void AddPhotoLikeWithoutPhot_Exception()
+        public void AddPhotoLikeWithoutUser_Exception()
         {
             // Arrange
             Photo photo = new Photo() { Path = "1/54/23.jpg" };
@@ -350,7 +350,7 @@ namespace UnitTest.DataAccess.Context
         [TestMethod]
         public void DeleteUser_AndPhotoLike_Cascade()
         {
-            //Assert.Fail();
+            Assert.Fail();
 
             // Arrange
             Photo photo = new Photo() { Path = "1/54/23.jpg" };
@@ -456,7 +456,6 @@ namespace UnitTest.DataAccess.Context
         public void AddUserCommentWithoutPhoto_Exception()
         {
             // Arrange
-
             Comment comment1 = new Comment() { Text = "Comment text", Date = DateTime.Now };
             Comment comment2 = new Comment() { Text = "Comment text", Date = DateTime.Now };
             Comment comment3 = new Comment() { Text = "Comment text", Date = DateTime.Now };
@@ -468,7 +467,7 @@ namespace UnitTest.DataAccess.Context
                 {
                     comment1,
                     comment2,
-                    comment3,
+                    comment3
                 }
             };
 
@@ -484,7 +483,7 @@ namespace UnitTest.DataAccess.Context
             ((IObjectContextAdapter)dbContext).ObjectContext.Detach(comment3);
         }
         [TestMethod]
-        public void AddPhotoCommentWithoutUser_Exception()
+        public void AddPhotoCommentWithoutPhoto_Exception()
         {
             // Arrange
             Comment comment1 = new Comment() { Text = "Comment text", Date = DateTime.Now };
@@ -498,7 +497,7 @@ namespace UnitTest.DataAccess.Context
                 {
                     comment1,
                     comment2,
-                    comment3,
+                    comment3
                 }
             };
 
@@ -808,6 +807,8 @@ namespace UnitTest.DataAccess.Context
         [TestMethod]
         public void DeletePhoto_AndCommentAndCommentLike_Cascade()
         {
+            Assert.Fail();
+
             // Arrange
             Photo photo1 = new Photo() { Path = "1/54/23.jpg" };
             Photo photo2 = new Photo() { Path = "1/54/24.jpg" };
@@ -938,6 +939,7 @@ namespace UnitTest.DataAccess.Context
         public void DeleteUser_AndMesaageAndPhotoAndPhotoLikeAndCommentAndCommentLike_Cascade()
         {
             Assert.Fail();
+
             // Arrange
             Photo photo1 = new Photo() { Path = "1/54/23.jpg" };
             Photo photo2 = new Photo() { Path = "1/54/24.jpg" };

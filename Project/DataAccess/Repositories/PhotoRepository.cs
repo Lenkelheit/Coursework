@@ -1,4 +1,4 @@
-﻿using System.Linq;
+using System.Linq;
 
 namespace DataAccess.Repositories
 {
@@ -47,8 +47,20 @@ namespace DataAccess.Repositories
             if (entityToDelete == null) throw new System.ArgumentNullException(nameof(entityToDelete));
 
             dbSet.Attach(entityToDelete);
+
+            // Photo's photolikes
             entityToDelete.Likes.ToList().ForEach(l => l.Photo = null);
-            entityToDelete.Comments.ToList().ForEach(c => c.Photo = null);
+
+            // Photo's comments
+            entityToDelete.Comments.ToList().ForEach(c => 
+            {
+                // Photo's comment's commentlikes
+                c.Likes.ToList().ForEach(cl => cl.Comment = null);
+
+                // Photo's comment
+                c.Photo = null;
+            });
+
             context.Entry(entityToDelete).State = System.Data.Entity.EntityState.Modified;
 
             base.Delete(entityToDelete);

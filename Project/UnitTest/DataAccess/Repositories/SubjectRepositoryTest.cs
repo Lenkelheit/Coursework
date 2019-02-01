@@ -14,7 +14,7 @@ namespace UnitTest.DataAccess.Repositories
     public class SubjectRepositoryTest
     {
         // FIELDS
-        static string connectionString = @"Data Source=(localdb)\MSSQLLocalDB; Integrated Security=True; Initial Catalog=SubjectTestDB";
+        static string connectionString = @"Data Source=(localdb)\MSSQLLocalDB; Integrated Security=True; Initial Catalog=SubjectRepositoryTestDB";
         static DA.AppContext dbContext;
         static Resources.Classes.DbFiller dbFiller;
         // PROPERTIES
@@ -67,7 +67,8 @@ namespace UnitTest.DataAccess.Repositories
             int expectedSubjectWithMessagesInDb = 1;
 
             // Act
-            int actualSubjectWith4Messages = subjectRepository.Count(subject => {Console.WriteLine(subject.Messages.Count); return subject.Messages.Count == 4; });
+            int actualSubjectWith4Messages = subjectRepository
+                .Count(subject => subject.Messages.Count == 4);
 
             // Assert
             Assert.AreEqual(expectedSubjectWithMessagesInDb, actualSubjectWith4Messages);
@@ -157,7 +158,7 @@ namespace UnitTest.DataAccess.Repositories
         {
             // Arrange
             SubjectRepository subjectRepository = new SubjectRepository(dbContext);
-            int wrongId = 69;
+            int wrongId = int.MaxValue;
             Subject expectedSubjectFromDb = null;
 
             // Act
@@ -226,13 +227,15 @@ namespace UnitTest.DataAccess.Repositories
 
             // Assert
             CollectionAssert.DoesNotContain(dbContext.Subjects.ToArray(), expectedDeletedSubject);
+            // Checks if all subject's messages are null.
+            Assert.IsTrue(dbContext.Messages.AsEnumerable().Any(m => m.Subject == null || m.Subject.Id != expectedDeletedSubject.Id));
         }
         [TestMethod]
         public void DeleteByWrongKey_Exception()
         {
             // Arrange
             SubjectRepository subjectRepository = new SubjectRepository(dbContext);
-            int wrongId = 200;
+            int wrongId = int.MaxValue;
 
             // Act
             // Assert
@@ -266,6 +269,8 @@ namespace UnitTest.DataAccess.Repositories
 
             // Assert
             CollectionAssert.DoesNotContain(dbContext.Subjects.ToArray(), subjectToDelete);
+            // Checks if all subject's messages are null.
+            Assert.IsTrue(dbContext.Messages.AsEnumerable().Any(m => m.Subject == null || m.Subject.Id != subjectToDelete.Id));
         }
         [TestMethod]
         public void DeleteByNullValue()
@@ -282,7 +287,7 @@ namespace UnitTest.DataAccess.Repositories
         {
             // Arrange
             SubjectRepository subjectRepository = new SubjectRepository(dbContext);
-            Subject changedSubjectToDelete = dbContext.Subjects.Where(s => s.Name == "Subject 1").First();
+            Subject changedSubjectToDelete = dbContext.Subjects.First(s => s.Name == "Subject 1");
             changedSubjectToDelete.Name += "Changed it";
 
             // Act
@@ -291,6 +296,8 @@ namespace UnitTest.DataAccess.Repositories
 
             // Assert
             CollectionAssert.DoesNotContain(dbContext.Subjects.ToArray(), changedSubjectToDelete);
+            // Checks if all subject's messages are null.
+            Assert.IsTrue(dbContext.Messages.AsEnumerable().Any(m => m.Subject == null || m.Subject.Id != changedSubjectToDelete.Id));
         }
         #endregion
         // UPDATE

@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<UserDetails>
+  <User NickName="John Doe" Password="1111" Avatar=".jpg"/>
+  <User NickName="John Doe" Password="1111" Avatar=".png"/>
+  <User NickName="John Doe" Password="1111" Avatar=".gif"/>
+  <User NickName="John Doe" Password="1111" Avatar="123456789 123456789 123456789 123456789 123456789 123456789 123456789 123456789 123456789
+                                                    123456789 123456789 123456789 123456789 123456789 123456789 123456789 123456789 123456789
+                                                    123456789 123456789 123456789 123456789 123456789 123456789 123456789 123456789 123456789
+                                                    123456789 123456789 123456789 123456789 123456789 123456789.jpg"/>
+  <User NickName="John Doe" Password="1111" Avatar="1.bmp"/>
+  <User NickName="John Doe" Password="1111" Avatar="2.svg"/>
+  <User NickName="John Doe" Password="1111" Avatar="3.tiff"/>
+  <User NickName="John Doe" Password="1111" Avatar="4.tga"/>
+</UserDetails>
