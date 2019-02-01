@@ -59,7 +59,7 @@
         {
             LoggedUser = null;
             ShownUser = null;
-            AdminWindowContentControl.Content = null;
+            AdminWindowContentControl = null;
         }
     }
 }

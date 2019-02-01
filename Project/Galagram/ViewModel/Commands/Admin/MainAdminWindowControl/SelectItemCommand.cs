@@ -63,7 +63,6 @@
 
                     // switch to registration window
                     Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, "Switch to registration window");
-
                     Services.WindowManager.Instance.SwitchMainWindow(
                         key: nameof(Window.Registration),
                         viewModel: new ViewModel.RegistrationViewModel());
@@ -72,14 +71,21 @@
                 {
                     // change admin window content
                     Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, "Change admin window content");
+                    
+                    // get menu item name
+                    string menuItemName = adminWindowViewModel.MenuItems[index];
+                    Core.Logger.GetLogger.LogAsync(Core.LogMode.Info, $"Menu item name = {menuItemName}");
 
+                    // clear history
                     Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, "Clear history");
                     adminWindowViewModel.NavigationManager.ClearHistory();
 
+                    // navigate to control registered by item name and pass him view model registered by item name
                     Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, "Shows new content");
-                    Services.DataStorage.Instance.AdminWindowContentControl.Content = Services.NavigationManager.Instance.NavigateTo(
-                        key: adminWindowViewModel.MenuItems[index], 
-                        viewModel: null);
+                    Services.NavigationManager.Instance.NavigateTo(
+                        parent: Services.DataStorage.Instance.AdminWindowContentControl,
+                        key: menuItemName, 
+                        viewModel: adminWindowViewModel.MenuItemViewModelFactory.MakeInstance(menuItemName));
                 }
             }
 

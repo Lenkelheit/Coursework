@@ -6,10 +6,9 @@
     public class AdminWindowViewModel : ViewModelBase
     {
         // FIELDS
-        System.Windows.Controls.UserControl windowContent;
-
         readonly string[] menuItems;
         int menuItemIndex;
+        Services.MenuItemViewModelFactory menuItemViewModelFactory;
 
         System.Windows.Input.ICommand changeContentCommand;
         // CONSTRUCTORS
@@ -18,6 +17,10 @@
         /// </summary>
         public AdminWindowViewModel()
         {
+            menuItemViewModelFactory = new Services.MenuItemViewModelFactory();
+            menuItemIndex = Core.Configuration.Constants.WRONG_INDEX;
+
+            // sets menu items 
             menuItems = new string[]
             {
                 "Message",
@@ -26,13 +29,19 @@
                 "Subject",
                 "Exit"
             };
-            menuItemIndex = Core.Configuration.Constants.WRONG_INDEX;
 
+            // registrate by menu items content
             NavigationManager.Registrate(menuItems[0], typeof(Window.Admin.UserControls.Messages.All));
             NavigationManager.Registrate(menuItems[1], typeof(Window.Admin.UserControls.Users.All));
             NavigationManager.Registrate(menuItems[2], typeof(Window.Admin.UserControls.Comments.All));
             NavigationManager.Registrate(menuItems[3], typeof(Window.Admin.UserControls.Subjects.All));
 
+            NavigationManager.Registrate(nameof(Window.Admin.UserControls.Subjects.Single), typeof(Window.Admin.UserControls.Subjects.Single));
+
+            // registrate by menu items VM
+            menuItemViewModelFactory.Registrate(menuItems[3], typeof(Subject.AllSubjectViewModel));
+
+            // command
             changeContentCommand = new Commands.Admin.MainAdminWindowControl.SelectItemCommand(this);
 
             Logger.LogAsync(Core.LogMode.Debug, $"Initialized {nameof(AdminWindowViewModel)}");
@@ -40,23 +49,15 @@
 
         // PROPERTIES
         /// <summary>
-        /// Gets or sets window content
+        /// Gets menu item - VM factory
         /// </summary>
-        public System.Windows.Controls.UserControl WindowContent
+        public Services.MenuItemViewModelFactory MenuItemViewModelFactory
         {
             get
             {
-                Logger.LogAsync(Core.LogMode.Debug, $"Gets {nameof(WindowContent)}");
-                Logger.LogAsync(Core.LogMode.Info, $"Content type = {windowContent?.GetType().Name}");
+                Logger.LogAsync(Core.LogMode.Debug, $"Gets {nameof(MenuItemViewModelFactory)}");
 
-                return windowContent;
-            }
-            set
-            {
-                Logger.LogAsync(Core.LogMode.Debug, $"Sets {nameof(WindowContent)}");
-                Logger.LogAsync(Core.LogMode.Info, $"Sets window of type = {value?.GetType().Name}");
-
-                SetProperty(ref windowContent, value);
+                return menuItemViewModelFactory;
             }
         }
         /// <summary>

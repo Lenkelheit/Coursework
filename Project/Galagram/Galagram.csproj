@@ -104,6 +104,8 @@
     <Compile Include="Services\NavigationManager.cs" />
     <Compile Include="ViewModel\CommandBase.cs" />
     <Compile Include="ViewModel\Commands\Admin\MainAdminWindowControl\SelectItemCommand.cs" />
+    <Compile Include="ViewModel\Commands\Admin\Subject\CreateCommand.cs" />
+    <Compile Include="ViewModel\Commands\Admin\Subject\Single\GoBackCommand.cs" />
     <Compile Include="ViewModel\Commands\Registration\LogInCommand.cs" />
     <Compile Include="ViewModel\Commands\Registration\SignUpCommand.cs" />
     <Compile Include="ViewModel\Commands\RelayCommand.cs" />
@@ -135,6 +137,9 @@
     <Compile Include="ViewModel\EventToCommandBehavior.cs" />
     <Compile Include="ViewModel\ViewModelBase.cs" />
     <Compile Include="ViewModel\ViewModel\Admin\AdminWindowViewModel.cs" />
+    <Compile Include="ViewModel\ViewModel\Admin\Services\MenuItemViewModelFactory.cs" />
+    <Compile Include="ViewModel\ViewModel\Admin\Subject\AllSubjectViewModel.cs" />
+    <Compile Include="ViewModel\ViewModel\Admin\Subject\SingleViewModel.cs" />
     <Compile Include="ViewModel\ViewModel\RegistrationViewModel.cs" />
     <Compile Include="ViewModel\ViewModel\User\AskQuestionViewModel.cs" />
     <Compile Include="ViewModel\ViewModel\User\FollowViewModel.cs" />
