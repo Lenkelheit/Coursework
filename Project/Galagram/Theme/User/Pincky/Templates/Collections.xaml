@@ -18,6 +18,24 @@
         </Image>
     </ControlTemplate>
     
+    <!--LIST BOX FOR DROP WINDOW IMAGE-->
+    <ControlTemplate x:Key="ListBoxDropImageTemplate" TargetType="ListBoxItem">
+        <Image Style="{DynamicResource DropImage}"
+               Cursor="Hand">
+            <Image.Source>
+                <Binding Path="{x:Null}"
+                                 Converter="{StaticResource ImageConverter}">
+                    <Binding.TargetNullValue>
+                        <ImageSource>/Resources/OtherImg/NoPhoto.png</ImageSource>
+                    </Binding.TargetNullValue>
+                    <Binding.FallbackValue>
+                        <ImageSource>/Resources/OtherImg/NoPhoto.png</ImageSource>
+                    </Binding.FallbackValue>
+                </Binding>
+            </Image.Source>
+        </Image>
+    </ControlTemplate>
+
     <!--LIST BOX ITEM FOR SEARCH-->
     <ControlTemplate x:Key="ListItemSearchTemplate" TargetType="ListBoxItem">
         <Grid Background="{TemplateBinding Background}">

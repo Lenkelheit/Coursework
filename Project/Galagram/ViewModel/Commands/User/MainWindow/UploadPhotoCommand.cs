@@ -1,6 +1,4 @@
-﻿using Microsoft.Win32;
-
-namespace Galagram.ViewModel.Commands.User.MainWindow
+﻿namespace Galagram.ViewModel.Commands.User.MainWindow
 {
     /// <summary>
     /// Opens open file dialog to select photo to upload
@@ -53,17 +51,15 @@ namespace Galagram.ViewModel.Commands.User.MainWindow
             Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, $"Execute {nameof(UploadPhotoCommand)}");
 
             Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, "Open file dialog to upload photo");
-            OpenFileDialog openFileDialog = new OpenFileDialog()
-            {
-                Multiselect = true,
-            };
-
-            if (openFileDialog.ShowDialog() == true)
+            string[] photoNames = Services.WindowManager.Instance.OpenFileDialog(filterString: Core.Configuration.DBConfig.PHOTO_EXTENSION,
+                                                                                 isMultiselectAllowed: true);
+            // user select a photo
+            if (photoNames != null)
             {
                 Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, "Adding photo");
 
                 int insertedPhotoCount = 0; // cuz Count() do not change after insert, needs for multiple photos adding
-                foreach (var photoPath in openFileDialog.FileNames)
+                foreach (var photoPath in photoNames)
                 {
                     Core.Logger.GetLogger.LogAsync(Core.LogMode.Info, $"Photo path {photoPath}");
                     // copy photo to server

@@ -37,7 +37,8 @@ namespace Galagram.Services
         public static NavigationManager Instance => instance;
 
         // METHODS
-        // FACTORY
+        // factory interface implementation
+        #region factory implementation
         /// <summary>
         /// Returns a new instance of a user control.
         /// <para/>
@@ -121,8 +122,9 @@ namespace Galagram.Services
             // unregistrate
             factory.Remove(key);
         }
-
-        // HISTORY
+        #endregion
+        // history
+        #region manage history
         /// <summary>
         /// Remove last instance from the history
         /// </summary>
@@ -150,8 +152,9 @@ namespace Galagram.Services
             // gets value
             return (UserControl)Activator.CreateInstance(history.Peek());
         }
-
-        // NAVIGATION
+        #endregion
+        // navigation
+        #region navigation
         /// <summary>
         /// Shown in parent control a registered user control
         /// </summary>
@@ -237,5 +240,6 @@ namespace Galagram.Services
 
             return userControl;
         }
+        #endregion
     }
 }
