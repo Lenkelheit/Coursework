@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 
-using Galagram.Window.Dialogs;
-using Galagram.Window.User;
+using Galagram.Window.Enums;
+using Galagram.Window.Interfaces;
+using Galagram.Services.WindowManagerInitializers;
 
 namespace Galagram.Services
 {
@@ -17,33 +18,31 @@ namespace Galagram.Services
     {
         // FIELDS
         static WindowManager instance; // singleton
-        IDictionary<string, Type> factory; // a factory has string as a key and WindowType as a value
+        static WindowManagerInitializerBase initializerBase;
+
+        IDictionary<string, Type> factory; // a factory has string as a key and WindowType as a value, create window by current key
+        IDictionary<string, System.Windows.Window> modalWindows; // all currently opened modal windows
+        IDictionary<object, System.Windows.Window> presentationWindow; // not modal window
 
         // CONSTRUCTORS
         private WindowManager()
         {
             // initialize all fields
             factory = new Dictionary<string, Type>();
+            presentationWindow = new Dictionary<object, System.Windows.Window>();
+            modalWindows = new Dictionary<string, System.Windows.Window>();
 
-            // registrate all windows
-            // registrate main window
-            Registrate(nameof(Window.Registration), typeof(Window.Registration));
-            // registrate dialogs
-            Registrate(nameof(MessageBox), typeof(MessageBox));
-            // registrate user windows
-            Registrate(nameof(AskQuestion), typeof(AskQuestion));
-            Registrate(nameof(Follow), typeof(Follow));
-            Registrate(nameof(MainWindow), typeof(MainWindow));
-            Registrate(nameof(PhotoInside), typeof(PhotoInside));
-            Registrate(nameof(Search), typeof(Search));
-            Registrate(nameof(Setting), typeof(Setting));
+            // registrate default window
+            initializerBase?.Initialize(this);
         }
         static WindowManager()
         {
+            // initialize window initializer
+            initializerBase = new DefaultWindowInitializers();
+
             // initialize singleton value
             instance = new WindowManager();
         }
-
         // PROPERTIES
         /// <summary>
         /// Gets an instance of <see cref=" WindowManager"/>.
@@ -51,6 +50,26 @@ namespace Galagram.Services
         public static WindowManager Instance => instance;
 
         // METHODS
+        /// <summary>
+        /// Sets window initializer
+        /// </summary>
+        /// <param name="windowInitializers">
+        /// An instance of class that inheir from <see cref="DefaultWindowInitializers"/>
+        /// </param>
+        public static void SetInitializer(DefaultWindowInitializers windowInitializers)
+        {
+            // checking
+            if (windowInitializers == null) throw new ArgumentNullException(nameof(windowInitializers));
+
+            // change initializer
+            initializerBase = windowInitializers;
+
+            // initialize with new value
+            instance.factory.Clear();
+            windowInitializers.Initialize(instance);
+        }
+        // factory interface implementation
+        #region factory implementation
         /// <summary>
         /// Returns a new instance of a window.
         /// </summary>
@@ -89,9 +108,9 @@ namespace Galagram.Services
         /// Throws when <paramref name="key"/> or <paramref name="value"/> is null.
         /// </exception>
         /// <exception cref="InvalidOperationException">
-        /// Throws when the key already has been registered
+        /// Throws when the value with key already has been registered
         /// </exception>
-        /// <exception cref="ArithmeticException">
+        /// <exception cref="ArgumentException">
         /// Throws when <paramref name="value"/> can not be registered.
         /// </exception>
         public void Registrate(string key, Type value)
@@ -129,7 +148,9 @@ namespace Galagram.Services
             // unregistrate
             factory.Remove(key);
         }
-        // WINDOW
+        #endregion
+        // dialog window
+        #region DialogWindow
         /// <summary>
         /// Opens a window and returns only when a newly opened window is closed.
         /// </summary>
@@ -177,10 +198,48 @@ namespace Galagram.Services
             System.Windows.Window window = MakeInstance(key);
             // set view model
             window.DataContext = viewModel;
+
+            // save modal window to dictionary
+            modalWindows.Add(key, window);
+
             // show window
-            return window.ShowDialog();            
+            return window.ShowDialog();
         }
-        // MESSAGE BOX
+        /// <summary>
+        /// Closes a window opened as modal
+        /// </summary>
+        /// <param name="key">
+        /// A key by which window was opened.
+        /// </param>
+        /// <exception cref="ArgumentNullException">
+        /// Throws when <paramref name="key"/> is null.
+        /// </exception>
+        /// <exception cref="InvalidOperationException">
+        /// Throws when window is not opened.
+        /// </exception>
+        public void CloseModalWindow(string key)
+        {
+            // checking
+            if (string.IsNullOrWhiteSpace(key)) throw new System.ArgumentNullException(key);
+
+            // try get window
+            System.Windows.Window openedModalWindow;
+            if (modalWindows.TryGetValue(key, out openedModalWindow) == false)
+            {
+                // window is not opened
+                // or is not opened as modal
+                throw new InvalidOperationException(Core.Messages.Error.View.WINDOW_MANAGER_MODAL_WINDOW_IS_NOT_OPENED);
+            }
+
+            // close window or do nothing
+            openedModalWindow.Close();
+
+            // remove window from dictionary
+            modalWindows.Remove(key);
+        }
+        #endregion
+        // message box
+        #region MessageBox
         /// <summary>
         /// Open a message box window and returns only when a newly opened window is closed.
         /// </summary>
@@ -221,7 +280,7 @@ namespace Galagram.Services
             return ShowMessageWindow(text, header, MessageBoxButton.Ok);
         }
         /// <summary>
-        /// Open a message box window and returns only when a newly opened window is closed.
+        /// Opens a message box window and returns only when a newly opened window is closed.
         /// </summary>
         /// <param name="text">
         /// Specify the text of the window.
@@ -240,16 +299,83 @@ namespace Galagram.Services
         /// <exception cref="InvalidOperationException">
         /// Throws when message box is not registered.
         /// </exception>
+        /// <exception cref="InvalidCastException">
+        /// Throws when registered dialog does not inherit default interface
+        /// </exception>
         public bool? ShowMessageWindow(string text, string header, MessageBoxButton buttonType)
         {
+            // make default instance             
+            IMessageBox messageBox = MakeInstance(initializerBase.MessageBoxName) as IMessageBox;
+            // throw exception if not the message box
+            if (messageBox == null) throw new InvalidCastException(string.Concat(Core.Messages.Error.View.WINDOW_MANAGER_DIALOG_DOES_NOT_INHERIT_DEFAULT_INTERFACE_FORMAT, nameof(IMessageBox)));
+
+            // sets up all values
+            messageBox.Header = header;
+            messageBox.Text = text;
+
             // show window and return result
-            return new MessageBox()
-                    {
-                        // set up all values
-                        Text = text,
-                        Header = header
-                    }.ShowDialog(buttonType);             
+            return messageBox.ShowDialog(buttonType);
         }
+        #endregion
+        // open file dialog
+        #region OpenFileDialog
+        /// <summary>
+        /// Opens file dialog to upload files
+        /// <para/>
+        /// Allowed only single file to upload
+        /// </summary>
+        /// <param name="filterString">
+        /// Determines what types of files are allowed
+        /// </param>
+        /// <returns>
+        /// An array that contains one file name for each selected file, or null if user canceled operation.
+        /// </returns>
+        /// <exception cref="InvalidOperationException">
+        /// Throws when key was not registered before.
+        /// </exception>
+        /// <exception cref="ArgumentException">
+        /// The filter string for current openFileDialog is invalid.
+        /// </exception>
+        public string[] OpenFileDialog(string filterString)
+        {
+            return OpenFileDialog(filterString, isMultiselectAllowed: false);
+        }
+        /// <summary>
+        /// Opens file dialog to upload files
+        /// </summary>
+        /// <param name="filterString">
+        /// Determines what types of files are allowed
+        /// </param>
+        /// <param name="isMultiselectAllowed">
+        /// Determines whether dialog allows users to select multiple files.
+        /// </param>
+        /// <returns>
+        /// An array that contains one file name for each selected file, or null if user canceled operation.
+        /// </returns>
+        /// <exception cref="InvalidOperationException">
+        /// Throws when key was not registered before.
+        /// </exception>
+        /// <exception cref="ArgumentException">
+        /// The filter string for current openFileDialog is invalid.
+        /// </exception>
+        public string[] OpenFileDialog(string filterString, bool isMultiselectAllowed)
+        {
+            // make generic instance 
+            IFileDialog openFileDialog = MakeInstance(initializerBase.OpenFileDialogName) as IFileDialog;
+            // throw exception if not the file dialog
+            if (openFileDialog == null) throw new InvalidCastException(string.Concat(Core.Messages.Error.View.WINDOW_MANAGER_DIALOG_DOES_NOT_INHERIT_DEFAULT_INTERFACE_FORMAT, nameof(IFileDialog)));
+
+            // sets up values
+            openFileDialog.Multiselect = isMultiselectAllowed;
+            openFileDialog.Filter = filterString;
+
+            // show dialog and return result or NULL if user canceled operation
+            if (openFileDialog.ShowDialog() == true) return openFileDialog.FileNames;
+            return null;
+        }
+        #endregion
+        // main window
+        #region main window
         /// <summary>
         /// Switch current main window to passed one.
         /// </summary>
@@ -304,6 +430,11 @@ namespace Galagram.Services
                 {
                     if (window != newMainWindow) window.Close();
                 }
+
+                // clear all modal window list
+                modalWindows.Clear();
+                // clear presentation window list
+                presentationWindow.Clear();
             }
             else
             {
@@ -312,5 +443,68 @@ namespace Galagram.Services
             }
             newMainWindow.ShowDialog();
         }
+        #endregion
+        // presentation
+        #region presentation
+        /// <summary>
+        /// Shows window as presentation
+        /// </summary>
+        /// <param name="key">
+        /// A key by which window was registered
+        /// </param>
+        /// <param name="viewModel">
+        /// A DataContext for window
+        /// </param>
+        /// <exception cref="ArgumentNullException">
+        /// Throws when <paramref name="key"/> or <paramref name="viewModel"/> is null.
+        /// </exception>
+        /// <exception cref="InvalidOperationException">
+        /// Throws when key was not registered before.
+        /// </exception>
+        public void ShowPresentation(string key, object viewModel)
+        {
+            // check, key is checked in MakeInstance
+            if (viewModel == null) throw new ArgumentNullException(nameof(viewModel));
+
+            // create window
+            System.Windows.Window window = MakeInstance(key);
+            // set view model
+            window.DataContext = viewModel;
+
+            // add it to window
+            presentationWindow.Add(viewModel, window);
+
+            // show it
+            window.Show();
+        }
+        /// <summary>
+        /// Close opened as presentation window 
+        /// </summary>
+        /// <param name="viewModel">
+        /// A DataContext for window
+        /// </param>
+        /// <exception cref="ArgumentNullException">
+        /// Throws when <paramref name="viewModel"/> is null.
+        /// </exception>
+        /// <exception cref="InvalidOperationException">
+        /// Throws when window with current DataContext is not shown
+        /// </exception>
+        public void ClosePresentation(object viewModel)
+        {
+            // check
+            if (viewModel == null) throw new ArgumentNullException(nameof(viewModel));
+
+            // try get opened window. throws exception if window is not shwon
+            System.Windows.Window openedWindow;
+            if (!presentationWindow.TryGetValue(viewModel, out openedWindow))
+            {
+                throw new InvalidOperationException(Core.Messages.Error.View.WINDOW_MANAGER_WINDOW_IS_NOT_OPENED);
+            }
+            // remove opened window from list
+            presentationWindow.Remove(viewModel);
+            // close this window
+            openedWindow.Close();
+        }
+        #endregion
     }
 }

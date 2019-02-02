@@ -26,7 +26,7 @@
                x:Name="HeaderLbl"/>
 
         <!--TEXT-->
-        <TextBlock Grid.Row="1" x:Name="ContentTb"/>
+        <TextBlock Grid.Row="1" x:Name="ContentTb" Style="{StaticResource DefaultTextBox}"/>
 
         <!--BUTTONS ARE DYNAMIC-->
     </Grid>

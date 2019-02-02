@@ -1,4 +1,4 @@
-﻿using DataAccess.Entities;
+using DataAccess.Entities;
 using System.Data.Entity.ModelConfiguration;
 
 namespace DataAccess.Configuration
