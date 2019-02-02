@@ -1,5 +1,7 @@
 # Coursework
 
+## Contributors
+
 | <sub><b>Lenkelheit</b></sub>| <sub><b>iamprovidence</b></sub>|
 | :---: | :---: |
 | [<img src="https://avatars3.githubusercontent.com/u/38116562?s=400&v=4" width="100px;"/>](https://github.com/Lenkelheit) | [<img src="https://avatars3.githubusercontent.com/u/24938726?s=400&v=4" width="100px;"/>](https://github.com/iamprovidence) |
