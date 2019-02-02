@@ -15,7 +15,7 @@ namespace UnitTest.DataAccess.Repositories
     public class UserRepositoryTest
     {
         // FIELDS
-        static string connectionString = @"Data Source=(localdb)\MSSQLLocalDB; Integrated Security=True; Initial Catalog=UserTestDB";
+        static string connectionString = @"Data Source=(localdb)\MSSQLLocalDB; Integrated Security=True; Initial Catalog=UserRepositoryTestDB";
         static DA.AppContext dbContext;
         static Resources.Classes.DbFiller dbFiller;
         // PROPERTIES
@@ -171,7 +171,7 @@ namespace UnitTest.DataAccess.Repositories
         {
             // Arrange
             UserRepository userRepository = new UserRepository(dbContext);
-            int wrongId = 69;
+            int wrongId = int.MaxValue;
             User expectedUserFromDb = null;
 
             // Act
@@ -257,6 +257,16 @@ namespace UnitTest.DataAccess.Repositories
             // Assert
             Assert.AreEqual(expectedUser, usersFromDb);
         }
+        [TestMethod]
+        public void GetByNullNickname_Exception()
+        {
+            // Arrange
+            UserRepository userRepository = new UserRepository(dbContext);
+
+            // Act
+            // Assert
+            Assert.ThrowsException<ArgumentNullException>(() => userRepository.Get(nickname: null));
+        }
         #endregion
         // INSERT
         #region INSERT
@@ -277,7 +287,7 @@ namespace UnitTest.DataAccess.Repositories
         [TestMethod]
         [DataSource(
             providerInvariantName: "Microsoft.VisualStudio.TestTools.DataSource.XML",
-            connectionString: @"..\..\Resources\DataAccess\Context\WrongLengthNameOrPassword.xml",
+            connectionString: @"..\..\Resources\DataAccess\Repositories\WrongLengthNameOrPassword.xml",
             tableName: "User",
             dataAccessMethod: DataAccessMethod.Random)]
         public void AddUsersWithWrongLengthNameOrPassword()
@@ -287,7 +297,7 @@ namespace UnitTest.DataAccess.Repositories
             User user = new User()
             {
                 NickName = Convert.ToString(TestContext.DataRow["NickName"]),
-                Password = Convert.ToString(TestContext.DataRow["Password"]),
+                Password = Convert.ToString(TestContext.DataRow["Password"])
             };
 
             // Act
@@ -298,11 +308,10 @@ namespace UnitTest.DataAccess.Repositories
             // undo adding
             ((IObjectContextAdapter)dbContext).ObjectContext.Detach(user);
         }
-
         [TestMethod]
         [DataSource(
             providerInvariantName: "Microsoft.VisualStudio.TestTools.DataSource.XML",
-            connectionString: @"..\..\Resources\DataAccess\Context\AvatarFormat.xml",
+            connectionString: @"..\..\Resources\DataAccess\Repositories\AvatarFormat.xml",
             tableName: "User",
             dataAccessMethod: DataAccessMethod.Random)]
         public void AvatarFormatTest_AddRegularUserWithAvatar()
@@ -313,7 +322,7 @@ namespace UnitTest.DataAccess.Repositories
             {
                 MainPhotoPath = Convert.ToString(TestContext.DataRow["Avatar"]),
                 NickName = Convert.ToString(TestContext.DataRow["NickName"]),
-                Password = Convert.ToString(TestContext.DataRow["Password"]),
+                Password = Convert.ToString(TestContext.DataRow["Password"])
             };
 
             // Act
@@ -323,6 +332,31 @@ namespace UnitTest.DataAccess.Repositories
             // Assert
             CollectionAssert.Contains(dbContext.Users.ToArray(), user);
         }        
+        [TestMethod]
+        [DataSource(
+            providerInvariantName: "Microsoft.VisualStudio.TestTools.DataSource.XML",
+            connectionString: @"..\..\Resources\DataAccess\Repositories\WrongAvatarPathOrExtension.xml",
+            tableName: "User",
+            dataAccessMethod: DataAccessMethod.Random)]
+        public void AddWrongAvatarPathOrExtension_Exception()
+        {
+            // Arrange
+            UserRepository userRepository = new UserRepository(dbContext);
+            User user = new User()
+            {
+                MainPhotoPath = Convert.ToString(TestContext.DataRow["Avatar"]),
+                NickName = Convert.ToString(TestContext.DataRow["NickName"]),
+                Password = Convert.ToString(TestContext.DataRow["Password"])
+            };
+
+            // Act
+            userRepository.Insert(user);
+
+            // Assert
+            Assert.ThrowsException<System.Data.Entity.Validation.DbEntityValidationException>(() => dbContext.SaveChanges());
+            // undo adding
+            ((IObjectContextAdapter)dbContext).ObjectContext.Detach(user);
+        }
         [TestMethod]
         public void AddUserAndFollower()
         {
@@ -361,6 +395,7 @@ namespace UnitTest.DataAccess.Repositories
                     new Photo() { Path = "6/54/25.jpg" }
                 }
             };
+            int expectedForeignKeyAmount = 1;
 
             // Act
             userRepository.Insert(user);
@@ -370,9 +405,11 @@ namespace UnitTest.DataAccess.Repositories
             int actualForeignKeyAmount = photosFromDb.Select(photo => photo.User.Id).Distinct().Count();
             int actualForeignKey = photosFromDb.Select(photo => photo.User.Id).Distinct().First();
 
-            // Assert                                                            
+            // Assert    
+            Assert.AreEqual(expectedForeignKeyAmount, actualForeignKeyAmount);
+            Assert.AreEqual(user.Id, actualForeignKey);
             CollectionAssert.Contains(dbContext.Users.ToArray(), user);
-            CollectionAssert.IsSubsetOf(user.Photos.ToList(), dbContext.Photos.ToArray());
+            CollectionAssert.IsSubsetOf(user.Photos.ToArray(), dbContext.Photos.ToArray());
         }
         #endregion
         // DELETE BY KEY
@@ -386,18 +423,50 @@ namespace UnitTest.DataAccess.Repositories
             int idToDelete = expectedDeletedUser.Id;
 
             // Act
+            List<PhotoLike> deletedPhotoLikesOfPhotos = dbContext.PhotoLike
+                .AsEnumerable().Where(pl => expectedDeletedUser.Photos.Contains(pl.Photo)).ToList();
+
+            List<Comment> deletedCommentsOfPhotos = dbContext.Comments
+                .AsEnumerable().Where(c => expectedDeletedUser.Photos.Contains(c.Photo)).ToList();
+
+            List<CommentLike> deletedCommentLikesOfPhotosComments = dbContext.CommentLike
+                .AsEnumerable().Where(cl => deletedCommentsOfPhotos.Contains(cl.Comment)).ToList();
+
             userRepository.Delete(idToDelete);
             dbContext.SaveChanges();
 
             // Assert
             CollectionAssert.DoesNotContain(dbContext.Users.ToArray(), expectedDeletedUser);
+            // Checks if all photolikes of user are deleted.
+            Assert.IsFalse(dbContext.PhotoLike.AsEnumerable().Any(pl => pl.User == null || pl.User.Id == expectedDeletedUser.Id));
+            // Checks if all user's comments are deleted.
+            Assert.IsFalse(dbContext.Comments.AsEnumerable().Any(c => c.User == null || c.User.Id == expectedDeletedUser.Id));
+            // Checks if all commentlikes of user are deleted.
+            Assert.IsFalse(dbContext.CommentLike.AsEnumerable().Any(cl => cl.User == null || cl.User.Id == expectedDeletedUser.Id));
+            // Checks if all photos of user are deleted.
+            Assert.IsFalse(dbContext.Photos.AsEnumerable().Any(p => p.User == null || p.User.Id == expectedDeletedUser.Id));
+
+            // Checks if all user's photos' photolikes are deleted.
+            CollectionAssert.IsNotSubsetOf(deletedPhotoLikesOfPhotos, dbContext.PhotoLike.ToList());
+            // Checks if all user's photos' comments are deleted.
+            CollectionAssert.IsNotSubsetOf(deletedCommentsOfPhotos, dbContext.Comments.ToList());
+            // Checks if all user's photos' comments' commentlikes are deleted.
+            CollectionAssert.IsNotSubsetOf(deletedCommentLikesOfPhotosComments, dbContext.CommentLike.ToList());
+
+            // Checks if all user's messages are deleted.
+            Assert.IsFalse(dbContext.Messages.AsEnumerable().Any(m => m.User.Id == expectedDeletedUser.Id));
+
+            // Checks if user isn't somebody's follower.
+            Assert.IsFalse(dbContext.Users.AsEnumerable().Any(u => u.Followers.Contains(expectedDeletedUser)));
+            // Checks if user isn't somebody's following.
+            Assert.IsFalse(dbContext.Users.AsEnumerable().Any(u => u.Following.Contains(expectedDeletedUser)));
         }
         [TestMethod]
         public void DeleteByWrongKey_Exception()
         {
             // Arrange
             UserRepository userRepository = new UserRepository(dbContext);
-            int wrongId = 200;
+            int wrongId = int.MaxValue;
 
             // Act
             // Assert
@@ -425,11 +494,43 @@ namespace UnitTest.DataAccess.Repositories
             User userToDelete = dbContext.Users.First();
 
             // Act
+            List<PhotoLike> deletedPhotoLikesOfPhotos = dbContext.PhotoLike
+                .AsEnumerable().Where(pl => userToDelete.Photos.Contains(pl.Photo)).ToList();
+
+            List<Comment> deletedCommentsOfPhotos = dbContext.Comments
+                .AsEnumerable().Where(c => userToDelete.Photos.Contains(c.Photo)).ToList();
+
+            List<CommentLike> deletedCommentLikesOfPhotosComments = dbContext.CommentLike
+                .AsEnumerable().Where(cl => deletedCommentsOfPhotos.Contains(cl.Comment)).ToList();
+
             userRepository.Delete(userToDelete);
             dbContext.SaveChanges();
 
             // Assert
             CollectionAssert.DoesNotContain(dbContext.Users.ToArray(), userToDelete);
+            // Checks if all photolikes of user are deleted.
+            Assert.IsFalse(dbContext.PhotoLike.AsEnumerable().Any(pl => pl.User == null || pl.User.Id == userToDelete.Id));
+            // Checks if all user's comments are deleted.
+            Assert.IsFalse(dbContext.Comments.AsEnumerable().Any(c => c.User == null || c.User.Id == userToDelete.Id));
+            // Checks if all commentlikes of user are deleted.
+            Assert.IsFalse(dbContext.CommentLike.AsEnumerable().Any(cl => cl.User == null || cl.User.Id == userToDelete.Id));
+            // Checks if all photos of user are deleted.
+            Assert.IsFalse(dbContext.Photos.AsEnumerable().Any(p => p.User == null || p.User.Id == userToDelete.Id));
+
+            // Checks if all user's photos' photolikes are deleted.
+            CollectionAssert.IsNotSubsetOf(deletedPhotoLikesOfPhotos, dbContext.PhotoLike.ToList());
+            // Checks if all user's photos' comments are deleted.
+            CollectionAssert.IsNotSubsetOf(deletedCommentsOfPhotos, dbContext.Comments.ToList());
+            // Checks if all user's photos' comments' commentlikes are deleted.
+            CollectionAssert.IsNotSubsetOf(deletedCommentLikesOfPhotosComments, dbContext.CommentLike.ToList());
+
+            // Checks if all user's messages are deleted.
+            Assert.IsFalse(dbContext.Messages.AsEnumerable().Any(m => m.User.Id == userToDelete.Id));
+
+            // Checks if user isn't somebody's follower.
+            Assert.IsFalse(dbContext.Users.AsEnumerable().Any(u => u.Followers.Contains(userToDelete)));
+            // Checks if user isn't somebody's following.
+            Assert.IsFalse(dbContext.Users.AsEnumerable().Any(u => u.Following.Contains(userToDelete)));
         }
         [TestMethod]
         public void DeleteByNullValue()
@@ -446,15 +547,47 @@ namespace UnitTest.DataAccess.Repositories
         {
             // Arrange
             UserRepository userRepository = new UserRepository(dbContext);
-            User changedUserToDelete = dbContext.Users.Where(u => u.NickName == "John").First();
-            changedUserToDelete.NickName += "Chnaged it";
+            User changedUserToDelete = dbContext.Users.First(u => u.NickName == "John");
+            changedUserToDelete.NickName += "Changed it";
 
             // Act
+            List<PhotoLike> deletedPhotoLikesOfPhotos = dbContext.PhotoLike
+                .AsEnumerable().Where(pl => changedUserToDelete.Photos.Contains(pl.Photo)).ToList();
+
+            List<Comment> deletedCommentsOfPhotos = dbContext.Comments
+                .AsEnumerable().Where(c => changedUserToDelete.Photos.Contains(c.Photo)).ToList();
+
+            List<CommentLike> deletedCommentLikesOfPhotosComments = dbContext.CommentLike
+                .AsEnumerable().Where(cl => deletedCommentsOfPhotos.Contains(cl.Comment)).ToList();
+
             userRepository.Delete(entityToDelete: changedUserToDelete);
             dbContext.SaveChanges();
 
             // Assert
             CollectionAssert.DoesNotContain(dbContext.Users.ToArray(), changedUserToDelete);
+            // Checks if all photolikes of user are deleted.
+            Assert.IsFalse(dbContext.PhotoLike.AsEnumerable().Any(pl => pl.User == null || pl.User.Id == changedUserToDelete.Id));
+            // Checks if all user's comments are deleted.
+            Assert.IsFalse(dbContext.Comments.AsEnumerable().Any(c => c.User == null || c.User.Id == changedUserToDelete.Id));
+            // Checks if all commentlikes of user are deleted.
+            Assert.IsFalse(dbContext.CommentLike.AsEnumerable().Any(cl => cl.User == null || cl.User.Id == changedUserToDelete.Id));
+            // Checks if all photos of user are deleted.
+            Assert.IsFalse(dbContext.Photos.AsEnumerable().Any(p => p.User == null || p.User.Id == changedUserToDelete.Id));
+
+            // Checks if all user's photos' photolikes are deleted.
+            CollectionAssert.IsNotSubsetOf(deletedPhotoLikesOfPhotos, dbContext.PhotoLike.ToList());
+            // Checks if all user's photos' comments are deleted.
+            CollectionAssert.IsNotSubsetOf(deletedCommentsOfPhotos, dbContext.Comments.ToList());
+            // Checks if all user's photos' comments' commentlikes are deleted.
+            CollectionAssert.IsNotSubsetOf(deletedCommentLikesOfPhotosComments, dbContext.CommentLike.ToList());
+
+            // Checks if all user's messages are deleted.
+            Assert.IsFalse(dbContext.Messages.AsEnumerable().Any(m => m.User.Id == changedUserToDelete.Id));
+
+            // Checks if user isn't somebody's follower.
+            Assert.IsFalse(dbContext.Users.AsEnumerable().Any(u => u.Followers.Contains(changedUserToDelete)));
+            // Checks if user isn't somebody's following.
+            Assert.IsFalse(dbContext.Users.AsEnumerable().Any(u => u.Following.Contains(changedUserToDelete)));
         }
         #endregion
         // UPDATE
@@ -559,7 +692,6 @@ namespace UnitTest.DataAccess.Repositories
             Assert.ThrowsException<ArgumentNullException>(() => userRepository.IsDataValid("nickname", string.Empty));
             Assert.ThrowsException<ArgumentNullException>(() => userRepository.IsDataValid("nickname", "          "));
         }
-        
         [TestMethod]
         public void IsDataValid_WrongNickname()
         {
@@ -573,7 +705,6 @@ namespace UnitTest.DataAccess.Repositories
             Assert.IsFalse(actualResult.IsNameValid);
             Assert.IsFalse(actualResult.IsPasswordValid);
         }
-        
         [TestMethod]
         public void IsDataValid_WrongPassword()
         {

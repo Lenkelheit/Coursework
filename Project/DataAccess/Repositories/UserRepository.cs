@@ -1,4 +1,4 @@
-﻿using System.Linq;
+using System.Linq;
 
 namespace DataAccess.Repositories
 {
@@ -44,7 +44,7 @@ namespace DataAccess.Repositories
         /// The password that should be checked
         /// </param>
         /// <returns>
-        /// Return a structure thet define if Nickname and Password is valid
+        /// Return a structure thet define if Nickname and Password are valid
         /// </returns>
         /// <exception cref="System.ArgumentNullException">
         /// Throws when passed <paramref name="nickName"/> is null
@@ -103,9 +103,42 @@ namespace DataAccess.Repositories
             if (entityToDelete == null) throw new System.ArgumentNullException(nameof(entityToDelete));
 
             dbSet.Attach(entityToDelete);
-            entityToDelete.PhotoLikes.ToList().ForEach(l => l.User = null);
-            entityToDelete.Comments.ToList().ForEach(l => l.User = null);
-            entityToDelete.CommentLikes.ToList().ForEach(l => l.User = null);
+
+            // User's photolikes
+            entityToDelete.PhotoLikes.ToList().ForEach(pl => pl.User = null);
+
+            // User's photos
+            entityToDelete.Photos.ToList().ForEach(p =>
+            {
+                // Photolikes of user's photos
+                p.Likes.ToList().ForEach(pl => pl.Photo = null);
+
+                p.Comments.ToList().ForEach(c =>
+                {
+                    // Commentlikes of user's photos' comments
+                    c.Likes.ToList().ForEach(cl => cl.Comment = null);
+
+                    // Comments of user's photos
+                    c.Photo = null;
+                });
+
+                // User's photo
+                p.User = null;
+            });
+
+            // User's comments
+            entityToDelete.Comments.ToList().ForEach(c =>
+            {
+                // Commentlikes of user's comments
+                c.Likes.ToList().ForEach(cl => cl.Comment = null);
+
+                // User's comment
+                c.User = null;
+            });
+
+            // User's commentlikes
+            entityToDelete.CommentLikes.ToList().ForEach(cl => cl.User = null);
+
             context.Entry(entityToDelete).State = System.Data.Entity.EntityState.Modified;
 
             base.Delete(entityToDelete);

@@ -14,7 +14,7 @@ namespace UnitTest.DataAccess.Repositories
     public class MessageRepositoryTest
     {
         // FIELDS
-        static string connectionString = @"Data Source=(localdb)\MSSQLLocalDB; Integrated Security=True; Initial Catalog=MessageTestDB";
+        static string connectionString = @"Data Source=(localdb)\MSSQLLocalDB; Integrated Security=True; Initial Catalog=MessageRepositoryTestDB";
         static DA.AppContext dbContext;
         static Resources.Classes.DbFiller dbFiller;
         // PROPERTIES
@@ -255,7 +255,7 @@ namespace UnitTest.DataAccess.Repositories
         {
             // Arrange
             MessageRepository messageRepository = new MessageRepository(dbContext);
-            int wrongId = 200;
+            int wrongId = int.MaxValue;
 
             // Act
             // Assert
@@ -306,7 +306,7 @@ namespace UnitTest.DataAccess.Repositories
             // Arrange
             MessageRepository messageRepository = new MessageRepository(dbContext);
             Message changedMessageToDelete = dbContext.Messages.First();
-            changedMessageToDelete.Text += "Chnaged it";
+            changedMessageToDelete.Text += "Changed it";
             changedMessageToDelete.Subject = dbContext.Subjects.First();
 
             // Act
