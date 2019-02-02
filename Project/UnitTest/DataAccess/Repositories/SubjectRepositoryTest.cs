@@ -23,7 +23,7 @@ namespace UnitTest.DataAccess.Repositories
         public static void Constructor(TestContext context)
         {
             dbFiller = new Resources.Classes.DbFiller();
-            dbContext = Resources.Initializers.DatabaseInitializer.dbContext;
+            dbContext = Resources.Initializers.DatabaseInitializer.DBContext;
         }
         [TestInitialize]
         public void Filler()
@@ -137,7 +137,7 @@ namespace UnitTest.DataAccess.Repositories
         {
             // Arrange
             SubjectRepository subjectRepository = new SubjectRepository(dbContext);
-            int idToSearch = 4;
+            int idToSearch = dbContext.Subjects.First().Id;
             Subject expectedSubject = dbContext.Subjects.Find(idToSearch);
 
             // Act

@@ -16,7 +16,7 @@ namespace Core.Configuration
         /// <summary>
         /// Determines if need to delete test database
         /// </summary>
-        public static readonly bool DO_DELETE_TEST_DB = true;
+        public static readonly bool DO_DELETE_TEST_DB = false;
 
 
         // FOLDER CONFIG

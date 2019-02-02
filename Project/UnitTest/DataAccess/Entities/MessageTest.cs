@@ -21,7 +21,7 @@ namespace UnitTest.DataAccess.Entities
         public static void Constructor(TestContext context)
         {
             dbFiller = new Resources.Classes.DbFiller();
-            dbContext = Resources.Initializers.DatabaseInitializer.dbContext;
+            dbContext = Resources.Initializers.DatabaseInitializer.DBContext;
         }
         [TestInitialize]
         public void Filler()
