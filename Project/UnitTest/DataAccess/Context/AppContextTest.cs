@@ -13,21 +13,23 @@ namespace UnitTest.DataAccess.Context
     public class AppContextTest
     {
         // FIELDS
-        static string connectionString = @"Data Source=(localdb)\MSSQLLocalDB; Integrated Security=True; Initial Catalog=TestDB";
         static DA.AppContext dbContext;
+        static Resources.Classes.DbFiller dbFiller;
         // PROPERTIES
         public TestContext TestContext { get; set; }
         // INITIALIZERS
         [ClassInitialize]
         public static void Constructor(TestContext context)
         {
-            dbContext = new DA.AppContext(connectionString);
+            dbFiller = new Resources.Classes.DbFiller();
+            dbContext = Resources.Initializers.DatabaseInitializer.dbContext;
         }
-        [ClassCleanup]
-        public static void Finalizer()
+        [TestCleanup]
+        public void Cleaner()
         {
-            dbContext.Dispose();
+            dbFiller.Purge(dbContext);
         }
+
 
         // TEST
         // USER FOLLOWERS
@@ -107,15 +109,14 @@ namespace UnitTest.DataAccess.Context
             // Arrange
             User user1 = new User() { NickName = "Jordan", Password = "1111" };
             User user2 = new User() { NickName = "Braxton", Password = "1111" };
-            int user1Id = dbContext.Users.Count() + 1;
             user1.Followers.Add(user2);
 
             // Act
             dbContext.Users.Add(user1);
             dbContext.Users.Add(user2);
             dbContext.SaveChanges();
-            User userFromDb1 = dbContext.Users.Find(user1Id);
-            User userFromDb2 = dbContext.Users.Find(user1Id + 1);
+            User userFromDb1 = dbContext.Users.First(u => u.NickName == user1.NickName);
+            User userFromDb2 = dbContext.Users.First(u => u.NickName == user2.NickName);
 
             // Assert
             CollectionAssert.Contains(dbContext.Users.ToArray(), user1);
@@ -163,22 +164,22 @@ namespace UnitTest.DataAccess.Context
                     new Photo() { Path = "6/54/25.jpg" }
                 }
             };
-            int expectedUserId = dbContext.Users.Count() + 1;
-            int expectedForeignKeyAmount = 1;
+            string expectedUserNickName = user.NickName;
+            int expectedUserNickNameAmount = 1;
 
             // Act
             dbContext.Users.Add(user);
             dbContext.SaveChanges();
             IQueryable<Photo> photosFromDb = dbContext.Photos.Where(photo => photo.Path == "4/54/23.jpg" || photo.Path == "5/54/24.jpg" || photo.Path == "6/54/25.jpg");
-            
-            int actualForeignKeyAmount = photosFromDb.Select(photo => photo.User.Id).Distinct().Count();
-            int actualForeignKey = photosFromDb.Select(photo => photo.User.Id).Distinct().First();
+
+            int actualUserNickNameAmount = photosFromDb.Select(photo => photo.User.NickName).Distinct().Count();
+            string actualUserNickName = photosFromDb.Select(photo => photo.User.NickName).Distinct().First();
 
             // Assert                                                            
             CollectionAssert.Contains(dbContext.Users.ToArray(), user);
             CollectionAssert.IsSubsetOf(user.Photos.ToList(), dbContext.Photos.ToArray());
-            Assert.AreEqual(expectedUserId, actualForeignKey, "Foreign key is not the same");            
-            Assert.AreEqual(expectedForeignKeyAmount, actualForeignKeyAmount, "The photo has reference to more users that was added");
+            Assert.AreEqual(expectedUserNickName, actualUserNickName, "User nicknames are not the same");            
+            Assert.AreEqual(expectedUserNickNameAmount, actualUserNickNameAmount, "The photo has reference to more users that was added");
         }
         [TestMethod]
         public void AddPhotoWithoutUser_Exception()
@@ -204,9 +205,6 @@ namespace UnitTest.DataAccess.Context
             user.Photos.Add(photo);
             user.PhotoLikes.Add(photoLike);
 
-            int userId = dbContext.Users.Count() + 1;
-            int photoId = dbContext.Photos.Count() + 1;
-
             // Act
             dbContext.Users.Add(user);
             dbContext.SaveChanges();
@@ -216,8 +214,8 @@ namespace UnitTest.DataAccess.Context
             CollectionAssert.Contains(dbContext.Photos.ToArray(), photo);
             CollectionAssert.Contains(dbContext.PhotoLike.ToArray(), photoLike);
 
-            CollectionAssert.Contains(dbContext.Users.Find(userId).PhotoLikes.ToArray(), photoLike);
-            CollectionAssert.Contains(dbContext.Photos.Find(photoId).Likes.ToArray(), photoLike);
+            CollectionAssert.Contains(dbContext.Users.First(u => u.NickName == user.NickName).PhotoLikes.ToArray(), photoLike);
+            CollectionAssert.Contains(dbContext.Photos.First(p => p.Path == photo.Path).Likes.ToArray(), photoLike);
         }
         [TestMethod]
         public void AddPhotoLikeWithoutPhoto_Exception()
@@ -262,8 +260,6 @@ namespace UnitTest.DataAccess.Context
             User user = new User() { NickName = "John", Password = "1111" };
             user.Photos.Add(photo);
 
-            int userId = dbContext.Users.Count() + 1;
-
             // Act
             dbContext.Users.Add(user);
             dbContext.Photos.Remove(photo);
@@ -271,7 +267,7 @@ namespace UnitTest.DataAccess.Context
 
             // Assert
             CollectionAssert.Contains(dbContext.Users.ToArray(), user);
-            CollectionAssert.DoesNotContain(dbContext.Users.Find(userId).Photos.ToArray(), photo);
+            CollectionAssert.DoesNotContain(dbContext.Users.First(u => u.NickName == user.NickName).Photos.ToArray(), photo);
             CollectionAssert.DoesNotContain(dbContext.Photos.ToArray(), photo);
         }
         [TestMethod]
@@ -304,9 +300,6 @@ namespace UnitTest.DataAccess.Context
             user.Photos.Add(photo);
             user.PhotoLikes.Add(photoLike);
 
-            int userId = dbContext.Users.Count() + 1;
-            int photoId = dbContext.Photos.Count() + 1;
-
             // Act
             dbContext.Users.Add(user);
             dbContext.PhotoLike.Remove(photoLike);
@@ -317,8 +310,8 @@ namespace UnitTest.DataAccess.Context
             CollectionAssert.Contains(dbContext.Photos.ToArray(), photo);
             CollectionAssert.DoesNotContain(dbContext.PhotoLike.ToArray(), photoLike);
 
-            CollectionAssert.DoesNotContain(dbContext.Users.Find(userId).PhotoLikes.ToArray(), photoLike);
-            CollectionAssert.DoesNotContain(dbContext.Photos.Find(photoId).Likes.ToArray(), photoLike);
+            CollectionAssert.DoesNotContain(dbContext.Users.First(u => u.NickName == user.NickName).PhotoLikes.ToArray(), photoLike);
+            CollectionAssert.DoesNotContain(dbContext.Photos.First(p => p.Path == photo.Path).Likes.ToArray(), photoLike);
         }
         
         [TestMethod]
@@ -534,9 +527,6 @@ namespace UnitTest.DataAccess.Context
             CommentLike commentLike = new CommentLike() { IsLiked = true, Comment = comment };
             User user2 = new User() { NickName = "Adam", Password = "1111", CommentLikes = new List<CommentLike> { commentLike } };
 
-            int userId = dbContext.Users.Count() + 2;
-            int commentId = dbContext.Comments.Count() + 1;
-
             // Act
             dbContext.Users.Add(user1);
             dbContext.Users.Add(user2);
@@ -548,8 +538,8 @@ namespace UnitTest.DataAccess.Context
             CollectionAssert.Contains(dbContext.Comments.ToArray(), comment);
             CollectionAssert.Contains(dbContext.CommentLike.ToArray(), commentLike);
 
-            CollectionAssert.Contains(dbContext.Users.Find(userId).CommentLikes.ToArray(), commentLike);
-            CollectionAssert.Contains(dbContext.Comments.Find(commentId).Likes.ToArray(), commentLike);
+            CollectionAssert.Contains(dbContext.Users.First(u => u.NickName == user2.NickName).CommentLikes.ToArray(), commentLike);
+            CollectionAssert.Contains(dbContext.Comments.First(c => c.Text == comment.Text).Likes.ToArray(), commentLike);
         }
         [TestMethod]
         public void DeleteComment()
@@ -573,8 +563,6 @@ namespace UnitTest.DataAccess.Context
                 User = user2
             };
 
-            int user1Id = dbContext.Users.Count() + 1;
-
             // Act
             dbContext.Users.Add(user1);
             dbContext.Users.Add(user2);
@@ -588,7 +576,7 @@ namespace UnitTest.DataAccess.Context
             CollectionAssert.Contains(dbContext.Users.ToArray(), user1);
             CollectionAssert.Contains(dbContext.Users.ToArray(), user2);
 
-            CollectionAssert.DoesNotContain(dbContext.Users.Find(user1Id).Comments.ToArray(), comment);
+            CollectionAssert.DoesNotContain(dbContext.Users.First(u => u.NickName == user1.NickName).Comments.ToArray(), comment);
             CollectionAssert.DoesNotContain(dbContext.Comments.ToArray(), comment);
 
             CollectionAssert.Contains(dbContext.Photos.ToArray(), photo1);
@@ -617,9 +605,6 @@ namespace UnitTest.DataAccess.Context
             CommentLike commentLike = new CommentLike() { IsLiked = true, Comment = comment };
             User user2 = new User() { NickName = "Adam", Password = "1111", CommentLikes = new List<CommentLike> { commentLike } };
 
-            int userId = dbContext.Users.Count() + 2;
-            int commentId = dbContext.Comments.Count() + 1;
-
             // Act
             dbContext.Users.Add(user1);
             dbContext.Users.Add(user2);
@@ -634,8 +619,8 @@ namespace UnitTest.DataAccess.Context
             CollectionAssert.Contains(dbContext.Photos.ToArray(), photo2);
             CollectionAssert.DoesNotContain(dbContext.CommentLike.ToArray(), commentLike);
 
-            CollectionAssert.DoesNotContain(dbContext.Users.Find(userId).CommentLikes.ToArray(), commentLike);
-            CollectionAssert.DoesNotContain(dbContext.Comments.Find(commentId).Likes.ToArray(), commentLike);
+            CollectionAssert.DoesNotContain(dbContext.Users.First(u => u.NickName == user2.NickName).CommentLikes.ToArray(), commentLike);
+            CollectionAssert.DoesNotContain(dbContext.Comments.First(c => c.Text == comment.Text).Likes.ToArray(), commentLike);
         }
         [TestMethod]
         public void DeleteUser_AndComment_Cascade()
@@ -1017,7 +1002,6 @@ namespace UnitTest.DataAccess.Context
                 Subject = subject,
                 User = new User() { NickName = "John", Password = "1111" }
             };
-            int messageId = dbContext.Messages.Count() + 1;
 
             // Act
             dbContext.Messages.Add(message);
@@ -1026,7 +1010,7 @@ namespace UnitTest.DataAccess.Context
             // Assert
             CollectionAssert.Contains(dbContext.Subjects.ToArray(), subject);
             CollectionAssert.Contains(dbContext.Messages.ToArray(), message);
-            Assert.AreEqual(dbContext.Messages.Find(messageId).Subject, subject);
+            Assert.AreEqual(dbContext.Messages.First(m => m.Text == message.Text).Subject, subject);
         }
         [TestMethod]
         public void AddUserMessageWithoutSubject()
@@ -1095,7 +1079,6 @@ namespace UnitTest.DataAccess.Context
                 Subject = subject,
                 User = new User() { NickName = "John", Password = "1111" }
             };
-            int messageId = dbContext.Messages.Count() + 1;
 
             // Act
             dbContext.Messages.Add(message);
@@ -1105,7 +1088,7 @@ namespace UnitTest.DataAccess.Context
             // Assert
             CollectionAssert.Contains(dbContext.Messages.ToArray(), message);
             CollectionAssert.DoesNotContain(dbContext.Subjects.ToArray(), subject);
-            Assert.IsNull(dbContext.Messages.Find(messageId).Subject);
+            Assert.IsNull(dbContext.Messages.First(m => m.Text == message.Text).Subject);
         }
         [TestMethod]
         public void DeleteUser_AndMessages_Cascade()
