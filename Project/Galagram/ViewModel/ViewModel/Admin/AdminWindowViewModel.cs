@@ -11,6 +11,7 @@
         Services.MenuItemViewModelFactory menuItemViewModelFactory;
 
         System.Windows.Input.ICommand changeContentCommand;
+
         // CONSTRUCTORS
         /// <summary>
         /// Initialize a new instance of <see cref="AdminWindowViewModel"/>
@@ -21,25 +22,13 @@
             menuItemIndex = Core.Configuration.Constants.WRONG_INDEX;
 
             // sets menu items 
-            menuItems = new string[]
-            {
-                "Message",
-                "User",
-                "Comments",
-                "Subject",
-                "Exit"
-            };
+            menuItems = Core.Configuration.AdminConfig.ADMIN_ITEMS;
 
-            // registrate by menu items content
-            NavigationManager.Registrate(menuItems[0], typeof(Window.Admin.UserControls.Messages.All));
-            NavigationManager.Registrate(menuItems[1], typeof(Window.Admin.UserControls.Users.All));
-            NavigationManager.Registrate(menuItems[2], typeof(Window.Admin.UserControls.Comments.All));
-            NavigationManager.Registrate(menuItems[3], typeof(Window.Admin.UserControls.Subjects.All));
-
-            NavigationManager.Registrate(nameof(Window.Admin.UserControls.Subjects.Single), typeof(Window.Admin.UserControls.Subjects.Single));
-
-            // registrate by menu items VM
-            menuItemViewModelFactory.Registrate(menuItems[3], typeof(Subject.AllSubjectViewModel));
+            // registrate ViewModel by menu items
+            menuItemViewModelFactory.Registrate(menuItems[0], typeof(Message.AllViewModel));
+            menuItemViewModelFactory.Registrate(menuItems[1], typeof(User.AllViewModel));
+            menuItemViewModelFactory.Registrate(menuItems[2], typeof(Comments.AllViewModel));
+            menuItemViewModelFactory.Registrate(menuItems[3], typeof(Subject.AllViewModel));
 
             // command
             changeContentCommand = new Commands.Admin.MainAdminWindowControl.SelectItemCommand(this);
@@ -97,13 +86,13 @@
         /// <summary>
         /// Gets exit menu item index
         /// </summary>
-        public int ExitIndex => menuItems.Length - 1;
+        public int ExitIndex => Core.Configuration.AdminConfig.EXIT_ITEM_INDEX;
 
         // COMMANDS
         /// <summary>
         /// Gets command to change content
         /// </summary>
-        System.Windows.Input.ICommand ChangeContentCommand
+        public System.Windows.Input.ICommand ChangeContentCommand
         {
             get
             {

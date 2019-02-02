@@ -8,14 +8,16 @@ namespace Galagram.ViewModel.ViewModel.Admin.Subject
     public class SingleViewModel : ViewModelBase
     {
         // FIELDS
+        bool isNew;
+
         DataAccess.Entities.Subject subject;
-        readonly bool isNew;
         readonly string subjectId;
         string subjectName;
 
         readonly string buttonName;
 
         ICommand goBackCommand;
+        ICommand insertUpdateCommand;
 
         // CONSTRUCTORS
         /// <summary>
@@ -33,10 +35,10 @@ namespace Galagram.ViewModel.ViewModel.Admin.Subject
         {
             // new if there no index
             bool isNew = id == Core.Configuration.Constants.WRONG_INDEX;
-            
+            this.isNew = isNew;
+
             if (isNew)
             {
-                this.isNew = true;
                 this.subject = null;
                 this.subjectId = "###";
                 this.subjectName = string.Empty;
@@ -45,9 +47,6 @@ namespace Galagram.ViewModel.ViewModel.Admin.Subject
             }
             else
             {
-
-                this.isNew = false;
-
                 // try get entity
                 this.subject = UnitOfWork.SubjectRepository.Get(id);
                 if (subject == null) throw new System.Data.RowNotInTableException(string.Format(Core.Messages.Error.Admin.ROW_MISSING_FORMAT, nameof(DataAccess.Entities.Subject), id));
@@ -57,9 +56,63 @@ namespace Galagram.ViewModel.ViewModel.Admin.Subject
 
                 this.buttonName = "Update";
             }
+
+            // commands
+            goBackCommand = new Commands.Admin.GoBackCommand();
+            insertUpdateCommand = new Commands.Admin.Subject.Single.CreateUpdateCommand(this);
+
+            Logger.LogAsync(Core.LogMode.Debug, $"{nameof(SingleViewModel)} created");
+        }
+        /// <summary>
+        /// Intialize a new instance of <see cref="SingleViewModel"/>
+        /// </summary>
+        /// <param name="subject">
+        /// A subject to update
+        /// </param>
+        /// <exception cref="System.ArgumentNullException">
+        /// Throws when passed subject is null
+        /// </exception>
+        public SingleViewModel(DataAccess.Entities.Subject subject)
+        {
+            if (subject == null) throw new System.ArgumentNullException(nameof(subject));
+
+            this.isNew = false;
+            this.subject = subject;
+            this.subjectId = subject.Id.ToString();
+            this.subjectName = subject.Name;
+
+            this.buttonName = "Update";
+
+            // commands
+            goBackCommand = new Commands.Admin.GoBackCommand();
+            insertUpdateCommand = new Commands.Admin.Subject.Single.CreateUpdateCommand(this);
+
+            Logger.LogAsync(Core.LogMode.Debug, $"{nameof(SingleViewModel)} created");
         }
 
         // PROPERTIES
+        /// <summary>
+        /// Gets current subject
+        /// </summary>
+        public DataAccess.Entities.Subject Subject
+        {
+            get
+            {
+                Logger.LogAsync(Core.LogMode.Debug, $"Gets {nameof(Subject)}");
+
+                return subject;
+            }
+        }
+        /// <summary>
+        /// Gets true for insert action, false — update
+        /// </summary>
+        public bool InsertOrUpdateAction
+        {
+            get
+            {
+                return isNew;
+            }
+        }
         /// <summary>
         /// Gets operation button's name
         /// </summary>
@@ -112,6 +165,18 @@ namespace Galagram.ViewModel.ViewModel.Admin.Subject
 
                 return goBackCommand;
             }
-        }        
+        }   
+        /// <summary>
+        /// Gets command to insert or update value
+        /// </summary>
+        public ICommand InsertUpdateCommand
+        {
+            get
+            {
+                Logger.LogAsync(Core.LogMode.Debug, $"Gets {nameof(InsertUpdateCommand)}");
+
+                return insertUpdateCommand;
+            }
+        }
     }
 }

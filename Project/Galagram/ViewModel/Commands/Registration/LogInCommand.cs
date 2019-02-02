@@ -80,7 +80,7 @@
                 doLogInAsAdmin = Services.WindowManager.Instance.ShowMessageWindow(
                     text: Core.Messages.Info.ViewModel.Command.Registration.IS_NEED_LOG_IN_AS_ADMIN, 
                     header: string.Empty, 
-                    buttonType: Window.Dialogs.MessageBoxButton.YesNo).Value;
+                    buttonType: Window.Enums.MessageBoxButton.YesNo).Value;
             }
 
             // log in

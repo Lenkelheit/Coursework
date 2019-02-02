@@ -39,7 +39,7 @@ namespace Galagram.ViewModel.ViewModel.Admin.Services
         {
             // checks
             if (string.IsNullOrWhiteSpace(key)) throw new ArgumentNullException(nameof(key));
-            if (!factory.ContainsKey(key)) throw new InvalidOperationException(string.Format(Core.Messages.Error.Admin.FACTORY_NO_SUCH_KEY_FORMAT, nameof(key)));
+            if (!factory.ContainsKey(key)) throw new InvalidOperationException(string.Format(Core.Messages.Error.Admin.FACTORY_NO_SUCH_KEY_FORMAT, key));
 
             // make instance
             return Activator.CreateInstance(factory[key]) as ViewModelBase;
@@ -67,7 +67,7 @@ namespace Galagram.ViewModel.ViewModel.Admin.Services
             // checking argument
             // key
             if (string.IsNullOrWhiteSpace(key)) throw new ArgumentNullException(nameof(key));
-            if (factory.ContainsKey(key)) throw new InvalidOperationException(string.Format(Core.Messages.Error.Admin.FACTORY_REGISTRATE_BY_THE_SAME_KEY_FORMAT, nameof(key)));
+            if (factory.ContainsKey(key)) throw new InvalidOperationException(string.Format(Core.Messages.Error.Admin.FACTORY_REGISTRATE_BY_THE_SAME_KEY_FORMAT, key));
             // value
             if (value == null) throw new ArgumentNullException(nameof(value));
             if (value.IsInterface || value.IsAbstract) throw new ArgumentException(nameof(value));
@@ -92,7 +92,7 @@ namespace Galagram.ViewModel.ViewModel.Admin.Services
             // checking argument
             // key
             if (string.IsNullOrWhiteSpace(key)) throw new ArgumentNullException(nameof(key));
-            if (!factory.ContainsKey(key)) throw new InvalidOperationException(string.Format(Core.Messages.Error.View.NAVIGATION_MANAGER_NO_SUCH_KEY_FORMAT, nameof(key)));
+            if (!factory.ContainsKey(key)) throw new InvalidOperationException(string.Format(Core.Messages.Error.View.NAVIGATION_MANAGER_NO_SUCH_KEY_FORMAT, key));
             
             // removing 
             factory.Remove(key);

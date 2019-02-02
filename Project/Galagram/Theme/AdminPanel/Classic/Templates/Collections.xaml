@@ -17,18 +17,30 @@
     <!--EDIT COLUMN TEMPLATE-->
     <DataTemplate x:Key="EditColumnGridTemplate">
         <StackPanel>
-            <Image Source="/Resources/AdminImg/DataGrid/edit.png" 
+            <Button 
+                Style="{StaticResource ButtonBase}" 
+                Background="Transparent"
+                Command="{Binding DataContext.EditCommand, RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=UserControl}}"
+                CommandParameter="{Binding DataContext.SelectedItem, RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=UserControl}}">
+                <Image Source="/Resources/AdminImg/DataGrid/edit.png" 
                    Cursor="Hand"
                    Width="20" Height="20"/>
+            </Button>
         </StackPanel>
     </DataTemplate>
     
     <!--REMOVE COLUMN TEMPLATE-->
     <DataTemplate x:Key="RemoveColumnGridTemplate">
         <StackPanel >
-            <Image Source="/Resources/AdminImg/DataGrid/remove.png"
+            <Button 
+                Style="{StaticResource ButtonBase}" 
+                Background="Transparent"
+                Command="{Binding DataContext.DeleteCommand, RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=UserControl}}"
+                CommandParameter="{Binding DataContext.SelectedItem, RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=UserControl}}">
+                <Image Source="/Resources/AdminImg/DataGrid/remove.png"
                    Cursor="Hand"
                    Width="20" Height="20"/>
+            </Button>
         </StackPanel>
     </DataTemplate>
     

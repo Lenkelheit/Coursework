@@ -50,7 +50,7 @@
             {
                if (Services.WindowManager.Instance.ShowMessageWindow(Core.Messages.Info.ViewModel.Command.User.Setting.Close.UNSAVED_CHANGES_MESSAGE, 
                    Core.Messages.Info.MessageBoxHeader.WARNING, 
-                   Window.Dialogs.MessageBoxButton.YesNo) == false)
+                   Window.Enums.MessageBoxButton.YesNo) == false)
                 {
                     // user press 'No'. 
                     // interrupt command execution

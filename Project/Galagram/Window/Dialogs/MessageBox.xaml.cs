@@ -1,12 +1,14 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 
+using MessageBoxButton = Galagram.Window.Enums.MessageBoxButton;
+
 namespace Galagram.Window.Dialogs
 {
     /// <summary>
     /// Interaction logic for MessageBoxOk.xaml
     /// </summary>
-    public partial class MessageBox : System.Windows.Window
+    public partial class MessageBox : System.Windows.Window, Interfaces.IMessageBox
     {
         // CONSTRUCTORS
         /// <summary>

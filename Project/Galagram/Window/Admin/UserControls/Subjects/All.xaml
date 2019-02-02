@@ -26,7 +26,8 @@
         <!--DATA GRID-->
         <DataGrid Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"
                   Style="{StaticResource DataGridAdmin}"
-                  ItemsSource="{Binding Subjects}">
+                  ItemsSource="{Binding Subjects}"
+                  SelectedItem="{Binding SelectedItem, Mode=OneWayToSource}">
             <DataGrid.Resources>
                 <Style TargetType="ScrollBar"/>
             </DataGrid.Resources>
@@ -38,7 +39,7 @@
                                     MinWidth="80"
                                     Width="80"/>
                 <DataGridTextColumn Header="Name" 
-                                    Binding="{Binding Name}"
+                                    Binding="{Binding Name}"                                    
                                     Width="*"/>
                 <DataGridTemplateColumn Header="Edit" 
                                         Width="40"

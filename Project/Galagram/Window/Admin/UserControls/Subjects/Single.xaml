@@ -51,6 +51,8 @@
                 Content="Go Back"/>
         <Button Grid.Row="6" Grid.Column="1"  
                 Style="{StaticResource AdminButton}"
+                Command="{Binding InsertUpdateCommand}"
+                CommandParameter="{Binding InsertOrUpdateAction}"
                 Content="{Binding ButtonName, Mode=OneTime}"/><!--create/update-->
 
     </Grid>

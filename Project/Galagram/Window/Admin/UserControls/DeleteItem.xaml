@@ -34,18 +34,20 @@
         <Label Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2"
                x:Name="DeleteItemLbl"
                Style="{StaticResource ImportantLabel_Admin}"
-               Content="item"/>
+               Content="{Binding Name, Mode=OneTime}"/>
         <Label Grid.Row="4" Grid.Column="0" 
                Style="{StaticResource CenterHeaderLabel_Admin}"
                Content="By id"/>
         <Label Grid.Row="4" Grid.Column="1" 
                Style="{StaticResource ImportantLabel_Admin}"
-               Content="id"/>
+               Content="{Binding ID, Mode=OneTime}"/>
 
         <!--BUTTONS-->
         <Button Grid.Row="6" Grid.Column="0" Content="Cancel" 
-                Style="{StaticResource AdminButton}"/>
+                Style="{StaticResource AdminButton}"
+                Command="{Binding CancelCommand}"/>
         <Button Grid.Row="6" Grid.Column="1" Content="Ok" 
-                Style="{StaticResource AdminButton}" />
+                Style="{StaticResource AdminButton}" 
+                Command="{Binding AcceptCommand}"/>
     </Grid>
 </UserControl>

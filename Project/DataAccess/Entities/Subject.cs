@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 using static Core.Configuration.DBConfig;
 
@@ -10,12 +11,15 @@ namespace DataAccess.Entities
     /// <para/>
     /// Has been used as a subject to admin message
     /// </summary>
-    public class Subject
+    public class Subject : EntityBase
     {
+        // PROPERTIES
         /// <summary>
         /// Unique identifier
         /// </summary>
-        public int Id { get; set; }
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public override System.Guid Id { get; set; }
         /// <summary>
         /// Subject's name
         /// </summary>
@@ -26,5 +30,25 @@ namespace DataAccess.Entities
         /// A collection of messages with current subject
         /// </summary>
         public virtual ICollection<Message> Messages { get; set; } = new List<Message>();
+
+        // METHODS
+        #region  to string option
+        /// <summary>
+        /// Gets entity name
+        /// </summary>
+        /// <returns>Entity's name</returns>
+        protected override string GetBriefInfo()
+        {
+            return string.Concat(nameof(Subject), " with name : ", Name);
+        }
+        /// <summary>
+        /// Gets brief information about entity
+        /// </summary>
+        /// <returns>Brief information about entity</returns>
+        protected override string GetName()
+        {
+            return nameof(Subject);
+        }
+        #endregion
     }
 }

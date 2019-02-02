@@ -1,0 +1,74 @@
+﻿<Window x:Class="Galagram.Window.Dialogs.DropWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:c="clr-namespace:Galagram.Window.UserControls"
+        mc:Ignorable="d"
+        Title="Drop Window" 
+        Height="550" Width="800"
+        Style="{StaticResource ModalWindow}"
+        WindowStartupLocation="CenterScreen">
+    
+    <Grid x:Name="GridMain">
+        <!--SCALING-->
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="40"/>
+        </Grid.RowDefinitions>
+        
+        <!--HEADER-->
+        <Grid Grid.Row="0" Style="{StaticResource HeaderGrid}" MouseDown="MovingWindow">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="60"/>
+            </Grid.ColumnDefinitions>
+
+            <Label Grid.Column="0" Content="Drop Window" Style="{StaticResource HeaderLabel}"/>
+            <Button Grid.Column="1" Click="Exit" Style="{StaticResource HeaderButton}">
+                <Image Source="/Resources/MenuImg/Exit.png"/>
+            </Button>
+        </Grid>
+
+        <!--CONTENT-->
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="150"/>
+            </Grid.ColumnDefinitions>
+            
+            <!--DROP-->
+            <c:CornersContentControl Grid.Column="0" 
+                                     x:Name="dropPanel"                              
+                                     Style="{StaticResource DropPanelRegular}"
+                                     
+                                     AllowDrop="True"
+                                     DragDrop.DragEnter="CornerControl_DragEnter"
+                                     DragDrop.DragLeave="CornerControl_DragLeave"
+                                     DragDrop.DragOver="CornerControl_DragOver"
+                                     DragDrop.Drop="CornerControl_Drop"
+                                     >
+
+                <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <Image Source="/Resources/InterfaceImage/DropDown.png" Width="150"/>
+                    <TextBlock Text="Drag file here" 
+                               TextAlignment="Center"
+                               FontSize="22"/>
+                </StackPanel>
+
+            </c:CornersContentControl>
+            
+            <!--IMAGE LIST BOX-->
+            <ListBox Grid.Column="1"
+                     Style="{StaticResource ListBoxDropImage}"
+                     ItemsSource="{Binding UploadedFiles, Mode=OneWay}"/>
+
+        </Grid>
+
+        <!--BUTTONS-->
+        <Button Grid.Row="2" Style="{StaticResource ClickButton}"
+                Content="Upload images"
+                Click="Upload"/>
+    </Grid>
+</Window>

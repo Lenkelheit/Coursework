@@ -6,30 +6,51 @@ namespace Galagram.ViewModel.ViewModel.Admin.Subject
     /// <summary>
     /// A logic class for <see cref="Window.Admin.UserControls.Subjects.All"/>
     /// </summary>
-    public class AllSubjectViewModel : ViewModelBase
+    public class AllViewModel : ViewModelBase
     {
         // FIELDS
         DataAccess.Entities.Subject[] subjects;
+        DataAccess.Entities.Subject selectedItem;
 
-        ICommand editCommand;
-        ICommand deleteCommand;
-        ICommand createCommand;
+        readonly ICommand editCommand;
+        readonly ICommand deleteCommand;
+        readonly ICommand createCommand;
 
         // CONSTRUCTORS
         /// <summary>
-        /// Initializes a new instance of <see cref="AllSubjectViewModel"/>
+        /// Initializes a new instance of <see cref="AllViewModel"/>
         /// </summary>
-        public AllSubjectViewModel()
+        public AllViewModel()
         {
             subjects = UnitOfWork.SubjectRepository.Get().ToArray();
 
 
-            createCommand = new Commands.Admin.Subject.CreateCommand(this);
+            createCommand = new Commands.Admin.Subject.All.CreateCommand();
+            editCommand = new Commands.Admin.Subject.All.EditCommand();
+            deleteCommand = new Commands.Admin.Subject.All.DeleteCommand();
 
-            Logger.LogAsync(Core.LogMode.Debug, $"Initialize {nameof(AllSubjectViewModel)}");
+            Logger.LogAsync(Core.LogMode.Debug, $"Initialize {nameof(AllViewModel)}");
         }
 
         // PROPERTIES
+        /// <summary>
+        /// Gets or sets selected subject
+        /// </summary>
+        public DataAccess.Entities.Subject SelectedItem
+        {
+            set
+            {
+                Logger.LogAsync(Core.LogMode.Debug, $"Sets {nameof(SelectedItem)}");
+                
+                SetProperty(ref selectedItem, value);
+            }
+            get
+            {
+                Logger.LogAsync(Core.LogMode.Debug, $"Gets {nameof(SelectedItem)}");
+                
+                return selectedItem;
+            }
+        }
         /// <summary>
         /// Gets subject
         /// </summary>
