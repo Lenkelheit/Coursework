@@ -6,28 +6,25 @@ namespace Galagram.ViewModel.ViewModel.Admin.Subject
     /// <summary>
     /// A logic class for <see cref="Window.Admin.UserControls.Subjects.All"/>
     /// </summary>
-    public class AllViewModel : ViewModelBase
+    public class AllViewModel : AllItemViewModelBase
     {
         // FIELDS
         DataAccess.Entities.Subject[] subjects;
-        DataAccess.Entities.Subject selectedItem;
+        DataAccess.Interfaces.IEntity selectedItem;
 
         readonly ICommand editCommand;
-        readonly ICommand deleteCommand;
         readonly ICommand createCommand;
 
         // CONSTRUCTORS
         /// <summary>
         /// Initializes a new instance of <see cref="AllViewModel"/>
         /// </summary>
-        public AllViewModel()
+        public AllViewModel() : base()
         {
             subjects = UnitOfWork.SubjectRepository.Get().ToArray();
 
-
             createCommand = new Commands.Admin.Subject.All.CreateCommand();
             editCommand = new Commands.Admin.Subject.All.EditCommand();
-            deleteCommand = new Commands.Admin.Subject.All.DeleteCommand();
 
             Logger.LogAsync(Core.LogMode.Debug, $"Initialize {nameof(AllViewModel)}");
         }
@@ -36,7 +33,7 @@ namespace Galagram.ViewModel.ViewModel.Admin.Subject
         /// <summary>
         /// Gets or sets selected subject
         /// </summary>
-        public DataAccess.Entities.Subject SelectedItem
+        public override DataAccess.Interfaces.IEntity SelectedItem
         {
             set
             {
@@ -68,7 +65,7 @@ namespace Galagram.ViewModel.ViewModel.Admin.Subject
         /// <summary>
         /// Gets an action to edit subject
         /// </summary>
-        public ICommand EditCommand
+        public override ICommand EditCommand
         {
             get
             {
@@ -78,21 +75,9 @@ namespace Galagram.ViewModel.ViewModel.Admin.Subject
             }
         }
         /// <summary>
-        /// Gets an action to delete subject
-        /// </summary>
-        public ICommand DeleteCommand
-        {
-            get
-            {
-                Logger.LogAsync(Core.LogMode.Debug, $"Gets {nameof(DeleteCommand)}");
-
-                return deleteCommand;
-            }
-        }
-        /// <summary>
         /// Returns an action to create a new subject
         /// </summary>
-        public ICommand CreateCommand
+        public override ICommand CreateCommand
         {
             get
             {
@@ -101,5 +86,9 @@ namespace Galagram.ViewModel.ViewModel.Admin.Subject
                 return createCommand;
             }
         }
+        /// <summary>
+        /// Not implemented behaviour
+        /// </summary>
+        public override ICommand OpenCommand => throw new System.NotImplementedException();
     }
 }

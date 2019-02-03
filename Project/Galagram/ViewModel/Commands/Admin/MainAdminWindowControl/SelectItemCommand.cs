@@ -52,7 +52,7 @@
             int index = adminWindowViewModel.MenuItemIndex;
             if (index != Core.Configuration.Constants.WRONG_INDEX)
             {
-                if (index == adminWindowViewModel.ExitIndex) 
+                if (index == adminWindowViewModel.ExitIndex) // exit from admin panel
                 {
                     // exit from admin panel
                     Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, "Exit from window panel");
@@ -67,7 +67,7 @@
                         key: nameof(Window.Registration),
                         viewModel: new ViewModel.RegistrationViewModel());
                 }
-                else
+                else // selected menu item
                 {
                     // change admin window content
                     Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, "Change admin window content");

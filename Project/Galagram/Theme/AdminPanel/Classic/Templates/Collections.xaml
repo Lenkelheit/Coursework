@@ -8,9 +8,14 @@
     <!--READ COLUMN TEMPLATE-->
     <DataTemplate x:Key="ReadColumnGridTemplate">
         <StackPanel>
-            <Image Source="/Resources/AdminImg/DataGrid/eye.png" 
+            <Button 
+                Style="{DynamicResource DataGridCellButton_Admin}" 
+                Command="{Binding DataContext.OpenCommand, RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=UserControl}}"
+                CommandParameter="{Binding DataContext.SelectedItem, RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=UserControl}}">
+                <Image Source="/Resources/AdminImg/DataGrid/eye.png" 
                    Cursor="Hand"
                    Width="20" Height="20"/>
+            </Button>
         </StackPanel>
     </DataTemplate>
 
@@ -18,8 +23,7 @@
     <DataTemplate x:Key="EditColumnGridTemplate">
         <StackPanel>
             <Button 
-                Style="{StaticResource ButtonBase}" 
-                Background="Transparent"
+                Style="{DynamicResource DataGridCellButton_Admin}" 
                 Command="{Binding DataContext.EditCommand, RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=UserControl}}"
                 CommandParameter="{Binding DataContext.SelectedItem, RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=UserControl}}">
                 <Image Source="/Resources/AdminImg/DataGrid/edit.png" 
@@ -33,8 +37,7 @@
     <DataTemplate x:Key="RemoveColumnGridTemplate">
         <StackPanel >
             <Button 
-                Style="{StaticResource ButtonBase}" 
-                Background="Transparent"
+                Style="{DynamicResource DataGridCellButton_Admin}" 
                 Command="{Binding DataContext.DeleteCommand, RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=UserControl}}"
                 CommandParameter="{Binding DataContext.SelectedItem, RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=UserControl}}">
                 <Image Source="/Resources/AdminImg/DataGrid/remove.png"

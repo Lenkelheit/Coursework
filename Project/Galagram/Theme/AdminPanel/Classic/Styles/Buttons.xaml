@@ -25,4 +25,9 @@
         <Setter Property="FontSize" Value="20"/>
         <Setter Property="Margin" Value="5, 0"/>
     </Style>
+    
+    <!--BUTTON DATA GRID CELL ADMIN-->
+    <Style TargetType="Button" x:Key="DataGridCellButton_Admin" BasedOn="{StaticResource ButtonBase}">
+        <Setter Property="Background" Value="Transparent"/>
+    </Style>
 </ResourceDictionary>

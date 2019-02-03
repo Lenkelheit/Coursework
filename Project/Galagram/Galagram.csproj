@@ -108,11 +108,14 @@
     <Compile Include="Services\WindowManagerInitializers\WindowManagerInitializerBase.cs" />
     <Compile Include="ViewModel\CommandBase.cs" />
     <Compile Include="ViewModel\Commands\Admin\DeleteItem\DeleteItemCommand.cs" />
+    <Compile Include="ViewModel\Commands\Admin\DeleteCommand.cs" />
+    <Compile Include="ViewModel\Commands\Admin\Message\All\FilterCommand.cs" />
+    <Compile Include="ViewModel\Commands\Admin\Message\All\ResetFilterCommand.cs" />
+    <Compile Include="ViewModel\ViewModel\Admin\AllItemViewModelBase.cs" />
     <Compile Include="ViewModel\ViewModel\Admin\DeleteItemViewModel.cs" />
     <Compile Include="ViewModel\Commands\Admin\MainAdminWindowControl\SelectItemCommand.cs" />
     <Compile Include="ViewModel\Commands\Admin\Subject\All\CreateCommand.cs" />
     <Compile Include="ViewModel\Commands\Admin\GoBackCommand.cs" />
-    <Compile Include="ViewModel\Commands\Admin\Subject\All\DeleteCommand.cs" />
     <Compile Include="ViewModel\Commands\Admin\Subject\All\EditCommand.cs" />
     <Compile Include="ViewModel\Commands\Admin\Subject\Single\CreateUpdateCommand.cs" />
     <Compile Include="ViewModel\Commands\Registration\LogInCommand.cs" />
@@ -148,6 +151,7 @@
     <Compile Include="ViewModel\ViewModel\Admin\AdminWindowViewModel.cs" />
     <Compile Include="ViewModel\ViewModel\Admin\Comments\AllViewModel.cs" />
     <Compile Include="ViewModel\ViewModel\Admin\Message\AllViewModel.cs" />
+    <Compile Include="ViewModel\ViewModel\Admin\Message\SingleViewModel.cs" />
     <Compile Include="ViewModel\ViewModel\Admin\Services\MenuItemViewModelFactory.cs" />
     <Compile Include="ViewModel\ViewModel\Admin\Subject\AllViewModel.cs" />
     <Compile Include="ViewModel\ViewModel\Admin\Subject\SingleViewModel.cs" />

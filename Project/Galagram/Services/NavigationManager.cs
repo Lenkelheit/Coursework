@@ -17,7 +17,7 @@ namespace Galagram.Services
     {
         // FIELDS
         IDictionary<string, Type> factory;
-        Stack<KeyValuePair<Type, Type>> history; // control type, view model type
+        Stack<KeyValuePair<Type, object>> history; // control type, view model object
         NavigationManagerInitializerBase initializerBase;
 
         static NavigationManager instance;        
@@ -26,7 +26,7 @@ namespace Galagram.Services
         private NavigationManager()
         {
             factory = new Dictionary<string, Type>();
-            history = new Stack<KeyValuePair<Type, Type>>();
+            history = new Stack<KeyValuePair<Type, object>>();
 
             initializerBase = new DefaultNavigationManagerInitilizer();
 
@@ -182,11 +182,11 @@ namespace Galagram.Services
             if (history.Count <= 0) return null;
 
             // gets user control and view model from history
-            KeyValuePair<Type, Type> controlDataContext = history.Peek();
+            KeyValuePair<Type, object> controlDataContext = history.Peek();
 
             // create user control and sets view mode
             UserControl userControl = (UserControl)Activator.CreateInstance(controlDataContext.Key);
-            userControl.DataContext = Activator.CreateInstance(controlDataContext.Value);
+            userControl.DataContext = controlDataContext.Value;
 
             // gets value
             return userControl;
@@ -247,7 +247,7 @@ namespace Galagram.Services
             userControl.DataContext = viewModel;
 
             // save instance type in history
-            history.Push(new KeyValuePair<Type, Type>(userControl.GetType(), userControl.DataContext.GetType()));
+            history.Push(new KeyValuePair<Type, object>(userControl.GetType(), userControl.DataContext));
 
             return userControl;
         }

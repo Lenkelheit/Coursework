@@ -49,53 +49,60 @@
                    Style="{StaticResource InterfaceLabel_Admin}"/>
             <!--COMBO BOX SUBJECT-->
             <ComboBox Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3"
-                      Margin="10, 5">
-                <ComboBoxItem Content="Subj1"/>
-                <ComboBoxItem Content="Subj2"/>
-                <ComboBoxItem Content="Subj2"/>
-            </ComboBox>
-            
+                      Margin="10, 5"
+                      ItemsSource="{Binding Subjects}"
+                      SelectedIndex="{Binding SubjectIndex, Mode=OneWayToSource}"/>
             <!--FROM-->
             <Label Grid.Row="2" Grid.Column="0" 
                    Content="from"
                    Style="{StaticResource InterfaceLabel_Admin}"/>
-            <DatePicker Grid.Row="2" Grid.Column="1"/>
+            <DatePicker Grid.Row="2" Grid.Column="1"
+                        SelectedDate="{Binding From, Mode=OneWayToSource}"/>
             <!--TO-->
             <Label Grid.Row="2" Grid.Column="2" 
                    Content="to"
                    Style="{StaticResource InterfaceLabel_Admin}"/>
-            <DatePicker Grid.Row="2" Grid.Column="3"/>
+            <DatePicker Grid.Row="2" Grid.Column="3"
+                        SelectedDate="{Binding To, Mode=OneWayToSource}"/>
         </Grid>
         
         <!--FILTER BUTTON-->
         <Button Grid.Row="1" Grid.Column="1"
                 Content="Filter"
                 Margin="10"
-                Style="{StaticResource AdminInterfaceButton}"/>
+                Style="{StaticResource AdminInterfaceButton}"
+                Command="{Binding SetFilter}"/>
         <!--RESET BUTTON-->
         <Button Grid.Row="2" Grid.Column="1"
                 Content="Reset"
                 Margin="10"
-                Style="{StaticResource AdminInterfaceButton}"/>
+                Style="{StaticResource AdminInterfaceButton}"
+                Command="{Binding ResetFilter}"/>
         
         <!--DATA GRID-->
         <DataGrid Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2"
-                  Style="{StaticResource DataGridAdmin}">
+                  Style="{StaticResource DataGridAdmin}"
+                  ItemsSource="{Binding Messages}"
+                  SelectedItem="{Binding SelectedItem}">
             <DataGrid.Resources>
                 <Style TargetType="ScrollBar"/>
             </DataGrid.Resources>
             <!--cols-->
-            <DataGrid.Columns>                
-                <DataGridTextColumn Header="ID" Binding="{Binding Id}"
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="ID" 
+                                    Binding="{Binding Id}"
                                     MinWidth="80"
                                     Width="80"/>
                 <DataGridTextColumn Header="User&#x0a;Nickname" 
+                                    Binding="{Binding User.NickName}"
                                     MinWidth="100"
                                     Width="100"/>
                 <DataGridTextColumn Header="Subject" 
+                                    Binding="{Binding Subject.Name}"
                                     MinWidth="50"
                                     Width="50"/>
                 <DataGridTextColumn Header="Text" 
+                                    Binding="{Binding Text}"
                                     MinWidth="60"
                                     Width="*"/>
                 <DataGridTextColumn Header="Date"
@@ -113,35 +120,6 @@
                                         CellTemplate="{StaticResource RemoveColumnGridTemplate}"
                                         Width="40"/>
             </DataGrid.Columns>
-
-            <RowDefinition />
-            <RowDefinition />
-            <RowDefinition />
-            <RowDefinition />
-            <RowDefinition />
-            <RowDefinition />
-            <RowDefinition />
-            <RowDefinition />
-            <RowDefinition />
-            <RowDefinition />
-            <RowDefinition />
-            <RowDefinition />
-            <RowDefinition />
-            <RowDefinition />
-            <RowDefinition />
-            <RowDefinition />
-            <RowDefinition />
-            <RowDefinition />
-            <RowDefinition />
-            <RowDefinition />
-            <RowDefinition />
-            <RowDefinition />
-            <RowDefinition />
-            <RowDefinition />
-            <RowDefinition />
-            <RowDefinition />
-            <RowDefinition />
-            <RowDefinition />
         </DataGrid>
     </Grid>
 </UserControl>

@@ -31,7 +31,7 @@
         {
             Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, $"Exetute {nameof(CreateCommand)}");
             
-            // opens new contetn, single subject
+            // opens new content, single subject
 
             Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, $"Opens {typeof(Window.Admin.UserControls.Subjects.Single).FullName}");
             Services.NavigationManager.Instance.NavigateTo(

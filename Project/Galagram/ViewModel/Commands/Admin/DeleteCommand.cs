@@ -1,4 +1,4 @@
-﻿namespace Galagram.ViewModel.Commands.Admin.Subject.All
+﻿namespace Galagram.ViewModel.Commands.Admin
 {
     /// <summary>
     /// Navigate to delete contet

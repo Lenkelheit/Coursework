@@ -51,6 +51,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Comparers\SubjectComparer.cs" />
     <Compile Include="Configuration\CommentConfiguration.cs" />
     <Compile Include="Configuration\CommentLikeConfiguration.cs" />
     <Compile Include="Configuration\MessageConfiguration.cs" />
@@ -69,7 +70,9 @@
     <Compile Include="Entities\PhotoLike.cs" />
     <Compile Include="Entities\Subject.cs" />
     <Compile Include="Entities\User.cs" />
+    <Compile Include="Enums\Comparers\SubjectCompareType.cs" />
     <Compile Include="Enums\EntityStringFormat.cs" />
+    <Compile Include="Filters\MessageFilter.cs" />
     <Compile Include="Initializers\AppContextInitializer.cs" />
     <Compile Include="Interfaces\IEntity.cs" />
     <Compile Include="Interfaces\IGenericRepository.cs" />

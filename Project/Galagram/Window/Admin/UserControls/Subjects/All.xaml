@@ -39,7 +39,8 @@
                                     MinWidth="80"
                                     Width="80"/>
                 <DataGridTextColumn Header="Name" 
-                                    Binding="{Binding Name}"                                    
+                                    Binding="{Binding Name}"    
+                                    MinWidth="100"
                                     Width="*"/>
                 <DataGridTemplateColumn Header="Edit" 
                                         Width="40"
