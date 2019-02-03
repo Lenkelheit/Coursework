@@ -2,6 +2,7 @@
 
 Please include a summary of the change and which issue is fixed. 
 Please also include relevant motivation and context. 
+Please delete paragraphs that are not relevant.
 
 #### Fixes # (issues)
 
@@ -24,3 +25,9 @@ Please also include relevant motivation and context.
 - [ ] I have added tests that prove my fix is effective or that my feature works
 - [ ] New and existing unit tests pass locally with my changes
 - [ ] My code builds clean without any errors or warnings
+
+## If you have change design fill in this part
+
+### A picture of design before pull request
+
+### A picture of design after pull request
