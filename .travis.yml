@@ -1,2 +1,2 @@
 language: csharp
-solution: Galagram.sln
+solution: Project/Galagram.sln
