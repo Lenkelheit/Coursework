@@ -14,7 +14,6 @@ namespace UnitTest.DataAccess.Repositories
     public class SubjectRepositoryTest
     {
         // FIELDS
-        static string connectionString = @"Data Source=(localdb)\MSSQLLocalDB; Integrated Security=True; Initial Catalog=SubjectRepositoryTestDB";
         static DA.AppContext dbContext;
         static Resources.Classes.DbFiller dbFiller;
         // PROPERTIES
@@ -24,13 +23,7 @@ namespace UnitTest.DataAccess.Repositories
         public static void Constructor(TestContext context)
         {
             dbFiller = new Resources.Classes.DbFiller();
-            dbContext = new DA.AppContext(connectionString);
-        }
-        [ClassCleanup]
-        public static void Finalizer()
-        {
-            dbContext.Dispose();
-            System.Data.Entity.Database.Delete(connectionString);
+            dbContext = Resources.Initializers.DatabaseInitializer.DBContext;
         }
         [TestInitialize]
         public void Filler()
@@ -144,7 +137,7 @@ namespace UnitTest.DataAccess.Repositories
         {
             // Arrange
             SubjectRepository subjectRepository = new SubjectRepository(dbContext);
-            int idToSearch = 4;
+            int idToSearch = dbContext.Subjects.First().Id;
             Subject expectedSubject = dbContext.Subjects.Find(idToSearch);
 
             // Act

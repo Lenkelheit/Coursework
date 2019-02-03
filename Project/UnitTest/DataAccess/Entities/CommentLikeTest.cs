@@ -1,6 +1,4 @@
-﻿using System;
-using System.Linq;
-using System.Collections.Generic;
+﻿using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using DataAccess.Entities;
@@ -12,7 +10,6 @@ namespace UnitTest.DataAccess.Entities
     public class CommentLikeTest
     {
         // FIELDS
-        static string connectionString = @"Data Source=(localdb)\MSSQLLocalDB; Integrated Security=True; Initial Catalog=CommentLikeTestDB";
         static DA.AppContext dbContext;
         static Resources.Classes.DbFiller dbFiller;
         // PROPERTIES
@@ -22,13 +19,7 @@ namespace UnitTest.DataAccess.Entities
         public static void Constructor(TestContext context)
         {
             dbFiller = new Resources.Classes.DbFiller();
-            dbContext = new DA.AppContext(connectionString);
-        }
-        [ClassCleanup]
-        public static void Finalizer()
-        {
-            dbContext.Dispose();
-            System.Data.Entity.Database.Delete(connectionString);
+            dbContext = Resources.Initializers.DatabaseInitializer.DBContext;
         }
         [TestInitialize]
         public void Filler()
@@ -41,6 +32,8 @@ namespace UnitTest.DataAccess.Entities
             dbFiller.Purge(dbContext);
         }
 
+
+        // TEST
         [TestMethod]
         public void GetAllColumnsOfCommentLike()
         {
