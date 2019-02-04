@@ -6,16 +6,12 @@ namespace Galagram.ViewModel.ViewModel.Admin.Photo
     /// <summary>
     /// A logic class for <see cref="Window.Admin.UserControls.Photo.Single"/>
     /// </summary>
-    public class SingleViewModel : ViewModelBase
+    public class SingleViewModel : SingleItemViewModelBase
     {
         // FIELDS
-        DataAccess.Entities.Photo photo;
-        bool isReadOnly;
-
         string[] likedUserName;
         string[] disLikedUserName;
-
-        ICommand goBackCommand;
+        
         ICommand deleteCommand;
 
         // CONSTRUCTORS
@@ -25,40 +21,23 @@ namespace Galagram.ViewModel.ViewModel.Admin.Photo
         /// <param name="photo">
         /// An instance of <see cref="DataAccess.Entities.Photo"/> to show
         /// </param>
-        /// <param name="isReadOnly">
+        /// <param name="isEditingEnabled">
         /// Determines if entities can be edited
         /// </param>
-        public SingleViewModel(DataAccess.Entities.Photo photo, bool isReadOnly)
+        public SingleViewModel(DataAccess.Entities.Photo photo, bool isEditingEnabled)
+            : base(shownEntity: photo, isWritingEnabled: isEditingEnabled)
         {
-            if (photo == null) throw new System.ArgumentNullException(nameof(photo));
-
-            this.photo = photo;
-            this.isReadOnly = isReadOnly;
-
             ILookup<bool, string> groupLikes = photo.Likes.ToLookup(l => l.IsLiked, p => p.User.NickName);
             likedUserName = groupLikes[true].ToArray();
             disLikedUserName = groupLikes[false].ToArray();
 
             // commands
-            this.goBackCommand = new Commands.Admin.GoBackCommand();
             this.deleteCommand = new Commands.Admin.DeleteCommand();
 
             Logger.LogAsync(Core.LogMode.Debug, $"Initializes {nameof(SingleViewModel)}");
         }
 
         // PROPERTIES
-        /// <summary>
-        /// Gets an instance of <see cref="DataAccess.Entities.Photo"/> to show
-        /// </summary>
-        public DataAccess.Entities.Photo Photo
-        {
-            get
-            {
-                Logger.LogAsync(Core.LogMode.Debug, $"Gets {nameof(Photo)}");
-
-                return photo;
-            }
-        }
         /// <summary>
         /// Gets nicknames of user that liked photo
         /// </summary>
@@ -83,28 +62,28 @@ namespace Galagram.ViewModel.ViewModel.Admin.Photo
                 return disLikedUserName;
             }
         }
+        /// <summary>
+        /// Gets crud operation name
+        /// </summary>
+        public override string CrudOperationName
+        {
+            get
+            {
+                Logger.LogAsync(Core.LogMode.Info, $"Gets {nameof(CrudOperationName)}. With value = {RemoveText}");
+
+                return RemoveText;
+            }
+        }
 
         // COMMANDS
         /// <summary>
-        /// Gets action to return to a previous content
-        /// </summary>
-        public ICommand GoBackCommand
-        {
-            get
-            {
-                Logger.LogAsync(Core.LogMode.Debug, $"Gets {nameof(GoBackCommand)}");
-
-                return goBackCommand;
-            }
-        }
-        /// <summary>
         /// Gets action to delete current entites
         /// </summary>
-        public ICommand DeleteCommand
+        public override ICommand CrudOperation 
         {
             get
             {
-                Logger.LogAsync(Core.LogMode.Debug, $"Gets {nameof(DeleteCommand)}");
+                Logger.LogAsync(Core.LogMode.Debug, $"Gets {nameof(CrudOperation)}");
 
                 return deleteCommand;
             }

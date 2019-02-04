@@ -5,12 +5,11 @@ namespace Galagram.ViewModel.ViewModel.Admin.Message
     /// <summary>
     /// A logic class for <see cref="Window.Admin.UserControls.Messages.Single"/>
     /// </summary>
-    public class SingleViewModel : ViewModelBase
+    public class SingleViewModel : SingleItemViewModelBase
     {
         // FIELDS
         DataAccess.Entities.Message message;
-        
-        ICommand goBackCommand;
+
         ICommand deleteCommand;
 
         // CONSTRUCTORS
@@ -20,49 +19,36 @@ namespace Galagram.ViewModel.ViewModel.Admin.Message
         /// <param name="message">
         /// An instance of <see cref="DataAccess.Entities.Message"/> that should be displayed
         /// </param>
-        public SingleViewModel(DataAccess.Entities.Message message)
+        public SingleViewModel(DataAccess.Entities.Message message) : base(message, false)
         {
             this.message = message;
-
-            goBackCommand = new Commands.Admin.GoBackCommand();
+            
             deleteCommand = new Commands.Admin.DeleteCommand();
         }
 
         // PROPERTIES
         /// <summary>
-        /// Gets displayed message
+        /// Gets allowed operation name
         /// </summary>
-        public DataAccess.Entities.Message Message
+        public override string CrudOperationName
         {
             get
             {
-                Logger.LogAsync(Core.LogMode.Debug, $"Gets {nameof(Message)}");
+                Logger.LogAsync(Core.LogMode.Info, $"Gets {nameof(CrudOperationName)}, with value = {RemoveText}");
 
-                return message;
+                return RemoveText;
             }
         }
 
         // COMMANDS
         /// <summary>
-        /// Gets action to go back to previous content
-        /// </summary>
-        public ICommand GoBackCommand
-        {
-            get
-            {
-                Logger.LogAsync(Core.LogMode.Debug, $"Gets {nameof(GoBackCommand)}");
-
-                return goBackCommand;
-            }
-        }
-        /// <summary>
         /// Gets action to delete current entity
         /// </summary>
-        public ICommand DeleteCommand
+        public override ICommand CrudOperation 
         {
             get
             {
-                Logger.LogAsync(Core.LogMode.Debug, $"Gets {nameof(DeleteCommand)}");
+                Logger.LogAsync(Core.LogMode.Debug, $"Gets {nameof(CrudOperation)}");
 
                 return deleteCommand;
             }

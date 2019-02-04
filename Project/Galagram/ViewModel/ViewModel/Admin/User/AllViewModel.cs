@@ -15,7 +15,6 @@ namespace Galagram.ViewModel.ViewModel.Admin.User
 
         ICommand openCommand;
         ICommand editCommand;
-        ICommand setFilterCommand;
 
         // CONSTRUCTORS
         /// <summary>
@@ -29,7 +28,6 @@ namespace Galagram.ViewModel.ViewModel.Admin.User
             // commands
             openCommand = new Commands.RelayCommand(NavigateToReadContent);
             editCommand = new Commands.RelayCommand(NavigateToEditContent);
-            setFilterCommand = new Commands.Admin.User.All.SetFilterCommand(this);
             
             Logger.LogAsync(Core.LogMode.Debug, $"Initializes {nameof(AllViewModel)}");
         }
@@ -91,18 +89,26 @@ namespace Galagram.ViewModel.ViewModel.Admin.User
                 return editCommand;
             }
         }
-        /// <summary>
-        /// Gets action to set filters value
-        /// </summary>
-        public override ICommand SetFilterCommand
-        {
-            get
-            {
-                Logger.LogAsync(Core.LogMode.Debug, $"Gets {nameof(SetFilterCommand)}");
 
-                return setFilterCommand;
-            }
+        // METHODS
+        /// <summary>
+        /// Sets filter predicate
+        /// </summary>
+        /// <param name="entity">
+        /// The entities for which predicate is applied
+        /// </param>
+        /// <returns>
+        /// Boolean values which determines if entity is allowed by predicate or not
+        /// </returns>
+        protected override bool FilterPredicate(object entity)
+        {
+            // gets user
+            DataAccess.Entities.User user = (DataAccess.Entities.User)entity;
+
+            // filtering
+            return DataAccess.Filters.UserFilter.Has(user, nicknameSubstring);
         }
+
         // NAVIGATION METHODS
         private void NavigateToReadContent(object parameter)
         {
@@ -111,7 +117,7 @@ namespace Galagram.ViewModel.ViewModel.Admin.User
             NavigationManager.NavigateTo(
                 parent: DataStorage.AdminWindowContentControl,
                 key: typeof(Window.Admin.UserControls.Users.Single).FullName,
-                viewModel: new SingleViewModel(user: parameter as DataAccess.Entities.User, isReadOnly: true));
+                viewModel: new SingleViewModel(user: parameter as DataAccess.Entities.User, isEditingEnabled: false));
         }
         private void NavigateToEditContent(object parameter)
         {
@@ -120,8 +126,9 @@ namespace Galagram.ViewModel.ViewModel.Admin.User
             NavigationManager.NavigateTo(
                 parent: DataStorage.AdminWindowContentControl,
                 key: typeof(Window.Admin.UserControls.Users.Single).FullName,
-                viewModel: new SingleViewModel(user: parameter as DataAccess.Entities.User, isReadOnly: false));
+                viewModel: new SingleViewModel(user: parameter as DataAccess.Entities.User, isEditingEnabled: true));
         }
+
 
         #region Not Implemented Behaviour
         /// <summary>

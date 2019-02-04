@@ -25,7 +25,7 @@
                        Content="Photo ID"
                        Style="{StaticResource ItemLabel_Admin}"/>
         <TextBox Grid.Row="0" Grid.Column="1" 
-                 Text="{Binding Photo.Id}"
+                 Text="{Binding ShownEntity.Id}"
                  IsReadOnly="True"
                  Style="{StaticResource ItemTextBox_Admin}"/>
         <!--AUTHOR-->
@@ -33,7 +33,7 @@
                        Content="Author"
                        Style="{StaticResource ItemLabel_Admin}"/>
         <TextBox Grid.Row="1" Grid.Column="1" 
-                 Text="{Binding Photo.User.NickName}"
+                 Text="{Binding ShownEntity.User.NickName}"
                  IsReadOnly="True"
                  Style="{StaticResource ItemTextBox_Admin}"/>
         <!--PHOTO-->
@@ -43,7 +43,7 @@
         <WrapPanel Grid.Row="2" Grid.Column="1"  HorizontalAlignment="Center">
             <Image Width="50" Height="50">
                 <Image.Source>
-                    <Binding Path="Photo.Path"
+                    <Binding Path="ShownEntity.Path"
                              Converter="{StaticResource ImageConverter}">
                         <Binding.TargetNullValue>
                             <ImageSource>/Resources/OtherImg/NoPhoto.png</ImageSource>
@@ -58,7 +58,7 @@
             <!--
             <Button Style="{StaticResource AdminInterfaceButton}" 
                     MinWidth="100"
-                    IsEnabled="{Binding IsReadOnly}"
+                    IsEnabled="{Binding IsWritingEnabled}"
                     Content="select new" />-->
         </WrapPanel>
         
@@ -107,8 +107,8 @@
                 Command="{Binding GoBackCommand}"/>
         <Button Grid.Row="8" Grid.Column="1"  
                 Style="{StaticResource AdminButton}"
-                Content="Delete"
-                Command="{Binding DeleteCommand}"
-                CommandParameter="{Binding Photo}"/>
+                Content="{Binding CrudOperationName}"
+                Command="{Binding CrudOperation}"
+                CommandParameter="{Binding ShownEntity}"/>
     </Grid>
 </UserControl>

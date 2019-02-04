@@ -2,6 +2,8 @@
 {
     /// <summary>
     /// A logic class for <see cref="Window.Admin.AdminWindow"/>
+    /// <para/>
+    /// Left menu logic
     /// </summary>
     public class AdminWindowViewModel : ViewModelBase
     {

@@ -12,7 +12,8 @@ namespace Galagram.ViewModel.ViewModel.Admin
 
         ICommand deleteCommand;
 
-        ICommand resetFilter;
+        ICommand resetFilterCommand;
+        ICommand setFilterCommand;
 
         // CONSTRUCTORS
         /// <summary>
@@ -24,7 +25,8 @@ namespace Galagram.ViewModel.ViewModel.Admin
 
             deleteCommand = new Commands.Admin.DeleteCommand();
 
-            resetFilter = new Commands.Admin.ResetFilterCommand(this);
+            setFilterCommand = new Commands.RelayCommand(SetFilterMethod);
+            resetFilterCommand = new Commands.RelayCommand(ResetFilterMethod);
         }
 
         // PROPERTIES
@@ -101,22 +103,52 @@ namespace Galagram.ViewModel.ViewModel.Admin
                 Entities.Filter = value;
             }
         }
+        #region Set Filter
         /// <summary>
-        /// When overridden in a derived class, gets action to set filter
+        /// Gets action to set filter
         /// </summary>
-        public abstract ICommand SetFilterCommand { get; }
+        public ICommand SetFilterCommand
+        {
+            get
+            {
+                Logger.LogAsync(Core.LogMode.Debug, $"Gets {nameof(SetFilterCommand)}");
+
+                return setFilterCommand;
+            }
+        }
+        private void SetFilterMethod(object parameters)
+        {
+            Filter = FilterPredicate;
+        }
+        #endregion
+        #region Reset Filter
         /// <summary>
-        /// When overridden in a derived class, gets action to reset filter
+        /// Gets action to reset filter
         /// </summary>
         public ICommand ResetFilterCommand
         {
             get
             {
-                Logger.LogAsync(Core.LogMode.Debug, $"Gets {nameof(resetFilter)}");
+                Logger.LogAsync(Core.LogMode.Debug, $"Gets {nameof(ResetFilterCommand)}");
 
-                return resetFilter;
+                return resetFilterCommand;
             }
         }
+        private void ResetFilterMethod(object parameters)
+        {
+            Filter = null;
+        }
+        #endregion
+        /// <summary>
+        /// When overridden in a derived class, sets filter predicate
+        /// </summary>
+        /// <param name="entity">
+        /// The entities for which predicate is applied
+        /// </param>
+        /// <returns>
+        /// Boolean values which determines if entity is allowed by predicate or not
+        /// </returns>
+        protected abstract bool FilterPredicate(object entity);
         #endregion
     }
 }

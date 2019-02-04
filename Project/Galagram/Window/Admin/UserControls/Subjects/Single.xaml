@@ -32,7 +32,7 @@
                Style="{StaticResource ItemLabel_Admin}"/>
         <TextBox Grid.Row="2" Grid.Column="1" 
                  IsReadOnly="True"
-                 Text="{Binding SubjectId, Mode=OneTime}"
+                 Text="{Binding ShownEntity.Id, Mode=OneTime}"
                  Style="{StaticResource ItemTextBox_Admin}"/>
         
         <!--SUBJECT NAME-->
@@ -40,7 +40,7 @@
                Content="Name"
                Style="{StaticResource ItemLabel_Admin}"/>
         <TextBox Grid.Row="3" Grid.Column="1"
-                 Text="{Binding SubjectName}"
+                 Text="{Binding ShownEntity.Name, Mode=TwoWay}"
                  Style="{StaticResource ItemTextBox_Admin}"/>
         
         
@@ -51,9 +51,9 @@
                 Content="Go Back"/>
         <Button Grid.Row="6" Grid.Column="1"  
                 Style="{StaticResource AdminButton}"
-                Command="{Binding InsertUpdateCommand}"
-                CommandParameter="{Binding InsertOrUpdateAction}"
-                Content="{Binding ButtonName, Mode=OneTime}"/><!--create/update-->
+                Command="{Binding CrudOperation}"
+                CommandParameter="{Binding IsNew}"
+                Content="{Binding CrudOperationName, Mode=OneTime}"/><!--create/update-->
 
     </Grid>
 </UserControl>

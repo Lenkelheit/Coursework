@@ -23,8 +23,8 @@ namespace Galagram.ViewModel.ViewModel.Admin.Subject
         {
             subjects = new ListCollectionView(UnitOfWork.SubjectRepository.Get().ToArray());
 
-            createCommand = new Commands.Admin.Subject.All.CreateCommand();
-            editCommand = new Commands.Admin.Subject.All.EditCommand();
+            createCommand = new Commands.RelayCommand(NavigateToCreate);
+            editCommand = new Commands.RelayCommand(NavigateToEdit);
 
             Logger.LogAsync(Core.LogMode.Debug, $"Initialize {nameof(AllViewModel)}");
         }
@@ -68,15 +68,44 @@ namespace Galagram.ViewModel.ViewModel.Admin.Subject
                 return createCommand;
             }
         }
+
+        // NAVIGATION METHODS
+        private void NavigateToCreate(object parameter)
+        {
+            // opens new content, create subject
+            Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, $"Opens {typeof(Window.Admin.UserControls.Subjects.Single).FullName}");
+            NavigationManager.NavigateTo(
+                parent: DataStorage.AdminWindowContentControl,
+                key: typeof(Window.Admin.UserControls.Subjects.Single).FullName,
+                viewModel: new SingleViewModel(subject: new DataAccess.Entities.Subject(), isNew: true));
+        }
+        private void NavigateToEdit(object parameter)
+        {
+            // opens edit window 
+            Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, $"Opens {typeof(Window.Admin.UserControls.Subjects.Single).FullName}");
+            NavigationManager.NavigateTo(
+                parent: DataStorage.AdminWindowContentControl,
+                key: typeof(Window.Admin.UserControls.Subjects.Single).FullName,
+                viewModel: new SingleViewModel(subject: parameter as DataAccess.Entities.Subject, isNew: false));
+        }
         #region Not Implemented
         /// <summary>
         /// Not implemented behaviour
         /// </summary>
         public override ICommand OpenCommand => throw new System.NotImplementedException();
         /// <summary>
-        /// Not implemented behaviour
+        /// When overridden in a derived class, sets filter predicate
         /// </summary>
-        public override ICommand SetFilterCommand => throw new System.NotImplementedException();        
+        /// <param name="entity">
+        /// The entities for which predicate is applied
+        /// </param>
+        /// <returns>
+        /// Boolean values which determines if entity is allowed by predicate or not
+        /// </returns>
+        protected override bool FilterPredicate(object entity)
+        {
+            throw new System.NotImplementedException();
+        }
         #endregion
     }
 }

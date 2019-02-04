@@ -6,20 +6,16 @@ namespace Galagram.ViewModel.ViewModel.Admin.User
     /// <summary>
     /// A logic class for <see cref="Window.Admin.UserControls.Users.Single"/>
     /// </summary>
-    public class SingleViewModel : ViewModelBase
+    public class SingleViewModel : SingleItemViewModelBase
     {
         // FIELDS
-        DataAccess.Entities.User user;
-        bool isReadOnly;
-
         DataAccess.Wrappers.PhotoWrapper[] photos;
         int selectedPhotoIndex;
 
         ICommand resetAvatarCommand;
 
         ICommand showPhotoCommand;
-
-        ICommand goBackCommand;
+        
         ICommand deleteOrUpdateCommand;
 
         // CONSTRUCTORS
@@ -29,19 +25,15 @@ namespace Galagram.ViewModel.ViewModel.Admin.User
         /// <param name="user">
         /// An instance of <see cref="DataAccess.Entities.User"/> to show
         /// </param>
-        /// <param name="isReadOnly">
+        /// <param name="isEditingEnabled">
         /// Determines if entities can be changed
         /// </param>
         /// <exception cref="System.ArgumentNullException">
         /// Throwns when <paramref name="user"/> is null
         /// </exception>
-        public SingleViewModel(DataAccess.Entities.User user, bool isReadOnly)
+        public SingleViewModel(DataAccess.Entities.User user, bool isEditingEnabled)
+            : base(shownEntity: user, isWritingEnabled: isEditingEnabled)
         {
-            if (user == null) throw new System.ArgumentNullException();
-
-            this.user = user;
-            this.isReadOnly = isReadOnly;
-
             this.photos = user.Photos.Select(photo => new DataAccess.Wrappers.PhotoWrapper(photo)).ToArray();
             this.selectedPhotoIndex = Core.Configuration.Constants.WRONG_INDEX;
 
@@ -53,39 +45,14 @@ namespace Galagram.ViewModel.ViewModel.Admin.User
             });
 
             this.showPhotoCommand = new Commands.RelayCommand(NavigateToPhoto);
-
-            this.goBackCommand = new Commands.Admin.GoBackCommand();
-            this.deleteOrUpdateCommand = isReadOnly ? (ICommand)new Commands.Admin.DeleteCommand()
-                                                    : (ICommand)new Commands.Admin.UpdateCommand();
+            
+            this.deleteOrUpdateCommand = isEditingEnabled ? (ICommand)new Commands.Admin.UpdateCommand()
+                                                          : (ICommand)new Commands.Admin.DeleteCommand();
 
             Logger.LogAsync(Core.LogMode.Debug, $"Initializes {nameof(SingleViewModel)}");
         }
 
         // PROPERTIES
-        /// <summary>
-        /// Gets shown user
-        /// </summary>
-        public DataAccess.Entities.User User
-        {
-            get
-            {
-                Logger.LogAsync(Core.LogMode.Debug, $"Gets {nameof(User)}");
-
-                return user;
-            }
-        }
-        /// <summary>
-        /// Gets value that determines if entity can be changed
-        /// </summary>
-        public bool IsReadOnly
-        {
-            get
-            {
-                Logger.LogAsync(Core.LogMode.Debug, $"Gets {nameof(IsReadOnly)}");
-
-                return isReadOnly;
-            }
-        }
         /// <summary>
         /// Gets or sets selected photo index
         /// </summary>
@@ -119,11 +86,13 @@ namespace Galagram.ViewModel.ViewModel.Admin.User
         /// <summary>
         /// Gets or sets allowed operation name
         /// </summary>
-        public string OperationName
+        public override string CrudOperationName
         {
             get
             {
-                return isReadOnly ? "Delete" : "Save Changes";
+                Logger.LogAsync(Core.LogMode.Debug, $"Gets {nameof(CrudOperationName)}");
+
+                return IsWritingEnabled ? EditText: RemoveText;
             }
         }
 
@@ -153,25 +122,13 @@ namespace Galagram.ViewModel.ViewModel.Admin.User
             }
         }
         /// <summary>
-        /// Gets action to navigate to previous content
-        /// </summary>
-        public ICommand GoBackCommand
-        {
-            get
-            {
-                Logger.LogAsync(Core.LogMode.Debug, $"Gets {nameof(GoBackCommand)}");
-
-                return goBackCommand;
-            }
-        }
-        /// <summary>
         /// Gets action to delete or update entity
         /// </summary>
-        public ICommand DeleteOrUpdateCommand
+        public override ICommand CrudOperation
         {
             get
             {
-                Logger.LogAsync(Core.LogMode.Debug, $"Gets {nameof(DeleteOrUpdateCommand)}");
+                Logger.LogAsync(Core.LogMode.Debug, $"Gets {nameof(CrudOperation)}");
 
                 return deleteOrUpdateCommand;
             }
@@ -187,7 +144,7 @@ namespace Galagram.ViewModel.ViewModel.Admin.User
                 NavigationManager.NavigateTo(
                     parent: DataStorage.AdminWindowContentControl,
                     key: typeof(Window.Admin.UserControls.Photo.Single).FullName,
-                    viewModel: new Photo.SingleViewModel(photo: photos[selectedPhotoIndex].Photo, isReadOnly: isReadOnly));
+                    viewModel: new Photo.SingleViewModel(photo: photos[selectedPhotoIndex].Photo, isEditingEnabled: IsWritingEnabled));
             }
         }
     }

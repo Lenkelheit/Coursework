@@ -6,16 +6,12 @@ namespace Galagram.ViewModel.ViewModel.Admin.Comments
     /// <summary>
     /// A logic class for <see cref="Window.Admin.UserControls.Comments.Single"/>
     /// </summary>
-    public class SingleViewModel : ViewModelBase
+    public class SingleViewModel : SingleItemViewModelBase
     {
         // FIELDS
-        bool isReadOnly;
-        DataAccess.Entities.Comment comment;
-
         string[] likedUserNickname;
         string[] disLikedUserNickname;
-
-        ICommand goBackCommand;
+        
         ICommand deleteOrUpdateCommand;
 
         // CONSTRUCTORS
@@ -25,54 +21,26 @@ namespace Galagram.ViewModel.ViewModel.Admin.Comments
         /// <param name="comment">
         /// An instance of <see cref="DataAccess.Entities.Comment"/>
         /// </param>
-        /// <param name="isReadOnly">
+        /// <param name="isEditingEnabled">
         /// Determines if page is only for reading or not
         /// </param>
         /// <exception cref="System.ArgumentNullException">
         /// Throws when <paramref name="comment"/> is null
         /// </exception>
-        public SingleViewModel(DataAccess.Entities.Comment comment, bool isReadOnly)
-        {
-            if (comment == null) throw new System.ArgumentNullException(nameof(comment));
-
-            this.isReadOnly = isReadOnly;
-            this.comment = comment;
+        public SingleViewModel(DataAccess.Entities.Comment comment, bool isEditingEnabled)
+            :base(shownEntity: comment, isWritingEnabled: isEditingEnabled)
+        {           
 
             ILookup<bool, string> groupedByLike = comment.Likes.ToLookup(c => c.IsLiked, u => u.User.NickName);
             this.likedUserNickname = groupedByLike[true].ToArray();
             this.disLikedUserNickname = groupedByLike[false].ToArray();
 
             // commands
-            goBackCommand = new Commands.Admin.GoBackCommand();
-            deleteOrUpdateCommand = isReadOnly ? (ICommand) new Commands.Admin.DeleteCommand()
-                                               : (ICommand) new Commands.Admin.UpdateCommand();
+            deleteOrUpdateCommand = isEditingEnabled ? (ICommand) new Commands.Admin.UpdateCommand()
+                                                     : (ICommand) new Commands.Admin.DeleteCommand();
         }
 
         // PROPERTIES
-        /// <summary>
-        /// Gets value that determines if pages is only for reading
-        /// </summary>
-        public bool IsReadOnly
-        {
-            get
-            {
-                Logger.LogAsync(Core.LogMode.Info, $"Gets {nameof(IsReadOnly)}, with value = {isReadOnly}");
-
-                return isReadOnly;
-            }
-        }
-        /// <summary>
-        /// Gets shown instance of <see cref="DataAccess.Entities.Comment"/>
-        /// </summary>
-        public DataAccess.Entities.Comment Comment
-        {
-            get
-            {
-                Logger.LogAsync(Core.LogMode.Debug, $"Gets {nameof(Comment)}");
-
-                return comment;
-            }
-        }
         /// <summary>
         /// Gets an array of user nicknames that likes current comment
         /// </summary>
@@ -98,39 +66,27 @@ namespace Galagram.ViewModel.ViewModel.Admin.Comments
             }
         }
         /// <summary>
-        /// Gets next operation for current page
+        /// Gets next operation name for current page
         /// </summary>
-        public string OperationName
+        public override string CrudOperationName
         {
             get
             {
-                Logger.LogAsync(Core.LogMode.Debug, $"Gets {nameof(OperationName)}");
+                Logger.LogAsync(Core.LogMode.Debug, $"Gets {nameof(CrudOperationName)}");
 
-                return isReadOnly ? "Delete" : "Save changes";
+                return IsWritingEnabled ? EditText : RemoveText;
             }
         }
 
         // COMMANDS
         /// <summary>
-        /// Gets action to navigate to previous content
-        /// </summary>
-        public ICommand GoBackCommand
-        {
-            get
-            {
-                Logger.LogAsync(Core.LogMode.Debug, $"Gets {nameof(GoBackCommand)}");
-
-                return goBackCommand;
-            }
-        }
-        /// <summary>
         /// Gets action to delete or update current <see cref="DataAccess.Entities.Comment"/>
         /// </summary>
-        public ICommand DeleteOrUpdateCommand
+        public override ICommand CrudOperation
         {
             get
             {
-                Logger.LogAsync(Core.LogMode.Debug, $"Gets {nameof(deleteOrUpdateCommand)}");
+                Logger.LogAsync(Core.LogMode.Debug, $"Gets {nameof(CrudOperation)}");
 
                 return deleteOrUpdateCommand;
             }

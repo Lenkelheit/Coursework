@@ -2,6 +2,8 @@
 using System.Windows.Data;
 using System.Windows.Input;
 
+using static DataAccess.Filters.CommentFilter;
+
 namespace Galagram.ViewModel.ViewModel.Admin.Comments
 {
     /// <summary>
@@ -19,7 +21,6 @@ namespace Galagram.ViewModel.ViewModel.Admin.Comments
 
         ICommand openCommand;
         ICommand editCommand;
-        ICommand setFilterCommand;
 
         // CONSTRUCTORS
         /// <summary>
@@ -37,7 +38,6 @@ namespace Galagram.ViewModel.ViewModel.Admin.Comments
             // commands
             openCommand = new Commands.RelayCommand(NavigateToOpenComment);
             editCommand = new Commands.RelayCommand(NavigateToEditComment);
-            setFilterCommand = new Commands.Admin.Comments.All.SetFilterCommand(this); 
         }
 
         // PROPERTIES
@@ -128,6 +128,7 @@ namespace Galagram.ViewModel.ViewModel.Admin.Comments
             }
         }
         #endregion
+        
         // COMMANDS
         #region CRUD
         /// <summary>
@@ -155,20 +156,6 @@ namespace Galagram.ViewModel.ViewModel.Admin.Comments
             }
         }
         #endregion
-        #region FILTER
-        /// <summary>
-        /// Gets action to filter items on view
-        /// </summary>
-        public override ICommand SetFilterCommand
-        {
-            get
-            {
-                Logger.LogAsync(Core.LogMode.Debug, $"Gets {nameof(SetFilterCommand)}");
-
-                return setFilterCommand;
-            }
-        }
-        #endregion
         #region Not Implemented
         /// <summary>
         /// Not implemented behaviour
@@ -185,7 +172,7 @@ namespace Galagram.ViewModel.ViewModel.Admin.Comments
             NavigationManager.NavigateTo(
                 parent: DataStorage.AdminWindowContentControl,
                 key: typeof(Window.Admin.UserControls.Comments.Single).FullName,
-                viewModel: new SingleViewModel(comment: parameter as DataAccess.Entities.Comment, isReadOnly: true));
+                viewModel: new SingleViewModel(comment: parameter as DataAccess.Entities.Comment, isEditingEnabled: false));
         }
         private void NavigateToEditComment(object parameter)
         {
@@ -195,7 +182,40 @@ namespace Galagram.ViewModel.ViewModel.Admin.Comments
             NavigationManager.NavigateTo(
                 parent: DataStorage.AdminWindowContentControl,
                 key: typeof(Window.Admin.UserControls.Comments.Single).FullName,
-                viewModel: new SingleViewModel(comment: parameter as DataAccess.Entities.Comment, isReadOnly: false));
+                viewModel: new SingleViewModel(comment: parameter as DataAccess.Entities.Comment, isEditingEnabled: true));
+        }
+
+        // FILTERING METHOD
+        /// <summary>
+        /// Sets filter predicate
+        /// </summary>
+        /// <param name="entity">
+        /// The entities for which predicate is applied
+        /// </param>
+        /// <returns>
+        /// Boolean values which determines if entity is allowed by predicate or not
+        /// </returns>
+        protected override bool FilterPredicate(object entity)
+        {
+            DataAccess.Entities.Comment commentToFilter = (DataAccess.Entities.Comment)entity;
+            bool isShown = true;
+
+            // checks text
+            if (text != null)
+            {
+                isShown &= Has(comment: commentToFilter, textSubstring: text);
+            }
+
+            // checks date
+            isShown &= Where(commentToFilter, from, to);
+
+            // checks user nickname
+            if (userNickname != null)
+            {
+                isShown &= Where(commentToFilter, userNickname);
+            }
+
+            return isShown;
         }
     }
 }

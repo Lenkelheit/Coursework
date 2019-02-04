@@ -2,6 +2,8 @@
 using System.Windows.Data;
 using System.Windows.Input;
 
+using static DataAccess.Filters.MessageFilter;
+
 namespace Galagram.ViewModel.ViewModel.Admin.Message
 {
     /// <summary>
@@ -19,7 +21,6 @@ namespace Galagram.ViewModel.ViewModel.Admin.Message
         System.DateTime? to;
 
         ICommand openCommand;
-        ICommand setFilterCommand;
 
         // CONSTRUCTORS
         /// <summary>
@@ -37,7 +38,6 @@ namespace Galagram.ViewModel.ViewModel.Admin.Message
 
             // commands
             openCommand = new Commands.RelayCommand(NavigateToOpenMessage);
-            setFilterCommand = new Commands.Admin.Message.All.FilterCommand(this);
         }
 
         // PROPERTIES
@@ -147,17 +147,32 @@ namespace Galagram.ViewModel.ViewModel.Admin.Message
                 return openCommand;
             }
         }
-        /// <summary>
-        /// Gets action to set filter
-        /// </summary>
-        public override ICommand SetFilterCommand
-        {
-            get
-            {
-                Logger.LogAsync(Core.LogMode.Debug, $"Gets {nameof(SetFilterCommand)}");
 
-                return setFilterCommand;
+        // METHODS
+        /// <summary>
+        /// Sets filter predicate
+        /// </summary>
+        /// <param name="entity">
+        /// The entities for which predicate is applied
+        /// </param>
+        /// <returns>
+        /// Boolean values which determines if entity is allowed by predicate or not
+        /// </returns>
+        protected override bool FilterPredicate(object entity)
+        {
+            DataAccess.Entities.Message messageToFilter = (DataAccess.Entities.Message)entity;
+            bool isShown = true;
+
+            // checks subject
+            if (subjectIndex != Core.Configuration.Constants.WRONG_INDEX)
+            {
+                isShown &= Where(messageToFilter, subjects[subjectIndex]);
             }
+
+            // checks date
+            isShown &= Where(messageToFilter, from, to);
+
+            return isShown;
         }
 
         // NAVIGATIONS METHODS

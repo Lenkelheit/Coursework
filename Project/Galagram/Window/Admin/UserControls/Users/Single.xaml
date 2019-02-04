@@ -46,7 +46,7 @@
                        Content="User ID"
                        Style="{StaticResource ItemLabel_Admin}"/>
                 <TextBox Grid.Row="0" Grid.Column="1" 
-                         Text="{Binding User.Id, Mode=OneTime}"
+                         Text="{Binding ShownEntity.Id, Mode=OneTime}"
                          IsReadOnly="True"
                          Style="{StaticResource ItemTextBox_Admin}"/>
                 <!--NICKNAME-->
@@ -54,8 +54,8 @@
                        Content="Nickname"
                        Style="{StaticResource ItemLabel_Admin}"/>
                 <TextBox Grid.Row="1" Grid.Column="1" 
-                         Text="{Binding User.NickName, Mode=TwoWay}"
-                         IsEnabled="{Binding IsReadOnly, Converter={StaticResource ReverseBooleanConverter}}"
+                         Text="{Binding ShownEntity.NickName, Mode=TwoWay}"
+                         IsEnabled="{Binding IsWritingEnabled}"
                          Style="{StaticResource ItemTextBox_Admin}"/>
                 
                 <!--AVATAR-->
@@ -65,7 +65,7 @@
                 <WrapPanel Grid.Row="2" Grid.Column="1"  HorizontalAlignment="Center">
                     <Image Width="50" Height="50">
                         <Image.Source>
-                            <Binding Path="User.MainPhotoPath"
+                            <Binding Path="ShownEntity.MainPhotoPath"
                                      Converter="{StaticResource ImageConverter}">
                                 <Binding.TargetNullValue>
                                     <ImageSource>/Resources/OtherImg/NoAvatar.png</ImageSource>
@@ -80,7 +80,7 @@
                     <!--<Button Style="{StaticResource AdminInterfaceButton}"  Content="select new" Width="100" />-->
                     <Button Style="{StaticResource AdminInterfaceButton}" Width="100"
                             Content="reset"
-                            IsEnabled="{Binding IsReadOnly, Converter={StaticResource ReverseBooleanConverter}}"
+                            IsEnabled="{Binding IsWritingEnabled}"
                             Command="{Binding ResetAvatarCommand}"/>
                 </WrapPanel>
 
@@ -89,9 +89,9 @@
                        Content="Password"
                        Style="{StaticResource ItemLabel_Admin}"/>
                 <TextBox Grid.Row="3" Grid.Column="1" 
-                         Text="{Binding User.Password, Mode=TwoWay}"
+                         Text="{Binding ShownEntity.Password, Mode=TwoWay}"
                          Style="{StaticResource ItemTextBox_Admin}"
-                         IsEnabled="{Binding IsReadOnly, Converter={StaticResource ReverseBooleanConverter}}"/>
+                         IsEnabled="{Binding IsWritingEnabled}"/>
                 <!--IS ADMIN-->
                 <Label Grid.Row="4" Grid.Column="0" 
                        Content="Is Admin"
@@ -100,8 +100,8 @@
                 <CheckBox Grid.Row="4" Grid.Column="1"
                           VerticalAlignment="Center"
                           HorizontalAlignment="Center"
-                          IsChecked="{Binding User.IsAdmin, Mode=TwoWay}"
-                          IsEnabled="{Binding IsReadOnly, Converter={StaticResource ReverseBooleanConverter}}">
+                          IsChecked="{Binding ShownEntity.IsAdmin, Mode=TwoWay}"
+                          IsEnabled="{Binding IsWritingEnabled}">
                     <CheckBox.LayoutTransform>
                         <ScaleTransform ScaleX="2.5" ScaleY="2.5" />
                     </CheckBox.LayoutTransform>
@@ -126,23 +126,23 @@
                        Content="Followers"
                        Style="{StaticResource ItemLabel_Admin}"/>
                     <Label Grid.Row="0" Grid.Column="1" 
-                       Content="{Binding User.Followers.Count}"
+                       Content="{Binding ShownEntity.Followers.Count}"
                        Style="{StaticResource ItemLabel_Admin}"/>
 
                     <ListBox Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" 
                              Style="{StaticResource ListBox_Admin}"
-                             ItemsSource="{Binding User.Followers}"
+                             ItemsSource="{Binding ShownEntity.Followers}"
                              DisplayMemberPath="NickName"/>
                     <!--FOLLOWING-->
                     <Label Grid.Row="0" Grid.Column="2" 
                        Content="Following"
                        Style="{StaticResource ItemLabel_Admin}"/>
                     <Label Grid.Row="0" Grid.Column="3" 
-                       Content="{Binding User.Following.Count}"
+                       Content="{Binding ShownEntity.Following.Count}"
                        Style="{StaticResource ItemLabel_Admin}"/>
                     <ListBox Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="2" 
                              Style="{StaticResource ListBox_Admin}"
-                             ItemsSource="{Binding User.Following}"
+                             ItemsSource="{Binding ShownEntity.Following}"
                              DisplayMemberPath="NickName"/>
 
                 </Grid>
@@ -177,8 +177,8 @@
                 Command="{Binding GoBackCommand}"/>
         <Button Grid.Row="8" Grid.Column="1"  
                 Style="{StaticResource AdminButton}"
-                Content="{Binding OperationName}"
-                Command="{Binding DeleteOrUpdateCommand}"
-                CommandParameter="{Binding User}"/>
+                Content="{Binding CrudOperationName}"
+                Command="{Binding CrudOperation}"
+                CommandParameter="{Binding ShownEntity}"/>
     </Grid>
 </UserControl>

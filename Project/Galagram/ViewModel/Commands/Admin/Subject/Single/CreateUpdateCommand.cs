@@ -49,8 +49,11 @@
         {
             Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, $"Execure {nameof(CreateUpdateCommand)}");
 
+            // gets entity
+            DataAccess.Entities.Subject subject = (DataAccess.Entities.Subject)subjectSingleViewModel.ShownEntity;
+
             // get new subject name
-            string subjectName = subjectSingleViewModel.SubjectName;
+            string subjectName = subject.Name;
             Core.Logger.GetLogger.LogAsync(Core.LogMode.Info, $"New subject name = {subjectName}");
 
 
@@ -72,22 +75,15 @@
 
                 DataAccess.Context.UnitOfWork.Instance
                     .SubjectRepository
-                        .Insert(
-                            new DataAccess.Entities.Subject()
-                            {
-                                Name = subjectName
-                            });
-
+                        .Insert(subject);
             }
             else
             {
-            Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, "Update subject");
-
-                subjectSingleViewModel.Subject.Name = subjectName;
+                Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, "Update subject");
 
                 DataAccess.Context.UnitOfWork.Instance
                     .SubjectRepository
-                        .Update(subjectSingleViewModel.Subject);
+                        .Update(subject);
             }
 
             // save changes
