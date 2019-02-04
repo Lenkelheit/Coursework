@@ -40,24 +40,27 @@
                        Content="Comment ID"
                        Style="{StaticResource ItemLabel_Admin}"/>
                 <TextBox Grid.Row="0" Grid.Column="1" 
-                         Text="#"
+                         Text="{Binding Comment.Id, Mode=OneTime}"
+                         IsReadOnly="True"
                          Style="{StaticResource ItemTextBox_Admin}"/>
                 <!--AUTHOR-->
                 <Label Grid.Row="1" Grid.Column="0" 
                        Content="Author"
                        Style="{StaticResource ItemLabel_Admin}"/>
                 <TextBox Grid.Row="1" Grid.Column="1" 
-                         Text="Author Name"
-                         IsEnabled="False"
+                         IsReadOnly="True"
+                         Text="{Binding Comment.User.NickName, Mode=TwoWay}"
                          Style="{StaticResource ItemTextBox_Admin}"/>
                 <!--PHOTO-->
                 <Label Grid.Row="2" Grid.Column="0" 
                        Content="Photo"
                        Style="{StaticResource ItemLabel_Admin}"/>
-                <WrapPanel Grid.Row="2" Grid.Column="1"  HorizontalAlignment="Center">
+                <WrapPanel Grid.Row="2" Grid.Column="1"  
+                           HorizontalAlignment="Center"
+                           Background="{StaticResource SilverBrush}">
                     <Image Width="50" Height="50">
                         <Image.Source>
-                            <Binding Path="null">
+                            <Binding Path="Comment.Photo.Path">
                                 <Binding.TargetNullValue>
                                     <ImageSource>/Resources/OtherImg/NoPhoto.png</ImageSource>
                                 </Binding.TargetNullValue>
@@ -67,19 +70,14 @@
                             </Binding>
                         </Image.Source>
                     </Image>
-
-                    <Button Style="{StaticResource AdminInterfaceButton}"
-                            MinWidth="100"
-                            Content="select new" />
-                    <Button Style="{StaticResource AdminInterfaceButton}" 
-                            MinWidth="100"
-                            Content="reset" />
                 </WrapPanel>
                 <!--DATE-->
                 <Label Grid.Row="3" Grid.Column="0" 
                        Content="Date"
                        Style="{StaticResource ItemLabel_Admin}"/>
-                <DatePicker Grid.Row="3" Grid.Column="1" >
+                <DatePicker Grid.Row="3" Grid.Column="1"
+                            SelectedDate="{Binding Comment.Date, Mode=TwoWay}"
+                            IsEnabled="{Binding IsReadOnly, Converter={StaticResource ReverseBooleanConverter}}">
                     <DatePicker.Resources>
                         <Style TargetType="{x:Type DatePickerTextBox}">
                             <Setter Property="Control.Template">
@@ -102,7 +100,8 @@
                        Style="{StaticResource ItemLabel_Admin}"/>
 
                 <TextBox Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2"
-                         Text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras accumsan mi a quam viverra luctus. Suspendisse ut vulputate nisi, nec fermentum libero. Morbi sollicitudin, orci sit amet congue cursus, nibh nunc lobortis orci, et hendrerit arcu nunc a lorem. Curabitur dignissim risus non diam ornare mattis ac vitae elit. Suspendisse euismod gravida diam et varius. Sed quis commodo magna. Nunc a ex nec erat feugiat dapibus. Donec id nulla et dolor efficitur convallis. Maecenas vel sem neque. Vivamus volutpat quam ac urna condimentum, vitae posuere neque scelerisque. Aenean et lacinia dolor."
+                         Text="{Binding Comment.Text}"
+                         IsEnabled="{Binding IsReadOnly, Converter={StaticResource ReverseBooleanConverter}}"
                          Style="{StaticResource ItemTextBoxMultiline_Admin}"/>
 
                 <Grid Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="2">
@@ -123,20 +122,20 @@
                        Content="Like"
                        Style="{StaticResource ItemLabel_Admin}"/>
                     <Label Grid.Row="0" Grid.Column="1" 
-                       Content="###"
+                       Content="{Binding LikedUserNickname.Length, Mode=OneTime}"
                        Style="{StaticResource ItemLabel_Admin}"/>
 
                     <ListBox Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"
-                             Style="{StaticResource CheckedListBox}"/>
+                             ItemsSource="{Binding LikedUserNickname}"/>
                     <!--DISLIKE-->
                     <Label Grid.Row="0" Grid.Column="2" 
                        Content="Dislike"
                        Style="{StaticResource ItemLabel_Admin}"/>
                     <Label Grid.Row="0" Grid.Column="3" 
-                       Content="###"
+                       Content="{Binding DisLikedUserNickname.Length, Mode=OneTime}"
                        Style="{StaticResource ItemLabel_Admin}"/>
                     <ListBox Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="2"
-                             Style="{StaticResource CheckedListBox}"/>
+                             ItemsSource="{Binding DisLikedUserNickname}"/>
                 </Grid>
                 
             </Grid>           
@@ -147,9 +146,12 @@
         <!--BUTTONS-->
         <Button Grid.Row="8" Grid.Column="0"  
                 Style="{StaticResource AdminButton}"
-                Content="Go Back"/>
+                Content="Go Back"
+                Command="{Binding GoBackCommand}"/>
         <Button Grid.Row="8" Grid.Column="1"  
                 Style="{StaticResource AdminButton}"
-                Content="Delete"/>
+                Content="{Binding OperationName, Mode=OneTime}"
+                Command="{Binding DeleteOrUpdateCommand}"
+                CommandParameter="{Binding Comment}"/>
     </Grid>
 </UserControl>

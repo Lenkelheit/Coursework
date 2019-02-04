@@ -28,13 +28,16 @@
         /// <summary>
         /// Formats the value of the entity using the specified format.
         /// </summary>
-        /// <param name="format"> The format to use
-        /// <para> -or- <para/>
+        /// <param name="format"> 
+        /// The format to use
+        /// <para> -or- </para>
         /// A null reference to use the default format defined for the type of the System.IFormattable implementation.
+        /// </param>
         /// <param name="formatProvider">
         /// The provider to use to format the value.
         /// <para>-or-</para>
-        /// A null reference to obtain the numeric format information from the current locale setting of the operating system.</param>
+        /// A null reference to obtain the numeric format information from the current locale setting of the operating system.
+        /// </param>
         /// <returns>
         /// The value of the entity in the specified format
         /// </returns>

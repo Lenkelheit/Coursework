@@ -71,19 +71,19 @@
                 Content="Filter"
                 Margin="10"
                 Style="{StaticResource AdminInterfaceButton}"
-                Command="{Binding SetFilter}"/>
+                Command="{Binding SetFilterCommand}"/>
         <!--RESET BUTTON-->
         <Button Grid.Row="2" Grid.Column="1"
                 Content="Reset"
                 Margin="10"
                 Style="{StaticResource AdminInterfaceButton}"
-                Command="{Binding ResetFilter}"/>
+                Command="{Binding ResetFilterCommand}"/>
         
         <!--DATA GRID-->
         <DataGrid Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2"
                   Style="{StaticResource DataGridAdmin}"
-                  ItemsSource="{Binding Messages}"
-                  SelectedItem="{Binding SelectedItem}">
+                  ItemsSource="{Binding Entities}"
+                  SelectedItem="{Binding SelectedItem, Mode=OneWayToSource}">
             <DataGrid.Resources>
                 <Style TargetType="ScrollBar"/>
             </DataGrid.Resources>

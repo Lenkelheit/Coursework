@@ -14,11 +14,14 @@
         /// An instance of <see cref="Entities.Message"/> to check
         /// </param>
         /// <param name="subjectName">
-        /// An subject name that <see cref="Entities.Message"/> should have to pass criterion
+        /// A subject name that <see cref="Entities.Message"/> should have to pass criterion
         /// </param>
         /// <returns>
         /// True if <see cref="Entities.Message"/> is suitable for current criteria, otherwise — false
         /// </returns>
+        /// <exception cref="System.ArgumentNullException">
+        /// Throwns when <paramref name="message"/> or <paramref name="subjectName"/> is null;
+        /// </exception>
         public static bool Where(Entities.Message message, string subjectName)
         {
             if (message == null) throw new System.ArgumentNullException(nameof(message));
@@ -43,16 +46,19 @@
         /// <returns>
         /// True if <see cref="Entities.Message"/> is suitable for current criteria, otherwise — false
         /// </returns>
+        /// <exception cref="System.ArgumentNullException">
+        /// Throwns when <paramref name="message"/> is null;
+        /// </exception>
         public static bool Where(Entities.Message message, System.DateTime? from, System.DateTime? to)
         {
             if (message == null) throw new System.ArgumentNullException(nameof(message));
 
-            bool ok = true;
+            bool pass = true;
 
-            if (from != null) ok &= message.Date > from.Value;
-            if (to != null) ok &= message.Date < to.Value;
+            if (from != null) pass &= message.Date > from.Value;
+            if (to != null) pass &= message.Date < to.Value;
 
-            return ok;
+            return pass;
         }
 
     }

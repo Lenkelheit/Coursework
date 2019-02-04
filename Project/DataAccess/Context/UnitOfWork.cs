@@ -174,8 +174,7 @@ namespace DataAccess.Context
         /// An instance of <see cref="NonGenericRepository"/>
         /// </returns>
         public NonGenericRepository GetRepository(System.Type entityType)
-        {
-            
+        {            
             return new NonGenericRepository(context, entityType);
         }
     }

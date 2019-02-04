@@ -26,7 +26,7 @@
         <!--DATA GRID-->
         <DataGrid Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"
                   Style="{StaticResource DataGridAdmin}"
-                  ItemsSource="{Binding Subjects}"
+                  ItemsSource="{Binding Entities}"
                   SelectedItem="{Binding SelectedItem, Mode=OneWayToSource}">
             <DataGrid.Resources>
                 <Style TargetType="ScrollBar"/>

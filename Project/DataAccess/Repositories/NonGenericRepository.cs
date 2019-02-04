@@ -9,7 +9,7 @@ namespace DataAccess.Repositories
     /// <summary>
     /// Proxy data access and view model in non generic way
     /// </summary>
-    public class NonGenericRepository : Interfaces.IGenericRepository<object>
+    public class NonGenericRepository : Interfaces.IRepository<object>
     {
 #warning NOT IMPLEMENTED
 

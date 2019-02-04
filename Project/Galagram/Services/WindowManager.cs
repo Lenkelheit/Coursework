@@ -199,11 +199,33 @@ namespace Galagram.Services
             // set view model
             window.DataContext = viewModel;
 
+            // remove if closed with other method
+            RemoveIfClosed(key);
+
             // save modal window to dictionary
             modalWindows.Add(key, window);
 
             // show window
             return window.ShowDialog();
+        }
+        private void RemoveIfClosed(string key)
+        {
+            // checking
+            if (string.IsNullOrWhiteSpace(key)) throw new System.ArgumentNullException(key);
+
+            // try get window
+            System.Windows.Window openedModalWindow;
+            if (modalWindows.TryGetValue(key, out openedModalWindow) == false)
+            {
+                // no key, return
+                return;
+            }
+
+            // remove if is not active
+            if (!openedModalWindow.IsActive)
+            {
+                modalWindows.Remove(key);
+            }
         }
         /// <summary>
         /// Closes a window opened as modal

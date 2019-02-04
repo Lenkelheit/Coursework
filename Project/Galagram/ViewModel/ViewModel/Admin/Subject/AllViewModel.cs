@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Windows.Data;
 using System.Windows.Input;
 
 namespace Galagram.ViewModel.ViewModel.Admin.Subject
@@ -9,8 +10,7 @@ namespace Galagram.ViewModel.ViewModel.Admin.Subject
     public class AllViewModel : AllItemViewModelBase
     {
         // FIELDS
-        DataAccess.Entities.Subject[] subjects;
-        DataAccess.Interfaces.IEntity selectedItem;
+        ListCollectionView subjects;
 
         readonly ICommand editCommand;
         readonly ICommand createCommand;
@@ -21,7 +21,7 @@ namespace Galagram.ViewModel.ViewModel.Admin.Subject
         /// </summary>
         public AllViewModel() : base()
         {
-            subjects = UnitOfWork.SubjectRepository.Get().ToArray();
+            subjects = new ListCollectionView(UnitOfWork.SubjectRepository.Get().ToArray());
 
             createCommand = new Commands.Admin.Subject.All.CreateCommand();
             editCommand = new Commands.Admin.Subject.All.EditCommand();
@@ -31,31 +31,13 @@ namespace Galagram.ViewModel.ViewModel.Admin.Subject
 
         // PROPERTIES
         /// <summary>
-        /// Gets or sets selected subject
-        /// </summary>
-        public override DataAccess.Interfaces.IEntity SelectedItem
-        {
-            set
-            {
-                Logger.LogAsync(Core.LogMode.Debug, $"Sets {nameof(SelectedItem)}");
-                
-                SetProperty(ref selectedItem, value);
-            }
-            get
-            {
-                Logger.LogAsync(Core.LogMode.Debug, $"Gets {nameof(SelectedItem)}");
-                
-                return selectedItem;
-            }
-        }
-        /// <summary>
         /// Gets subject
         /// </summary>
-        public DataAccess.Entities.Subject[] Subjects
+        public override ListCollectionView Entities
         {
             get
             {
-                Logger.LogAsync(Core.LogMode.Debug, $"Gets {nameof(Subject)} in amount of {subjects.Length}");
+                Logger.LogAsync(Core.LogMode.Debug, $"Gets {nameof(Entities)} in amount of {subjects.Count}");
 
                 return subjects;
             }
@@ -86,9 +68,15 @@ namespace Galagram.ViewModel.ViewModel.Admin.Subject
                 return createCommand;
             }
         }
+        #region Not Implemented
         /// <summary>
         /// Not implemented behaviour
         /// </summary>
         public override ICommand OpenCommand => throw new System.NotImplementedException();
+        /// <summary>
+        /// Not implemented behaviour
+        /// </summary>
+        public override ICommand SetFilterCommand => throw new System.NotImplementedException();        
+        #endregion
     }
 }

@@ -99,6 +99,7 @@
     <Compile Include="Converters\CommentCollectionToLengthConverter.cs" />
     <Compile Include="Converters\ImageConverter.cs" />
     <Compile Include="Converters\ItemsToArrayConverter.cs" />
+    <Compile Include="Converters\ReverseBooleanConverter.cs" />
     <Compile Include="Converters\UserConverter.cs" />
     <Compile Include="Services\DataStorage.cs" />
     <Compile Include="Services\NavigationManager.cs" />
@@ -107,11 +108,14 @@
     <Compile Include="Services\WindowManagerInitializers\DefaultWindowInitializers.cs" />
     <Compile Include="Services\WindowManagerInitializers\WindowManagerInitializerBase.cs" />
     <Compile Include="ViewModel\CommandBase.cs" />
+    <Compile Include="ViewModel\Commands\Admin\Comments\All\SetFilterCommand.cs" />
     <Compile Include="ViewModel\Commands\Admin\DeleteItem\DeleteItemCommand.cs" />
     <Compile Include="ViewModel\Commands\Admin\DeleteCommand.cs" />
     <Compile Include="ViewModel\Commands\Admin\Message\All\FilterCommand.cs" />
-    <Compile Include="ViewModel\Commands\Admin\Message\All\ResetFilterCommand.cs" />
+    <Compile Include="ViewModel\Commands\Admin\ResetFilterCommand.cs" />
+    <Compile Include="ViewModel\Commands\Admin\UpdateCommand.cs" />
     <Compile Include="ViewModel\ViewModel\Admin\AllItemViewModelBase.cs" />
+    <Compile Include="ViewModel\ViewModel\Admin\Comments\SingleViewModel.cs" />
     <Compile Include="ViewModel\ViewModel\Admin\DeleteItemViewModel.cs" />
     <Compile Include="ViewModel\Commands\Admin\MainAdminWindowControl\SelectItemCommand.cs" />
     <Compile Include="ViewModel\Commands\Admin\Subject\All\CreateCommand.cs" />

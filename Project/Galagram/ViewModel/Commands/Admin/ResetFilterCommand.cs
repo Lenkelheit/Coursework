@@ -1,4 +1,4 @@
-﻿namespace Galagram.ViewModel.Commands.Admin.Message.All
+﻿namespace Galagram.ViewModel.Commands.Admin
 {
     /// <summary>
     /// Resets filter, shows all items
@@ -6,18 +6,18 @@
     public class ResetFilterCommand : CommandBase
     {
         // FIELDS
-        ViewModel.Admin.Message.AllViewModel allMessgesViewModel;
+        ViewModel.Admin.AllItemViewModelBase itemsModelBase;
 
         // CONSTRUCTORS
         /// <summary>
         /// Initializes a new instance of <see cref="ResetFilterCommand"/>
         /// </summary>
-        /// <param name="allMessgesViewModel">
-        /// An instance of <see cref="ViewModel.Admin.Message.AllViewModel"/>
+        /// <param name="itemsModelBase">
+        /// An instance that inherit <see cref=" ViewModel.Admin.AllItemViewModelBase "/>
         /// </param>
-        public ResetFilterCommand(ViewModel.Admin.Message.AllViewModel allMessgesViewModel)
+        public ResetFilterCommand(ViewModel.Admin.AllItemViewModelBase itemsModelBase)
         {
-            this.allMessgesViewModel = allMessgesViewModel;
+            this.itemsModelBase = itemsModelBase;
         }
 
         // METHODS
@@ -48,7 +48,7 @@
             Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, $"Execute {nameof(ResetFilterCommand)}");
 
             // reset filter
-            allMessgesViewModel.Filter = null;
+            itemsModelBase.Filter = null;
         }
     }
 }

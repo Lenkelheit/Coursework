@@ -52,9 +52,12 @@
             int index = adminWindowViewModel.MenuItemIndex;
             if (index != Core.Configuration.Constants.WRONG_INDEX)
             {
+                // clear history
+                Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, "Clear history");
+                adminWindowViewModel.NavigationManager.ClearHistory();
+
                 if (index == adminWindowViewModel.ExitIndex) // exit from admin panel
                 {
-                    // exit from admin panel
                     Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, "Exit from window panel");
 
                     // resets deta storage
@@ -67,18 +70,13 @@
                         key: nameof(Window.Registration),
                         viewModel: new ViewModel.RegistrationViewModel());
                 }
-                else // selected menu item
+                else // selected menu item, change admin window content
                 {
-                    // change admin window content
                     Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, "Change admin window content");
                     
                     // get menu item name
                     string menuItemName = adminWindowViewModel.MenuItems[index];
                     Core.Logger.GetLogger.LogAsync(Core.LogMode.Info, $"Menu item name = {menuItemName}");
-
-                    // clear history
-                    Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, "Clear history");
-                    adminWindowViewModel.NavigationManager.ClearHistory();
 
                     // navigate to control registered by item name and pass him view model registered by item name
                     Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, "Shows new content");

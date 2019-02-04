@@ -39,8 +39,7 @@ namespace DataAccess.Entities
 		public virtual ICollection<Comment> Comments { get; set; } = new List<Comment>();
 
         // METHODS
-
-        #region  to string option
+        #region to string option
         /// <summary>
         /// Gets entity name
         /// </summary>

@@ -1,7 +1,6 @@
 ﻿using System.Linq;
 using System.Windows.Data;
 using System.Windows.Input;
-using DataAccess.Interfaces;
 
 namespace Galagram.ViewModel.ViewModel.Admin.Message
 {
@@ -12,7 +11,6 @@ namespace Galagram.ViewModel.ViewModel.Admin.Message
     {
         // FIELDS
         ListCollectionView messages;
-        IEntity selectedItem;
 
         string[] subjects;
         int subjectIndex;
@@ -21,8 +19,7 @@ namespace Galagram.ViewModel.ViewModel.Admin.Message
         System.DateTime? to;
 
         ICommand openCommand;
-        ICommand setFilter;
-        ICommand resetFilter;
+        ICommand setFilterCommand;
 
         // CONSTRUCTORS
         /// <summary>
@@ -31,7 +28,6 @@ namespace Galagram.ViewModel.ViewModel.Admin.Message
         public AllViewModel() : base()
         {
             messages = new ListCollectionView(UnitOfWork.MessageRepository.Get().ToArray());
-            selectedItem = null;
 
             subjects = UnitOfWork.SubjectRepository.Get().Select(s => s.Name).ToArray();
             subjectIndex = Core.Configuration.Constants.WRONG_INDEX;
@@ -41,57 +37,20 @@ namespace Galagram.ViewModel.ViewModel.Admin.Message
 
             // commands
             openCommand = new Commands.RelayCommand(NavigateToOpenMessage);
-            setFilter = new Commands.Admin.Message.All.FilterCommand(this);
-            resetFilter = new Commands.Admin.Message.All.ResetFilterCommand(this);
+            setFilterCommand = new Commands.Admin.Message.All.FilterCommand(this);
         }
 
         // PROPERTIES
         /// <summary>
         /// Gets filtered messeges list
         /// </summary>
-        public ListCollectionView Messages
+        public override ListCollectionView Entities
         {
             get
             {
-                Logger.LogAsync(Core.LogMode.Info, $"Gets {nameof(Messages)} in amount of {messages.Count}");
+                Logger.LogAsync(Core.LogMode.Info, $"Gets {nameof(Entities)} in amount of {messages.Count}");
 
                 return messages;
-            }
-        }
-        /// <summary>
-        /// Gets or sets selected item
-        /// </summary>
-        public override IEntity SelectedItem
-        {
-            get
-            {
-                Logger.LogAsync(Core.LogMode.Debug, $"Gets {nameof(SelectedItem)}");
-
-                return selectedItem;
-            }
-            set
-            {
-                Logger.LogAsync(Core.LogMode.Debug, $"Sets {nameof(SelectedItem)}");
-
-                SetProperty(ref selectedItem, value);
-            }
-        }
-        /// <summary>
-        /// Gets or sets filter value for message
-        /// </summary>
-        public System.Predicate<object> Filter
-        {
-            get
-            {
-                Logger.LogAsync(Core.LogMode.Debug, $"Gets {nameof(Filter)}");
-
-                return messages.Filter;
-            }
-            set
-            {
-                Logger.LogAsync(Core.LogMode.Debug, $"Sets {nameof(Filter)}");
-
-                messages.Filter = value;
             }
         }
 
@@ -191,25 +150,13 @@ namespace Galagram.ViewModel.ViewModel.Admin.Message
         /// <summary>
         /// Gets action to set filter
         /// </summary>
-        public ICommand SetFilter
+        public override ICommand SetFilterCommand
         {
             get
             {
-                Logger.LogAsync(Core.LogMode.Debug, $"Gets {nameof(SetFilter)}");
+                Logger.LogAsync(Core.LogMode.Debug, $"Gets {nameof(SetFilterCommand)}");
 
-                return setFilter;
-            }
-        }
-        /// <summary>
-        /// Gets action to reset filter
-        /// </summary>
-        public ICommand ResetFilter
-        {
-            get
-            {
-                Logger.LogAsync(Core.LogMode.Debug, $"Gets {nameof(ResetFilter)}");
-
-                return resetFilter;
+                return setFilterCommand;
             }
         }
 
