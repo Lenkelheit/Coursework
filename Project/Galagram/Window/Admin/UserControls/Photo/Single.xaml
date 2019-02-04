@@ -25,15 +25,17 @@
                        Content="Photo ID"
                        Style="{StaticResource ItemLabel_Admin}"/>
         <TextBox Grid.Row="0" Grid.Column="1" 
-                         Text="#"
-                         Style="{StaticResource ItemTextBox_Admin}"/>
+                 Text="{Binding Photo.Id}"
+                 IsReadOnly="True"
+                 Style="{StaticResource ItemTextBox_Admin}"/>
         <!--AUTHOR-->
         <Label Grid.Row="1" Grid.Column="0" 
                        Content="Author"
                        Style="{StaticResource ItemLabel_Admin}"/>
         <TextBox Grid.Row="1" Grid.Column="1" 
-                         Text="Author Name"
-                         Style="{StaticResource ItemTextBox_Admin}"/>
+                 Text="{Binding Photo.User.NickName}"
+                 IsReadOnly="True"
+                 Style="{StaticResource ItemTextBox_Admin}"/>
         <!--PHOTO-->
         <Label Grid.Row="2" Grid.Column="0" 
                        Content="Photo"
@@ -41,7 +43,8 @@
         <WrapPanel Grid.Row="2" Grid.Column="1"  HorizontalAlignment="Center">
             <Image Width="50" Height="50">
                 <Image.Source>
-                    <Binding Path="null">
+                    <Binding Path="Photo.Path"
+                             Converter="{StaticResource ImageConverter}">
                         <Binding.TargetNullValue>
                             <ImageSource>/Resources/OtherImg/NoPhoto.png</ImageSource>
                         </Binding.TargetNullValue>
@@ -52,12 +55,11 @@
                 </Image.Source>
             </Image>
 
+            <!--
             <Button Style="{StaticResource AdminInterfaceButton}" 
                     MinWidth="100"
-                    Content="select new" />
-            <Button Style="{StaticResource AdminInterfaceButton}"  
-                    MinWidth="100"
-                    Content="reset" />
+                    IsEnabled="{Binding IsReadOnly}"
+                    Content="select new" />-->
         </WrapPanel>
         
 
@@ -80,28 +82,33 @@
                        Content="Like"
                        Style="{StaticResource ItemLabel_Admin}"/>
             <Label Grid.Row="0" Grid.Column="1" 
-                       Content="###"
+                       Content="{Binding LikedUserName.Length}"
                        Style="{StaticResource ItemLabel_Admin}"/>
 
             <ListBox Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"
-                     Style="{StaticResource CheckedListBox}"/>
+                     Style="{StaticResource ListBox_Admin}"
+                     ItemsSource="{Binding LikedUserName}"/>
             <!--DISLIKE-->
             <Label Grid.Row="0" Grid.Column="2" 
                        Content="Dislike"
                        Style="{StaticResource ItemLabel_Admin}"/>
             <Label Grid.Row="0" Grid.Column="3" 
-                       Content="###"
+                       Content="{Binding DisLikedUserName.Length}"
                        Style="{StaticResource ItemLabel_Admin}"/>
             <ListBox Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="2"
-                     Style="{StaticResource CheckedListBox}"/>
+                     Style="{StaticResource ListBox_Admin}"
+                     ItemsSource="{Binding DisLikedUserName}"/>
         </Grid>
 
         <!--BUTTONS-->
         <Button Grid.Row="8" Grid.Column="0"  
                 Style="{StaticResource AdminButton}"
-                Content="Go Back"/>
+                Content="Go Back"
+                Command="{Binding GoBackCommand}"/>
         <Button Grid.Row="8" Grid.Column="1"  
                 Style="{StaticResource AdminButton}"
-                Content="Delete"/>
+                Content="Delete"
+                Command="{Binding DeleteCommand}"
+                CommandParameter="{Binding Photo}"/>
     </Grid>
 </UserControl>

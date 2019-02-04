@@ -180,12 +180,15 @@ namespace Galagram.ViewModel.ViewModel.Admin.User
         // NAVIGATION METHODS
         private void NavigateToPhoto(object parameter)
         {
-            // opens new content, photo
-            Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, $"Opens {typeof(Window.Admin.UserControls.Photo.Single).FullName}");
-            NavigationManager.NavigateTo(
-                parent: DataStorage.AdminWindowContentControl,
-                key: typeof(Window.Admin.UserControls.Photo.Single).FullName,
-                viewModel: new Photo.SingleViewModel(photo: parameter as DataAccess.Entities.Photo, isReadOnly: isReadOnly));
+            if (selectedPhotoIndex != Core.Configuration.Constants.WRONG_INDEX)
+            {
+                // opens new content, photo
+                Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, $"Opens {typeof(Window.Admin.UserControls.Photo.Single).FullName}");
+                NavigationManager.NavigateTo(
+                    parent: DataStorage.AdminWindowContentControl,
+                    key: typeof(Window.Admin.UserControls.Photo.Single).FullName,
+                    viewModel: new Photo.SingleViewModel(photo: photos[selectedPhotoIndex].Photo, isReadOnly: isReadOnly));
+            }
         }
     }
 }
