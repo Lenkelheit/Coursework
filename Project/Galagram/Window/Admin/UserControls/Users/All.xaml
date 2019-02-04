@@ -46,31 +46,37 @@
                    Content="name: "
                    Style="{StaticResource ItemLabel_Admin}"/>
             <TextBox Grid.Row="1" Grid.Column="1"
-                     Style="{StaticResource ItemTextBox_Admin}"/>
+                     Style="{StaticResource ItemTextBox_Admin}"
+                     Text="{Binding NicknameSubstring, Mode=OneWayToSource}"/>
         </Grid>
 
         <!--FILTER BUTTON-->
         <Button Grid.Row="1" Grid.Column="1"
                 Content="Filter"
                 Margin="5"
-                Style="{StaticResource AdminInterfaceButton}"/>
+                Style="{StaticResource AdminInterfaceButton}"
+                Command="{Binding SetFilterCommand}"/>
         <!--RESET BUTTON-->
         <Button Grid.Row="2" Grid.Column="1"
                 Content="Reset"
                 Margin="5"
-                Style="{StaticResource AdminInterfaceButton}"/>
+                Style="{StaticResource AdminInterfaceButton}"
+                Command="{Binding ResetFilterCommand}"/>
 
         <!--DATA GRID-->
         <DataGrid Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2"
                   Style="{StaticResource DataGridAdmin}"
-                  RowHeight="40">
+                  RowHeight="40"
+                  ItemsSource="{Binding Entities}"
+                  SelectedItem="{Binding SelectedItem}">
             <DataGrid.Resources>
                 <Style TargetType="ScrollBar"/>
             </DataGrid.Resources>
             
             <!--cols-->
             <DataGrid.Columns>
-                <DataGridTextColumn Header="ID" Binding="{Binding Id}"
+                <DataGridTextColumn Header="ID" 
+                                    Binding="{Binding Id}"
                                     MinWidth="80"
                                     Width="80"/>
                 <DataGridTemplateColumn Header="Avatar" 
@@ -80,16 +86,21 @@
                                         CellTemplate="{StaticResource AvatarColumnGridTemplate}"/>
                 <DataGridTextColumn Header="User&#x0a;Nickname" 
                                     MinWidth="100"
-                                    Width="*"/>
+                                    Width="*"
+                                    Binding="{Binding NickName}"/>
                 <DataGridTextColumn Header="Photo&#x0a;Count" 
                                     Width="70"
-                                    CanUserResize="False"/>
+                                    CanUserResize="False"
+                                    Binding="{Binding Photos.Count}"/>
                 <DataGridTextColumn Header="Followers&#x0a;Count" 
                                     Width="70"
-                                    CanUserResize="False"/>
+                                    CanUserResize="False"
+                                    Binding="{Binding Followers.Count}"/>
                 <DataGridTextColumn Header="Following&#x0a;Count" 
                                     Width="70"
-                                    CanUserResize="False"/>
+                                    CanUserResize="False"
+                                    Binding="{Binding Following.Count}"/>
+                <!--CRUDE-->
                 <DataGridTemplateColumn Header="Read" 
                                         CanUserSort="False"  
                                         CanUserResize="False"
@@ -106,35 +117,6 @@
                                         Width="40"
                                         CellTemplate="{StaticResource RemoveColumnGridTemplate}"/>
             </DataGrid.Columns>
-
-            <RowDefinition />
-            <RowDefinition />
-            <RowDefinition />
-            <RowDefinition />
-            <RowDefinition />
-            <RowDefinition />
-            <RowDefinition />
-            <RowDefinition />
-            <RowDefinition />
-            <RowDefinition />
-            <RowDefinition />
-            <RowDefinition />
-            <RowDefinition />
-            <RowDefinition />
-            <RowDefinition />
-            <RowDefinition />
-            <RowDefinition />
-            <RowDefinition />
-            <RowDefinition />
-            <RowDefinition />
-            <RowDefinition />
-            <RowDefinition />
-            <RowDefinition />
-            <RowDefinition />
-            <RowDefinition />
-            <RowDefinition />
-            <RowDefinition />
-            <RowDefinition />
         </DataGrid>
     </Grid>
 </UserControl>

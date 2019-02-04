@@ -114,6 +114,7 @@
     <Compile Include="ViewModel\Commands\Admin\Message\All\FilterCommand.cs" />
     <Compile Include="ViewModel\Commands\Admin\ResetFilterCommand.cs" />
     <Compile Include="ViewModel\Commands\Admin\UpdateCommand.cs" />
+    <Compile Include="ViewModel\Commands\Admin\User\All\SetFilterCommand.cs" />
     <Compile Include="ViewModel\ViewModel\Admin\AllItemViewModelBase.cs" />
     <Compile Include="ViewModel\ViewModel\Admin\Comments\SingleViewModel.cs" />
     <Compile Include="ViewModel\ViewModel\Admin\DeleteItemViewModel.cs" />
@@ -156,10 +157,12 @@
     <Compile Include="ViewModel\ViewModel\Admin\Comments\AllViewModel.cs" />
     <Compile Include="ViewModel\ViewModel\Admin\Message\AllViewModel.cs" />
     <Compile Include="ViewModel\ViewModel\Admin\Message\SingleViewModel.cs" />
+    <Compile Include="ViewModel\ViewModel\Admin\Photo\SingleViewModel.cs" />
     <Compile Include="ViewModel\ViewModel\Admin\Services\MenuItemViewModelFactory.cs" />
     <Compile Include="ViewModel\ViewModel\Admin\Subject\AllViewModel.cs" />
     <Compile Include="ViewModel\ViewModel\Admin\Subject\SingleViewModel.cs" />
     <Compile Include="ViewModel\ViewModel\Admin\User\AllViewModel.cs" />
+    <Compile Include="ViewModel\ViewModel\Admin\User\SingleViewModel.cs" />
     <Compile Include="ViewModel\ViewModel\RegistrationViewModel.cs" />
     <Compile Include="ViewModel\ViewModel\User\AskQuestionViewModel.cs" />
     <Compile Include="ViewModel\ViewModel\User\FollowViewModel.cs" />

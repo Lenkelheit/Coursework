@@ -126,6 +126,7 @@
                        Style="{StaticResource ItemLabel_Admin}"/>
 
                     <ListBox Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"
+                             Style="{StaticResource ListBox_Admin}"
                              ItemsSource="{Binding LikedUserNickname}"/>
                     <!--DISLIKE-->
                     <Label Grid.Row="0" Grid.Column="2" 
@@ -135,6 +136,7 @@
                        Content="{Binding DisLikedUserNickname.Length, Mode=OneTime}"
                        Style="{StaticResource ItemLabel_Admin}"/>
                     <ListBox Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="2"
+                             Style="{StaticResource ListBox_Admin}"
                              ItemsSource="{Binding DisLikedUserNickname}"/>
                 </Grid>
                 
