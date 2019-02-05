@@ -299,7 +299,6 @@ namespace UnitTest.Resources.Classes
 
         public void RandomFill(global::DataAccess.Context.AppContext dbContext, int userAmount = 1000, int photoAmount = 10000, int commentAmount = 2000, int likesAmount = 5000, int subjectAmount = 10, int messagesAmount = 1000)
         {
-            throw new System.NotImplementedException("its broken, ian I dont know why");
             // USERS
             #region USERS
             User[] users = new User[userAmount];
@@ -310,7 +309,7 @@ namespace UnitTest.Resources.Classes
                     NickName = names[random.Next(names.Length)],
                     Password = GeneratePassword(),
                     MainPhotoPath = GenerateImagePath(),
-                    IsAdmin = random.Next(5) > 4 
+                    IsAdmin = random.Next(5) == 4 
                 };
             }
             #endregion
@@ -319,13 +318,12 @@ namespace UnitTest.Resources.Classes
             #region FOLLOWERS
             for (int i = 0; i < userAmount; ++i)
             {
-                int followersAmount = random.Next(25);
-                for (int j = 0; j < followersAmount; ++j)
+                for (int j = 0; j < userAmount; ++j)
                 {
-                    int followerId = random.Next(users.Length);
-                    if (followerId == i) continue; // do not follow on himself
-
-                    users[i].Followers.Add(users[followerId]);
+                    if (j != i && random.NextDouble() < 0.10) // 10 % to be a follower
+                    {
+                        users[i].Followers.Add(users[j]);
+                    }
                 }
             }
             #endregion
@@ -346,7 +344,7 @@ namespace UnitTest.Resources.Classes
             {
                 photoLikes[i] = new PhotoLike
                 {
-                    IsLiked = random.Next(2) > 1,
+                    IsLiked = random.Next(2) == 1,
                     Photo = photos[random.Next(photoAmount)],
                     User = users[random.Next(userAmount)]
                 };
@@ -375,7 +373,7 @@ namespace UnitTest.Resources.Classes
             {
                 commentLikes[i] = new CommentLike
                 {
-                    IsLiked = random.Next(2) > 1,
+                    IsLiked = random.Next(2) == 1,
                     Comment = comments[random.Next(commentAmount)],
                     User = users[random.Next(userAmount)]
                 };
@@ -409,9 +407,9 @@ namespace UnitTest.Resources.Classes
             #region Adding
             dbContext.Users.AddRange(users);
             dbContext.Photos.AddRange(photos);
-            //dbContext.PhotoLike.AddRange(photoLikes);
+            dbContext.PhotoLike.AddRange(photoLikes);
             dbContext.Comments.AddRange(comments);
-            //dbContext.CommentLike.AddRange(commentLikes);
+            dbContext.CommentLike.AddRange(commentLikes);
             dbContext.Subjects.AddRange(subjects);
             dbContext.Messages.AddRange(messages);
             dbContext.SaveChanges();
@@ -421,13 +419,13 @@ namespace UnitTest.Resources.Classes
         public void Purge(global::DataAccess.Context.AppContext dbContext)
         {
             #warning Probably very slow, could use SQl, but should write this in generic style
-            dbContext.Users.RemoveRange(dbContext.Set<User>());
-            dbContext.Photos.RemoveRange(dbContext.Set<Photo>());
-            dbContext.PhotoLike.RemoveRange(dbContext.Set<PhotoLike>());
-            dbContext.Comments.RemoveRange(dbContext.Set<Comment>());
-            dbContext.CommentLike.RemoveRange(dbContext.Set<CommentLike>());
             dbContext.Messages.RemoveRange(dbContext.Set<Message>());
             dbContext.Subjects.RemoveRange(dbContext.Set<Subject>());
+            dbContext.PhotoLike.RemoveRange(dbContext.Set<PhotoLike>());
+            dbContext.CommentLike.RemoveRange(dbContext.Set<CommentLike>());
+            dbContext.Comments.RemoveRange(dbContext.Set<Comment>());
+            dbContext.Photos.RemoveRange(dbContext.Set<Photo>());
+            dbContext.Users.RemoveRange(dbContext.Set<User>());
             dbContext.SaveChanges();
         }
         // PRIVATE METHODS
