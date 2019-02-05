@@ -15,7 +15,7 @@ namespace DataAccess.Comparers
         /// Initialize a new instance of <see cref="SubjectComparer"/>
         /// </summary>
         /// <param name="subjectCompareType">
-        /// Determines how subject should be compared
+        /// Determines how <see cref="Subject"/> should be compared
         /// </param>
         public SubjectComparer(Enums.Comparers.SubjectCompareType subjectCompareType)
         {

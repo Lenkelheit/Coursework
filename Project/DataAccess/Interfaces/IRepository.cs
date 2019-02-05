@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Collections.Generic;
 
 namespace DataAccess.Interfaces
 {
@@ -29,7 +28,7 @@ namespace DataAccess.Interfaces
         /// <param name="orderBy">The order of the received items</param>
         /// <param name="includeProperties">Included properties</param>
         /// <returns>Queried entities collection</returns>
-        IEnumerable<TEntity> Get(Expression<Func<TEntity, bool>> filter = null,
+        IQueryable<TEntity> Get(Expression<Func<TEntity, bool>> filter = null,
                                  Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
                                  string includeProperties = "");
         /// <summary>

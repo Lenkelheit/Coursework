@@ -32,7 +32,7 @@ namespace DataAccess.Entities
         /// <summary>
         /// A collection of likes to current comment
         /// </summary>
-		public virtual ICollection<CommentLike> Likes { get; set; } = new List<CommentLike>();
+		public virtual ICollection<CommentLike> Likes { get; set; } = new HashSet<CommentLike>();
         /// <summary>
         /// Comment's text
         /// </summary>

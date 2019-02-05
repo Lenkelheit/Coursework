@@ -2,7 +2,6 @@
 using System.Linq;
 using System.Data.Entity;
 using System.Linq.Expressions;
-using System.Collections.Generic;
 
 namespace DataAccess.Repositories
 {
@@ -62,7 +61,7 @@ namespace DataAccess.Repositories
             dbSet.Remove(entityToDelete);
         }
 
-        public IEnumerable<object> Get(Expression<Func<object, bool>> filter = null, 
+        public IQueryable<object> Get(Expression<Func<object, bool>> filter = null, 
                                        Func<IQueryable<object>, IOrderedQueryable<object>> orderBy = null, 
                                        string includeProperties = "")
         {

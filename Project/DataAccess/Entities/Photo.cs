@@ -32,7 +32,7 @@ namespace DataAccess.Entities
         /// <summary>
         /// A collection of likes and dislikes to photo
         /// </summary>
-		public virtual ICollection<PhotoLike> Likes { get; set; } = new List<PhotoLike>();
+		public virtual ICollection<PhotoLike> Likes { get; set; } = new HashSet<PhotoLike>();
         /// <summary>
         /// A comment collection relative to photo
         /// </summary>
