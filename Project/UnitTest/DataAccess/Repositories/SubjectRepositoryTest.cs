@@ -137,7 +137,7 @@ namespace UnitTest.DataAccess.Repositories
         {
             // Arrange
             SubjectRepository subjectRepository = new SubjectRepository(dbContext);
-            int idToSearch = dbContext.Subjects.First().Id;
+            Guid idToSearch = dbContext.Subjects.First().Id;
             Subject expectedSubject = dbContext.Subjects.Find(idToSearch);
 
             // Act
@@ -151,7 +151,7 @@ namespace UnitTest.DataAccess.Repositories
         {
             // Arrange
             SubjectRepository subjectRepository = new SubjectRepository(dbContext);
-            int wrongId = int.MaxValue;
+            Guid wrongId = default(Guid);
             Subject expectedSubjectFromDb = null;
 
             // Act
@@ -211,7 +211,7 @@ namespace UnitTest.DataAccess.Repositories
             // Arrange
             SubjectRepository subjectRepository = new SubjectRepository(dbContext);
             Subject expectedDeletedSubject = dbContext.Subjects.First(s => s.Name == "Subject 1");
-            int idToDelete = expectedDeletedSubject.Id;
+            Guid idToDelete = expectedDeletedSubject.Id;
 
             // Act
             // This subject has messages that must have "subject: null" when one will be deleted.
@@ -228,7 +228,7 @@ namespace UnitTest.DataAccess.Repositories
         {
             // Arrange
             SubjectRepository subjectRepository = new SubjectRepository(dbContext);
-            int wrongId = int.MaxValue;
+            Guid wrongId = default(Guid);
 
             // Act
             // Assert

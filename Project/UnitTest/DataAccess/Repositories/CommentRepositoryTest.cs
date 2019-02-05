@@ -136,7 +136,7 @@ namespace UnitTest.DataAccess.Repositories
         {
             // Arrange
             CommentRepository commentRepository = new CommentRepository(dbContext);
-            int idToSearch = dbContext.Comments.First().Id;
+            Guid idToSearch = dbContext.Comments.First().Id;
             Comment expectedComment = dbContext.Comments.Find(idToSearch);
 
             // Act
@@ -150,7 +150,7 @@ namespace UnitTest.DataAccess.Repositories
         {
             // Arrange
             CommentRepository commentRepository = new CommentRepository(dbContext);
-            int wrongId = int.MaxValue;
+            Guid wrongId = default(Guid);
             Comment expectedCommentFromDb = null;
 
             // Act
@@ -219,7 +219,7 @@ namespace UnitTest.DataAccess.Repositories
             // Arrange
             CommentRepository commentRepository = new CommentRepository(dbContext);
             Comment expectedDeletedComment = dbContext.Comments.First();
-            int idToDelete = expectedDeletedComment.Id;
+            Guid idToDelete = expectedDeletedComment.Id;
 
             // Act
             commentRepository.Delete(idToDelete);
@@ -235,7 +235,7 @@ namespace UnitTest.DataAccess.Repositories
         {
             // Arrange
             CommentRepository commentRepository = new CommentRepository(dbContext);
-            int wrongId = int.MaxValue;
+            Guid wrongId = default(Guid);
 
             // Act
             // Assert

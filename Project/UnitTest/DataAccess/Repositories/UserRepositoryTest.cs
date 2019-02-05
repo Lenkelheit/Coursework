@@ -150,7 +150,7 @@ namespace UnitTest.DataAccess.Repositories
         {
             // Arrange
             UserRepository userRepository = new UserRepository(dbContext);
-            int idToSearch = dbContext.Users.First().Id;
+            Guid idToSearch = dbContext.Users.First().Id;
             User expectedUser = dbContext.Users.Find(idToSearch);
 
             // Act
@@ -164,7 +164,7 @@ namespace UnitTest.DataAccess.Repositories
         {
             // Arrange
             UserRepository userRepository = new UserRepository(dbContext);
-            int wrongId = int.MaxValue;
+            Guid wrongId = default(Guid);
             User expectedUserFromDb = null;
 
             // Act
@@ -396,7 +396,7 @@ namespace UnitTest.DataAccess.Repositories
             IQueryable<Photo> photosFromDb = dbContext.Photos.Where(photo => photo.Path == "4/54/23.jpg" || photo.Path == "5/54/24.jpg" || photo.Path == "6/54/25.jpg");
 
             int actualForeignKeyAmount = photosFromDb.Select(photo => photo.User.Id).Distinct().Count();
-            int actualForeignKey = photosFromDb.Select(photo => photo.User.Id).Distinct().First();
+            Guid actualForeignKey = photosFromDb.Select(photo => photo.User.Id).Distinct().First();
 
             // Assert    
             Assert.AreEqual(expectedForeignKeyAmount, actualForeignKeyAmount);
@@ -413,7 +413,7 @@ namespace UnitTest.DataAccess.Repositories
             // Arrange
             UserRepository userRepository = new UserRepository(dbContext);
             User expectedDeletedUser = dbContext.Users.First();
-            int idToDelete = expectedDeletedUser.Id;
+            Guid idToDelete = expectedDeletedUser.Id;
 
             // Act
             List<PhotoLike> deletedPhotoLikesOfPhotos = dbContext.PhotoLike
@@ -459,7 +459,7 @@ namespace UnitTest.DataAccess.Repositories
         {
             // Arrange
             UserRepository userRepository = new UserRepository(dbContext);
-            int wrongId = int.MaxValue;
+            Guid wrongId = default(Guid);
 
             // Act
             // Assert
