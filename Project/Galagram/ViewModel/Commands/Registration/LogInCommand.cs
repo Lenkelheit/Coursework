@@ -80,7 +80,7 @@
 
             // check if want to log in as admin
             bool doLogInAsAdmin = false;
-            if (user.IsAdmin)
+            if (validNameAndPasswordAndUser.User.IsAdmin)
             {
                 doLogInAsAdmin = Services.WindowManager.Instance.ShowMessageWindow(
                     text: Core.Messages.Info.ViewModel.Command.Registration.IS_NEED_LOG_IN_AS_ADMIN, 

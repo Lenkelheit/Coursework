@@ -111,19 +111,11 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Resources\Classes\DbFiller.cs" />
     <Compile Include="ViewModel\Commands\RelayCommandTest.cs" />
-    <Compile Include="ViewModel\ViewModels\RegistrationViewModelTest.cs" />
-    <Compile Include="ViewModel\ViewModels\User\AskQuestionViewModelTest.cs" />
-    <Compile Include="ViewModel\ViewModels\User\FollowViewModelTest.cs" />
-    <Compile Include="ViewModel\ViewModels\User\MainWindowViewModelTest.cs" />
-    <Compile Include="ViewModel\ViewModels\User\PhotoInsideViewModelTest.cs" />
-    <Compile Include="ViewModel\ViewModels\User\SearchViewModelTest.cs" />
-    <Compile Include="ViewModel\ViewModels\User\SettingViewModelTest.cs" />
     <Compile Include="View\Services\NavigationManagerTest.cs" />
     <Compile Include="View\Services\WindowManagerTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="ViewModel\Commands\Admin\" />
-    <Folder Include="ViewModel\ViewModels\Admin\" />
     <Folder Include="View\Converters\" />
   </ItemGroup>
   <ItemGroup>

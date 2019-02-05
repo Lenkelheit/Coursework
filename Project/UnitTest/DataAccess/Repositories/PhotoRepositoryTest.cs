@@ -139,7 +139,7 @@ namespace UnitTest.DataAccess.Repositories
         {
             // Arrange
             PhotoRepository photoRepository = new PhotoRepository(dbContext);
-            int idToSearch = dbContext.Photos.First().Id;
+            Guid idToSearch = dbContext.Photos.First().Id;
             Photo expectedPhoto = dbContext.Photos.Find(idToSearch);
 
             // Act
@@ -153,7 +153,7 @@ namespace UnitTest.DataAccess.Repositories
         {
             // Arrange
             PhotoRepository photoRepository = new PhotoRepository(dbContext);
-            int wrongId = int.MaxValue;
+            Guid wrongId = default(Guid);
             Photo expectedPhotoFromDb = null;
 
             // Act
@@ -240,7 +240,7 @@ namespace UnitTest.DataAccess.Repositories
             // Arrange
             PhotoRepository photoRepository = new PhotoRepository(dbContext);
             Photo expectedDeletedPhoto = dbContext.Photos.First();
-            int idToDelete = expectedDeletedPhoto.Id;
+            Guid idToDelete = expectedDeletedPhoto.Id;
 
             // Act
             List<CommentLike> deletedCommentLikes = dbContext.CommentLike
@@ -262,7 +262,7 @@ namespace UnitTest.DataAccess.Repositories
         {
             // Arrange
             PhotoRepository photoRepository = new PhotoRepository(dbContext);
-            int wrongId = int.MaxValue;
+            Guid wrongId = default(Guid);
 
             // Act
             // Assert

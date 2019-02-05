@@ -150,7 +150,7 @@ namespace UnitTest.DataAccess.Repositories
             // Arrange
             MessageRepository messageRepository = new MessageRepository(dbContext);
             Message expectedMessage = dbContext.Messages.First();
-            int idToSearch = expectedMessage.Id;
+            Guid idToSearch = expectedMessage.Id;
 
             // Act
             Message messageFromDB = messageRepository.Get(idToSearch);
@@ -163,7 +163,7 @@ namespace UnitTest.DataAccess.Repositories
         {
             // Arrange
             MessageRepository messageRepository = new MessageRepository(dbContext);
-            int wrongId = int.MaxValue;
+            Guid wrongId = default(Guid);
             Message expectedMessageFromDb = null;
 
             // Act
@@ -234,7 +234,7 @@ namespace UnitTest.DataAccess.Repositories
             // Arrange
             MessageRepository messageRepository = new MessageRepository(dbContext);
             Message expectedMessageToDelete = dbContext.Messages.First();
-            int idToDelete = expectedMessageToDelete.Id;
+            Guid idToDelete = expectedMessageToDelete.Id;
 
             // Act
             messageRepository.Delete(idToDelete);
@@ -248,7 +248,7 @@ namespace UnitTest.DataAccess.Repositories
         {
             // Arrange
             MessageRepository messageRepository = new MessageRepository(dbContext);
-            int wrongId = int.MaxValue;
+            Guid wrongId = default(Guid);
 
             // Act
             // Assert
