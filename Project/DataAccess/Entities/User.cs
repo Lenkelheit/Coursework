@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 using static Core.Configuration.DBConfig;
 
@@ -8,12 +9,15 @@ namespace DataAccess.Entities
     /// <summary>
     /// Maps to User table
     /// </summary>
-    public class User
+    public class User : EntityBase
     {
+        // PROPERTIES
         /// <summary>
         /// Unique identifier
         /// </summary>
-        public int Id { get; set; }
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public override System.Guid Id { get; set; }
         /// <summary>
         /// A local path to avatar
         /// </summary>
@@ -64,6 +68,26 @@ namespace DataAccess.Entities
         /// <summary>
         /// Defines is current user an admin
         /// </summary>
-        public bool IsAdmin { get; set; }        
+        public bool IsAdmin { get; set; }
+
+        // METHODS
+        #region  to string option
+        /// <summary>
+        /// Gets entity name
+        /// </summary>
+        /// <returns>Entity's name</returns>
+        protected override string GetBriefInfo()
+        {
+            return string.Concat(nameof(User), " with nickname : ", NickName);
+        }
+        /// <summary>
+        /// Gets brief information about entity
+        /// </summary>
+        /// <returns>Brief information about entity</returns>
+        protected override string GetName()
+        {
+            return nameof(User);
+        }
+        #endregion
     }
 }

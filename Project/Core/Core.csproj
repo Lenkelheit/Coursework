@@ -41,17 +41,22 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Configuration\AdminConfig.cs" />
     <Compile Include="Configuration\AppConfig.cs" />
     <Compile Include="Configuration\Constants.cs" />
     <Compile Include="Configuration\DBConfig.cs" />
+    <Compile Include="Exceptions\ComparingException.cs" />
     <Compile Include="Interfaces\IFactory.cs" />
     <Compile Include="Logger.cs" />
     <Compile Include="LogMode.cs" />
+    <Compile Include="Messages\Error\Admin.cs" />
     <Compile Include="Messages\Error\App.cs" />
     <Compile Include="Messages\Error\DataAccess.cs" />
+    <Compile Include="Messages\Error\Exceptions.cs" />
     <Compile Include="Messages\Error\Repositories.cs" />
     <Compile Include="Messages\Error\View.cs" />
     <Compile Include="Messages\Error\ViewModel.cs" />
+    <Compile Include="Messages\Info\Admin.cs" />
     <Compile Include="Messages\Info\MessageBoxHeader.cs" />
     <Compile Include="Messages\Info\ViewModel\Command\Registration.cs" />
     <Compile Include="Messages\Info\ViewModel\Command\User\AskQuestion\Ask.cs" />

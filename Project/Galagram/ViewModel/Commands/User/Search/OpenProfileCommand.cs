@@ -46,7 +46,7 @@
             Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, $"Execute {nameof(OpenProfileCommand)}");
 
             // gets user id
-            int userId = searchViewModel.Users[searchViewModel.SelectedUserIndex].Id;
+            System.Guid userId = searchViewModel.Users[searchViewModel.SelectedUserIndex].Id;
             Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, $"User id {userId}");
 
             // sets shown user

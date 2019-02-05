@@ -2,6 +2,8 @@
 using System.Windows.Controls;
 using System.Collections.Generic;
 
+using Galagram.Services.NavigationManagerInitializers;
+
 namespace Galagram.Services
 {
     /// <summary>
@@ -15,21 +17,54 @@ namespace Galagram.Services
     {
         // FIELDS
         IDictionary<string, Type> factory;
-        Stack<Type> history;
-        static NavigationManager instance;
+        Stack<KeyValuePair<Type, object>> history; // control type, view model object
+        NavigationManagerInitializerBase initializerBase;
+
+        static NavigationManager instance;        
 
         // CONSTRUCTORS
         private NavigationManager()
         {
             factory = new Dictionary<string, Type>();
-            history = new Stack<Type>();
+            history = new Stack<KeyValuePair<Type, object>>();
+
+            initializerBase = new DefaultNavigationManagerInitilizer();
+
+            Initialize();
         }
         static NavigationManager()
         {
             // initialize singleton value
             instance = new NavigationManager();
         }
+        private void Initialize()
+        {
+            if (initializerBase != null)
+            {
+                factory.Clear();
+                history.Clear();
 
+                initializerBase.Initialize(this);
+            }
+        }
+
+        /// <summary>
+        /// Sets navigation initializer
+        /// </summary>
+        /// <param name="navigationInitializer">
+        /// An instance of class that inheir from <see cref="NavigationManagerInitializerBase"/>
+        /// </param>
+        public void SetInitializer(NavigationManagerInitializerBase navigationInitializer)
+        {
+            // checking
+            if (navigationInitializer == null) throw new ArgumentNullException(nameof(navigationInitializer));
+
+            // change initializer
+            initializerBase = navigationInitializer;
+
+            // initialize with new value
+            Initialize();
+        }
         // PROPERTIES
         /// <summary>
         /// Gets an instance of <see cref="NavigationManager"/>
@@ -41,8 +76,6 @@ namespace Galagram.Services
         #region factory implementation
         /// <summary>
         /// Returns a new instance of a user control.
-        /// <para/>
-        /// Current instance has been saved in history
         /// </summary>
         /// <param name="key">
         /// A key by which user control was registered.
@@ -61,10 +94,7 @@ namespace Galagram.Services
             // checking argument
             // key
             if (string.IsNullOrWhiteSpace(key)) throw new ArgumentNullException(nameof(key));
-            if (!factory.ContainsKey(key)) throw new InvalidOperationException(string.Format(Core.Messages.Error.View.NAVIGATION_MANAGER_NO_SUCH_KEY_FORMAT, nameof(key)));
-
-            // save instance type in history
-            history.Push(factory[key]);
+            if (!factory.ContainsKey(key)) throw new InvalidOperationException(string.Format(Core.Messages.Error.View.NAVIGATION_MANAGER_NO_SUCH_KEY_FORMAT, key));
 
             // return control instance created by current type extracted by key
             return (UserControl)Activator.CreateInstance(factory[key]);
@@ -92,7 +122,7 @@ namespace Galagram.Services
             // checking argument
             // key
             if (string.IsNullOrWhiteSpace(key)) throw new ArgumentNullException(nameof(key));
-            if (factory.ContainsKey(key)) throw new InvalidOperationException(string.Format(Core.Messages.Error.View.NAVIGATION_MANAGER_REGISTRATE_BY_THE_SAME_KEY_FORMAT, nameof(key)));
+            if (factory.ContainsKey(key)) throw new InvalidOperationException(string.Format(Core.Messages.Error.View.NAVIGATION_MANAGER_REGISTRATE_BY_THE_SAME_KEY_FORMAT, key));
             // value
             if (value == null) throw new ArgumentNullException(nameof(value));
             if (value.IsInterface || value.IsAbstract) throw new ArgumentException(nameof(value));
@@ -117,7 +147,7 @@ namespace Galagram.Services
             // checking argument
             // key
             if (string.IsNullOrWhiteSpace(key)) throw new ArgumentNullException(nameof(key));
-            if (!factory.ContainsKey(key)) throw new InvalidOperationException(string.Format(Core.Messages.Error.View.NAVIGATION_MANAGER_NO_SUCH_KEY_FORMAT, nameof(key)));
+            if (!factory.ContainsKey(key)) throw new InvalidOperationException(string.Format(Core.Messages.Error.View.NAVIGATION_MANAGER_NO_SUCH_KEY_FORMAT, key));
 
             // unregistrate
             factory.Remove(key);
@@ -126,14 +156,14 @@ namespace Galagram.Services
         // history
         #region manage history
         /// <summary>
-        /// Remove last instance from the history
+        /// Removes last instance from the history
         /// </summary>
         public void PopHistory()
         {
             if (history.Count > 0) history.Pop();
         }
         /// <summary>
-        /// Clear the history compleatly
+        /// Clears the history compleatly
         /// </summary>
         public void ClearHistory()
         {
@@ -141,22 +171,33 @@ namespace Galagram.Services
         }
         /// <summary>
         /// Gets previous instance of user control that was created
+        /// <para/>
+        /// Or current shown. Since navigated instance has been pushed to history
         /// </summary>
         /// <returns>
-        /// User control is instance was created, otherwise — null
+        /// User control which instance was created, otherwise — null
         /// </returns>
         public UserControl PreviousInstance()
         {
             if (history.Count <= 0) return null;
 
+            // gets user control and view model from history
+            KeyValuePair<Type, object> controlDataContext = history.Peek();
+
+            // create user control and sets view mode
+            UserControl userControl = (UserControl)Activator.CreateInstance(controlDataContext.Key);
+            userControl.DataContext = controlDataContext.Value;
+
             // gets value
-            return (UserControl)Activator.CreateInstance(history.Peek());
+            return userControl;
         }
         #endregion
         // navigation
         #region navigation
         /// <summary>
-        /// Shown in parent control a registered user control
+        /// Shows in parent control a registered user control
+        /// <para/>
+        /// Current instance has been saved in history
         /// </summary>
         /// <param name="parent">
         /// A parent control in which current user control should be shown
@@ -180,6 +221,8 @@ namespace Galagram.Services
         }
         /// <summary>
         /// Returns user control with setted DataContext
+        /// <para/>
+        /// Current instance has been saved in history
         /// </summary>
         /// <param name="key">
         /// A key by which user control was registered.
@@ -203,10 +246,13 @@ namespace Galagram.Services
             // sets viewModel to it
             userControl.DataContext = viewModel;
 
+            // save instance type in history
+            history.Push(new KeyValuePair<Type, object>(userControl.GetType(), userControl.DataContext));
+
             return userControl;
         }
         /// <summary>
-        /// Shown in parent control a previous registered user control
+        /// Shows in parent control a previous registered user control
         /// </summary>
         /// <param name="parent">
         /// A parent control in which current user control should be shown
@@ -220,6 +266,17 @@ namespace Galagram.Services
             parent.Content = NavigateToPrevious(viewModel); // null or user control
         }
         /// <summary>
+        /// Shows in parent control a previous registered user control with its previous DataContext
+        /// </summary>
+        /// <param name="parent">
+        /// A parent control in which current user control should be shown
+        /// </param>
+        public void NavigateToPrevious(ContentControl parent)
+        {
+            // sets to current control previous value 
+            parent.Content = NavigateToPrevious(); 
+        }
+        /// <summary>
         /// Returns previous user control with setted DataContext
         /// </summary>
         /// <param name="viewModel">
@@ -231,13 +288,27 @@ namespace Galagram.Services
         public UserControl NavigateToPrevious(object viewModel)
         {
             // get previous control
-            UserControl userControl = PreviousInstance();
+            UserControl userControl = NavigateToPrevious();
+
             // sets viewModel to it
             if (userControl != null) userControl.DataContext = viewModel;
 
-            // remove it from history
+            return userControl;
+        }
+        /// <summary>
+        /// Returns previous user control with previous DataContext
+        /// </summary>
+        /// <returns>
+        /// An instance of previous <see cref="UserControl"/> with setted view model
+        /// </returns>
+        public UserControl NavigateToPrevious()
+        {
+            // remove current from history
             PopHistory();
 
+            // get previous control
+            UserControl userControl = PreviousInstance();
+            
             return userControl;
         }
         #endregion

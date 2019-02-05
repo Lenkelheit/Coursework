@@ -7,6 +7,10 @@ namespace DataAccess.Initializers
     {
         protected override void Seed(AppContext context)
         {
+            // add default admin
+            context.Users.Add(new Entities.User() { NickName = "Admin", Password = "1111", IsAdmin = true });
+
+            // add subject
             context.Subjects.AddRange(new Entities.Subject[]
             {
                 new Entities.Subject() { Name = "Error" },

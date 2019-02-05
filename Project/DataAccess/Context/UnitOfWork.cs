@@ -151,5 +151,31 @@ namespace DataAccess.Context
         {
             return context.SaveChanges();
         }
+        /// <summary>
+        /// Gets generic repository to current entity
+        /// </summary>
+        /// <typeparam name="TEntity">
+        /// An entity type to which repository is required
+        /// </typeparam>
+        /// <returns>
+        /// An instance of <see cref="GenericRepository{TEntity}"/>
+        /// </returns>
+        public GenericRepository<TEntity> GetRepository<TEntity>() where TEntity : class
+        {
+            return new GenericRepository<TEntity>(context);
+        }
+        /// <summary>
+        /// Gets Non-generic repository to current entity
+        /// </summary>
+        /// <param name="entityType">
+        /// An entity type to which repository is required
+        /// </param>
+        /// <returns>
+        /// An instance of <see cref="NonGenericRepository"/>
+        /// </returns>
+        public NonGenericRepository GetRepository(System.Type entityType)
+        {            
+            return new NonGenericRepository(context, entityType);
+        }
     }
 }

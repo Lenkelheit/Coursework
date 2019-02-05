@@ -12,7 +12,7 @@ namespace DataAccess.Repositories
     /// <typeparam name="TEntity">
     /// Data class work with
     /// </typeparam>
-    public class GenericRepository<TEntity> : Interfaces.IGenericRepository<TEntity> where TEntity : class
+    public class GenericRepository<TEntity> : Interfaces.IRepository<TEntity> where TEntity : class
     {
         // FIELDS
         internal Context.AppContext context;

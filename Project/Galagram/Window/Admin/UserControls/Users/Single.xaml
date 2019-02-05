@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Galagram.Window.Admin.UserControls.Users"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              mc:Ignorable="d" 
              d:DesignHeight="600" d:DesignWidth="800"
              Background="{StaticResource GrayColorBrushV6}">
@@ -42,18 +43,21 @@
 
                 <!--ID-->
                 <Label Grid.Row="0" Grid.Column="0" 
-                       Content="Comment ID"
+                       Content="User ID"
                        Style="{StaticResource ItemLabel_Admin}"/>
                 <TextBox Grid.Row="0" Grid.Column="1" 
-                         Text="#"
+                         Text="{Binding ShownEntity.Id, Mode=OneTime}"
+                         IsReadOnly="True"
                          Style="{StaticResource ItemTextBox_Admin}"/>
                 <!--NICKNAME-->
                 <Label Grid.Row="1" Grid.Column="0" 
                        Content="Nickname"
                        Style="{StaticResource ItemLabel_Admin}"/>
                 <TextBox Grid.Row="1" Grid.Column="1" 
-                         Text="Author Name"
+                         Text="{Binding ShownEntity.NickName, Mode=TwoWay}"
+                         IsEnabled="{Binding IsWritingEnabled}"
                          Style="{StaticResource ItemTextBox_Admin}"/>
+                
                 <!--AVATAR-->
                 <Label Grid.Row="2" Grid.Column="0" 
                        Content="Avatar"
@@ -61,7 +65,8 @@
                 <WrapPanel Grid.Row="2" Grid.Column="1"  HorizontalAlignment="Center">
                     <Image Width="50" Height="50">
                         <Image.Source>
-                            <Binding Path="null">
+                            <Binding Path="ShownEntity.MainPhotoPath"
+                                     Converter="{StaticResource ImageConverter}">
                                 <Binding.TargetNullValue>
                                     <ImageSource>/Resources/OtherImg/NoAvatar.png</ImageSource>
                                 </Binding.TargetNullValue>
@@ -72,8 +77,11 @@
                         </Image.Source>
                     </Image>
 
-                    <Button Style="{StaticResource AdminInterfaceButton}"  Content="select new" Width="100" />
-                    <Button Style="{StaticResource AdminInterfaceButton}"  Content="reset" Width="100"/>
+                    <!--<Button Style="{StaticResource AdminInterfaceButton}"  Content="select new" Width="100" />-->
+                    <Button Style="{StaticResource AdminInterfaceButton}" Width="100"
+                            Content="reset"
+                            IsEnabled="{Binding IsWritingEnabled}"
+                            Command="{Binding ResetAvatarCommand}"/>
                 </WrapPanel>
 
                 <!--PASSWORD-->
@@ -81,8 +89,9 @@
                        Content="Password"
                        Style="{StaticResource ItemLabel_Admin}"/>
                 <TextBox Grid.Row="3" Grid.Column="1" 
-                         Text="1111"
-                         Style="{StaticResource ItemTextBox_Admin}"/>
+                         Text="{Binding ShownEntity.Password, Mode=TwoWay}"
+                         Style="{StaticResource ItemTextBox_Admin}"
+                         IsEnabled="{Binding IsWritingEnabled}"/>
                 <!--IS ADMIN-->
                 <Label Grid.Row="4" Grid.Column="0" 
                        Content="Is Admin"
@@ -90,7 +99,9 @@
 
                 <CheckBox Grid.Row="4" Grid.Column="1"
                           VerticalAlignment="Center"
-                          HorizontalAlignment="Center">
+                          HorizontalAlignment="Center"
+                          IsChecked="{Binding ShownEntity.IsAdmin, Mode=TwoWay}"
+                          IsEnabled="{Binding IsWritingEnabled}">
                     <CheckBox.LayoutTransform>
                         <ScaleTransform ScaleX="2.5" ScaleY="2.5" />
                     </CheckBox.LayoutTransform>
@@ -112,23 +123,27 @@
 
                     <!--FOLLOWERS-->
                     <Label Grid.Row="0" Grid.Column="0" 
-                       Content="Like"
+                       Content="Followers"
                        Style="{StaticResource ItemLabel_Admin}"/>
                     <Label Grid.Row="0" Grid.Column="1" 
-                       Content="###"
+                       Content="{Binding ShownEntity.Followers.Count}"
                        Style="{StaticResource ItemLabel_Admin}"/>
 
                     <ListBox Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" 
-                                       Style="{StaticResource CheckedListBox}"/>
+                             Style="{StaticResource ListBox_Admin}"
+                             ItemsSource="{Binding ShownEntity.Followers}"
+                             DisplayMemberPath="NickName"/>
                     <!--FOLLOWING-->
                     <Label Grid.Row="0" Grid.Column="2" 
-                       Content="Dislike"
+                       Content="Following"
                        Style="{StaticResource ItemLabel_Admin}"/>
                     <Label Grid.Row="0" Grid.Column="3" 
-                       Content="###"
+                       Content="{Binding ShownEntity.Following.Count}"
                        Style="{StaticResource ItemLabel_Admin}"/>
                     <ListBox Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="2" 
-                             Style="{StaticResource CheckedListBox}"/>
+                             Style="{StaticResource ListBox_Admin}"
+                             ItemsSource="{Binding ShownEntity.Following}"
+                             DisplayMemberPath="NickName"/>
 
                 </Grid>
 
@@ -137,47 +152,18 @@
                        Content="Photos"
                        Style="{StaticResource ItemLabel_Admin}"/>
                 <Label Grid.Row="6" Grid.Column="1"
-                       Content="###"
+                       Content="{Binding Photos.Length}"
                        Style="{StaticResource ItemLabel_Admin}"/>
                 <ListBox Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="2" 
-                         Style="{StaticResource ListBoxPhoto_Admin}">
-                    <ListBoxItem/>
-                    <ListBoxItem/>
-                    <ListBoxItem/>
-                    <ListBoxItem/>
-                    <ListBoxItem/>
-                    <ListBoxItem/>
-                    <ListBoxItem/>
-                    <ListBoxItem/>
-                    <ListBoxItem/>
-                    <ListBoxItem/>
-                    <ListBoxItem/>
-                    <ListBoxItem/>
-                    <ListBoxItem/>
-                    <ListBoxItem/>
-                    <ListBoxItem/>
-                    <ListBoxItem/>
-                    <ListBoxItem/>
-                    <ListBoxItem/>
-                    <ListBoxItem/>
-                    <ListBoxItem/>
-                    <ListBoxItem/>
-                    <ListBoxItem/>
-                    <ListBoxItem/>
-                    <ListBoxItem/>
-                    <ListBoxItem/>
-                    <ListBoxItem/>
-                    <ListBoxItem/>
-                    <ListBoxItem/>
-                    <ListBoxItem/>
-                    <ListBoxItem/>
-                    <ListBoxItem/>
-                    <ListBoxItem/>
-                    <ListBoxItem/>
-                    <ListBoxItem/>
-                    <ListBoxItem/>
-                    <ListBoxItem/>
-                    <ListBoxItem/>
+                         Style="{StaticResource ListBoxPhoto_Admin}"
+                         ItemsSource="{Binding Photos}"
+                         SelectedIndex="{Binding SelectedPhotoIndex, Mode=OneWayToSource}">
+
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="MouseDoubleClick">
+                            <i:InvokeCommandAction Command="{Binding ShowPhotoCommand}"/>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
                 </ListBox>
             </Grid>
 
@@ -187,9 +173,12 @@
         <!--BUTTONS-->
         <Button Grid.Row="8" Grid.Column="0"  
                 Style="{StaticResource AdminButton}"
-                Content="Go Back"/>
+                Content="Go Back"
+                Command="{Binding GoBackCommand}"/>
         <Button Grid.Row="8" Grid.Column="1"  
                 Style="{StaticResource AdminButton}"
-                Content="Delete"/>
+                Content="{Binding CrudOperationName}"
+                Command="{Binding CrudOperation}"
+                CommandParameter="{Binding ShownEntity}"/>
     </Grid>
 </UserControl>

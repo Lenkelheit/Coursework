@@ -36,7 +36,8 @@ namespace UnitTest.View.Services
             NavigationManager navigationManager = NavigationManager.Instance;
             PrivateObject privateObject = new PrivateObject(navigationManager);
             IDictionary<string, Type> factory = (privateObject.GetField("factory") as IDictionary<string, Type>);
-            Stack<Type> history = (privateObject.GetField("history")) as Stack<Type>;
+            // clean up
+            factory.Clear();
 
 
             string keyNull = null;
@@ -53,17 +54,12 @@ namespace UnitTest.View.Services
             int expectedRegisteredValueBeforeRegistration = 0;
             int expectedRegisteredValueAfterRegistration = 1;
 
-            int expectedHistoryAmountBeforeRegistrate = 0;
-            int expectedHistoryAmountAfterRegistrate = 0;
-
             KeyValuePair<string, Type> registeredValue = new KeyValuePair<string, Type>(keyTwice, type);
 
             // Act
             int actualRegisteredValueBeforeRegistration = factory.Count;
-            int actualHistoryAmountBeforeRegistrate = history.Count;
             navigationManager.Registrate(keyTwice, type);
             int actualRegisteredValueAfterRegistration = factory.Count;
-            int actualHistoryAmountAfterRegistrate = history.Count;
 
             // Assert
 
@@ -79,13 +75,9 @@ namespace UnitTest.View.Services
             // regular one
             Assert.AreEqual(expectedRegisteredValueBeforeRegistration, actualRegisteredValueBeforeRegistration);
             Assert.AreEqual(expectedRegisteredValueAfterRegistration, actualRegisteredValueAfterRegistration);
-            Assert.AreEqual(expectedHistoryAmountBeforeRegistrate, actualHistoryAmountBeforeRegistrate);
-            Assert.AreEqual(expectedHistoryAmountAfterRegistrate, actualHistoryAmountAfterRegistrate);
             CollectionAssert.Contains(factory.Keys.ToArray(), registeredValue.Key);
             CollectionAssert.Contains(factory.Values.ToArray(), registeredValue.Value);
 
-            // clean up
-            factory.Clear();
         }
         [TestMethod]
         public void UnRegistrate()
@@ -107,7 +99,8 @@ namespace UnitTest.View.Services
             NavigationManager navigationManager = NavigationManager.Instance;
             PrivateObject privateObject = new PrivateObject(navigationManager);
             IDictionary<string, Type> factory = (privateObject.GetField("factory") as IDictionary<string, Type>);
-            Stack<Type> history = (privateObject.GetField("history")) as Stack<Type>;
+            // clean up
+            factory.Clear();
 
             string keyNull = null;
             string keySpace = "    ";
@@ -118,21 +111,15 @@ namespace UnitTest.View.Services
 
             int expectedFactoryAmountBeforeUnregistrate = 1;
             int expectedFactoryAmountAfterUnregistrate = 0;
-
-
-            int expectedHistoryAmountBeforeUnregistrate = 0;
-            int expectedHistoryAmountAfterUnregistrate = 0;
-
+            
 
             KeyValuePair<string, Type> unRegisteredValue = new KeyValuePair<string, Type>(nameof(System.Windows.Controls.Button), typeof(System.Windows.Controls.Button));
             navigationManager.Registrate(keyPresent, typePresent);
            
             // Act
             int actualFactoryAmountBeforeUnregistrate = factory.Count;
-            int actualHistoryAmountBeforeUnregistrate = history.Count;
             navigationManager.UnRegistrate(keyPresent);
             int actualFactoryAmouneAfterUnregistrate = factory.Count;
-            int actualHistoryAmountAfterUnregistrate = history.Count;
 
             // Assert
             // wrong ones
@@ -144,8 +131,6 @@ namespace UnitTest.View.Services
             // regular one
             Assert.AreEqual(expectedFactoryAmountBeforeUnregistrate, actualFactoryAmountBeforeUnregistrate);
             Assert.AreEqual(expectedFactoryAmountAfterUnregistrate, actualFactoryAmouneAfterUnregistrate);
-            Assert.AreEqual(expectedHistoryAmountBeforeUnregistrate, actualHistoryAmountBeforeUnregistrate);
-            Assert.AreEqual(expectedHistoryAmountAfterUnregistrate, actualHistoryAmountAfterUnregistrate);
             CollectionAssert.DoesNotContain(factory.Keys.ToArray(), unRegisteredValue.Key);
             CollectionAssert.DoesNotContain(factory.Values.ToArray(), unRegisteredValue.Value);
 
@@ -170,7 +155,8 @@ namespace UnitTest.View.Services
             NavigationManager navigationManager = NavigationManager.Instance;
             PrivateObject privateObject = new PrivateObject(navigationManager);
             IDictionary<string, Type> factory = (privateObject.GetField("factory") as IDictionary<string, Type>);
-            Stack<Type> history = (privateObject.GetField("history")) as Stack<Type>;
+            // clean up
+            factory.Clear();
 
 
             string keyNull = null;

@@ -25,28 +25,35 @@
                Content="Header"
                Style="{StaticResource CenterHeaderLabel_Admin}"
                FontSize="30"/>
+        
         <!--ID-->
         <Label Grid.Row="2" Grid.Column="0" 
                Content="Subject ID"
                Style="{StaticResource ItemLabel_Admin}"/>
         <TextBox Grid.Row="2" Grid.Column="1" 
-                 Text="#"
+                 IsReadOnly="True"
+                 Text="{Binding ShownEntity.Id, Mode=OneTime}"
                  Style="{StaticResource ItemTextBox_Admin}"/>
+        
         <!--SUBJECT NAME-->
         <Label Grid.Row="3" Grid.Column="0" 
                Content="Name"
                Style="{StaticResource ItemLabel_Admin}"/>
         <TextBox Grid.Row="3" Grid.Column="1"
-                 Text="Subject Name"
+                 Text="{Binding ShownEntity.Name, Mode=TwoWay}"
                  Style="{StaticResource ItemTextBox_Admin}"/>
+        
         
         <!--BUTTONS-->
         <Button Grid.Row="6" Grid.Column="0"  
                 Style="{StaticResource AdminButton}"
+                Command="{Binding GoBackCommand}"
                 Content="Go Back"/>
         <Button Grid.Row="6" Grid.Column="1"  
                 Style="{StaticResource AdminButton}"
-                Content="Delete"/>
+                Command="{Binding CrudOperation}"
+                CommandParameter="{Binding IsNew}"
+                Content="{Binding CrudOperationName, Mode=OneTime}"/><!--create/update-->
 
     </Grid>
 </UserControl>

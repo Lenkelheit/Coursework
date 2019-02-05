@@ -6,6 +6,11 @@
     public static class Registration
     {
         /// <summary>
+        /// User is admin. Ask him do he want to log in regularly or as admin
+        /// </summary>
+        public static readonly string IS_NEED_LOG_IN_AS_ADMIN = "Do you want to log in as admin?";
+
+        /// <summary>
         /// Nickname can not be empty
         /// </summary>
         public static readonly string NICKNAME_EMPTY = "Nickname can not be empty";
