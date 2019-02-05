@@ -4,7 +4,7 @@ using Galagram.ViewModel.Enums.User;
 namespace Galagram.ViewModel.Commands.User.Follow
 {
     /// <summary>
-    /// Delete follow or followers
+    /// Deletes follow or followers
     /// </summary>
     public class DeleteFollowCommand : CommandBase
     {
@@ -13,7 +13,7 @@ namespace Galagram.ViewModel.Commands.User.Follow
 
         // CONSTRUCTORS
         /// <summary>
-        /// Initialize a new instance of <see cref="DeleteFollowCommand"/>
+        /// Initializes a new instance of <see cref="DeleteFollowCommand"/>
         /// </summary>
         /// <param name="followViewModel">
         /// An instance of <see cref="ViewModel.User.FollowViewModel"/>
@@ -24,7 +24,7 @@ namespace Galagram.ViewModel.Commands.User.Follow
         }
         // METHODS
         /// <summary>
-        /// Check if command  can be executed
+        /// Checks if command  can be executed
         /// </summary>
         /// <param name="parameter">
         /// Additionals parameters
@@ -39,7 +39,7 @@ namespace Galagram.ViewModel.Commands.User.Follow
             return true;
         }
         /// <summary>
-        /// Execute the command
+        /// Executes the command
         /// </summary>
         /// <param name="parameter">
         /// User to delete

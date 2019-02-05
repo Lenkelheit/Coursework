@@ -1,7 +1,7 @@
 ﻿namespace Galagram.ViewModel.Commands.User.PhotoInside
 {
     /// <summary>
-    /// Delete comments to photo
+    /// Deletes comments to photo
     /// </summary>
     public class DeleteCommentCommand : CommandBase
     {
@@ -10,7 +10,7 @@
 
         // CONSTRUCTORS
         /// <summary>
-        /// Initialize a new instance of <see cref="DeleteCommentCommand"/>
+        /// Initializes a new instance of <see cref="DeleteCommentCommand"/>
         /// </summary>
         /// <param name="photoInsideViewModel">
         /// An instance of <see cref="ViewModel.User.PhotoInsideViewModel"/>
@@ -21,7 +21,7 @@
         }
         // METHODS
         /// <summary>
-        /// Check if command can be executed
+        /// Checks if command can be executed
         /// </summary>
         /// <param name="parameter">
         /// Additionals parameters
@@ -35,7 +35,7 @@
             return true;
         }
         /// <summary>
-        /// Execute command
+        /// Executes command
         /// </summary>
         /// <param name="parameter">
         /// Command parameters

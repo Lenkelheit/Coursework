@@ -137,7 +137,7 @@ namespace DataAccess.Repositories
             dbSet.Remove(entityToDelete);
         }
         /// <summary>
-        /// Updates data base
+        /// Updates database
         /// </summary>
         /// <param name="entityToUpdate">Entity to update</param>
         public virtual void Update(TEntity entityToUpdate)

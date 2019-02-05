@@ -1,9 +1,9 @@
 ﻿namespace DataAccess.Structs
 {
     /// <summary>
-    /// Determines if name and password is valid
+    /// Determines if name and password are valid
     /// <para/>
-    /// Has been used as a return parameter for <see cref="Repositories.UserRepository.IsDataValid(string, string)"/>
+    /// Has been used in <see cref="Repositories.UserRepository.IsDataValid(string, string)"/>
     /// </summary>
     public struct ValidNameAndPassword
     {

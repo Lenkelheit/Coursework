@@ -690,52 +690,61 @@ namespace UnitTest.DataAccess.Repositories
         {
             // Arrange
             UserRepository userRepository = new UserRepository(dbContext);
+            User expectedUser = null;
 
             // Act
-            ValidNameAndPassword actualResult = userRepository.IsDataValid("beverley", "1111");
+            ValidNameAndPasswordAndUser actualResult = userRepository.IsDataValid("beverley", "1111");
 
             // Assert
-            Assert.IsFalse(actualResult.IsNameValid);
-            Assert.IsFalse(actualResult.IsPasswordValid);
+            Assert.IsFalse(actualResult.ValidNameAndPassword.IsNameValid);
+            Assert.IsFalse(actualResult.ValidNameAndPassword.IsPasswordValid);
+            Assert.AreEqual(expectedUser, actualResult.User);
         }
         [TestMethod]
         public void IsDataValid_WrongPassword()
         {
             // Arrange
             UserRepository userRepository = new UserRepository(dbContext);
+            User expectedUser = null;
 
             // Act
-            ValidNameAndPassword actualResult = userRepository.IsDataValid("Beverley", "1234");
+            ValidNameAndPasswordAndUser actualResult = userRepository.IsDataValid("Beverley", "1234");
 
             // Assert
-            Assert.IsTrue(actualResult.IsNameValid);
-            Assert.IsFalse(actualResult.IsPasswordValid);
+            Assert.IsTrue(actualResult.ValidNameAndPassword.IsNameValid);
+            Assert.IsFalse(actualResult.ValidNameAndPassword.IsPasswordValid);
+            Assert.AreEqual(expectedUser, actualResult.User);
         }
         [TestMethod]
         public void IsDataValid_BothWrong()
         {
             // Arrange
             UserRepository userRepository = new UserRepository(dbContext);
+            User expectedUser = null;
 
             // Act
-            ValidNameAndPassword actualResult = userRepository.IsDataValid("beverley", "1234");
+            ValidNameAndPasswordAndUser actualResult = userRepository.IsDataValid("beverley", "1234");
 
             // Assert
-            Assert.IsFalse(actualResult.IsNameValid);
-            Assert.IsFalse(actualResult.IsPasswordValid);
+            Assert.IsFalse(actualResult.ValidNameAndPassword.IsNameValid);
+            Assert.IsFalse(actualResult.ValidNameAndPassword.IsPasswordValid);
+            Assert.AreEqual(expectedUser, actualResult.User);
         }
         [TestMethod]
         public void IsDataValid_BothValid()
         {
             // Arrange
             UserRepository userRepository = new UserRepository(dbContext);
+            string userNickName = "Beverley";
+            User expectedUser = dbContext.Users.FirstOrDefault(u => u.NickName == userNickName);
 
             // Act
-            ValidNameAndPassword actualResult = userRepository.IsDataValid("Beverley", "1111");
+            ValidNameAndPasswordAndUser actualResult = userRepository.IsDataValid(userNickName, "1111");
 
             // Assert
-            Assert.IsTrue(actualResult.IsNameValid, "Nicknam is not valid");
-            Assert.IsTrue(actualResult.IsPasswordValid, "Password is not valid");
+            Assert.IsTrue(actualResult.ValidNameAndPassword.IsNameValid, "Nickname is not valid");
+            Assert.IsTrue(actualResult.ValidNameAndPassword.IsPasswordValid, "Password is not valid");
+            Assert.AreEqual(expectedUser, actualResult.User);
         }
         #endregion
     }

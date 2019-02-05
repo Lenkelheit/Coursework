@@ -1,7 +1,7 @@
 ﻿namespace Galagram.ViewModel.Commands.User.PhotoInside
 {
     /// <summary>
-    /// Write a comment to photo
+    /// Writes a comment to photo
     /// </summary>
     public class WriteCommentCommand : CommandBase
     {
@@ -26,7 +26,7 @@
 
         // CONSTRUCTORS
         /// <summary>
-        /// Initialize a new instance of <see cref="WriteCommentCommand"/>
+        /// Initializes a new instance of <see cref="WriteCommentCommand"/>
         /// </summary>
         /// <param name="photoInsideViewModel">
         /// An instance of <see cref="ViewModel.User.PhotoInsideViewModel"/>
@@ -38,7 +38,7 @@
 
         // METHODS
         /// <summary>
-        /// Check if command can be executed
+        /// Checks if command can be executed
         /// <para/>
         /// Can not be executed if comment text is empty
         /// <para/>
@@ -69,7 +69,7 @@
             return canExecute;
         }
         /// <summary>
-        /// Execute command
+        /// Executes command
         /// </summary>
         /// <param name="parameter">
         /// Command parameters
@@ -95,7 +95,7 @@
             photoInsideViewModel.Comments.Add(comment);
             Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, "Update view");
 
-            // update data base
+            // update database
             photoInsideViewModel.UnitOfWork.CommentRepository.Insert(comment);
             photoInsideViewModel.UnitOfWork.Save();
             Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, "Update data base");

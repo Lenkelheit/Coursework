@@ -10,7 +10,7 @@
 
         // CONSTRUCTORS
         /// <summary>
-        /// Initialize a new instance of <see cref="LikeCommentCommand"/>
+        /// Initializes a new instance of <see cref="LikeCommentCommand"/>
         /// </summary>
         /// <param name="photoInsideViewModel">
         /// An instance of <see cref="ViewModel.User.PhotoInsideViewModel"/>
@@ -22,7 +22,7 @@
 
         // METHODS
         /// <summary>
-        /// Check if command can be executed
+        /// Checks if command can be executed
         /// </summary>
         /// <param name="parameter">
         /// Additionals parameters
@@ -36,7 +36,7 @@
             return true;
         }
         /// <summary>
-        /// Execute command
+        /// Executes command
         /// </summary>
         /// <param name="parameter">
         /// Current comment
@@ -61,7 +61,7 @@
             // 1. if like is new -> add it
             // 2. else if there is like or dislike
             //      2.1. if click on the same button type -> remove like
-            //      2.2  else if click on the oposite button type -> toggle like
+            //      2.2  else if click on the opposite button type -> toggle like
 
             Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, isLike ? "Liking" : "Disliking");
 
@@ -94,7 +94,7 @@
                     Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, "Toggle like");
                     Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, "Update valuse in data base");
 
-                    // updata data base
+                    // updata database
                     commentLike.IsLiked = isLike; // toggle
                     DataAccess.Context.UnitOfWork.Instance.CommentLikeRepository.Update(commentLike);
                 }
@@ -104,7 +104,7 @@
             Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, "Update view");
             comment.PropertyUpdates(nameof(DataAccess.Entities.Comment.Likes));
             
-            //  save changes to data base
+            // save changes to database
             Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, "Save changes to data base");
             DataAccess.Context.UnitOfWork.Instance.Save();
         }

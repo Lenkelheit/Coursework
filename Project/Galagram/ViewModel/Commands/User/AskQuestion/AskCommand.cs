@@ -16,7 +16,7 @@
 
         // CONSTRUCTORS
         /// <summary>
-        /// Initialize a new instance of <see cref="AskCommand"/>
+        /// Initializes a new instance of <see cref="AskCommand"/>
         /// </summary>
         /// <param name="askQuestionViewModel">
         /// An instance of <see cref="ViewModel.User.AskQuestionViewModel"/>
@@ -27,7 +27,7 @@
         }
         // METHODS
         /// <summary>
-        /// Check if command  can be executed
+        /// Checks if command can be executed
         /// </summary>
         /// <param name="parameter">
         /// Additionals parameters
@@ -42,7 +42,7 @@
             return true;
         }
         /// <summary>
-        /// Execute the command
+        /// Executes the command
         /// </summary>
         /// <param name="parameter">
         /// Command parameter
@@ -72,7 +72,7 @@
             // reset message text, subject stay the same
             askQuestionViewModel.ResetFields();
 
-            // notified user about succesful message sending
+            // notify user about succesful message sending
             Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, "Notify user about succesful message sending");
             askQuestionViewModel.WindowManager.ShowMessageWindow(Core.Messages.Info.ViewModel.Command.User.AskQuestion.Ask.MESSAGE_SENT);
         }

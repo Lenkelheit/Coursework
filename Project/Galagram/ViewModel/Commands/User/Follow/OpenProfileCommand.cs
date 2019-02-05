@@ -1,7 +1,7 @@
 ﻿namespace Galagram.ViewModel.Commands.User.Follow
 {
     /// <summary>
-    /// Open selected user profile
+    /// Opens selected user profile
     /// </summary>
     public class OpenProfileCommand : CommandBase
     {
@@ -10,7 +10,7 @@
 
         // CONSTRUCTORS
         /// <summary>
-        /// Initialize a new instance of <see cref="OpenProfileCommand"/>
+        /// Initializes a new instance of <see cref="OpenProfileCommand"/>
         /// </summary>
         /// <param name="followViewModel">
         /// An instance of <see cref="ViewModel.User.FollowViewModel"/>
@@ -21,7 +21,7 @@
         }
         // METHODS
         /// <summary>
-        /// Check if command  can be executed
+        /// Checks if command  can be executed
         /// </summary>
         /// <param name="parameter">
         /// Additionals parameters
@@ -36,7 +36,7 @@
             return true;
         }
         /// <summary>
-        /// Execute the command
+        /// Executes the command
         /// </summary>
         /// <param name="parameter">
         /// Command parameter
@@ -45,7 +45,7 @@
         {
             Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, $"Exetute {nameof(OpenProfileCommand)}");
 
-            // get selected index
+            // gets selected index
             int index = followViewModel.SelectedFollowIndex;
             if (index == Core.Configuration.Constants.WRONG_INDEX)
             {
@@ -60,7 +60,7 @@
             // sets new shown user
             followViewModel.DataStorage.ShownUser = DataAccess.Context.UnitOfWork.Instance.UserRepository.Get(userId);
 
-            // open new window with current user
+            // opens new window with current user
             Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, $"Close all window. Open new Window with current profile");
             Services.WindowManager.Instance.SwitchMainWindow(
                 key: nameof(Window.User.MainWindow),
