@@ -20,13 +20,14 @@ Please delete paragraphs that are not relevant.
 - [ ] My code follows the style guidelines of this project
 - [ ] I have performed a self-review of my own code
 - [ ] I have commented my code, particularly in hard-to-understand areas
-- [ ] I have made corresponding changes to the documentation
 - [ ] My changes generate no new warnings
 - [ ] I have added tests that prove my fix is effective or that my feature works
 - [ ] New and existing unit tests pass locally with my changes
 - [ ] My code builds clean without any errors or warnings
 
-## If you have change design fill in this part
+## Design
+
+If you have change design fill in this part
 
 ### A picture of design before pull request
 

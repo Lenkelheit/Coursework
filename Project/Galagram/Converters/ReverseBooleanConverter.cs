@@ -6,7 +6,7 @@ namespace Galagram.Converters
     /// <summary>
     /// Converts bool to its opposite value
     /// </summary>
-    [ValueConversion(sourceType: typeof(object[]), targetType: typeof(object))]
+    [ValueConversion(sourceType: typeof(bool), targetType: typeof(bool))]
     public class ReverseBooleanConverter : IValueConverter
     {
         /// <summary>

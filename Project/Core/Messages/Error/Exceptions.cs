@@ -1,7 +1,7 @@
 ﻿namespace Core.Messages.Error
 {
     /// <summary>
-    /// Consits of all messeges happed in based on <see cref="System.Exception"/> classes
+    /// Consists of all messeges happen in based on <see cref="System.Exception"/> classes
     /// </summary>
     public class Exceptions
     {

@@ -24,7 +24,7 @@ namespace DataAccess.Comparers
 
         // METHODS
         /// <summary>
-        /// Comares two instances of <see cref="Subject"/>
+        /// Compares two instances of <see cref="Subject"/>
         /// </summary>
         /// <param name="x">A first instance of <see cref="Subject"/></param>
         /// <param name="y">A second instance of <see cref="Subject"/></param>
