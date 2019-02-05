@@ -18,7 +18,12 @@ namespace Galagram
 
         // EXTERN METHOD
         [DllImport("user32.dll")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        private static extern bool ShowWindow(System.IntPtr hWnd, int nCmdShow);
+
+        [DllImport("user32.dll")]
         private static extern bool SetForegroundWindow(System.IntPtr hWnd);
+
 
         //METHODS
         /// <summary>
@@ -34,22 +39,35 @@ namespace Galagram
             bool isCreatedNewMutex;
             mutex = new Mutex(initiallyOwned: true, name: AppConfig.APP_NAME + "Mutex", createdNew: out isCreatedNewMutex);
 
+            // close another instance of the application
             if (!isCreatedNewMutex)
             {
-                int currentProcessId = Process.GetCurrentProcess().Id;
+                // Second application has been started up - redirected to main one
+#pragma warning disable CS0618 // Type or member is obsolete
+                Core.Logger.GetLogger.Log(Core.LogMode.Info, System.Environment.NewLine + "Second application has been started up - redirected to main one");
+#pragma warning restore CS0618 // Type or member is obsolete
+
+                // search for original program process
+                int currentProcessId = Process.GetCurrentProcess().Id; // second process id
                 Process process = Process.GetProcessesByName(AppConfig.APP_NAME).First(p => p.Id != currentProcessId);
 
-                Core.Logger.GetLogger.Log(Core.LogMode.Info, System.Environment.NewLine + "Second application has been started up - redirected to main one");
+                // show original program main window
+                ShowWindow(process.MainWindowHandle, 9); // 9 = SW_RESTORE, If the window is minimized or maximized, the system restores it to its original size and position.
+                SetForegroundWindow(process.MainWindowHandle); 
 
-                SetForegroundWindow(process.MainWindowHandle);
-
+                // close second application
                 this.Shutdown();
                 return;
             }
 
+
+            // starts the application
             Core.Logger.GetLogger.LogAsync(Core.LogMode.Info, System.Environment.NewLine + "Application has been started up");
 
+            // handle unhadled exception
             this.DispatcherUnhandledException += FatalClose;
+
+            // call base startup
             base.OnStartup(e);
         }
 
@@ -63,8 +81,10 @@ namespace Galagram
             }
             e.Handled = true;
 
+            // show exception message
             Services.WindowManager.Instance.ShowMessageWindow(Core.Messages.Error.App.FATAL_ERROR_CONTINUE);
 
+            // close APP if setted
             if (AppConfig.DO_CLOSE_APP_ON_FATAL_ERROR)
             {
                 this.Shutdown();
