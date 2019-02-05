@@ -1,7 +1,7 @@
 ﻿namespace Galagram.ViewModel.Commands.User.MainWindow
 {
     /// <summary>
-    /// Return user to his own page
+    /// Returns user to his own page
     /// </summary>
     public class GoHomeCommand : CommandBase
     {
@@ -10,7 +10,7 @@
 
         // CONSTRUCTORS
         /// <summary>
-        /// Initialize a new instance of <see cref="GoHomeCommand"/>
+        /// Initializes a new instance of <see cref="GoHomeCommand"/>
         /// </summary>
         /// <param name="mainWindowViewModel">
         /// An instance of <see cref="ViewModel.User.MainWindowViewModel"/>
@@ -27,7 +27,7 @@
 
         // METHODS
         /// <summary>
-        /// Check if command can be executed
+        /// Checks if command can be executed
         /// </summary>
         /// <param name="parameter">
         /// Additionals parameters
@@ -41,7 +41,7 @@
             return !mainWindowViewModel.IsCurrentUserShown;
         }
         /// <summary>
-        /// Execute command
+        /// Executes command
         /// </summary>
         /// <param name="parameter">
         /// Command parameters

@@ -138,7 +138,7 @@ namespace Galagram.ViewModel.ViewModel.User
         public void ResetFields()
         {
             Message = string.Empty;
-            Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, "Value are reseted");
+            Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, "Values are reseted");
         }
     }
 }

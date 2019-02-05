@@ -23,7 +23,7 @@ namespace UnitTest.Resources.Classes
                                   "Suspendisse ut vulputate nisi, nec fermentum libero. ",
                                   "Morbi sollicitudin, orci sit amet congue cursus, nibh nunc lobortis orci, et hendrerit arcu nunc a lorem. Curabitur dignissim risus non diam ornare mattis ac vitae elit. ",
                                   "Suspendisse euismod gravida diam et varius. Sed quis commodo magna. Nunc a ex nec erat feugiat dapibus. Donec id nulla et dolor efficitur convallis. ",
-                                  "Maecenas vel sem neque. Vivamus volutpat quam ac urna condimentum, vitae posuere neque scelerisque. Aenean et lacinia dolor.").ToLower().Split(new char[] { ',', '.'}, StringSplitOptions.RemoveEmptyEntries);
+                                  "Maecenas vel sem neque. Vivamus volutpat quam ac urna condimentum, vitae posuere neque scelerisque. Aenean et lacinia dolor.").ToLower().Split(new char[] { ',', '.', ' ' }, StringSplitOptions.RemoveEmptyEntries);
 
         }
         // DB METHODS

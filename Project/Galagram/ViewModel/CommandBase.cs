@@ -10,7 +10,7 @@
         /// </summary>
         public virtual event System.EventHandler CanExecuteChanged;
         /// <summary>
-        /// Check if command  can be executed
+        /// Checks if command can be executed
         /// </summary>
         /// <param name="parameter">
         /// Additionals parameters
@@ -20,7 +20,7 @@
         /// </returns>
         public abstract bool CanExecute(object parameter);
         /// <summary>
-        /// Execute the command
+        /// Executes the command
         /// </summary>
         /// <param name="parameter">
         /// Command parameter
@@ -28,7 +28,7 @@
         public abstract void Execute(object parameter);
 
         /// <summary>
-        /// Raise when state of command has been changed
+        /// Raises when state of command has been changed
         /// </summary>
         /// <param name="e">
         /// Event arguments

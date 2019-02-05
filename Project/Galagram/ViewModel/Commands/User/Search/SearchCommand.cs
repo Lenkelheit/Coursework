@@ -3,7 +3,7 @@
 namespace Galagram.ViewModel.Commands.User.Search
 {
     /// <summary>
-    /// Search user by passed text, shown all founded values
+    /// Searches user by passed text, shown all founded values
     /// </summary>
     public class SearchCommand : CommandBase
     {
@@ -28,7 +28,7 @@ namespace Galagram.ViewModel.Commands.User.Search
 
         // CONSTRUCTORS
         /// <summary>
-        /// Initialize a new instance of <see cref="SearchCommand"/>
+        /// Initializes a new instance of <see cref="SearchCommand"/>
         /// </summary>
         /// <param name="searchViewModel">
         /// An instance of <see cref="ViewModel.User.SearchViewModel"/>
@@ -40,7 +40,7 @@ namespace Galagram.ViewModel.Commands.User.Search
 
         // METHODS
         /// <summary>
-        /// Check if command can be executed
+        /// Checks if command can be executed
         /// <para/>
         /// Can not be executed if search text is empty
         /// </summary>

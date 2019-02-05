@@ -10,7 +10,7 @@
 
         // CONSTRUCTORS
         /// <summary>
-        /// Initialize a new instance of <see cref="UploadPhotoCommand"/>
+        /// Initializes a new instance of <see cref="UploadPhotoCommand"/>
         /// </summary>
         /// <param name="mainWindowViewModel">
         /// An instance of <see cref="ViewModel.User.MainWindowViewModel"/>
@@ -27,7 +27,7 @@
 
         // METHODS
         /// <summary>
-        /// Check if command can be executed
+        /// Checks if command can be executed
         /// </summary>
         /// <param name="parameter">
         /// Additional parameters
@@ -41,7 +41,7 @@
             return true;
         }
         /// <summary>
-        /// Execute command
+        /// Executes command
         /// </summary>
         /// <param name="parameter">
         /// Command parameters
@@ -104,7 +104,7 @@
 
         private string CopyPhotoToServer(string pathToPhoto, int userId, int photoId)
         {
-            // create photo folder if neaded
+            // create photo folder if needed
             if (!System.IO.Directory.Exists(Core.Configuration.AppConfig.PHOTOS_SAVE_FOLDER))
             {
                 Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, "Create photo folder");

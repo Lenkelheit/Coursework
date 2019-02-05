@@ -1,7 +1,7 @@
 ﻿namespace Galagram.ViewModel.Commands.User.Setting
 {
     /// <summary>
-    /// Load a photo as a new avatar
+    /// Loads a photo as a new avatar
     /// </summary>
     public class LoadNewAvatarCommand : CommandBase
     {
@@ -10,7 +10,7 @@
 
         // CONSTRUCTORS
         /// <summary>
-        /// Initialize a new instance of <see cref="LoadNewAvatarCommand"/>
+        /// Initializes a new instance of <see cref="LoadNewAvatarCommand"/>
         /// </summary>
         /// <param name="settingViewModel">
         /// An instance of <see cref="ViewModel.User.SettingViewModel"/>
@@ -22,7 +22,7 @@
 
         // METHODS
         /// <summary>
-        /// Check if command can be executed
+        /// Checks if command can be executed
         /// </summary>
         /// <param name="parameter">
         /// Additionals parameters
@@ -36,7 +36,7 @@
             return true;
         }
         /// <summary>
-        /// Execute command
+        /// Executes command
         /// </summary>
         /// <param name="parameter">
         /// Command parameters

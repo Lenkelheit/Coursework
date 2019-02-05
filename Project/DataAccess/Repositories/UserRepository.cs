@@ -44,7 +44,7 @@ namespace DataAccess.Repositories
         /// The password that should be checked
         /// </param>
         /// <returns>
-        /// Return a structure thet define if Nickname and Password are valid
+        /// Returns a structure that defines if Nickname and Password are valid and by them returns this user 
         /// </returns>
         /// <exception cref="System.ArgumentNullException">
         /// Throws when passed <paramref name="nickName"/> is null
@@ -52,25 +52,36 @@ namespace DataAccess.Repositories
         /// <exception cref="System.ArgumentNullException">
         /// Throws when passed <paramref name="password"/> is null
         /// </exception>
-        public Structs.ValidNameAndPassword IsDataValid(string nickName, string password)
+        public Structs.ValidNameAndPasswordAndUser IsDataValid(string nickName, string password)
         {
             // checking
             if (string.IsNullOrWhiteSpace(nickName)) throw new System.ArgumentNullException(nameof(nickName));
             if (string.IsNullOrWhiteSpace(password)) throw new System.ArgumentNullException(nameof(password));
 
             // get first user with such nickname
-            Entities.User foundedAccount = dbSet.AsNoTracking().AsEnumerable().FirstOrDefault(user => user.NickName == nickName);
+            Entities.User foundedAccount = dbSet.AsEnumerable().FirstOrDefault(user => user.NickName == nickName);
 
+            // if no user has been found return bool values as false and user as null
+            if (foundedAccount == null) return new Structs.ValidNameAndPasswordAndUser()
+            {
+                ValidNameAndPassword = new Structs.ValidNameAndPassword
+                {
+                    IsNameValid = false,
+                    IsPasswordValid = false
+                },
+                User = null
+            };
 
-            // if no user has been found return both value as null
-            if (foundedAccount == null) return new Structs.ValidNameAndPassword() { IsNameValid = false, IsPasswordValid = false };
-
-            // returns nickname as True and Password if the same
-            return new Structs.ValidNameAndPassword()
-                                {
-                                    IsNameValid = true,
-                                    IsPasswordValid = foundedAccount.Password == password
-                                };
+            // returns nickname as True and Password if the same, user if Password is true
+            return new Structs.ValidNameAndPasswordAndUser()
+            {
+                ValidNameAndPassword = new Structs.ValidNameAndPassword
+                {
+                    IsNameValid = true,
+                    IsPasswordValid = foundedAccount.Password == password
+                },
+                User = foundedAccount.Password == password ? foundedAccount : null
+            };
         }
         /// <summary>
         /// Gets user by nickname

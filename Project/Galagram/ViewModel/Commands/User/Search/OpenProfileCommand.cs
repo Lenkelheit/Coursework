@@ -10,7 +10,7 @@
 
         // CONSTRUCTORS
         /// <summary>
-        /// Initialize a new instance of <see cref="OpenProfileCommand"/>
+        /// Initializes a new instance of <see cref="OpenProfileCommand"/>
         /// </summary>
         /// <param name="searchViewModel">
         /// An instance of <see cref="ViewModel.User.SearchViewModel"/>
@@ -22,7 +22,7 @@
 
         // METHODS
         /// <summary>
-        /// Check if command can be executed
+        /// Checks if command can be executed
         /// </summary>
         /// <param name="parameter">
         /// Additionals parameters
@@ -36,7 +36,7 @@
             return true;
         }
         /// <summary>
-        /// Execute command
+        /// Executes command
         /// </summary>
         /// <param name="parameter">
         /// Command parameters

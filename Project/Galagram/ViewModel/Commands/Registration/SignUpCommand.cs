@@ -1,9 +1,9 @@
 ﻿namespace Galagram.ViewModel.Commands.Registration
 {
     /// <summary>
-    /// Check if name and password is correct
+    /// Checks if name and password are correct
     /// <para/>
-    /// Check if nickname is available
+    /// Checks if nickname is available
     /// <para/>
     /// If everything is correct, log in a user
     /// </summary>
@@ -14,7 +14,7 @@
 
         // CONSTRUCTORS
         /// <summary>
-        /// Initialize a new instance of <see cref="SignUpCommand"/>
+        /// Initializes a new instance of <see cref="SignUpCommand"/>
         /// </summary>
         /// <param name="registrationViewModel">
         /// An instance of <see cref="ViewModel.RegistrationViewModel"/>
@@ -26,7 +26,7 @@
 
         // METHODS
         /// <summary>
-        /// Check if command can be executed
+        /// Checks if command can be executed
         /// </summary>
         /// <param name="parameter">
         /// Additionals parameters
@@ -41,7 +41,7 @@
             return true;
         }
         /// <summary>
-        /// Execute the command
+        /// Executes the command
         /// </summary>
         /// <param name="parameter">
         /// Command parameter
@@ -87,6 +87,6 @@
             registrationViewModel.WindowManager.SwitchMainWindow(
                 key: nameof(Galagram.Window.User.MainWindow),
                 viewModel: new ViewModel.User.MainWindowViewModel());
-            }
         }
+    }
 }

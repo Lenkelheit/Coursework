@@ -1,7 +1,7 @@
 ﻿namespace Galagram.ViewModel.Commands.User.Setting
 {
     /// <summary>
-    /// Clean all garbage resources
+    /// Cleans all garbage resources
     /// </summary>
     public class CloseCommand : CommandBase
     {
@@ -10,7 +10,7 @@
 
         // CONSTRUCTORS
         /// <summary>
-        /// Initialize a new instance of <see cref="CloseCommand"/>
+        /// Initializes a new instance of <see cref="CloseCommand"/>
         /// </summary>
         /// <param name="settingViewModel">
         /// An instance of <see cref="ViewModel.User.SettingViewModel"/>
@@ -22,7 +22,7 @@
 
         // METHODS
         /// <summary>
-        /// Check if command can be executed
+        /// Checks if command can be executed
         /// </summary>
         /// <param name="parameter">
         /// Additionals parameters
@@ -36,7 +36,7 @@
             return true;
         }
         /// <summary>
-        /// Execute command
+        /// Executes command
         /// </summary>
         /// <param name="parameter">
         /// Command parameters
@@ -48,9 +48,9 @@
             // field changed and changes has not been saved
             if (settingViewModel.DoesFieldChanged())
             {
-               if (Services.WindowManager.Instance.ShowMessageWindow(Core.Messages.Info.ViewModel.Command.User.Setting.Close.UNSAVED_CHANGES_MESSAGE, 
-                   Core.Messages.Info.MessageBoxHeader.WARNING, 
-                   Window.Enums.MessageBoxButton.YesNo) == false)
+                if (Services.WindowManager.Instance.ShowMessageWindow(Core.Messages.Info.ViewModel.Command.User.Setting.Close.UNSAVED_CHANGES_MESSAGE,
+                    Core.Messages.Info.MessageBoxHeader.WARNING,
+                    Window.Enums.MessageBoxButton.YesNo) == false)
                 {
                     // user press 'No'. 
                     // interrupt command execution
@@ -68,7 +68,6 @@
                 settingViewModel.Logger.LogAsync(Core.LogMode.Debug, "Remove temp folder");
                 System.IO.Directory.Delete(Core.Configuration.AppConfig.TEMP_FOLDER, true);
             }
-
         }
     }
 }

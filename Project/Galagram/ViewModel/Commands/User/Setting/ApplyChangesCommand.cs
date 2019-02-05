@@ -3,7 +3,7 @@
 namespace Galagram.ViewModel.Commands.User.Setting
 {
     /// <summary>
-    /// Change current user
+    /// Changes current user
     /// </summary>
     public class ApplyChangesCommand : CommandBase
     {
@@ -12,7 +12,7 @@ namespace Galagram.ViewModel.Commands.User.Setting
 
         // CONSTRUCTORS
         /// <summary>
-        /// Initialize a new instance of <see cref="ApplyChangesCommand"/>
+        /// Initializes a new instance of <see cref="ApplyChangesCommand"/>
         /// </summary>
         /// <param name="settingViewModel">
         /// An instance of <see cref="ViewModel.User.SettingViewModel"/>
@@ -24,7 +24,7 @@ namespace Galagram.ViewModel.Commands.User.Setting
 
         // METHODS
         /// <summary>
-        /// Check if command can be executed
+        /// Checks if command can be executed
         /// </summary>
         /// <param name="parameter">
         /// Additionals parameters
@@ -38,7 +38,7 @@ namespace Galagram.ViewModel.Commands.User.Setting
             return true;
         }
         /// <summary>
-        /// Execute command
+        /// Executes command
         /// </summary>
         /// <param name="parameter">
         /// Command parameters
