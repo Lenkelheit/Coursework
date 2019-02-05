@@ -1,6 +1,8 @@
 using System.Collections.Generic;
+
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 using static Core.Configuration.DBConfig;
 
@@ -9,17 +11,20 @@ namespace DataAccess.Entities
     /// <summary>
     /// Maps to Comments table
     /// </summary>
-	public class Comment : INotifyPropertyChanged
+	public class Comment : EntityBase, INotifyPropertyChanged
     {
         // PROPERTIES
         /// <summary>
         /// Unique identifier
         /// </summary>
-		public int Id { get; set; }
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public override System.Guid Id { get; set; }
+
         /// <summary>
         /// An user that wrote a comment
         /// </summary>
-		public virtual User User { get; set; }
+        public virtual User User { get; set; }
         /// <summary>
         /// A photo to which comment has been written
         /// </summary>
@@ -55,6 +60,25 @@ namespace DataAccess.Entities
         public void PropertyUpdates(string proppertyName)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(proppertyName));
+        }
+        #endregion
+
+        #region  to string option
+        /// <summary>
+        /// Gets entity name
+        /// </summary>
+        /// <returns>Entity's name</returns>
+        protected override string GetBriefInfo()
+        {
+            return string.Concat(nameof(Comment), " with text : ", Text.Substring(startIndex: 0, length: 20));
+        }
+        /// <summary>
+        /// Gets brief information about entity
+        /// </summary>
+        /// <returns>Brief information about entity</returns>
+        protected override string GetName()
+        {
+            return nameof(Comment);
         }
         #endregion
     }

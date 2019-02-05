@@ -20,22 +20,27 @@
 
         <!--HEADER-->
         <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"
-            Content="Comments" 
+            Content="Subject" 
             Style="{StaticResource CenterHeaderLabel_Admin}"/>
 
         <!--DATA GRID-->
         <DataGrid Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"
-                  Style="{StaticResource DataGridAdmin}">
+                  Style="{StaticResource DataGridAdmin}"
+                  ItemsSource="{Binding Entities}"
+                  SelectedItem="{Binding SelectedItem, Mode=OneWayToSource}">
             <DataGrid.Resources>
                 <Style TargetType="ScrollBar"/>
             </DataGrid.Resources>
             
             <!--cols-->
             <DataGrid.Columns>
-                <DataGridTextColumn Header="ID" Binding="{Binding Id}"
+                <DataGridTextColumn Header="ID" 
+                                    Binding="{Binding Id}"
                                     MinWidth="80"
                                     Width="80"/>
                 <DataGridTextColumn Header="Name" 
+                                    Binding="{Binding Name}"    
+                                    MinWidth="100"
                                     Width="*"/>
                 <DataGridTemplateColumn Header="Edit" 
                                         Width="40"
@@ -48,23 +53,12 @@
                                         CanUserResize="False"
                                         CellTemplate="{StaticResource RemoveColumnGridTemplate}"/>
             </DataGrid.Columns>
-
-            <RowDefinition />
-            <RowDefinition />
-            <RowDefinition />
-            <RowDefinition />
-            <RowDefinition />
-            <RowDefinition />
-            <RowDefinition />
-            <RowDefinition />
-            <RowDefinition />
-            <RowDefinition />
-            <RowDefinition />
         </DataGrid>
 
         <!--RESET BUTTON-->
         <Button Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2"
                 Content="Add new subject"
-                Style="{StaticResource AdminButton}"/>
+                Style="{StaticResource AdminButton}"
+                Command="{Binding CreateCommand}"/>
     </Grid>
 </UserControl>

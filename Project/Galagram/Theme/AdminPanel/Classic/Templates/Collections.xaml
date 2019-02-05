@@ -8,27 +8,42 @@
     <!--READ COLUMN TEMPLATE-->
     <DataTemplate x:Key="ReadColumnGridTemplate">
         <StackPanel>
-            <Image Source="/Resources/AdminImg/DataGrid/eye.png" 
+            <Button 
+                Style="{DynamicResource DataGridCellButton_Admin}" 
+                Command="{Binding DataContext.OpenCommand, RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=UserControl}}"
+                CommandParameter="{Binding DataContext.SelectedItem, RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=UserControl}}">
+                <Image Source="/Resources/AdminImg/DataGrid/eye.png" 
                    Cursor="Hand"
                    Width="20" Height="20"/>
+            </Button>
         </StackPanel>
     </DataTemplate>
 
     <!--EDIT COLUMN TEMPLATE-->
     <DataTemplate x:Key="EditColumnGridTemplate">
         <StackPanel>
-            <Image Source="/Resources/AdminImg/DataGrid/edit.png" 
+            <Button 
+                Style="{DynamicResource DataGridCellButton_Admin}" 
+                Command="{Binding DataContext.EditCommand, RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=UserControl}}"
+                CommandParameter="{Binding DataContext.SelectedItem, RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=UserControl}}">
+                <Image Source="/Resources/AdminImg/DataGrid/edit.png" 
                    Cursor="Hand"
                    Width="20" Height="20"/>
+            </Button>
         </StackPanel>
     </DataTemplate>
     
     <!--REMOVE COLUMN TEMPLATE-->
     <DataTemplate x:Key="RemoveColumnGridTemplate">
         <StackPanel >
-            <Image Source="/Resources/AdminImg/DataGrid/remove.png"
+            <Button 
+                Style="{DynamicResource DataGridCellButton_Admin}" 
+                Command="{Binding DataContext.DeleteCommand, RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=UserControl}}"
+                CommandParameter="{Binding DataContext.SelectedItem, RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=UserControl}}">
+                <Image Source="/Resources/AdminImg/DataGrid/remove.png"
                    Cursor="Hand"
                    Width="20" Height="20"/>
+            </Button>
         </StackPanel>
     </DataTemplate>
     
@@ -37,7 +52,8 @@
         <StackPanel>
             <Image Width="30" Height="40">
                 <Image.Source>
-                    <Binding Path="{x:Null}" >
+                    <Binding Path="MainPhotoPath" 
+                             Converter="{StaticResource ImageConverter}">
                         <Binding.FallbackValue>
                             <ImageSource>/Resources/OtherImg/NoAvatar.png</ImageSource>
                         </Binding.FallbackValue>
@@ -117,7 +133,7 @@
             <!--CONTENT-->
             <Image Width="50" Height="50" Grid.Row="0" Margin="0, 5, 0, 0">
                 <Image.Source>
-                    <Binding Path="null">
+                    <Binding Path="Photo.Path">
                         <Binding.TargetNullValue>
                             <ImageSource>/Resources/OtherImg/NoPhoto.png</ImageSource>
                         </Binding.TargetNullValue>
@@ -143,19 +159,19 @@
                 <!--like amount-->
                 <Image Grid.Row="0" Grid.Column="0" Source="/Resources/InterfaceImage/Heart.png"/>
                 <Label Grid.Row="1" Grid.Column="0" 
-                       Content="12"
+                       Content="{Binding LikeAmount}"
                        Style="{DynamicResource ListBoxPhotoLabel_Admin}"/>
 
                 <!--dislike amount-->
                 <Image Grid.Row="0" Grid.Column="1" Source="/Resources/InterfaceImage/BrokenHeart.png"/>
                 <Label Grid.Row="1" Grid.Column="1" 
-                       Content="12"
+                       Content="{Binding DislikeAmount}"
                        Style="{DynamicResource ListBoxPhotoLabel_Admin}"/>
 
                 <!--comments amount-->
                 <Image Grid.Row="0" Grid.Column="2" Source="/Resources/InterfaceImage/Conversation.png"/>
                 <Label Grid.Row="1" Grid.Column="2" 
-                       Content="12"
+                       Content="{Binding CommentAmount}"
                        Style="{DynamicResource ListBoxPhotoLabel_Admin}"/>
             </Grid>
         </Grid>

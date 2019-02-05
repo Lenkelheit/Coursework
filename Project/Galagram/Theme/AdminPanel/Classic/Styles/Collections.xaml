@@ -37,11 +37,13 @@
         <Setter Property="ItemContainerStyle" Value="{StaticResource ListBoxItemAdminMenu}"/>
     </Style>
 
-    <!--LIST BOX WITH CHECK BOXES-->
-    <Style TargetType="ListBox" x:Key="CheckedListBox">
+
+    
+    <!--LIST BOX REGULAR-->
+    <Style TargetType="ListBox" x:Key="ListBox_Admin">
         <!--colors-->
         <Setter Property="Background" Value="{StaticResource GrayColorBrushV1}"/>
-        
+
         <!--sizes-->
         <Setter Property="BorderThickness" Value="0"/>
         <Setter Property="Margin" Value="5, 10"/>
@@ -53,8 +55,12 @@
         <Setter Property="VirtualizingStackPanel.ScrollUnit" Value="Pixel"/>
         <Setter Property="VerticalAlignment" Value="Stretch"/>
         <Setter Property="HorizontalAlignment" Value="Stretch"/>
+    </Style>
 
-        
+    <!--LIST BOX WITH CHECK BOXES-->
+    <Style TargetType="ListBox" x:Key="CheckedListBox" BasedOn="{StaticResource ListBox_Admin}">
+
+        <!--Item container style-->
         <Setter Property="ItemContainerStyle">
             <Setter.Value>
                 <Style TargetType="ListBoxItem" >
@@ -65,7 +71,7 @@
         </Setter>
     </Style>
 
-    
+
     <!--LIST BOX WITH PHOTOS-->
     <Style TargetType="ListBox" x:Key="ListBoxPhoto_Admin">
         <Setter Property="Template" Value="{StaticResource PhotoList_Admin}"/>
@@ -78,6 +84,7 @@
                 <Style TargetType="ListBoxItem" >
                     <Setter Property="Template" Value="{DynamicResource PhotoListItem_Admin}"/>
                     <Setter Property="Cursor" Value="Hand"/>
+                    <Setter Property="Margin" Value="2"/>
                     <!--triggers-->
                     <Style.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">

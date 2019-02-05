@@ -54,9 +54,9 @@ namespace Galagram.Services
         /// Sets window initializer
         /// </summary>
         /// <param name="windowInitializers">
-        /// An instance of class that inheir from <see cref="DefaultWindowInitializers"/>
+        /// An instance of class that inheir from <see cref="WindowManagerInitializerBase"/>
         /// </param>
-        public static void SetInitializer(DefaultWindowInitializers windowInitializers)
+        public static void SetInitializer(WindowManagerInitializerBase windowInitializers)
         {
             // checking
             if (windowInitializers == null) throw new ArgumentNullException(nameof(windowInitializers));
@@ -90,7 +90,7 @@ namespace Galagram.Services
             // checking argument
             // key
             if (string.IsNullOrWhiteSpace(key)) throw new ArgumentNullException(nameof(key));
-            if (!factory.ContainsKey(key)) throw new InvalidOperationException(string.Format(Core.Messages.Error.View.WINDOW_MANAGER_NO_SUCH_KEY_FORMAT, nameof(key)));
+            if (!factory.ContainsKey(key)) throw new InvalidOperationException(string.Format(Core.Messages.Error.View.WINDOW_MANAGER_NO_SUCH_KEY_FORMAT, key));
 
             // return window instance created by current type extracted by key
             return (System.Windows.Window)Activator.CreateInstance(factory[key]);
@@ -118,7 +118,7 @@ namespace Galagram.Services
             // checking argument
             // key
             if (string.IsNullOrWhiteSpace(key)) throw new ArgumentNullException(nameof(key));
-            if (factory.ContainsKey(key)) throw new InvalidOperationException(string.Format(Core.Messages.Error.View.WINDOW_MANAGER_REGISTRATE_BY_THE_SAME_KEY_FORMAT, nameof(key)));
+            if (factory.ContainsKey(key)) throw new InvalidOperationException(string.Format(Core.Messages.Error.View.WINDOW_MANAGER_REGISTRATE_BY_THE_SAME_KEY_FORMAT, key));
             // value
             if (value == null) throw new ArgumentNullException(nameof(value));
             if (value.IsInterface || value.IsAbstract) throw new ArgumentException(nameof(value));
@@ -143,7 +143,7 @@ namespace Galagram.Services
             // checking argument
             // key
             if (string.IsNullOrWhiteSpace(key)) throw new ArgumentNullException(nameof(key));
-            if (!factory.ContainsKey(key)) throw new InvalidOperationException(string.Format(Core.Messages.Error.View.WINDOW_MANAGER_NO_SUCH_KEY_FORMAT, nameof(key)));
+            if (!factory.ContainsKey(key)) throw new InvalidOperationException(string.Format(Core.Messages.Error.View.WINDOW_MANAGER_NO_SUCH_KEY_FORMAT, key));
 
             // unregistrate
             factory.Remove(key);
@@ -199,11 +199,33 @@ namespace Galagram.Services
             // set view model
             window.DataContext = viewModel;
 
+            // remove if closed with other method
+            RemoveIfClosed(key);
+
             // save modal window to dictionary
             modalWindows.Add(key, window);
 
             // show window
             return window.ShowDialog();
+        }
+        private void RemoveIfClosed(string key)
+        {
+            // checking
+            if (string.IsNullOrWhiteSpace(key)) throw new System.ArgumentNullException(key);
+
+            // try get window
+            System.Windows.Window openedModalWindow;
+            if (modalWindows.TryGetValue(key, out openedModalWindow) == false)
+            {
+                // no key, return
+                return;
+            }
+
+            // remove if is not active
+            if (!openedModalWindow.IsActive)
+            {
+                modalWindows.Remove(key);
+            }
         }
         /// <summary>
         /// Closes a window opened as modal
@@ -241,7 +263,7 @@ namespace Galagram.Services
         // message box
         #region MessageBox
         /// <summary>
-        /// Open a message box window and returns only when a newly opened window is closed.
+        /// Opens a message box window and returns only when a newly opened window is closed.
         /// </summary>
         /// <param name="text">
         /// Specify the text of the window.
@@ -254,12 +276,15 @@ namespace Galagram.Services
         /// <exception cref="InvalidOperationException">
         /// Throws when message box is not registered.
         /// </exception>
+        /// <exception cref="InvalidCastException">
+        /// Throws when registered dialog does not inherit default interface
+        /// </exception>
         public bool? ShowMessageWindow(string text)
         {
             return ShowMessageWindow(text, String.Empty, MessageBoxButton.Ok);
         }
         /// <summary>
-        /// Open a message box window and returns only when a newly opened window is closed.
+        /// Opens a message box window and returns only when a newly opened window is closed.
         /// </summary>
         /// <param name="text">
         /// Specify the text of the window.
@@ -274,6 +299,9 @@ namespace Galagram.Services
         /// </returns>    
         /// <exception cref="InvalidOperationException">
         /// Throws when message box is not registered.
+        /// </exception>
+        /// <exception cref="InvalidCastException">
+        /// Throws when registered dialog does not inherit default interface
         /// </exception>
         public bool? ShowMessageWindow(string text, string header)
         {
@@ -336,6 +364,9 @@ namespace Galagram.Services
         /// <exception cref="ArgumentException">
         /// The filter string for current openFileDialog is invalid.
         /// </exception>
+        /// <exception cref="InvalidCastException">
+        /// Throws when registered dialog does not inherit default interface
+        /// </exception>
         public string[] OpenFileDialog(string filterString)
         {
             return OpenFileDialog(filterString, isMultiselectAllowed: false);
@@ -358,6 +389,9 @@ namespace Galagram.Services
         /// <exception cref="ArgumentException">
         /// The filter string for current openFileDialog is invalid.
         /// </exception>
+        /// <exception cref="InvalidCastException">
+        /// Throws when registered dialog does not inherit default interface
+        /// </exception>
         public string[] OpenFileDialog(string filterString, bool isMultiselectAllowed)
         {
             // make generic instance 
@@ -377,7 +411,7 @@ namespace Galagram.Services
         // main window
         #region main window
         /// <summary>
-        /// Switch current main window to passed one.
+        /// Switches current main window to passed one.
         /// </summary>
         /// <param name="key">
         /// A key by which window was registered.
@@ -393,7 +427,7 @@ namespace Galagram.Services
             SwitchMainWindow(key, null);
         }
         /// <summary>
-        /// Switch current main window to passed one.
+        /// Switches current main window to passed one.
         /// </summary>
         /// <param name="key">
         /// A key by which window was registered.
@@ -478,7 +512,7 @@ namespace Galagram.Services
             window.Show();
         }
         /// <summary>
-        /// Close opened as presentation window 
+        /// Closes opened as presentation window 
         /// </summary>
         /// <param name="viewModel">
         /// A DataContext for window

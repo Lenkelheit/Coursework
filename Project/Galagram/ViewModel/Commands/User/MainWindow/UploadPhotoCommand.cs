@@ -102,7 +102,7 @@
             }
         }
 
-        private string CopyPhotoToServer(string pathToPhoto, int userId, int photoId)
+        private string CopyPhotoToServer(string pathToPhoto, System.Guid userId, int photoId)
         {
             // create photo folder if neaded
             if (!System.IO.Directory.Exists(Core.Configuration.AppConfig.PHOTOS_SAVE_FOLDER))

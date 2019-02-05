@@ -54,7 +54,7 @@
             }
 
             // gets user id
-            int userId = followViewModel.Follow[index].Id;
+            System.Guid userId = followViewModel.Follow[index].Id;
             Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, $"User id {userId}");
 
             // sets new shown user

@@ -28,6 +28,8 @@ namespace Galagram.Services.WindowManagerInitializers
         public override void Initialize(WindowManager windowManager)
         {
             // registrate all windows
+            // registrate admin window
+            windowManager.Registrate(nameof(Window.Admin.AdminWindow), typeof(Window.Admin.AdminWindow));
             // registrate main window
             windowManager.Registrate(nameof(Window.Registration), typeof(Window.Registration));
             // registrate dialogs

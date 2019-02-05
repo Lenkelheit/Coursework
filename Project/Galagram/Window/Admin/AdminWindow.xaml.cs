@@ -11,6 +11,7 @@
         public AdminWindow()
         {
             InitializeComponent();
+            Services.DataStorage.Instance.AdminWindowContentControl = ContentControl;
         }
 
         // METHODS

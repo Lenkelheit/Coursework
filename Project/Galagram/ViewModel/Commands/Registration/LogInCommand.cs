@@ -73,11 +73,33 @@
             registrationViewModel.DataStorage.LoggedUser = user;
             registrationViewModel.DataStorage.ShownUser = user;
 
-            // open new window with current user
-            Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, "User logged in. Registration window close. Main window opens.");
-            registrationViewModel.WindowManager.SwitchMainWindow(
-                key: nameof(Window.User.MainWindow),
-                viewModel: new ViewModel.User.MainWindowViewModel());
+            // check if want to log in as admin
+            bool doLogInAsAdmin = false;
+            if (user.IsAdmin)
+            {
+                doLogInAsAdmin = Services.WindowManager.Instance.ShowMessageWindow(
+                    text: Core.Messages.Info.ViewModel.Command.Registration.IS_NEED_LOG_IN_AS_ADMIN, 
+                    header: string.Empty, 
+                    buttonType: Window.Enums.MessageBoxButton.YesNo).Value;
+            }
+
+            // log in
+            if (doLogInAsAdmin)
+            {
+                // opens admin window
+                Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, "User logged in. Registration window close. Admin window opens.");
+                registrationViewModel.WindowManager.SwitchMainWindow(
+                    key: nameof(Window.Admin.AdminWindow),
+                    viewModel: new ViewModel.Admin.AdminWindowViewModel());
+            }
+            else
+            {
+                // opens new window with current user
+                Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, "User logged in. Registration window close. Main window opens.");
+                registrationViewModel.WindowManager.SwitchMainWindow(
+                    key: nameof(Window.User.MainWindow),
+                    viewModel: new ViewModel.User.MainWindowViewModel());
+            }
             
         }
     }

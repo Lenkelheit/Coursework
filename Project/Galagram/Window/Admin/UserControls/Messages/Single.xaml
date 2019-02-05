@@ -28,14 +28,14 @@
                Style="{StaticResource ItemLabel_Admin}"/>
         <TextBox Grid.Row="0" Grid.Column="1" 
                  IsReadOnly="True"
-                 Text="#"
+                 Text="{Binding ShownEntity.Id, Mode=OneTime}"
                  Style="{StaticResource ItemTextBox_Admin}"/>
         <!--AUTHOR-->
         <Label Grid.Row="1" Grid.Column="0" 
                Content="Author"
                Style="{StaticResource ItemLabel_Admin}"/>
         <TextBox Grid.Row="1" Grid.Column="1" 
-                 Text="Author Name"
+                 Text="{Binding ShownEntity.User.NickName, Mode=OneTime}"
                  IsReadOnly="True"
                  Style="{StaticResource ItemTextBox_Admin}"/>
         <!--SUBJECT-->
@@ -43,7 +43,7 @@
                Content="Subject"
                Style="{StaticResource ItemLabel_Admin}"/>
         <TextBox Grid.Row="2" Grid.Column="1" 
-                 Text="Subject name"
+                 Text="{Binding ShownEntity.Subject.Name, Mode=OneTime}"
                  IsReadOnly="True"
                  Style="{StaticResource ItemTextBox_Admin}"/>
         <!--DATE-->
@@ -52,7 +52,7 @@
                Style="{StaticResource ItemLabel_Admin}"/>
         <TextBox Grid.Row="3" Grid.Column="1" 
                  IsReadOnly="True"
-                 Text="22/12/2014"
+                 Text="{Binding ShownEntity.Date, Mode=OneTime}"
                  Style="{StaticResource ItemTextBox_Admin}"/>
         <!--TEXT-->
         <Label Grid.Row="4" Grid.Column="0" 
@@ -61,16 +61,19 @@
 
         <TextBox Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2"
                  IsReadOnly="True"
-                 Text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras accumsan mi a quam viverra luctus. Suspendisse ut vulputate nisi, nec fermentum libero. Morbi sollicitudin, orci sit amet congue cursus, nibh nunc lobortis orci, et hendrerit arcu nunc a lorem. Curabitur dignissim risus non diam ornare mattis ac vitae elit. Suspendisse euismod gravida diam et varius. Sed quis commodo magna. Nunc a ex nec erat feugiat dapibus. Donec id nulla et dolor efficitur convallis. Maecenas vel sem neque. Vivamus volutpat quam ac urna condimentum, vitae posuere neque scelerisque. Aenean et lacinia dolor."
+                 Text="{Binding ShownEntity.Text, Mode=OneTime}"
                  Style="{StaticResource ItemTextBoxMultiline_Admin}"/>
 
         <!--BUTTONS-->
         <Button Grid.Row="6" Grid.Column="0"  
                 Style="{StaticResource AdminButton}"
-                Content="Go Back"/>
+                Content="Go Back"
+                Command="{Binding GoBackCommand}"/>
         <Button Grid.Row="6" Grid.Column="1"  
                 Style="{StaticResource AdminButton}"
-                Content="Delete"/>
+                Content="{Binding CrudOperationName}"
+                Command="{Binding CrudOperation}"
+                CommandParameter="{Binding ShownEntity}"/>
 
     </Grid>
 </UserControl>
