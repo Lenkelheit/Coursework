@@ -21,7 +21,8 @@ namespace UnitTest.DataAccess.Repositories
         [ClassInitialize]
         public static void Constructor(TestContext context)
         {
-            dbFiller = new Resources.Classes.DbFiller();
+            dbFiller = Resources.Classes.DbFiller.Instance;
+
             dbContext = Resources.Initializers.DatabaseInitializer.DBContext;
         }
         [TestInitialize]
@@ -43,7 +44,7 @@ namespace UnitTest.DataAccess.Repositories
         {
             // Arrange
             CommentLikeRepository commentLikeRepository = new CommentLikeRepository(dbContext);
-            int expectedCommentLikesInDb = 22;
+            int expectedCommentLikesInDb = Resources.Classes.DbFiller.Instance.CommentLikeAmount;
 
             // Act
             int actualCommentLikesInDb = commentLikeRepository.Count();
@@ -52,11 +53,11 @@ namespace UnitTest.DataAccess.Repositories
             Assert.AreEqual(expectedCommentLikesInDb, actualCommentLikesInDb);
         }
         [TestMethod]
-        public void CountIfIsLikedTrueIs14()
+        public void CountIf_IsLikedTrue()
         {
             // Arrange
             CommentLikeRepository commentLikeRepository = new CommentLikeRepository(dbContext);
-            int expectedCommentLikesWithIsLikedTrue = 14;
+            int expectedCommentLikesWithIsLikedTrue = Resources.Classes.DbFiller.Instance.CommentLikeAmountWithLike;
 
             // Act
             int actualCommentLikesWithIsLikedTrue = commentLikeRepository.Count(commentLike => commentLike.IsLiked == true);
@@ -72,62 +73,62 @@ namespace UnitTest.DataAccess.Repositories
         {
             // Arrange
             CommentLikeRepository commentLikeRepository = new CommentLikeRepository(dbContext);
-            int expectedCommentLikeInDb = 22;
+            int expectedCommentLikeInDb = Resources.Classes.DbFiller.Instance.CommentLikeAmount;
 
             // Act
-            IEnumerable<CommentLike> commentLikeFromDb = commentLikeRepository.Get();
-            int actualCommentLikeInDb = commentLikeFromDb.Count();
+            CommentLike[] commentLikeFromDb = commentLikeRepository.Get().ToArray();
+            int actualCommentLikeInDb = commentLikeFromDb.Length;
 
             // Assert
             Assert.AreEqual(expectedCommentLikeInDb, actualCommentLikeInDb);
-            CollectionAssert.AreEquivalent(dbContext.CommentLike.ToArray(), commentLikeFromDb.ToArray());
+            CollectionAssert.AreEquivalent(dbContext.CommentLike.ToArray(), commentLikeFromDb);
         }
         [TestMethod]
         public void GetFilterByIsLiked()
         {
             // Arrange
             CommentLikeRepository commentLikeRepository = new CommentLikeRepository(dbContext);
-            int expectedCommentLikeInDb = 14;
+            int expectedCommentLikeWithLikeInDb = Resources.Classes.DbFiller.Instance.CommentLikeAmountWithLike;
 
             // Act
-            IEnumerable<CommentLike> commentLikeFromDb = commentLikeRepository.Get(filter: commentLike => commentLike.IsLiked == true);
-            int actualCommentLikeInDb = commentLikeFromDb.Count();
+            CommentLike[] commentLikeFromDb = commentLikeRepository.Get(filter: commentLike => commentLike.IsLiked == true).ToArray();
+            int actualCommentLikeWithLikeInDb = commentLikeFromDb.Length;
 
             // Assertz
-            Assert.AreEqual(expectedCommentLikeInDb, actualCommentLikeInDb);
-            CollectionAssert.IsSubsetOf(commentLikeFromDb.ToArray(), dbContext.CommentLike.ToArray());
+            Assert.AreEqual(expectedCommentLikeWithLikeInDb, actualCommentLikeWithLikeInDb);
+            CollectionAssert.IsSubsetOf(commentLikeFromDb, dbContext.CommentLike.ToArray());
         }
         [TestMethod]
         public void GetOrder()
         {
             // Arrange
             CommentLikeRepository commentLikeRepository = new CommentLikeRepository(dbContext);
-            int expectedCommentLikeInDb = 22;
+            int expectedCommentLikeInDb = Resources.Classes.DbFiller.Instance.CommentLikeAmount;
 
             // Act
-            IEnumerable<CommentLike> commentLikeFromDb = commentLikeRepository.Get(orderBy: commentLike => commentLike.OrderBy(cl => cl.IsLiked));
-            int actualCommentLikeInDb = commentLikeFromDb.Count();
+            CommentLike[] commentLikeFromDb = commentLikeRepository.Get(orderBy: commentLike => commentLike.OrderBy(cl => cl.IsLiked)).ToArray();
+            int actualCommentLikeInDb = commentLikeFromDb.Length;
 
             // Assert
             Assert.AreEqual(expectedCommentLikeInDb, actualCommentLikeInDb);
-            CollectionAssert.AreEqual(dbContext.CommentLike.OrderBy(cl => cl.IsLiked).ToArray(), commentLikeFromDb.ToArray());
+            CollectionAssert.AreEqual(dbContext.CommentLike.OrderBy(cl => cl.IsLiked).ToArray(), commentLikeFromDb);
         }
         [TestMethod]
         public void GetFilterAndOrder()
         {
             // Arrange
             CommentLikeRepository commentLikeRepository = new CommentLikeRepository(dbContext);
-            int expectedCommentLikeInDb = 14;
+            int expectedCommentLikeWithLikeInDb = Resources.Classes.DbFiller.Instance.CommentLikeAmountWithLike;
+            CommentLike[] likesInDb = dbContext.CommentLike.Where(cl => cl.IsLiked == true).OrderByDescending(cl => cl.User.NickName).ToArray();
 
             // Act
-            IEnumerable<CommentLike> commentLikeFromDb = commentLikeRepository
-                .Get(filter: cl => cl.IsLiked == true, orderBy: o => o.OrderByDescending(cl => cl.User.NickName));
-            int actualCommentLikeInDb = commentLikeFromDb.Count();
+            CommentLike[] commentLikeFromDb = commentLikeRepository
+                .Get(filter: cl => cl.IsLiked == true, orderBy: o => o.OrderByDescending(cl => cl.User.NickName)).ToArray();
+            int actualCommentLikeWithLikeInDb = commentLikeFromDb.Count();
 
             // Assert
-            Assert.AreEqual(expectedCommentLikeInDb, actualCommentLikeInDb);
-            CollectionAssert.AreEqual(dbContext.CommentLike.Where(cl => cl.IsLiked == true)
-                .OrderByDescending(cl => cl.User.NickName).ToArray(), commentLikeFromDb.ToArray());
+            Assert.AreEqual(expectedCommentLikeWithLikeInDb, actualCommentLikeWithLikeInDb);
+            CollectionAssert.AreEqual(likesInDb, commentLikeFromDb);
         }
         #endregion
         // GET BY ID
@@ -305,7 +306,8 @@ namespace UnitTest.DataAccess.Repositories
             CommentLikeRepository commentLikeRepository = new CommentLikeRepository(dbContext);
             CommentLike commentLikeFromDb = dbContext.CommentLike.First();
             CommentLike expectedCommentLikeFromDb = null;
-            User user = dbContext.Users.Where(u => u.NickName == "Harold").First();
+            string userNicknameWithouLike = Resources.Classes.DbFiller.Instance.UserWithoutCommentLike;
+            User user = dbContext.Users.First(u => u.NickName == userNicknameWithouLike);
 
             // Act
             CommentLike actualCommentLikeFromDb = commentLikeRepository.TryGetUserLike(commentLikeFromDb.Comment, user);

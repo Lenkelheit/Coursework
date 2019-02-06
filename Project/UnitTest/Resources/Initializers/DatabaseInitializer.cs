@@ -22,7 +22,7 @@ namespace UnitTest.Resources.Initializers
         public static void Finalizer()
         {
             dbContext.Dispose();
-            if (Core.Configuration.AppConfig.DO_DELETE_TEST_DB) System.Data.Entity.Database.Delete(connectionString);
+            if (Core.Configuration.TestConfig.DO_DELETE_TEST_DB) System.Data.Entity.Database.Delete(connectionString);
         }
 
         // PROPERTIES

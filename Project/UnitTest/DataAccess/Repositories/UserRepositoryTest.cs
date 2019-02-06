@@ -23,7 +23,8 @@ namespace UnitTest.DataAccess.Repositories
         [ClassInitialize]
         public static void Constructor(TestContext context)
         {
-            dbFiller = new Resources.Classes.DbFiller();
+            dbFiller = Resources.Classes.DbFiller.Instance;
+
             dbContext = Resources.Initializers.DatabaseInitializer.DBContext;
         }
         [TestInitialize]
@@ -45,7 +46,7 @@ namespace UnitTest.DataAccess.Repositories
         {
             // Arrange
             UserRepository userRepository = new UserRepository(dbContext);
-            int expectedUserInDb = 5;
+            int expectedUserInDb = Resources.Classes.DbFiller.Instance.UserAmount;
 
             // Act
             int actualUserInDb = userRepository.Count();
@@ -58,7 +59,7 @@ namespace UnitTest.DataAccess.Repositories
         {
             // Arrange
             UserRepository userRepository = new UserRepository(dbContext);
-            int expectedUserWithoutAvatarInDb = 2;
+            int expectedUserWithoutAvatarInDb = Resources.Classes.DbFiller.Instance.UserWithoutAvatar;
 
             // Act
             int actualUserWithoutAvatarDb = userRepository.Count(user => string.IsNullOrWhiteSpace(user.MainPhotoPath));
@@ -71,7 +72,7 @@ namespace UnitTest.DataAccess.Repositories
         {
             // Arrange
             UserRepository userRepository = new UserRepository(dbContext);
-            int expectedAdminAmount = 1;
+            int expectedAdminAmount = Resources.Classes.DbFiller.Instance.AdminAmount;
 
             // Act
             int actualAdminAmount = userRepository.Count(user => user.IsAdmin);
@@ -87,60 +88,64 @@ namespace UnitTest.DataAccess.Repositories
         {
             // Arrange
             UserRepository userRepository = new UserRepository(dbContext);
-            int expectedUserInDb = 5;
+            int expectedUserInDb = Resources.Classes.DbFiller.Instance.UserAmount;
 
             // Act
-            IEnumerable<User> usersFromDb = userRepository.Get();
-            int actualUserInDb = usersFromDb.Count();
+            User[] usersFromDb = userRepository.Get().ToArray();
+            int actualUserInDb = usersFromDb.Length;
 
             // Assert
             Assert.AreEqual(expectedUserInDb, actualUserInDb);
-            CollectionAssert.AreEquivalent(dbContext.Users.ToArray(), usersFromDb.ToArray());
+            CollectionAssert.AreEquivalent(dbContext.Users.ToArray(), usersFromDb);
         }
         [TestMethod]
         public void GetFilterByPhotoAmount()
         {
-            // Arrange
-            UserRepository userRepository = new UserRepository(dbContext);
-            int expectedUserInDb = 2;
+            if (Core.Configuration.TestConfig.DATA_BASE_FILL_MODE == Core.Enums.DataBaseFillMode.Regular)
+            {
+                // Arrange
+                UserRepository userRepository = new UserRepository(dbContext);
+                int expectedUserInDb = 2;
 
-            // Act
-            IEnumerable<User> usersFromDb = userRepository.Get(filter: user => user.Photos.Count > 2);
-            int actualUserInDb = usersFromDb.Count();
+                // Act
+                User[] usersFromDb = userRepository.Get(filter: user => user.Photos.Count > 2).ToArray();
+                int actualUserInDb = usersFromDb.Length;
 
-            // Assert
-            Assert.AreEqual(expectedUserInDb, actualUserInDb);
-            CollectionAssert.IsSubsetOf(usersFromDb.ToArray(), dbContext.Users.ToArray());
+                // Assert
+                Assert.AreEqual(expectedUserInDb, actualUserInDb);
+                CollectionAssert.IsSubsetOf(usersFromDb, dbContext.Users.ToArray());
+            }
         }
         [TestMethod]
         public void GetOrder()
         {
             // Arrange
             UserRepository userRepository = new UserRepository(dbContext);
-            int expectedUserInDb = 5;
+            int expectedUserInDb = Resources.Classes.DbFiller.Instance.UserAmount;
 
             // Act
-            IEnumerable<User> usersFromDb = userRepository.Get(orderBy: user => user.OrderBy(u => u.NickName));
-            int actualUserInDb = usersFromDb.Count();
+            User[] usersFromDb = userRepository.Get(orderBy: user => user.OrderBy(u => u.NickName)).ToArray();
+            int actualUserInDb = usersFromDb.Length;
 
             // Assert
             Assert.AreEqual(expectedUserInDb, actualUserInDb);
-            CollectionAssert.AreEqual(dbContext.Users.OrderBy(u => u.NickName).ToArray(), usersFromDb.ToArray());
+            CollectionAssert.AreEqual(dbContext.Users.OrderBy(u => u.NickName).ToArray(), usersFromDb);
         }
         [TestMethod]
         public void GetFilterAndOrder()
         {
             // Arrange
             UserRepository userRepository = new UserRepository(dbContext);
-            int expectedUserInDb = 5;
+            int expectedUserInDb = Resources.Classes.DbFiller.Instance.UserAmount;
+            User[] valuesInDataBase = dbContext.Users.Where(u => u.Messages.Count > 0).OrderByDescending(u => u.NickName).ToArray();
 
             // Act
-            IEnumerable<User> usersFromDb = userRepository.Get(filter: user => user.Messages.Count > 0, orderBy: o => o.OrderByDescending(user => user.NickName));
-            int actualUserInDb = usersFromDb.Count();
+            User[] usersFromDb = userRepository.Get(filter: user => user.Messages.Count > 0, orderBy: o => o.OrderByDescending(user => user.NickName)).ToArray();
+            int actualUserInDb = usersFromDb.Length;
 
             // Assert
             Assert.AreEqual(expectedUserInDb, actualUserInDb);
-            CollectionAssert.AreEqual(dbContext.Users.Where(u => u.Messages.Count > 0).OrderByDescending(u => u.NickName).ToArray(), usersFromDb.ToArray());
+            CollectionAssert.AreEqual(valuesInDataBase, usersFromDb);
         }
         #endregion
         // GET BY ID
@@ -193,48 +198,51 @@ namespace UnitTest.DataAccess.Repositories
         [TestMethod]
         public void GetByNickname_HasAllColumn()
         {
-            // Arrange
-            UserRepository userRepository = new UserRepository(dbContext);
-            string nameToSearch = "Harold";
+            if (Core.Configuration.TestConfig.DATA_BASE_FILL_MODE == Core.Enums.DataBaseFillMode.Regular)
+            {
+                // Arrange
+                UserRepository userRepository = new UserRepository(dbContext);
+                string nameToSearch = "Harold";
 
-            string expectedNickname = "Harold";
-            string expectedPassword = "1111";
-            string expectedAvatarPath = "1223/466/64.jpg";
-            bool expectedIsAdminValue = true;
-            int expectedFollowersAmount = 0;
-            int expectedFollowingAmount = 2;
-            int expectedPhotoAmount = 2;
-            int expectedCommentAmount = 0;
-            int expectedMessagesAmount = 2;
-            int expectedCommentLikeAmount = 3;
-            int expectedPhotoLikeAmount = 4;
+                string expectedNickname = "Harold";
+                string expectedPassword = "1111";
+                string expectedAvatarPath = "1223/466/64.jpg";
+                bool expectedIsAdminValue = true;
+                int expectedFollowersAmount = 0;
+                int expectedFollowingAmount = 2;
+                int expectedPhotoAmount = 2;
+                int expectedCommentAmount = 0;
+                int expectedMessagesAmount = 2;
+                int expectedCommentLikeAmount = 3;
+                int expectedPhotoLikeAmount = 0;
 
-            // Act
-            User usersFromDb = userRepository.Get(nameToSearch);
-            string actualNickname = usersFromDb.NickName;
-            string actualPassword = usersFromDb.Password;
-            string actualAvatarPath = usersFromDb.MainPhotoPath;
-            bool actualIsAdminValue = usersFromDb.IsAdmin;
-            int actualFollowersAmount = usersFromDb.Followers.Count;
-            int actualFollowingAmount = usersFromDb.Following.Count;
-            int actualPhotoAmount = usersFromDb.Photos.Count;
-            int actualCommentAmount = usersFromDb.Comments.Count;
-            int actualMessagesAmount = usersFromDb.Messages.Count;
-            int actualCommentLikeAmount = usersFromDb.CommentLikes.Count;
-            int actualPhotoLikeAmount = usersFromDb.PhotoLikes.Count;
+                // Act
+                User usersFromDb = userRepository.Get(nameToSearch);
+                string actualNickname = usersFromDb.NickName;
+                string actualPassword = usersFromDb.Password;
+                string actualAvatarPath = usersFromDb.MainPhotoPath;
+                bool actualIsAdminValue = usersFromDb.IsAdmin;
+                int actualFollowersAmount = usersFromDb.Followers.Count;
+                int actualFollowingAmount = usersFromDb.Following.Count;
+                int actualPhotoAmount = usersFromDb.Photos.Count;
+                int actualCommentAmount = usersFromDb.Comments.Count;
+                int actualMessagesAmount = usersFromDb.Messages.Count;
+                int actualCommentLikeAmount = usersFromDb.CommentLikes.Count;
+                int actualPhotoLikeAmount = usersFromDb.PhotoLikes.Count;
 
-            // Assert
-            Assert.AreEqual(expectedNickname, actualNickname, "Nicknames are not the same");
-            Assert.AreEqual(expectedPassword, actualPassword, "Passwords are not the same");
-            Assert.AreEqual(expectedAvatarPath, actualAvatarPath, "Avatar pathes are not the same");
-            Assert.AreEqual(expectedIsAdminValue, actualIsAdminValue, "Is Admin values are not the same");
-            Assert.AreEqual(expectedFollowersAmount, actualFollowersAmount, "Followers amount are not the same");
-            Assert.AreEqual(expectedFollowingAmount, actualFollowingAmount, "Following amount are not the same");
-            Assert.AreEqual(expectedPhotoAmount, actualPhotoAmount, "Photos amount are not the same");
-            Assert.AreEqual(expectedCommentAmount, actualCommentAmount, "Comments amount are not the same");
-            Assert.AreEqual(expectedMessagesAmount, actualMessagesAmount, "Messages amount are not the same");
-            Assert.AreEqual(expectedCommentLikeAmount, actualCommentLikeAmount, "Comment likes amount are not the same");
-            Assert.AreEqual(expectedPhotoLikeAmount, actualPhotoLikeAmount, "Photo likes amount are not the same");
+                // Assert
+                Assert.AreEqual(expectedNickname, actualNickname, "Nicknames are not the same");
+                Assert.AreEqual(expectedPassword, actualPassword, "Passwords are not the same");
+                Assert.AreEqual(expectedAvatarPath, actualAvatarPath, "Avatar pathes are not the same");
+                Assert.AreEqual(expectedIsAdminValue, actualIsAdminValue, "Is Admin values are not the same");
+                Assert.AreEqual(expectedFollowersAmount, actualFollowersAmount, "Followers amount are not the same");
+                Assert.AreEqual(expectedFollowingAmount, actualFollowingAmount, "Following amount are not the same");
+                Assert.AreEqual(expectedPhotoAmount, actualPhotoAmount, "Photos amount are not the same");
+                Assert.AreEqual(expectedCommentAmount, actualCommentAmount, "Comments amount are not the same");
+                Assert.AreEqual(expectedMessagesAmount, actualMessagesAmount, "Messages amount are not the same");
+                Assert.AreEqual(expectedCommentLikeAmount, actualCommentLikeAmount, "Comment likes amount are not the same");
+                Assert.AreEqual(expectedPhotoLikeAmount, actualPhotoLikeAmount, "Photo likes amount are not the same");
+            }
         }
         [TestMethod]
         public void GetByWrongNickname_Null()
@@ -410,49 +418,52 @@ namespace UnitTest.DataAccess.Repositories
         [TestMethod]
         public void DeleteByKey()
         {
-            // Arrange
-            UserRepository userRepository = new UserRepository(dbContext);
-            User expectedDeletedUser = dbContext.Users.First();
-            Guid idToDelete = expectedDeletedUser.Id;
+            if (Core.Configuration.TestConfig.DATA_BASE_FILL_MODE == Core.Enums.DataBaseFillMode.Regular)
+            {
+                // Arrange
+                UserRepository userRepository = new UserRepository(dbContext);
+                User expectedDeletedUser = dbContext.Users.First();
+                Guid idToDelete = expectedDeletedUser.Id;
 
-            // Act
-            List<PhotoLike> deletedPhotoLikesOfPhotos = dbContext.PhotoLike
-                .AsEnumerable().Where(pl => expectedDeletedUser.Photos.Contains(pl.Photo)).ToList();
+                // Act
+                List<PhotoLike> deletedPhotoLikesOfPhotos = dbContext.PhotoLike
+                    .AsEnumerable().Where(pl => expectedDeletedUser.Photos.Contains(pl.Photo)).ToList();
 
-            List<Comment> deletedCommentsOfPhotos = dbContext.Comments
-                .AsEnumerable().Where(c => expectedDeletedUser.Photos.Contains(c.Photo)).ToList();
+                List<Comment> deletedCommentsOfPhotos = dbContext.Comments
+                    .AsEnumerable().Where(c => expectedDeletedUser.Photos.Contains(c.Photo)).ToList();
 
-            List<CommentLike> deletedCommentLikesOfPhotosComments = dbContext.CommentLike
-                .AsEnumerable().Where(cl => deletedCommentsOfPhotos.Contains(cl.Comment)).ToList();
+                List<CommentLike> deletedCommentLikesOfPhotosComments = dbContext.CommentLike
+                    .AsEnumerable().Where(cl => deletedCommentsOfPhotos.Contains(cl.Comment)).ToList();
 
-            userRepository.Delete(idToDelete);
-            dbContext.SaveChanges();
+                userRepository.Delete(idToDelete);
+                dbContext.SaveChanges();
 
-            // Assert
-            CollectionAssert.DoesNotContain(dbContext.Users.ToArray(), expectedDeletedUser);
-            // Checks if all photolikes of user are deleted.
-            Assert.IsFalse(dbContext.PhotoLike.AsEnumerable().Any(pl => pl.User == null || pl.User.Id == expectedDeletedUser.Id));
-            // Checks if all user's comments are deleted.
-            Assert.IsFalse(dbContext.Comments.AsEnumerable().Any(c => c.User == null || c.User.Id == expectedDeletedUser.Id));
-            // Checks if all commentlikes of user are deleted.
-            Assert.IsFalse(dbContext.CommentLike.AsEnumerable().Any(cl => cl.User == null || cl.User.Id == expectedDeletedUser.Id));
-            // Checks if all photos of user are deleted.
-            Assert.IsFalse(dbContext.Photos.AsEnumerable().Any(p => p.User == null || p.User.Id == expectedDeletedUser.Id));
+                // Assert
+                CollectionAssert.DoesNotContain(dbContext.Users.ToArray(), expectedDeletedUser);
+                // Checks if all photolikes of user are deleted.
+                Assert.IsFalse(dbContext.PhotoLike.AsEnumerable().Any(pl => pl.User == null || pl.User.Id == expectedDeletedUser.Id));
+                // Checks if all user's comments are deleted.
+                Assert.IsFalse(dbContext.Comments.AsEnumerable().Any(c => c.User == null || c.User.Id == expectedDeletedUser.Id));
+                // Checks if all commentlikes of user are deleted.
+                Assert.IsFalse(dbContext.CommentLike.AsEnumerable().Any(cl => cl.User == null || cl.User.Id == expectedDeletedUser.Id));
+                // Checks if all photos of user are deleted.
+                Assert.IsFalse(dbContext.Photos.AsEnumerable().Any(p => p.User == null || p.User.Id == expectedDeletedUser.Id));
 
-            // Checks if all user's photos' photolikes are deleted.
-            CollectionAssert.IsNotSubsetOf(deletedPhotoLikesOfPhotos, dbContext.PhotoLike.ToList());
-            // Checks if all user's photos' comments are deleted.
-            CollectionAssert.IsNotSubsetOf(deletedCommentsOfPhotos, dbContext.Comments.ToList());
-            // Checks if all user's photos' comments' commentlikes are deleted.
-            CollectionAssert.IsNotSubsetOf(deletedCommentLikesOfPhotosComments, dbContext.CommentLike.ToList());
+                // Checks if all user's photos' photolikes are deleted.
+                CollectionAssert.IsNotSubsetOf(deletedPhotoLikesOfPhotos, dbContext.PhotoLike.ToList());
+                // Checks if all user's photos' comments are deleted.
+                CollectionAssert.IsNotSubsetOf(deletedCommentsOfPhotos, dbContext.Comments.ToList());
+                // Checks if all user's photos' comments' commentlikes are deleted.
+                CollectionAssert.IsNotSubsetOf(deletedCommentLikesOfPhotosComments, dbContext.CommentLike.ToList());
 
-            // Checks if all user's messages are deleted.
-            Assert.IsFalse(dbContext.Messages.AsEnumerable().Any(m => m.User.Id == expectedDeletedUser.Id));
+                // Checks if all user's messages are deleted.
+                Assert.IsFalse(dbContext.Messages.AsEnumerable().Any(m => m.User.Id == expectedDeletedUser.Id));
 
-            // Checks if user isn't somebody's follower.
-            Assert.IsFalse(dbContext.Users.AsEnumerable().Any(u => u.Followers.Contains(expectedDeletedUser)));
-            // Checks if user isn't somebody's following.
-            Assert.IsFalse(dbContext.Users.AsEnumerable().Any(u => u.Following.Contains(expectedDeletedUser)));
+                // Checks if user isn't somebody's follower.
+                Assert.IsFalse(dbContext.Users.AsEnumerable().Any(u => u.Followers.Contains(expectedDeletedUser)));
+                // Checks if user isn't somebody's following.
+                Assert.IsFalse(dbContext.Users.AsEnumerable().Any(u => u.Following.Contains(expectedDeletedUser)));
+            }
         }
         [TestMethod]
         public void DeleteByWrongKey_Exception()
@@ -482,48 +493,51 @@ namespace UnitTest.DataAccess.Repositories
         [TestMethod]
         public void DeleteByValue()
         {
-            // Arrange
-            UserRepository userRepository = new UserRepository(dbContext);
-            User userToDelete = dbContext.Users.First();
+            if (Core.Configuration.TestConfig.DATA_BASE_FILL_MODE == Core.Enums.DataBaseFillMode.Regular)
+            {
+                // Arrange
+                UserRepository userRepository = new UserRepository(dbContext);
+                User userToDelete = dbContext.Users.First();
 
-            // Act
-            List<PhotoLike> deletedPhotoLikesOfPhotos = dbContext.PhotoLike
-                .AsEnumerable().Where(pl => userToDelete.Photos.Contains(pl.Photo)).ToList();
+                // Act
+                List<PhotoLike> deletedPhotoLikesOfPhotos = dbContext.PhotoLike
+                    .AsEnumerable().Where(pl => userToDelete.Photos.Contains(pl.Photo)).ToList();
 
-            List<Comment> deletedCommentsOfPhotos = dbContext.Comments
-                .AsEnumerable().Where(c => userToDelete.Photos.Contains(c.Photo)).ToList();
+                List<Comment> deletedCommentsOfPhotos = dbContext.Comments
+                    .AsEnumerable().Where(c => userToDelete.Photos.Contains(c.Photo)).ToList();
 
-            List<CommentLike> deletedCommentLikesOfPhotosComments = dbContext.CommentLike
-                .AsEnumerable().Where(cl => deletedCommentsOfPhotos.Contains(cl.Comment)).ToList();
+                List<CommentLike> deletedCommentLikesOfPhotosComments = dbContext.CommentLike
+                    .AsEnumerable().Where(cl => deletedCommentsOfPhotos.Contains(cl.Comment)).ToList();
 
-            userRepository.Delete(userToDelete);
-            dbContext.SaveChanges();
+                userRepository.Delete(userToDelete);
+                dbContext.SaveChanges();
 
-            // Assert
-            CollectionAssert.DoesNotContain(dbContext.Users.ToArray(), userToDelete);
-            // Checks if all photolikes of user are deleted.
-            Assert.IsFalse(dbContext.PhotoLike.AsEnumerable().Any(pl => pl.User == null || pl.User.Id == userToDelete.Id));
-            // Checks if all user's comments are deleted.
-            Assert.IsFalse(dbContext.Comments.AsEnumerable().Any(c => c.User == null || c.User.Id == userToDelete.Id));
-            // Checks if all commentlikes of user are deleted.
-            Assert.IsFalse(dbContext.CommentLike.AsEnumerable().Any(cl => cl.User == null || cl.User.Id == userToDelete.Id));
-            // Checks if all photos of user are deleted.
-            Assert.IsFalse(dbContext.Photos.AsEnumerable().Any(p => p.User == null || p.User.Id == userToDelete.Id));
+                // Assert
+                CollectionAssert.DoesNotContain(dbContext.Users.ToArray(), userToDelete);
+                // Checks if all photolikes of user are deleted.
+                Assert.IsFalse(dbContext.PhotoLike.AsEnumerable().Any(pl => pl.User == null || pl.User.Id == userToDelete.Id));
+                // Checks if all user's comments are deleted.
+                Assert.IsFalse(dbContext.Comments.AsEnumerable().Any(c => c.User == null || c.User.Id == userToDelete.Id));
+                // Checks if all commentlikes of user are deleted.
+                Assert.IsFalse(dbContext.CommentLike.AsEnumerable().Any(cl => cl.User == null || cl.User.Id == userToDelete.Id));
+                // Checks if all photos of user are deleted.
+                Assert.IsFalse(dbContext.Photos.AsEnumerable().Any(p => p.User == null || p.User.Id == userToDelete.Id));
 
-            // Checks if all user's photos' photolikes are deleted.
-            CollectionAssert.IsNotSubsetOf(deletedPhotoLikesOfPhotos, dbContext.PhotoLike.ToList());
-            // Checks if all user's photos' comments are deleted.
-            CollectionAssert.IsNotSubsetOf(deletedCommentsOfPhotos, dbContext.Comments.ToList());
-            // Checks if all user's photos' comments' commentlikes are deleted.
-            CollectionAssert.IsNotSubsetOf(deletedCommentLikesOfPhotosComments, dbContext.CommentLike.ToList());
+                // Checks if all user's photos' photolikes are deleted.
+                CollectionAssert.IsNotSubsetOf(deletedPhotoLikesOfPhotos, dbContext.PhotoLike.ToList());
+                // Checks if all user's photos' comments are deleted.
+                CollectionAssert.IsNotSubsetOf(deletedCommentsOfPhotos, dbContext.Comments.ToList());
+                // Checks if all user's photos' comments' commentlikes are deleted.
+                CollectionAssert.IsNotSubsetOf(deletedCommentLikesOfPhotosComments, dbContext.CommentLike.ToList());
 
-            // Checks if all user's messages are deleted.
-            Assert.IsFalse(dbContext.Messages.AsEnumerable().Any(m => m.User.Id == userToDelete.Id));
+                // Checks if all user's messages are deleted.
+                Assert.IsFalse(dbContext.Messages.AsEnumerable().Any(m => m.User.Id == userToDelete.Id));
 
-            // Checks if user isn't somebody's follower.
-            Assert.IsFalse(dbContext.Users.AsEnumerable().Any(u => u.Followers.Contains(userToDelete)));
-            // Checks if user isn't somebody's following.
-            Assert.IsFalse(dbContext.Users.AsEnumerable().Any(u => u.Following.Contains(userToDelete)));
+                // Checks if user isn't somebody's follower.
+                Assert.IsFalse(dbContext.Users.AsEnumerable().Any(u => u.Followers.Contains(userToDelete)));
+                // Checks if user isn't somebody's following.
+                Assert.IsFalse(dbContext.Users.AsEnumerable().Any(u => u.Following.Contains(userToDelete)));
+            }
         }
         [TestMethod]
         public void DeleteByNullValue()
@@ -538,49 +552,52 @@ namespace UnitTest.DataAccess.Repositories
         [TestMethod]
         public void DeleteByChangedValue()
         {
-            // Arrange
-            UserRepository userRepository = new UserRepository(dbContext);
-            User changedUserToDelete = dbContext.Users.First(u => u.NickName == "John");
-            changedUserToDelete.NickName += "Changed it";
+            if (Core.Configuration.TestConfig.DATA_BASE_FILL_MODE == Core.Enums.DataBaseFillMode.Regular)
+            {
+                // Arrange
+                UserRepository userRepository = new UserRepository(dbContext);
+                User changedUserToDelete = dbContext.Users.First(u => u.NickName == "John");
+                changedUserToDelete.NickName += "Changed it";
 
-            // Act
-            List<PhotoLike> deletedPhotoLikesOfPhotos = dbContext.PhotoLike
-                .AsEnumerable().Where(pl => changedUserToDelete.Photos.Contains(pl.Photo)).ToList();
+                // Act
+                List<PhotoLike> deletedPhotoLikesOfPhotos = dbContext.PhotoLike
+                    .AsEnumerable().Where(pl => changedUserToDelete.Photos.Contains(pl.Photo)).ToList();
 
-            List<Comment> deletedCommentsOfPhotos = dbContext.Comments
-                .AsEnumerable().Where(c => changedUserToDelete.Photos.Contains(c.Photo)).ToList();
+                List<Comment> deletedCommentsOfPhotos = dbContext.Comments
+                    .AsEnumerable().Where(c => changedUserToDelete.Photos.Contains(c.Photo)).ToList();
 
-            List<CommentLike> deletedCommentLikesOfPhotosComments = dbContext.CommentLike
-                .AsEnumerable().Where(cl => deletedCommentsOfPhotos.Contains(cl.Comment)).ToList();
+                List<CommentLike> deletedCommentLikesOfPhotosComments = dbContext.CommentLike
+                    .AsEnumerable().Where(cl => deletedCommentsOfPhotos.Contains(cl.Comment)).ToList();
 
-            userRepository.Delete(entityToDelete: changedUserToDelete);
-            dbContext.SaveChanges();
+                userRepository.Delete(entityToDelete: changedUserToDelete);
+                dbContext.SaveChanges();
 
-            // Assert
-            CollectionAssert.DoesNotContain(dbContext.Users.ToArray(), changedUserToDelete);
-            // Checks if all photolikes of user are deleted.
-            Assert.IsFalse(dbContext.PhotoLike.AsEnumerable().Any(pl => pl.User == null || pl.User.Id == changedUserToDelete.Id));
-            // Checks if all user's comments are deleted.
-            Assert.IsFalse(dbContext.Comments.AsEnumerable().Any(c => c.User == null || c.User.Id == changedUserToDelete.Id));
-            // Checks if all commentlikes of user are deleted.
-            Assert.IsFalse(dbContext.CommentLike.AsEnumerable().Any(cl => cl.User == null || cl.User.Id == changedUserToDelete.Id));
-            // Checks if all photos of user are deleted.
-            Assert.IsFalse(dbContext.Photos.AsEnumerable().Any(p => p.User == null || p.User.Id == changedUserToDelete.Id));
+                // Assert
+                CollectionAssert.DoesNotContain(dbContext.Users.ToArray(), changedUserToDelete);
+                // Checks if all photolikes of user are deleted.
+                Assert.IsFalse(dbContext.PhotoLike.AsEnumerable().Any(pl => pl.User == null || pl.User.Id == changedUserToDelete.Id));
+                // Checks if all user's comments are deleted.
+                Assert.IsFalse(dbContext.Comments.AsEnumerable().Any(c => c.User == null || c.User.Id == changedUserToDelete.Id));
+                // Checks if all commentlikes of user are deleted.
+                Assert.IsFalse(dbContext.CommentLike.AsEnumerable().Any(cl => cl.User == null || cl.User.Id == changedUserToDelete.Id));
+                // Checks if all photos of user are deleted.
+                Assert.IsFalse(dbContext.Photos.AsEnumerable().Any(p => p.User == null || p.User.Id == changedUserToDelete.Id));
 
-            // Checks if all user's photos' photolikes are deleted.
-            CollectionAssert.IsNotSubsetOf(deletedPhotoLikesOfPhotos, dbContext.PhotoLike.ToList());
-            // Checks if all user's photos' comments are deleted.
-            CollectionAssert.IsNotSubsetOf(deletedCommentsOfPhotos, dbContext.Comments.ToList());
-            // Checks if all user's photos' comments' commentlikes are deleted.
-            CollectionAssert.IsNotSubsetOf(deletedCommentLikesOfPhotosComments, dbContext.CommentLike.ToList());
+                // Checks if all user's photos' photolikes are deleted.
+                CollectionAssert.IsNotSubsetOf(deletedPhotoLikesOfPhotos, dbContext.PhotoLike.ToList());
+                // Checks if all user's photos' comments are deleted.
+                CollectionAssert.IsNotSubsetOf(deletedCommentsOfPhotos, dbContext.Comments.ToList());
+                // Checks if all user's photos' comments' commentlikes are deleted.
+                CollectionAssert.IsNotSubsetOf(deletedCommentLikesOfPhotosComments, dbContext.CommentLike.ToList());
 
-            // Checks if all user's messages are deleted.
-            Assert.IsFalse(dbContext.Messages.AsEnumerable().Any(m => m.User.Id == changedUserToDelete.Id));
+                // Checks if all user's messages are deleted.
+                Assert.IsFalse(dbContext.Messages.AsEnumerable().Any(m => m.User.Id == changedUserToDelete.Id));
 
-            // Checks if user isn't somebody's follower.
-            Assert.IsFalse(dbContext.Users.AsEnumerable().Any(u => u.Followers.Contains(changedUserToDelete)));
-            // Checks if user isn't somebody's following.
-            Assert.IsFalse(dbContext.Users.AsEnumerable().Any(u => u.Following.Contains(changedUserToDelete)));
+                // Checks if user isn't somebody's follower.
+                Assert.IsFalse(dbContext.Users.AsEnumerable().Any(u => u.Followers.Contains(changedUserToDelete)));
+                // Checks if user isn't somebody's following.
+                Assert.IsFalse(dbContext.Users.AsEnumerable().Any(u => u.Following.Contains(changedUserToDelete)));
+            }
         }
         #endregion
         // UPDATE
@@ -590,7 +607,7 @@ namespace UnitTest.DataAccess.Repositories
         {
             // Arrange
             UserRepository userRepository = new UserRepository(dbContext);
-            User userToUpdate = dbContext.Users.First(u => u.NickName == "Beverley");
+            User userToUpdate = dbContext.Users.First(u => u.NickName == Resources.Classes.DbFiller.Instance.FirstUserNickname);
             string newNickName = "New Nick";
 
             // Act
@@ -622,7 +639,7 @@ namespace UnitTest.DataAccess.Repositories
 
             // Act
             // Assert
-            Assert.IsFalse(userRepository.IsNicknameFree("John"));
+            Assert.IsFalse(userRepository.IsNicknameFree(Resources.Classes.DbFiller.Instance.FirstUserNickname));
         }
         [TestMethod]
         public void IsNicknameFree_NullArgument_Exception()
@@ -708,7 +725,7 @@ namespace UnitTest.DataAccess.Repositories
             User expectedUser = null;
 
             // Act
-            ValidNameAndPasswordAndUser actualResult = userRepository.IsDataValid("Beverley", "1234");
+            ValidNameAndPasswordAndUser actualResult = userRepository.IsDataValid(Resources.Classes.DbFiller.Instance.FirstUserNickname, "1234");
 
             // Assert
             Assert.IsTrue(actualResult.ValidNameAndPassword.IsNameValid);
@@ -735,11 +752,12 @@ namespace UnitTest.DataAccess.Repositories
         {
             // Arrange
             UserRepository userRepository = new UserRepository(dbContext);
-            string userNickName = "Beverley";
+            User user = Resources.Classes.DbFiller.Instance.FirstUser;
+            string userNickName = user.NickName;
             User expectedUser = dbContext.Users.FirstOrDefault(u => u.NickName == userNickName);
 
             // Act
-            ValidNameAndPasswordAndUser actualResult = userRepository.IsDataValid(userNickName, "1111");
+            ValidNameAndPasswordAndUser actualResult = userRepository.IsDataValid(userNickName, user.Password);
 
             // Assert
             Assert.IsTrue(actualResult.ValidNameAndPassword.IsNameValid, "Nickname is not valid");

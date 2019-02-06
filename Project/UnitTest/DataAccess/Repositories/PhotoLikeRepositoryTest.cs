@@ -21,7 +21,8 @@ namespace UnitTest.DataAccess.Repositories
         [ClassInitialize]
         public static void Constructor(TestContext context)
         {
-            dbFiller = new Resources.Classes.DbFiller();
+            dbFiller = Resources.Classes.DbFiller.Instance;
+
             dbContext = Resources.Initializers.DatabaseInitializer.DBContext;
         }
         [TestInitialize]
@@ -43,7 +44,7 @@ namespace UnitTest.DataAccess.Repositories
         {
             // Arrange
             PhotoLikeRepository photoLikeRepository = new PhotoLikeRepository(dbContext);
-            int expectedPhotoLikeInDb = 27;
+            int expectedPhotoLikeInDb = Resources.Classes.DbFiller.Instance.PhotoLikeAmount;
 
             // Act
             int actualPhotoLikeInDb = photoLikeRepository.Count();
@@ -56,7 +57,7 @@ namespace UnitTest.DataAccess.Repositories
         {
             // Arrange
             PhotoLikeRepository photoLikeRepository = new PhotoLikeRepository(dbContext);
-            int expectedPhotoLikeWithIsLikedTrue = 18;
+            int expectedPhotoLikeWithIsLikedTrue = Resources.Classes.DbFiller.Instance.PhotoLikeAmountWithLike;
 
             // Act
             int actualPhotoLikeWithIsLikedTrue = photoLikeRepository.Count(photoLike => photoLike.IsLiked == true);
@@ -72,62 +73,62 @@ namespace UnitTest.DataAccess.Repositories
         {
             // Arrange
             PhotoLikeRepository photoLikeRepository = new PhotoLikeRepository(dbContext);
-            int expectedPhotoLikeInDb = 27;
+            int expectedPhotoLikeInDb = Resources.Classes.DbFiller.Instance.PhotoLikeAmount;
 
             // Act
-            IEnumerable<PhotoLike> photoLikeFromDb = photoLikeRepository.Get();
-            int actualPhotoLikeInDb = photoLikeFromDb.Count();
+            PhotoLike[] photoLikeFromDb = photoLikeRepository.Get().ToArray();
+            int actualPhotoLikeInDb = photoLikeFromDb.Length;
 
             // Assert
             Assert.AreEqual(expectedPhotoLikeInDb, actualPhotoLikeInDb);
-            CollectionAssert.AreEquivalent(dbContext.PhotoLike.ToArray(), photoLikeFromDb.ToArray());
+            CollectionAssert.AreEquivalent(dbContext.PhotoLike.ToArray(), photoLikeFromDb);
         }
         [TestMethod]
         public void GetFilterByIsLiked()
         {
             // Arrange
             PhotoLikeRepository photoLikeRepository = new PhotoLikeRepository(dbContext);
-            int expectedPhotoLikeInDb = 18;
+            int expectedPhotoLikeInDb = Resources.Classes.DbFiller.Instance.PhotoLikeAmountWithLike;
 
             // Act
-            IEnumerable<PhotoLike> photoLikeFromDb = photoLikeRepository.Get(filter: photoLike => photoLike.IsLiked == true);
-            int actualPhotoLikeInDb = photoLikeFromDb.Count();
+            PhotoLike[] photoLikeFromDb = photoLikeRepository.Get(filter: photoLike => photoLike.IsLiked == true).ToArray();
+            int actualPhotoLikeInDb = photoLikeFromDb.Length;
 
             // Assertz
             Assert.AreEqual(expectedPhotoLikeInDb, actualPhotoLikeInDb);
-            CollectionAssert.IsSubsetOf(photoLikeFromDb.ToArray(), dbContext.PhotoLike.ToArray());
+            CollectionAssert.IsSubsetOf(photoLikeFromDb, dbContext.PhotoLike.ToArray());
         }
         [TestMethod]
         public void GetOrder()
         {
             // Arrange
             PhotoLikeRepository photoLikeRepository = new PhotoLikeRepository(dbContext);
-            int expectedPhotoLikeInDb = 27;
+            int expectedPhotoLikeInDb = Resources.Classes.DbFiller.Instance.PhotoLikeAmount;
 
             // Act
-            IEnumerable<PhotoLike> photoLikeFromDb = photoLikeRepository.Get(orderBy: photoLike => photoLike.OrderBy(pl => pl.IsLiked));
-            int actualPhotoLikeInDb = photoLikeFromDb.Count();
+            PhotoLike[] photoLikeFromDb = photoLikeRepository.Get(orderBy: photoLike => photoLike.OrderBy(pl => pl.IsLiked)).ToArray();
+            int actualPhotoLikeInDb = photoLikeFromDb.Length;
 
             // Assert
             Assert.AreEqual(expectedPhotoLikeInDb, actualPhotoLikeInDb);
-            CollectionAssert.AreEqual(dbContext.PhotoLike.OrderBy(pl => pl.IsLiked).ToArray(), photoLikeFromDb.ToArray());
+            CollectionAssert.AreEqual(dbContext.PhotoLike.OrderBy(pl => pl.IsLiked).ToArray(), photoLikeFromDb);
         }
         [TestMethod]
         public void GetFilterAndOrder()
         {
             // Arrange
             PhotoLikeRepository photoLikeRepository = new PhotoLikeRepository(dbContext);
-            int expectedPhotoLikeInDb = 18;
+            int expectedPhotoLikeInDb = Resources.Classes.DbFiller.Instance.PhotoLikeAmountWithLike;
+            PhotoLike[] likesInDataBase = dbContext.PhotoLike.Where(pl => pl.IsLiked == true).OrderByDescending(pl => pl.User.NickName).ToArray();
 
             // Act
-            IEnumerable<PhotoLike> photoLikeFromDb = photoLikeRepository
-                .Get(filter: pl => pl.IsLiked == true, orderBy: o => o.OrderByDescending(pl => pl.User.NickName));
-            int actualPhotoLikeInDb = photoLikeFromDb.Count();
+            PhotoLike[] photoLikeFromDb = photoLikeRepository
+                .Get(filter: pl => pl.IsLiked == true, orderBy: o => o.OrderByDescending(pl => pl.User.NickName)).ToArray();
+            int actualPhotoLikeInDb = photoLikeFromDb.Length;
 
             // Assert
             Assert.AreEqual(expectedPhotoLikeInDb, actualPhotoLikeInDb);
-            CollectionAssert.AreEqual(dbContext.PhotoLike.Where(pl => pl.IsLiked == true)
-                .OrderByDescending(pl => pl.User.NickName).ToArray(), photoLikeFromDb.ToArray());
+            CollectionAssert.AreEqual(likesInDataBase, photoLikeFromDb);
         }
         #endregion
         // GET BY ID
@@ -305,7 +306,8 @@ namespace UnitTest.DataAccess.Repositories
             PhotoLikeRepository photoLikeRepository = new PhotoLikeRepository(dbContext);
             PhotoLike photoLikeFromDb = dbContext.PhotoLike.First();
             PhotoLike expectedPhotoLikeFromDb = null;
-            User user = dbContext.Users.Where(u => u.NickName == "Harold").First();
+            string userWithNoLikes = Resources.Classes.DbFiller.Instance.UserWithoutPhotoLike;
+            User user = dbContext.Users.First(u => u.NickName == userWithNoLikes);
 
             // Act
             PhotoLike actualPhotoLikeFromDb = photoLikeRepository.TryGetUserLike(photoLikeFromDb.Photo, user);

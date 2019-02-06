@@ -22,7 +22,8 @@ namespace UnitTest.DataAccess.Repositories
         [ClassInitialize]
         public static void Constructor(TestContext context)
         {
-            dbFiller = new Resources.Classes.DbFiller();
+            dbFiller = Resources.Classes.DbFiller.Instance;
+
             dbContext = Resources.Initializers.DatabaseInitializer.DBContext;
         }
         [TestInitialize]
@@ -44,7 +45,7 @@ namespace UnitTest.DataAccess.Repositories
         {
             // Arrange
             CommentRepository commentRepository = new CommentRepository(dbContext);
-            int expectedCommentsInDb = 30;
+            int expectedCommentsInDb = Resources.Classes.DbFiller.Instance.CommentAmount;
 
             // Act
             int actualCommentsInDb = commentRepository.Count();
@@ -57,13 +58,14 @@ namespace UnitTest.DataAccess.Repositories
         {
             // Arrange
             CommentRepository commentRepository = new CommentRepository(dbContext);
-            int expectedCommentsOn7Month = 2;
+            int monthNumber = 7;
+            int expectedCommentsOn7Month = Resources.Classes.DbFiller.Instance.GetCommentByMonth(monthNumber);
 
             // Act
-            int actualCommentsOn7Month = commentRepository.Count(comment => comment.Date.Month == 7);
+            int actualCommentsOn7Month = commentRepository.Count(comment => comment.Date.Month == monthNumber);
 
             // Assert
-            Assert.AreEqual(expectedCommentsOn7Month, actualCommentsOn7Month);
+            Assert.AreEqual(expectedCommentsOn7Month, actualCommentsOn7Month);            
         }
         #endregion
         // GET
@@ -73,60 +75,66 @@ namespace UnitTest.DataAccess.Repositories
         {
             // Arrange
             CommentRepository commentRepository = new CommentRepository(dbContext);
-            int expectedCommentInDb = 30;
+            int expectedCommentInDb = Resources.Classes.DbFiller.Instance.CommentAmount;
 
             // Act
-            IEnumerable<Comment> commentsFromDb = commentRepository.Get();
-            int actualCommentInDb = commentsFromDb.Count();
+            Comment[] commentsFromDb = commentRepository.Get().ToArray();
+            int actualCommentInDb = commentsFromDb.Length;
 
             // Assert
             Assert.AreEqual(expectedCommentInDb, actualCommentInDb);
-            CollectionAssert.AreEquivalent(dbContext.Comments.ToArray(), commentsFromDb.ToArray());
+            CollectionAssert.AreEquivalent(dbContext.Comments.ToArray(), commentsFromDb);
         }
         [TestMethod]
-        public void GetFilterByYear()
+        public void GetFilterByMonth()
         {
-            // Arrange
-            CommentRepository commentRepository = new CommentRepository(dbContext);
-            int expectedCommentInDb = 6;
+            if (Core.Configuration.TestConfig.DATA_BASE_FILL_MODE == Core.Enums.DataBaseFillMode.Regular)
+            {
+                // Arrange
+                CommentRepository commentRepository = new CommentRepository(dbContext);
+                int expectedCommentInDb = 6;
 
-            // Act
-            IEnumerable<Comment> commentsFromDb = commentRepository.Get(filter: comment => comment.Date.Month > 9);
-            int actualCommentInDb = commentsFromDb.Count();
+                // Act
+                Comment[] commentsFromDb = commentRepository.Get(filter: comment => comment.Date.Month > 9).ToArray();
+                int actualCommentInDb = commentsFromDb.Length;
 
-            // Assert
-            Assert.AreEqual(expectedCommentInDb, actualCommentInDb);
-            CollectionAssert.IsSubsetOf(commentsFromDb.ToArray(), dbContext.Comments.ToArray());
+                // Assert
+                Assert.AreEqual(expectedCommentInDb, actualCommentInDb);
+                CollectionAssert.IsSubsetOf(commentsFromDb, dbContext.Comments.ToArray());
+            }
         }
         [TestMethod]
         public void GetOrder()
         {
             // Arrange
             CommentRepository commentRepository = new CommentRepository(dbContext);
-            int expectedCommentInDb = 30;
+            int expectedCommentInDb = Resources.Classes.DbFiller.Instance.CommentAmount;
 
             // Act
-            IEnumerable<Comment> commentsFromDb = commentRepository.Get(orderBy: comment => comment.OrderBy(c => c.Date.Month));
-            int actualCommentInDb = commentsFromDb.Count();
+            Comment[] commentsFromDb = commentRepository.Get(orderBy: comment => comment.OrderBy(c => c.Date.Month)).ToArray();
+            int actualCommentInDb = commentsFromDb.Length;
 
             // Assert
             Assert.AreEqual(expectedCommentInDb, actualCommentInDb);
-            CollectionAssert.AreEqual(dbContext.Comments.OrderBy(c => c.Date.Month).ToArray(), commentsFromDb.ToArray());
+            CollectionAssert.AreEqual(dbContext.Comments.OrderBy(c => c.Date.Month).ToArray(), commentsFromDb);            
         }
         [TestMethod]
         public void GetFilterAndOrder()
         {
-            // Arrange
-            CommentRepository commentRepository = new CommentRepository(dbContext);
-            int expectedCommentInDb = 6;
+            if (Core.Configuration.TestConfig.DATA_BASE_FILL_MODE == Core.Enums.DataBaseFillMode.Regular)
+            {
+                // Arrange
+                CommentRepository commentRepository = new CommentRepository(dbContext);
+                int expectedCommentInDb = 6;
 
-            // Act
-            IEnumerable<Comment> commentsFromDb = commentRepository.Get(filter: c => c.Date.Month > 9, orderBy: o => o.OrderByDescending(c => c.Date.Year));
-            int actualCommentInDb = commentsFromDb.Count();
+                // Act
+                Comment[] commentsFromDb = commentRepository.Get(filter: c => c.Date.Month > 9, orderBy: o => o.OrderByDescending(c => c.Date.Year)).ToArray();
+                int actualCommentInDb = commentsFromDb.Length;
 
-            // Assert
-            Assert.AreEqual(expectedCommentInDb, actualCommentInDb);
-            CollectionAssert.AreEqual(dbContext.Comments.Where(c => c.Date.Month > 9).OrderByDescending(c => c.Date.Year).ToArray(), commentsFromDb.ToArray());
+                // Assert
+                Assert.AreEqual(expectedCommentInDb, actualCommentInDb);
+                CollectionAssert.AreEqual(dbContext.Comments.Where(c => c.Date.Month > 9).OrderByDescending(c => c.Date.Year).ToArray(), commentsFromDb);
+            }
         }
         #endregion
         // GET BY ID
