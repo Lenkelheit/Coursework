@@ -183,6 +183,8 @@ namespace UnitTest.DataAccess.Context
         [TestMethod]
         public void AddPhotoWithoutUser_Exception()
         {
+            Assert.Fail();
+
             // Arrange
             Photo photo = new Photo() { Path = "1/54/23.jpg" };
 
@@ -219,6 +221,8 @@ namespace UnitTest.DataAccess.Context
         [TestMethod]
         public void AddPhotoLikeWithoutPhoto_Exception()
         {
+            Assert.Fail();
+
             // Arrange
             User user = new User() { NickName = "John", Password = "1111" };
             PhotoLike photoLike = new PhotoLike() { IsLiked = true, User = user };
@@ -236,6 +240,8 @@ namespace UnitTest.DataAccess.Context
         [TestMethod]
         public void AddPhotoLikeWithoutUser_Exception()
         {
+            Assert.Fail();
+
             // Arrange
             Photo photo = new Photo() { Path = "1/54/23.jpg" };
             PhotoLike photoLike = new PhotoLike() { IsLiked = true, Photo = photo };
@@ -441,6 +447,8 @@ namespace UnitTest.DataAccess.Context
         [TestMethod]
         public void AddUserCommentWithoutPhoto_Exception()
         {
+            Assert.Fail();
+
             // Arrange
             Comment comment1 = new Comment() { Text = "Comment text", Date = DateTime.Now };
             Comment comment2 = new Comment() { Text = "Comment text", Date = DateTime.Now };
@@ -471,6 +479,7 @@ namespace UnitTest.DataAccess.Context
         [TestMethod]
         public void AddPhotoCommentWithoutPhoto_Exception()
         {
+            Assert.Fail();
             // Arrange
             Comment comment1 = new Comment() { Text = "Comment text", Date = DateTime.Now };
             Comment comment2 = new Comment() { Text = "Comment text", Date = DateTime.Now };

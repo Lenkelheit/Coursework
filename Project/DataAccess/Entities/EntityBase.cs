@@ -1,4 +1,7 @@
-﻿namespace DataAccess.Entities
+﻿using System.Collections.Generic;
+using System.Reflection;
+
+namespace DataAccess.Entities
 {
     /// <summary>
     /// Represents abstract class for entities
@@ -12,6 +15,47 @@
         public abstract System.Guid Id { get; set; }
 
         // METHODS
+
+        /// <summary>
+        /// Determines whether the specified object is equal to the current object.
+        /// </summary>
+        /// <param name="obj">The object to compare with the current object.</param>
+        /// <returns>True if the specified object is equal to the current object, otherwise — false.</returns>
+        public override bool Equals(object obj)
+        {
+            System.Type objectType = obj.GetType();
+
+            // current object is null or different object, return false
+            if (obj == null || objectType != this.GetType()) return false;
+
+            // check each property on equalty                       
+            foreach (PropertyInfo property in objectType.GetProperties(BindingFlags.Public | BindingFlags.Instance))
+            {
+                // gets property value
+                object currentProperty = property.GetValue(this);
+                object objectProperty = property.GetValue(obj);
+
+                // skip null
+                if (currentProperty == null || objectProperty == null) continue;
+
+                // comparing property
+                if (!currentProperty.Equals(objectProperty)) return false;
+            }
+
+            return true;
+        }
+        /// <summary>
+        /// Gets hash code
+        /// </summary>
+        /// <returns>
+        /// Hash code
+        /// </returns>
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
+
+        #region To String
         /// <summary>
         /// Gets entity as a string formated in specific way
         /// </summary>
@@ -51,7 +95,6 @@
 
             return ToString();
         }
-
         #region format method
         /// <summary>
         /// Gets entity name
@@ -63,6 +106,7 @@
         /// </summary>
         /// <returns>Brief information about entity</returns>
         protected abstract string GetBriefInfo();
+        #endregion
         #endregion
     }
 }
