@@ -2,7 +2,6 @@
 using System.Linq;
 using System.Data.Entity;
 using System.Linq.Expressions;
-using System.Collections.Generic;
 
 namespace DataAccess.Repositories
 {
@@ -15,8 +14,14 @@ namespace DataAccess.Repositories
     public class GenericRepository<TEntity> : Interfaces.IRepository<TEntity> where TEntity : class
     {
         // FIELDS
-        internal Context.AppContext context;
-        internal DbSet<TEntity> dbSet;
+        /// <summary>
+        /// A context for database
+        /// </summary>
+        protected Context.AppContext context;
+        /// <summary>
+        /// A generic set
+        /// </summary>
+        protected DbSet<TEntity> dbSet;
 
         // CONSTRUCTORS
         /// <summary>
@@ -57,7 +62,7 @@ namespace DataAccess.Repositories
         /// <param name="orderBy">The order of the received items</param>
         /// <param name="includeProperties">Included properties</param>
         /// <returns>Queried entities collection</returns>
-        public virtual IEnumerable<TEntity> Get(Expression<Func<TEntity, bool>> filter = null, 
+        public virtual IQueryable<TEntity> Get(Expression<Func<TEntity, bool>> filter = null, 
                                                 Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null, 
                                                 string includeProperties = "")
         {
@@ -67,20 +72,16 @@ namespace DataAccess.Repositories
             {
                 query = query.Where(filter);
             }
-            // include property
+
+            // include properties
             foreach (var includeProperty in includeProperties.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
             {
                 query = query.Include(includeProperty);
             }
+
             // ordering
-            if (orderBy != null)
-            {
-                return orderBy(query).ToList();
-            }
-            else
-            {
-                return query.ToList();
-            }
+            if (orderBy != null) return orderBy(query);
+            return query;
         }
         /// <summary>
         /// Gets entity by id

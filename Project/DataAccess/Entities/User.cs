@@ -1,3 +1,5 @@
+using DataAccess.Comparers;
+using DataAccess.Enums.Comparers;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -44,11 +46,11 @@ namespace DataAccess.Entities
         /// <summary>
         /// A follower collection
         /// </summary>
-	    public virtual ICollection<User> Followers { get; set; } = new List<User>();
+	    public virtual ICollection<User> Followers { get; set; } = new SortedSet<User>(new UserComparer(UserCompareType.NickName));
         /// <summary>
         /// A following collection
         /// </summary>
-	    public virtual ICollection<User> Following { get; set; } = new List<User>();
+	    public virtual ICollection<User> Following { get; set; } = new SortedSet<User>(new UserComparer(UserCompareType.NickName));
         /// <summary>
         /// A comments collection
         /// </summary>
@@ -56,11 +58,11 @@ namespace DataAccess.Entities
         /// <summary>
         /// A likes to photo collection
         /// </summary>
-        public virtual ICollection<PhotoLike> PhotoLikes { get; set; } = new List<PhotoLike>();
+        public virtual ICollection<PhotoLike> PhotoLikes { get; set; } = new HashSet<PhotoLike>();
         /// <summary>
         /// A like to comments collection
         /// </summary>
-        public virtual ICollection<CommentLike> CommentLikes { get; set; } = new List<CommentLike>();
+        public virtual ICollection<CommentLike> CommentLikes { get; set; } = new HashSet<CommentLike>();
         /// <summary>
         /// A messages collection
         /// </summary>
@@ -73,17 +75,17 @@ namespace DataAccess.Entities
         // METHODS
         #region  to string option
         /// <summary>
-        /// Gets entity name
+        /// Gets brief information about entity
         /// </summary>
-        /// <returns>Entity's name</returns>
+        /// <returns>Brief information about entity</returns>
         protected override string GetBriefInfo()
         {
             return string.Concat(nameof(User), " with nickname : ", NickName);
         }
         /// <summary>
-        /// Gets brief information about entity
+        /// Gets entity name
         /// </summary>
-        /// <returns>Brief information about entity</returns>
+        /// <returns>Entity's name</returns>
         protected override string GetName()
         {
             return nameof(User);

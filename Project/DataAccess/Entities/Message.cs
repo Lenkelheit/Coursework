@@ -40,17 +40,17 @@ namespace DataAccess.Entities
 
         #region  to string option
         /// <summary>
-        /// Gets entity name
+        /// Gets brief information about entity
         /// </summary>
-        /// <returns>Entity's name</returns>
+        /// <returns>Brief information about entity</returns>
         protected override string GetBriefInfo()
         {
             return string.Concat(nameof(Message), " with text : ", Text.Substring(startIndex: 0, length: 20));
         }
         /// <summary>
-        /// Gets brief information about entity
+        /// Gets entity name
         /// </summary>
-        /// <returns>Brief information about entity</returns>
+        /// <returns>Entity's name</returns>
         protected override string GetName()
         {
             return nameof(Message);

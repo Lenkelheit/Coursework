@@ -14,7 +14,7 @@
         /// Initialize a new instance of <see cref="ComparingException"/>
         /// </summary>
         /// <param name="compareType">
-        /// The name of comparing time which cause exception
+        /// The name of comparing type which cause exception
         /// </param>
         /// <param name="entityType">
         /// The name of entity for each comparing type is not allowed

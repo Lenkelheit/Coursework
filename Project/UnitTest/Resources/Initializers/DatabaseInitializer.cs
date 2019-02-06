@@ -8,20 +8,24 @@ namespace UnitTest.Resources.Initializers
     public class DatabaseInitializer
     {
         // FIELDS
-        private static string connectionString = System.Configuration.ConfigurationManager.ConnectionStrings["TestDBConnection"].ConnectionString;
-        // PROPERTIES
-        public static DA.AppContext DBContext { get; private set; }
+        private static DA.AppContext dbContext;
+        private static string connectionString;
+
         // INITIALIZERS
         [AssemblyInitialize]
         public static void Constructor(TestContext context)
         {
-            DBContext = new DA.AppContext(connectionString);
+            connectionString = System.Configuration.ConfigurationManager.ConnectionStrings["TestDBConnection"].ConnectionString;
+            dbContext = new DA.AppContext(connectionString);
         }
         [AssemblyCleanup]
         public static void Finalizer()
         {
-            DBContext.Dispose();
+            dbContext.Dispose();
             if (Core.Configuration.AppConfig.DO_DELETE_TEST_DB) System.Data.Entity.Database.Delete(connectionString);
         }
+
+        // PROPERTIES
+        public static DA.AppContext DBContext => dbContext;
     }
 }

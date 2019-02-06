@@ -52,6 +52,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Comparers\SubjectComparer.cs" />
+    <Compile Include="Comparers\UserComparer.cs" />
     <Compile Include="Configuration\CommentConfiguration.cs" />
     <Compile Include="Configuration\CommentLikeConfiguration.cs" />
     <Compile Include="Configuration\MessageConfiguration.cs" />
@@ -71,6 +72,7 @@
     <Compile Include="Entities\Subject.cs" />
     <Compile Include="Entities\User.cs" />
     <Compile Include="Enums\Comparers\SubjectCompareType.cs" />
+    <Compile Include="Enums\Comparers\UserCompareType.cs" />
     <Compile Include="Enums\EntityStringFormat.cs" />
     <Compile Include="Filters\CommentFilter.cs" />
     <Compile Include="Filters\MessageFilter.cs" />

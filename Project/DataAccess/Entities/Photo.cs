@@ -32,7 +32,7 @@ namespace DataAccess.Entities
         /// <summary>
         /// A collection of likes and dislikes to photo
         /// </summary>
-		public virtual ICollection<PhotoLike> Likes { get; set; } = new List<PhotoLike>();
+		public virtual ICollection<PhotoLike> Likes { get; set; } = new HashSet<PhotoLike>();
         /// <summary>
         /// A comment collection relative to photo
         /// </summary>
@@ -41,17 +41,17 @@ namespace DataAccess.Entities
         // METHODS
         #region to string option
         /// <summary>
-        /// Gets entity name
+        /// Gets brief information about entity
         /// </summary>
-        /// <returns>Entity's name</returns>
+        /// <returns>Brief information about entity</returns>
         protected override string GetBriefInfo()
         {
             return nameof(Photo);
         }
         /// <summary>
-        /// Gets brief information about entity
+        /// Gets entity name
         /// </summary>
-        /// <returns>Brief information about entity</returns>
+        /// <returns>Entity's name</returns>
         protected override string GetName()
         {
             return nameof(Photo);

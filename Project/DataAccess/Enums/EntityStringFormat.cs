@@ -6,7 +6,7 @@
     public enum EntityStringFormat
     {
         /// <summary>
-        /// Entitie's name
+        /// Entity's name
         /// </summary>
         Name,
         /// <summary>
