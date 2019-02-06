@@ -39,6 +39,22 @@ namespace Core
         {
             System.IO.Directory.CreateDirectory(Configuration.AppConfig.LOG_DIRECTORY);
         }
+        private void DeleteLogFileIfBig()
+        {
+            // Deletes log file when it exists and is big enough.
+            if (System.IO.File.Exists(Configuration.AppConfig.LOG_FILE)
+                && new System.IO.FileInfo(Configuration.AppConfig.LOG_FILE).Length > Configuration.AppConfig.LOG_FILE_SIZE_LIMIT)
+            {
+                System.IO.File.Delete(Configuration.AppConfig.LOG_FILE);
+            }
+        }
+        private void AddMessageToLogFile(LogMode logMode, string message)
+        {
+            System.IO.File.AppendAllText(
+                path: Configuration.AppConfig.LOG_FILE,
+                contents: string.Format(Configuration.AppConfig.LOG_TEMPLATE_FORMAT, System.DateTime.Now, logMode, message)
+                );
+        }
         /// <summary>
         /// Writes a log to a file 
         /// </summary>
@@ -57,10 +73,9 @@ namespace Core
 
                 CreateDirectoryIfNotExist();
 
-                System.IO.File.AppendAllText(
-                    path: Configuration.AppConfig.LOG_FILE, 
-                    contents: string.Format(Configuration.AppConfig.LOG_TEMPLATE_FORMAT, System.DateTime.Now, logMode , message) 
-                    );
+                DeleteLogFileIfBig();
+
+                AddMessageToLogFile(logMode, message);
             }
             finally
             {
@@ -84,11 +99,9 @@ namespace Core
 
                 await System.Threading.Tasks.Task.Run(() => CreateDirectoryIfNotExist());
 
-                await System.Threading.Tasks.Task.Run(() => 
-                            System.IO.File.AppendAllText(
-                                    path: Configuration.AppConfig.LOG_FILE,
-                                    contents: string.Format(Configuration.AppConfig.LOG_TEMPLATE_FORMAT, System.DateTime.Now, logMode, message)
-                                    ));
+                await System.Threading.Tasks.Task.Run(() => DeleteLogFileIfBig());
+
+                await System.Threading.Tasks.Task.Run(() => AddMessageToLogFile(logMode, message));
             }
             finally
             {
