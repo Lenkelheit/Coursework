@@ -55,12 +55,15 @@ namespace Core
             {
                 writeLock.Wait();
 
-                CreateDirectoryIfNotExist();
+                if (!LogMode.Off.HasFlag(logMode)) 
+                {
+                    CreateDirectoryIfNotExist();
 
-                System.IO.File.AppendAllText(
-                    path: Configuration.AppConfig.LOG_FILE, 
-                    contents: string.Format(Configuration.AppConfig.LOG_TEMPLATE_FORMAT, System.DateTime.Now, logMode , message) 
-                    );
+                    System.IO.File.AppendAllText(
+                        path: Configuration.AppConfig.LOG_FILE,
+                        contents: string.Format(Configuration.AppConfig.LOG_TEMPLATE_FORMAT, System.DateTime.Now, logMode, message)
+                        );
+                }
             }
             finally
             {
@@ -82,13 +85,16 @@ namespace Core
             {
                 await writeLock.WaitAsync();
 
-                await System.Threading.Tasks.Task.Run(() => CreateDirectoryIfNotExist());
+                if (!LogMode.Off.HasFlag(logMode)) 
+                {
+                    await System.Threading.Tasks.Task.Run(() => CreateDirectoryIfNotExist());
 
-                await System.Threading.Tasks.Task.Run(() => 
-                            System.IO.File.AppendAllText(
-                                    path: Configuration.AppConfig.LOG_FILE,
-                                    contents: string.Format(Configuration.AppConfig.LOG_TEMPLATE_FORMAT, System.DateTime.Now, logMode, message)
-                                    ));
+                    await System.Threading.Tasks.Task.Run(() =>
+                                System.IO.File.AppendAllText(
+                                        path: Configuration.AppConfig.LOG_FILE,
+                                        contents: string.Format(Configuration.AppConfig.LOG_TEMPLATE_FORMAT, System.DateTime.Now, logMode, message)
+                                        ));
+                }
             }
             finally
             {
