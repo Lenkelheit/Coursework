@@ -7,6 +7,6 @@ before_build:
  - nuget restore Project/Galagram.sln
 
 build:
- verbosity: minimal
-# publish_wap: true
+ verbosity: detailed
+ parallel: true  
  project: Project/Galagram/Galagram.csproj 
