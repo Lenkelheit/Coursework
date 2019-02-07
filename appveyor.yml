@@ -3,3 +3,7 @@ configuration: Release
 
 before_build:
  - nuget restore Project/Galagram.sln
+
+build:
+ verbosity: minimal
+ publish_wap: true
