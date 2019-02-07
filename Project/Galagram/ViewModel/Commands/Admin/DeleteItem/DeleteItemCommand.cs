@@ -62,7 +62,7 @@ namespace Galagram.ViewModel.Commands.Admin.DeleteItem
 
             // go back to previous window
             Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, "Go back to previous content");
-            Services.NavigationManager.Instance.NavigateToPrevious(Services.DataStorage.Instance.AdminWindowContentControl);
+            Services.NavigationManager.Instance.NavigateToPrevious(parent: Services.DataStorage.Instance.AdminWindowContentControl, doSearchForDefault: true);
         }
     }
 }

@@ -30,7 +30,6 @@ namespace Galagram.ViewModel.ViewModel.Admin.Comments
         public SingleViewModel(DataAccess.Entities.Comment comment, bool isEditingEnabled)
             :base(shownEntity: comment, isWritingEnabled: isEditingEnabled)
         {           
-
             ILookup<bool, string> groupedByLike = comment.Likes.ToLookup(c => c.IsLiked, u => u.User.NickName);
             this.likedUserNickname = groupedByLike[true].ToArray();
             this.disLikedUserNickname = groupedByLike[false].ToArray();
