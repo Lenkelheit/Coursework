@@ -9,3 +9,6 @@ before_build:
 build:
  verbosity: minimal
  publish_wap: true
+ project: Project/Core.csproj
+ project: Project/DataAccess.csproj 
+ project: Project/Galagram.csproj 
