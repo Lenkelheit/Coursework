@@ -3,10 +3,10 @@ image: Visual Studio 2017
 platform: Any CPU
 configuration: Release
 
-before_build:
- - nuget restore Project/Galagram.sln
+#before_build:
+# - nuget restore Project/Galagram.sln
 
 build:
  verbosity: minimal
- publish_wap: true
+# publish_wap: true
  project: Project/Galagram/Galagram.csproj 
