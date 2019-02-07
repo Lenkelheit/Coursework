@@ -9,4 +9,4 @@ before_build:
 build:
  verbosity: minimal
  publish_wap: true
- project: Project/Galagram.csproj 
+ project: Project/Galagram/Galagram.csproj 
