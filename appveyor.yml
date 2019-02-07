@@ -2,4 +2,4 @@ platform: Any CPU
 configuration: Release
 
 before_build:
- - nuget restore
+ - nuget restore Project/Galagram.sln
