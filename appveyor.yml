@@ -4,9 +4,8 @@ platform: Any CPU
 configuration: Release
 
 before_build:
- - nuget restore Project/Galagram.sln
+ - nuget restore Project/Galagram/Galagram.csproj 
 
 build:
- verbosity: detailed
- parallel: true  
+ verbosity: quiet
  project: Project/Galagram/Galagram.csproj 
