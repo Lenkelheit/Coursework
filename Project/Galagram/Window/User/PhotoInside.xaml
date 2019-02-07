@@ -56,7 +56,8 @@
             </Image>
             
             <!--COMMENTS-->
-            <ListBox Grid.Column="1" Style="{StaticResource ListBoxComments}"
+            <ListBox Grid.Column="1"
+                     Style="{StaticResource ListBoxComments}"
                      ItemsSource="{Binding Comments}"/>
         </Grid>      
         

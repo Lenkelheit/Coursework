@@ -17,7 +17,9 @@ namespace DataAccess.Wrappers
         /// <summary>
         /// Initializes a new instance of <see cref="PhotoWrapper"/>
         /// </summary>
-        /// <param name="photo"></param>
+        /// <param name="photo">
+        /// An instance of <see cref="Entities.Photo"/>
+        /// </param>
         public PhotoWrapper(Entities.Photo photo)
         {
             this.photo = photo;
