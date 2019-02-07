@@ -50,7 +50,7 @@ namespace Galagram.ViewModel.Commands.Admin
 
             // go back to previous content with its view model
             Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, "Go back to previous content");
-            Services.NavigationManager.Instance.NavigateToPrevious(Services.DataStorage.Instance.AdminWindowContentControl);
+            Services.NavigationManager.Instance.NavigateToPrevious(parent: Services.DataStorage.Instance.AdminWindowContentControl, doSearchForDefault: true);
         }
     }
 }
