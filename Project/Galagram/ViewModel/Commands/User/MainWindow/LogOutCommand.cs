@@ -45,6 +45,12 @@
         {
             Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, $"Execute {nameof(LogOutCommand)}");
 
+            // reset users on log out
+            Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, $"Resets shown and logged user");
+            Services.DataStorage.Instance.LoggedUser = null;
+            Services.DataStorage.Instance.ShownUser = null;
+
+            // navigate to registration window
             Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, $"Switch window to registration window");
             mainWindowViewModel.WindowManager.SwitchMainWindow(nameof(Window.Registration), new ViewModel.RegistrationViewModel());
         }

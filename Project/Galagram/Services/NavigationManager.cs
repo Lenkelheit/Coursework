@@ -20,7 +20,7 @@ namespace Galagram.Services
         Stack<KeyValuePair<Type, object>> history; // control type, view model object
         NavigationManagerInitializerBase initializerBase;
 
-        static NavigationManager instance;        
+        static readonly NavigationManager instance;        
 
         // CONSTRUCTORS
         private NavigationManager()
@@ -186,7 +186,16 @@ namespace Galagram.Services
 
             // create user control and sets view mode
             UserControl userControl = (UserControl)Activator.CreateInstance(controlDataContext.Key);
-            userControl.DataContext = controlDataContext.Value;
+
+            // create new ViewModel from type if can
+            if (controlDataContext.Value != null && HasDefaultConstructor(controlDataContext.Value.GetType()))
+            {
+                userControl.DataContext = Activator.CreateInstance(controlDataContext.Value.GetType());
+            }
+            else // use saved ViewModel
+            {
+                userControl.DataContext = controlDataContext.Value;
+            }
 
             // gets value
             return userControl;
@@ -271,10 +280,16 @@ namespace Galagram.Services
         /// <param name="parent">
         /// A parent control in which current user control should be shown
         /// </param>
-        public void NavigateToPrevious(ContentControl parent)
+        /// <param name="doSearchForDefault">
+        /// Determines if its required to search for user vontrol with default constructor
+        /// <para/>
+        /// Can create new user control only if its DataContext has default constructor
+        /// </param>
+        public void NavigateToPrevious(ContentControl parent, bool doSearchForDefault = false)
         {
             // sets to current control previous value 
-            parent.Content = NavigateToPrevious(); 
+            parent.Content = NavigateToPrevious(doSearchForDefault);
+
         }
         /// <summary>
         /// Returns previous user control with setted DataContext
@@ -297,19 +312,41 @@ namespace Galagram.Services
         }
         /// <summary>
         /// Returns previous user control with previous DataContext
-        /// </summary>
+        /// </summary> 
+        /// <param name="doSearchForDefault">
+        /// Determines if its required to search for user vontrol with default constructor
+        /// <para/>
+        /// Can create new user control only if its DataContext has default constructor
+        /// </param>
         /// <returns>
-        /// An instance of previous <see cref="UserControl"/> with setted view model
+        /// An instance of previous <see cref="UserControl"/> with setted view model or null
         /// </returns>
-        public UserControl NavigateToPrevious()
+        public UserControl NavigateToPrevious(bool doSearchForDefault = false)
         {
-            // remove current from history
-            PopHistory();
-
             // get previous control
-            UserControl userControl = PreviousInstance();
+            UserControl userControl;
+
+            do
+            {
+                // remove current from history
+                PopHistory();
+
+                // try get previous control
+                userControl = PreviousInstance();
+
+                // while control and ViewModel is not null
+                // and while user want to search for default Control
+            } while (userControl != null && userControl.DataContext != null &&
+                     doSearchForDefault && !HasDefaultConstructor(userControl.DataContext.GetType()));
             
             return userControl;
+        }
+        #endregion
+        // additional methods
+        #region additional methods
+        private bool HasDefaultConstructor(Type type)
+        {
+            return type.IsValueType || type.GetConstructor(Type.EmptyTypes) != null;
         }
         #endregion
     }
