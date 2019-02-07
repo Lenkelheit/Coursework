@@ -4,7 +4,7 @@ platform: Any CPU
 configuration: Release
 
 before_build:
- - nuget restore Project/Galagram/Galagram.csproj 
+ - nuget restore Project/Galagram.sln 
 
 build:
  verbosity: quiet
