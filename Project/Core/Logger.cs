@@ -12,11 +12,19 @@ namespace Core
         // FIELDS
         private readonly SemaphoreSlim writeLock; // because writing to file occupy process
         private static Logger instance;
+        private LogMode offLogMode;
 
         // CONSTRUCTORS
         private Logger()
         {
             writeLock = new SemaphoreSlim(initialCount: 1, maxCount: 1);
+
+            // To turn off log mode(s) for all application pass it(them) to method "Off".
+            // For example, next line turns off Debug mode:
+            // Off(LogMode.Debug);
+            // For multiple off modes use "|" between them, next line turns off Debug and Info modes:
+            // Off(LogMode.Debug | LogMode.Info);
+            // To turn on modes that are off, only delete method "Off" with them.
         }
         static Logger()
         {
@@ -35,6 +43,10 @@ namespace Core
         /// </summary>
         public static Logger GetLogger => instance;
         // METHODS
+        private void Off(LogMode logMode)
+        {
+            offLogMode = logMode;
+        }
         private void CreateDirectoryIfNotExist()
         {
             System.IO.Directory.CreateDirectory(Configuration.AppConfig.LOG_DIRECTORY);
@@ -55,7 +67,8 @@ namespace Core
             {
                 writeLock.Wait();
 
-                if (!LogMode.Off.HasFlag(logMode)) 
+                // Executes if logMode isn't off, otherwise - no.
+                if (!offLogMode.HasFlag(logMode)) 
                 {
                     CreateDirectoryIfNotExist();
 
@@ -85,7 +98,8 @@ namespace Core
             {
                 await writeLock.WaitAsync();
 
-                if (!LogMode.Off.HasFlag(logMode)) 
+                // Executes if logMode isn't off, otherwise - no.
+                if (!offLogMode.HasFlag(logMode))
                 {
                     await System.Threading.Tasks.Task.Run(() => CreateDirectoryIfNotExist());
 
