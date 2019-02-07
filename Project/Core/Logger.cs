@@ -12,11 +12,13 @@ namespace Core
         // FIELDS
         private readonly SemaphoreSlim writeLock; // because writing to file occupy process
         private static Logger instance;
+        private readonly System.IO.FileInfo logFileInfo;
 
         // CONSTRUCTORS
         private Logger()
         {
             writeLock = new SemaphoreSlim(initialCount: 1, maxCount: 1);
+            logFileInfo = new System.IO.FileInfo(Configuration.AppConfig.LOG_FILE);
         }
         static Logger()
         {
@@ -42,18 +44,17 @@ namespace Core
         private void DeleteLogFileIfBig()
         {
             // Deletes log file when it exists and is big enough.
-            if (System.IO.File.Exists(Configuration.AppConfig.LOG_FILE)
-                && new System.IO.FileInfo(Configuration.AppConfig.LOG_FILE).Length > Configuration.AppConfig.LOG_FILE_SIZE_LIMIT)
+            if (logFileInfo.Exists && logFileInfo.Length > Configuration.AppConfig.LOG_FILE_SIZE_LIMIT) 
             {
-                System.IO.File.Delete(Configuration.AppConfig.LOG_FILE);
+                logFileInfo.Delete();
             }
         }
         private void AddMessageToLogFile(LogMode logMode, string message)
         {
-            System.IO.File.AppendAllText(
-                path: Configuration.AppConfig.LOG_FILE,
-                contents: string.Format(Configuration.AppConfig.LOG_TEMPLATE_FORMAT, System.DateTime.Now, logMode, message)
-                );
+            using (System.IO.StreamWriter streamWriter = logFileInfo.AppendText())
+            {
+                streamWriter.Write(string.Format(Configuration.AppConfig.LOG_TEMPLATE_FORMAT, System.DateTime.Now, logMode, message));
+            }
         }
         /// <summary>
         /// Writes a log to a file 

@@ -38,7 +38,7 @@ namespace Core.Configuration
         /// <summary>
         /// The size limit of log file in bytes.
         /// </summary>
-        public static readonly long LOG_FILE_SIZE_LIMIT = 10 * 1024 * 1024; // 10 MB in bytes
+        public static readonly long LOG_FILE_SIZE_LIMIT = Converters.FileSizeConverter.GetSize(10, Enums.FileSizeMode.MB); // 10 MB in bytes
         /// <summary>
         /// Template for logs.
         /// <para/>
