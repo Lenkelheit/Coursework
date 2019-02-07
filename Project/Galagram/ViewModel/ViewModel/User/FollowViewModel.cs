@@ -1,4 +1,3 @@
-using System.Linq;
 using System.Windows.Input;
 using System.Collections.ObjectModel;
 
@@ -12,7 +11,6 @@ namespace Galagram.ViewModel.ViewModel.User
         // FIELDS
         Enums.User.FollowMode followMode;
 
-        DataAccess.Entities.User shownUser;
         int selectedFollowIndex;
         #warning set it to array after optimization in future milestones
         ObservableCollection<DataAccess.Entities.User> follow;
@@ -24,25 +22,21 @@ namespace Galagram.ViewModel.ViewModel.User
         /// <summary>
         /// Initialize a new instance of <see cref="FollowViewModel"/>
         /// </summary>
-        /// <param name="shownUser">
-        /// Shown user
-        /// </param>
         /// <param name="followMode">
         /// Determines in which mode open window
         /// </param>
-        public FollowViewModel(DataAccess.Entities.User shownUser, Enums.User.FollowMode followMode)
+        public FollowViewModel( Enums.User.FollowMode followMode)
         {
-            this.shownUser = shownUser;
             this.selectedFollowIndex = Core.Configuration.Constants.WRONG_INDEX;
             this.followMode = followMode;
 
             if (followMode == Enums.User.FollowMode.Followers)
             {
-                this.follow = new ObservableCollection<DataAccess.Entities.User>(shownUser.Followers);
+                this.follow = new ObservableCollection<DataAccess.Entities.User>(DataStorage.ShownUser.Followers);
             }
             else if (followMode == Enums.User.FollowMode.Following)
             {
-                this.follow = new ObservableCollection<DataAccess.Entities.User>(shownUser.Following);
+                this.follow = new ObservableCollection<DataAccess.Entities.User>(DataStorage.ShownUser.Following);
             }
 
             this.deleteFollowCommand = new Commands.User.Follow.DeleteFollowCommand(this);
