@@ -92,7 +92,7 @@
             
             // go back to all items
             Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, "Go to previous content");
-            Services.NavigationManager.Instance.NavigateToPrevious(Services.DataStorage.Instance.AdminWindowContentControl);
+            Services.NavigationManager.Instance.NavigateToPrevious(parent: Services.DataStorage.Instance.AdminWindowContentControl);
         }
     }
 }

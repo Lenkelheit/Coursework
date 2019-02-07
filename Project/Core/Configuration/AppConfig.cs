@@ -29,7 +29,11 @@ namespace Core.Configuration
         /// <summary>
         /// A path to a file with logs.
         /// </summary>
-        public static readonly string LOG_FILE = string.Join(DIRECTORY_SEPARATOR_STR, LOG_DIRECTORY, "log.txt");
+        public static readonly string LOG_FILE = string.Join(DIRECTORY_SEPARATOR_STR, LOG_DIRECTORY, "log.log");
+        /// <summary>
+        /// The size limit of log file in bytes.
+        /// </summary>
+        public static readonly long LOG_FILE_SIZE_LIMIT = Converters.FileSizeConverter.GetSize(10, Enums.FileSizeMode.MB); // 10 MB in bytes
         /// <summary>
         /// Template for logs.
         /// <para/>

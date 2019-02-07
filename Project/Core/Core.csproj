@@ -47,6 +47,8 @@
     <Compile Include="Configuration\DBConfig.cs" />
     <Compile Include="Configuration\TestConfig.cs" />
     <Compile Include="Enums\DataBaseFillMode.cs" />
+    <Compile Include="Converters\FileSizeConverter.cs" />
+    <Compile Include="Enums\FileSizeMode.cs" />
     <Compile Include="Exceptions\ComparingException.cs" />
     <Compile Include="Interfaces\IFactory.cs" />
     <Compile Include="Logger.cs" />
