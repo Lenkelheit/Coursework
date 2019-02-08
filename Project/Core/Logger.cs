@@ -12,6 +12,7 @@ namespace Core
         // FIELDS
         private readonly SemaphoreSlim writeLock; // because writing to file occupy process
         private static Logger instance;
+        private LogMode offLogMode;
         private readonly System.IO.FileInfo logFileInfo;
 
         // CONSTRUCTORS
@@ -19,6 +20,8 @@ namespace Core
         {
             writeLock = new SemaphoreSlim(initialCount: 1, maxCount: 1);
             logFileInfo = new System.IO.FileInfo(Configuration.AppConfig.LOG_FILE);
+
+            offLogMode = 0;
         }
         static Logger()
         {
@@ -37,6 +40,28 @@ namespace Core
         /// </summary>
         public static Logger GetLogger => instance;
         // METHODS
+        /// <summary>
+        /// Turns off log modes.
+        /// <para/>
+        /// For multiple off modes use "|" between them, for example: <see cref="LogMode.Debug"/> | <see cref="LogMode.Info"/>.
+        /// </summary>
+        /// <param name="logMode">The log mode(s) that will be off.</param>
+        public void Off(LogMode logMode)
+        {
+            // Joins log modes that have to be off.
+            offLogMode |= logMode;
+        }
+        /// <summary>
+        /// Turns on log modes.
+        /// <para/>
+        /// For multiple on modes use "|" between them, for example: <see cref="LogMode.Debug"/> | <see cref="LogMode.Info"/>.
+        /// </summary>
+        /// <param name="logMode">The log mode(s) that will be on.</param>
+        public void On(LogMode logMode)
+        {
+            // Separates log modes that have to be on.
+            offLogMode &= ~logMode;
+        }
         private void CreateDirectoryIfNotExist()
         {
             System.IO.Directory.CreateDirectory(Configuration.AppConfig.LOG_DIRECTORY);
@@ -72,11 +97,15 @@ namespace Core
             {
                 writeLock.Wait();
 
-                CreateDirectoryIfNotExist();
+                // Executes if logMode isn't off, otherwise - no.
+                if (!offLogMode.HasFlag(logMode)) 
+                {
+                    CreateDirectoryIfNotExist();
 
-                DeleteLogFileIfBig();
+                    DeleteLogFileIfBig();
 
-                AddMessageToLogFile(logMode, message);
+                    AddMessageToLogFile(logMode, message);
+                }
             }
             finally
             {
@@ -98,11 +127,15 @@ namespace Core
             {
                 await writeLock.WaitAsync();
 
-                await System.Threading.Tasks.Task.Run(() => CreateDirectoryIfNotExist());
+                // Executes if logMode isn't off, otherwise - no.
+                if (!offLogMode.HasFlag(logMode))
+                {
+                    await System.Threading.Tasks.Task.Run(() => CreateDirectoryIfNotExist());
+                  
+                    await System.Threading.Tasks.Task.Run(() => DeleteLogFileIfBig());
 
-                await System.Threading.Tasks.Task.Run(() => DeleteLogFileIfBig());
-
-                await System.Threading.Tasks.Task.Run(() => AddMessageToLogFile(logMode, message));
+                    await System.Threading.Tasks.Task.Run(() => AddMessageToLogFile(logMode, message));
+                }
             }
             finally
             {
