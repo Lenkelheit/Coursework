@@ -21,12 +21,7 @@ namespace Core
             writeLock = new SemaphoreSlim(initialCount: 1, maxCount: 1);
             logFileInfo = new System.IO.FileInfo(Configuration.AppConfig.LOG_FILE);
 
-            // To turn off log mode(s) for all application pass it(them) to method "Off".
-            // For example, next line turns off Debug mode:
-            // Off(LogMode.Debug);
-            // For multiple off modes use "|" between them, next line turns off Debug and Info modes:
-            // Off(LogMode.Debug | LogMode.Info);
-            // To turn on modes that are off, only delete method "Off" with them.
+            offLogMode = 0;
         }
         static Logger()
         {
@@ -45,9 +40,27 @@ namespace Core
         /// </summary>
         public static Logger GetLogger => instance;
         // METHODS
-        private void Off(LogMode logMode)
+        /// <summary>
+        /// Turns off log modes.
+        /// <para/>
+        /// For multiple off modes use "|" between them, for example: <see cref="LogMode.Debug"/> | <see cref="LogMode.Info"/>.
+        /// </summary>
+        /// <param name="logMode">The log mode(s) that will be off.</param>
+        public void Off(LogMode logMode)
         {
-            offLogMode = logMode;
+            // Joins log modes that have to be off.
+            offLogMode |= logMode;
+        }
+        /// <summary>
+        /// Turns on log modes.
+        /// <para/>
+        /// For multiple on modes use "|" between them, for example: <see cref="LogMode.Debug"/> | <see cref="LogMode.Info"/>.
+        /// </summary>
+        /// <param name="logMode">The log mode(s) that will be on.</param>
+        public void On(LogMode logMode)
+        {
+            // Separates log modes that have to be on.
+            offLogMode &= ~logMode;
         }
         private void CreateDirectoryIfNotExist()
         {

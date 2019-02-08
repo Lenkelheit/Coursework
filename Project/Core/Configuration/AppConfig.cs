@@ -40,6 +40,10 @@ namespace Core.Configuration
         /// </summary>
         public static readonly long LOG_FILE_SIZE_LIMIT = Converters.FileSizeConverter.GetSize(10, Enums.FileSizeMode.MB); // 10 MB in bytes
         /// <summary>
+        /// The log modes that have to be off.
+        /// </summary>
+        public static readonly LogMode OFF_LOG_MODES;
+        /// <summary>
         /// Template for logs.
         /// <para/>
         /// Date, logMode, message.
