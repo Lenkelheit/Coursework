@@ -13,11 +13,6 @@ namespace Core.Configuration
         /// Determines if need to close application on fatal error
         /// </summary>
         public static readonly bool DO_CLOSE_APP_ON_FATAL_ERROR = false;
-        /// <summary>
-        /// Determines if need to delete test database
-        /// </summary>
-        public static readonly bool DO_DELETE_TEST_DB = false;
-
 
         // FOLDER CONFIG
         #region FOLDER CONFIG

@@ -22,7 +22,8 @@ namespace UnitTest.DataAccess.Repositories
         [ClassInitialize]
         public static void Constructor(TestContext context)
         {
-            dbFiller = new Resources.Classes.DbFiller();
+            dbFiller = Resources.Classes.DbFiller.Instance;
+
             dbContext = Resources.Initializers.DatabaseInitializer.DBContext;
         }
         [TestInitialize]
@@ -57,11 +58,13 @@ namespace UnitTest.DataAccess.Repositories
         {
             // Arrange
             SubjectRepository subjectRepository = new SubjectRepository(dbContext);
-            int expectedSubjectWithMessagesInDb = 1;
+            int numberOfMessagesperSubject = 4;
+            int expectedSubjectWithMessagesInDb = Resources.Classes.DbFiller.Instance.SubjectMessageAmount
+                .Count(s => s.Value == numberOfMessagesperSubject);
 
             // Act
             int actualSubjectWith4Messages = subjectRepository
-                .Count(subject => subject.Messages.Count == 4);
+                .Count(subject => subject.Messages.Count == numberOfMessagesperSubject);
 
             // Assert
             Assert.AreEqual(expectedSubjectWithMessagesInDb, actualSubjectWith4Messages);
@@ -74,15 +77,15 @@ namespace UnitTest.DataAccess.Repositories
         {
             // Arrange
             SubjectRepository subjectRepository = new SubjectRepository(dbContext);
-            int expectedSubjectInDb = 5;
+            int expectedSubjectInDb = Resources.Classes.DbFiller.Instance.SubjectAmount;
 
             // Act
-            IEnumerable<Subject> subjectFromDB = subjectRepository.Get();
-            int actualSubjectInDb = subjectFromDB.Count();
+            Subject[] subjectFromDB = subjectRepository.Get().ToArray();
+            int actualSubjectInDb = subjectFromDB.Length;
 
             // Assert
             Assert.AreEqual(expectedSubjectInDb, actualSubjectInDb);
-            CollectionAssert.AreEquivalent(dbContext.Subjects.ToArray(), subjectFromDB.ToArray());
+            CollectionAssert.AreEquivalent(dbContext.Subjects.ToArray(), subjectFromDB);
         }
         [TestMethod]
         public void GetFilterByMessageAmount()
@@ -92,42 +95,43 @@ namespace UnitTest.DataAccess.Repositories
             int expectedSubjectInDb = 2;
 
             // Act
-            IEnumerable<Subject> subjectFromDb = subjectRepository.Get(filter: subject => subject.Messages.Count > 2);
-            int actualSubjectInDb = subjectFromDb.Count();
+            Subject[] subjectFromDb = subjectRepository.Get(filter: subject => subject.Messages.Count > 2).ToArray();
+            int actualSubjectInDb = subjectFromDb.Length;
 
             // Assert
             Assert.AreEqual(expectedSubjectInDb, actualSubjectInDb);
-            CollectionAssert.IsSubsetOf(subjectFromDb.ToArray(), dbContext.Subjects.ToArray());
+            CollectionAssert.IsSubsetOf(subjectFromDb, dbContext.Subjects.ToArray());
         }
         [TestMethod]
         public void GetOrder()
         {
             // Arrange
             SubjectRepository subjectRepository = new SubjectRepository(dbContext);
-            int expectedSubjectInDb = 5;
+            int expectedSubjectInDb = Resources.Classes.DbFiller.Instance.SubjectAmount;
 
             // Act
-            IEnumerable<Subject> subjectFromDb = subjectRepository.Get(orderBy: subject => subject.OrderBy(s => s.Name));
+            Subject[] subjectFromDb = subjectRepository.Get(orderBy: subject => subject.OrderBy(s => s.Name)).ToArray();
             int actualUserInDb = subjectFromDb.Count();
 
             // Assert
             Assert.AreEqual(expectedSubjectInDb, actualUserInDb);
-            CollectionAssert.AreEqual(dbContext.Subjects.OrderBy(s => s.Name).ToArray(), subjectFromDb.ToArray());
+            CollectionAssert.AreEqual(dbContext.Subjects.OrderBy(s => s.Name).ToArray(), subjectFromDb);
         }
         [TestMethod]
         public void GetFilterAndOrder()
         {
             // Arrange
             SubjectRepository subjectRepository = new SubjectRepository(dbContext);
-            int expectedSubjectInDB = 5;
+            int expectedSubjectInDB = Resources.Classes.DbFiller.Instance.SubjectAmount;
+            Subject[] valuesInDataBase = dbContext.Subjects.Where(s => s.Messages.Count > 0).OrderByDescending(s => s.Name).ToArray();
 
             // Act
-            IEnumerable<Subject> subjectFromDb = subjectRepository.Get(filter: subject => subject.Messages.Count > 0, orderBy: o => o.OrderByDescending(s => s.Name));
+            Subject[] subjectFromDb = subjectRepository.Get(filter: subject => subject.Messages.Count > 0, orderBy: o => o.OrderByDescending(s => s.Name)).ToArray();
             int actualSubjectFromDb = subjectFromDb.Count();
 
             // Assert
             Assert.AreEqual(expectedSubjectInDB, actualSubjectFromDb);
-            CollectionAssert.AreEqual(dbContext.Subjects.Where(s => s.Messages.Count > 0).OrderByDescending(s => s.Name).ToArray(), subjectFromDb.ToArray());
+            CollectionAssert.AreEqual(valuesInDataBase, subjectFromDb);
         }
         #endregion
         // GET BY ID

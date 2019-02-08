@@ -23,7 +23,8 @@ namespace UnitTest.DataAccess.Repositories
         [ClassInitialize]
         public static void Constructor(TestContext context)
         {
-            dbFiller = new Resources.Classes.DbFiller();
+            dbFiller = Resources.Classes.DbFiller.Instance;
+
             dbContext = Resources.Initializers.DatabaseInitializer.DBContext;
         }
         [TestInitialize]
@@ -45,7 +46,7 @@ namespace UnitTest.DataAccess.Repositories
         {
             // Arrange
             PhotoRepository photoRepository = new PhotoRepository(dbContext);
-            int expectedPhotosInDb = 13;
+            int expectedPhotosInDb = Resources.Classes.DbFiller.Instance.PhotoAmount;
 
             // Act
             int actualPhotosInDb = photoRepository.Count();
@@ -54,14 +55,15 @@ namespace UnitTest.DataAccess.Repositories
             Assert.AreEqual(expectedPhotosInDb, actualPhotosInDb);
         }
         [TestMethod]
-        public void CountIfUserJohn()
+        public void CountIf_PhotoAmountBuUserNickname()
         {
             // Arrange
             PhotoRepository photoRepository = new PhotoRepository(dbContext);
-            int expectedPhotosUserJohn = 3;
+            string userNickname = Resources.Classes.DbFiller.Instance.FirstUserNickname;
+            int expectedPhotosUserJohn = Resources.Classes.DbFiller.Instance.GetPhotoAmountByUser(userNickname);
 
             // Act
-            int actualPhotosUserJohn = photoRepository.Count(photo => photo.User.NickName == "John");
+            int actualPhotosUserJohn = photoRepository.Count(photo => photo.User.NickName == userNickname);
 
             // Assert
             Assert.AreEqual(expectedPhotosUserJohn, actualPhotosUserJohn);
@@ -74,62 +76,65 @@ namespace UnitTest.DataAccess.Repositories
         {
             // Arrange
             PhotoRepository photoRepository = new PhotoRepository(dbContext);
-            int expectedPhotoInDb = 13;
+            int expectedPhotoInDb = Resources.Classes.DbFiller.Instance.PhotoAmount;
 
             // Act
-            IEnumerable<Photo> photosFromDb = photoRepository.Get();
-            int actualPhotoInDb = photosFromDb.Count();
+            Photo[] photosFromDb = photoRepository.Get().ToArray();
+            int actualPhotoInDb = photosFromDb.Length;
 
             // Assert
             Assert.AreEqual(expectedPhotoInDb, actualPhotoInDb);
-            CollectionAssert.AreEquivalent(dbContext.Photos.ToArray(), photosFromDb.ToArray());
+            CollectionAssert.AreEquivalent(dbContext.Photos.ToArray(), photosFromDb);
         }
         [TestMethod]
         public void GetFilterByUserNickName()
         {
             // Arrange
             PhotoRepository photoRepository = new PhotoRepository(dbContext);
-            int expectedPhotoInDb = 3;
+            string userNickname = Resources.Classes.DbFiller.Instance.FirstUserNickname;
+            int expectedPhotoInDb = Resources.Classes.DbFiller.Instance.GetPhotoAmountByUser(userNickname);
 
             // Act
-            IEnumerable<Photo> photosFromDb = photoRepository.Get(filter: photo => photo.User.NickName == "John");
-            int actualPhotoInDb = photosFromDb.Count();
+            Photo[] photosFromDb = photoRepository.Get(filter: photo => photo.User.NickName == userNickname).ToArray();
+            int actualPhotoInDb = photosFromDb.Length;
 
             // Assert
             Assert.AreEqual(expectedPhotoInDb, actualPhotoInDb);
-            CollectionAssert.IsSubsetOf(photosFromDb.ToArray(), dbContext.Photos.ToArray());
+            CollectionAssert.IsSubsetOf(photosFromDb, dbContext.Photos.ToArray());
         }
         [TestMethod]
         public void GetOrder()
         {
             // Arrange
             PhotoRepository photoRepository = new PhotoRepository(dbContext);
-            int expectedPhotoInDb = 13;
+            int expectedPhotoInDb = Resources.Classes.DbFiller.Instance.PhotoAmount;
 
             // Act
-            IEnumerable<Photo> photosFromDb = photoRepository.Get(orderBy: photo => photo.OrderBy(p => p.Path));
-            int actualPhotoInDb = photosFromDb.Count();
+            Photo[] photosFromDb = photoRepository.Get(orderBy: photo => photo.OrderBy(p => p.Path)).ToArray();
+            int actualPhotoInDb = photosFromDb.Length;
 
             // Assert
             Assert.AreEqual(expectedPhotoInDb, actualPhotoInDb);
-            CollectionAssert.AreEqual(dbContext.Photos.OrderBy(p => p.Path).ToArray(), photosFromDb.ToArray());
+            CollectionAssert.AreEqual(dbContext.Photos.OrderBy(p => p.Path).ToArray(), photosFromDb);
         }
         [TestMethod]
         public void GetFilterAndOrder()
         {
-            // Arrange
-            PhotoRepository photoRepository = new PhotoRepository(dbContext);
-            int expectedPhotoInDb = 3;
+            if (Core.Configuration.TestConfig.DATA_BASE_FILL_MODE == Core.Enums.DataBaseFillMode.Regular)
+            {
+                // Arrange
+                PhotoRepository photoRepository = new PhotoRepository(dbContext);
+                int expectedPhotoInDb = 3;
+                Photo[] valueInDataBase = dbContext.Photos.Where(p => p.User.NickName == "John").OrderByDescending(p => p.Path).ToArray();
 
-            // Act
-            IEnumerable<Photo> photosFromDb = photoRepository.
-                Get(filter: p => p.User.NickName == "John", orderBy: o => o.OrderByDescending(p => p.Path));
-            int actualPhotoInDb = photosFromDb.Count();
+                // Act
+                Photo[] photosFromDb = photoRepository.Get(filter: p => p.User.NickName == "John", orderBy: o => o.OrderByDescending(p => p.Path)).ToArray();
+                int actualPhotoInDb = photosFromDb.Length;
 
-            // Assert
-            Assert.AreEqual(expectedPhotoInDb, actualPhotoInDb);
-            CollectionAssert.AreEqual(dbContext.Photos.Where(p => p.User.NickName == "John")
-                .OrderByDescending(p => p.Path).ToArray(), photosFromDb.ToArray());
+                // Assert
+                Assert.AreEqual(expectedPhotoInDb, actualPhotoInDb);
+                CollectionAssert.AreEqual(valueInDataBase, photosFromDb.ToArray());
+            }
         }
         #endregion
         // GET BY ID

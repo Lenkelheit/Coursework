@@ -110,7 +110,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="ViewModel\Commands\Admin\" />
-    <Folder Include="View\Converters\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Resources\DataAccess\Repositories\AvatarFormat.xml">
