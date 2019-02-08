@@ -53,7 +53,7 @@
             // gets index 
             Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, "Gets photo index");
             int index = mainWindowViewModel.SelectedPhotoIndex;
-            Core.Logger.GetLogger.LogAsync(Core.LogMode.Info, $"{nameof(index)} = {index}");
+            Core.Logger.GetLogger.LogAsync(Core.LogMode.Info, $"Photo index = {index}");
 
             // check index
             if (index == Core.Configuration.Constants.WRONG_INDEX)

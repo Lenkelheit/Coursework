@@ -58,7 +58,8 @@
             <!--COMMENTS-->
             <ListBox Grid.Column="1"
                      Style="{StaticResource ListBoxComments}"
-                     ItemsSource="{Binding Comments}"/>
+                     ItemsSource="{Binding Comments}"
+                     SelectedIndex="{Binding SelectedCommentIndex, Mode=OneWayToSource}"/>
         </Grid>      
         
         <!--BUTTONS-->

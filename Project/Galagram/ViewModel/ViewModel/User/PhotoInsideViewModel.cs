@@ -13,7 +13,7 @@ namespace Galagram.ViewModel.ViewModel.User
     public class PhotoInsideViewModel : ViewModelBase
     {
         // FIELDS
-        DataAccess.Entities.Photo photo;
+        readonly DataAccess.Entities.Photo photo;
         int selectedCommentIndex;
         #warning set it to array after optimization in future milestones
         ObservableCollection<CommentWrapper> comments;
@@ -21,10 +21,10 @@ namespace Galagram.ViewModel.ViewModel.User
 
         DataAccess.Structs.LikeDislikeAmount likeDislikeAmount;
 
-        ICommand likePhotoCommand;
-        ICommand likeCommentCommand;
-        ICommand writeCommentCommand;
-        ICommand deleteCommentCommand;
+        readonly ICommand likePhotoCommand;
+        readonly ICommand likeCommentCommand;
+        readonly ICommand writeCommentCommand;
+        readonly ICommand deleteCommentCommand;
         // CONSTRUCTORS
         /// <summary>
         /// Initialize a new instance of <see cref="PhotoInsideViewModel"/>
