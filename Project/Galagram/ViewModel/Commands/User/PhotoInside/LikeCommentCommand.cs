@@ -1,4 +1,7 @@
-﻿namespace Galagram.ViewModel.Commands.User.PhotoInside
+﻿using DataAccess.Wrappers;
+using DataAccess.Entities;
+
+namespace Galagram.ViewModel.Commands.User.PhotoInside
 {
     /// <summary>
     /// Sets like or dislike to current comment
@@ -44,7 +47,7 @@
         /// An array of values :
         /// <para/>
         /// 1 — bool value. True if like, false if dislike <para/>
-        /// 2 — current comments
+        /// 2 — current comments wrapper
         /// </param>
         public override void Execute(object parameter)
         {
@@ -52,9 +55,9 @@
 
             // gets value
             bool isLike = System.Convert.ToBoolean((parameter as System.Array).GetValue(0));
-            DataAccess.Entities.Comment comment = (DataAccess.Entities.Comment)(parameter as System.Array).GetValue(1);
+            CommentWrapper commentWrapper = (CommentWrapper)(parameter as System.Array).GetValue(1);
             DataAccess.Entities.User user = Services.DataStorage.Instance.LoggedUser;
-            DataAccess.Entities.CommentLike commentLike = photoInsideViewModel.UnitOfWork.CommentLikeRepository.TryGetUserLike(comment, user);
+            CommentLike commentLike = photoInsideViewModel.UnitOfWork.CommentLikeRepository.TryGetUserLike(commentWrapper.Comment, user);
 
             // suitable for likes and dislikes
             // STEPS
@@ -71,12 +74,17 @@
                 Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, "Add to data base");
 
                 // update data base
-                DataAccess.Context.UnitOfWork.Instance.CommentLikeRepository.Insert(new DataAccess.Entities.CommentLike
+                DataAccess.Context.UnitOfWork.Instance.CommentLikeRepository.Insert(new CommentLike
                 {
                     IsLiked = isLike,
-                    Comment = comment,
+                    Comment = commentWrapper.Comment,
                     User = user
                 });
+
+                // update view
+                Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, "Update View");
+                if (isLike) ++commentWrapper.LikesAmount;
+                else ++commentWrapper.DisLikesAmount;
             }
             else// 2. there is a like
             {
@@ -87,7 +95,12 @@
 
                     // updata data base
                     DataAccess.Context.UnitOfWork.Instance.CommentLikeRepository.Delete(commentLike);
-                    DataAccess.Context.UnitOfWork.Instance.CommentRepository.Update(comment);
+                    DataAccess.Context.UnitOfWork.Instance.CommentRepository.Update(commentWrapper.Comment);
+
+                    // update view
+                    Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, "Update View");
+                    if (isLike) --commentWrapper.LikesAmount;
+                    else --commentWrapper.DisLikesAmount;
                 }
                 else// 2.2 toggle dislike to like
                 {
@@ -97,12 +110,26 @@
                     // updata database
                     commentLike.IsLiked = isLike; // toggle
                     DataAccess.Context.UnitOfWork.Instance.CommentLikeRepository.Update(commentLike);
+
+
+                    // update view, toggle value
+                    Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, "Update View");
+                    if (isLike)
+                    {
+                        ++commentWrapper.LikesAmount;
+                        --commentWrapper.DisLikesAmount;
+                    }
+                    else
+                    {
+                        --commentWrapper.LikesAmount;
+                        ++commentWrapper.DisLikesAmount;
+                    }
                 }
             }
 
             // update interface, comment likes
             Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, "Update view");
-            comment.PropertyUpdates(nameof(DataAccess.Entities.Comment.Likes));
+            //commentWrapper.PropertyUpdates(nameof(Comment.Likes));
             
             // save changes to database
             Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, "Save changes to data base");

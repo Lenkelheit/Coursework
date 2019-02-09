@@ -42,6 +42,7 @@
 
         </Style.Triggers>
     </Style>
+    
     <!--BUTTON FOR COMMENT DELETE-->
     <Style BasedOn="{StaticResource ButtonBase}" TargetType="{x:Type Button}" x:Key="CommentDeleteCrossButton">
         <Style.Triggers>
@@ -66,8 +67,8 @@
                     <MultiBinding Converter="{StaticResource UserConverter}">
                         <!--LOGGED USER-->
                         <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}" Path="DataContext.DataStorage.LoggedUser" Mode="OneWay"/>
-                        <!--USER IN FOLLOW LIST-->
-                        <Binding RelativeSource="{RelativeSource Self}" Path="DataContext.User" Mode="OneWay" />
+                        <!--USER IN COMMENT LIST-->
+                        <Binding RelativeSource="{RelativeSource Self}" Path="DataContext.Comment.User" Mode="OneWay" />
                     </MultiBinding>
                 </DataTrigger.Binding>
 

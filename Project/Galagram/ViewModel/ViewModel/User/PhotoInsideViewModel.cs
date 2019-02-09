@@ -1,6 +1,9 @@
-﻿using System.Windows.Input;
+﻿using System.Linq;
+using System.Windows.Input;
 using System.ComponentModel;
 using System.Collections.ObjectModel;
+
+using DataAccess.Wrappers;
 
 namespace Galagram.ViewModel.ViewModel.User
 {
@@ -10,18 +13,18 @@ namespace Galagram.ViewModel.ViewModel.User
     public class PhotoInsideViewModel : ViewModelBase
     {
         // FIELDS
-        DataAccess.Entities.Photo photo;
+        readonly DataAccess.Entities.Photo photo;
         int selectedCommentIndex;
         #warning set it to array after optimization in future milestones
-        ObservableCollection<DataAccess.Entities.Comment> comments;
+        ObservableCollection<CommentWrapper> comments;
         string commentText;
 
         DataAccess.Structs.LikeDislikeAmount likeDislikeAmount;
 
-        ICommand likePhotoCommand;
-        ICommand likeCommentCommand;
-        ICommand writeCommentCommand;
-        ICommand deleteCommentCommand;
+        readonly ICommand likePhotoCommand;
+        readonly ICommand likeCommentCommand;
+        readonly ICommand writeCommentCommand;
+        readonly ICommand deleteCommentCommand;
         // CONSTRUCTORS
         /// <summary>
         /// Initialize a new instance of <see cref="PhotoInsideViewModel"/>
@@ -30,7 +33,7 @@ namespace Galagram.ViewModel.ViewModel.User
         {
             this.photo = photo;
             this.selectedCommentIndex = Core.Configuration.Constants.WRONG_INDEX;
-            this.comments = new ObservableCollection<DataAccess.Entities.Comment>(photo.Comments);
+            this.comments = new ObservableCollection<CommentWrapper>(photo.Comments.Select(comment => new CommentWrapper(comment)));
             this.commentText = string.Empty;
 
             this.likeDislikeAmount = UnitOfWork.PhotoRepository.GetLikeDislikeAmount(photo);
@@ -93,7 +96,7 @@ namespace Galagram.ViewModel.ViewModel.User
         /// <summary>
         /// Gets or sets comments to photo
         /// </summary>
-        public ObservableCollection<DataAccess.Entities.Comment> Comments // => to []
+        public ObservableCollection<CommentWrapper> Comments // => to []
         {
             get
             {

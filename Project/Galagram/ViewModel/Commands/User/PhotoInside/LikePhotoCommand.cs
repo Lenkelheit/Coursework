@@ -40,6 +40,8 @@
         /// </summary>
         /// <param name="parameter">
         /// Command parameters
+        /// <para/>
+        /// 1 — bool, is like or dislike
         /// </param>
         public override void Execute(object parameter)
         {

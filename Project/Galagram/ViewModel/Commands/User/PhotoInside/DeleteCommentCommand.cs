@@ -39,6 +39,8 @@
         /// </summary>
         /// <param name="parameter">
         /// Command parameters
+        /// <para/>
+        /// 1 — command wrapper to delete
         /// </param>
         public override void Execute(object parameter)
         {
@@ -49,16 +51,16 @@
             // delete your comments on someone photo
 
             // delete comment
-            Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, $"Convert to {nameof(DataAccess.Entities.Comment)}");
-            DataAccess.Entities.Comment commentToDelete = (DataAccess.Entities.Comment)parameter;
+            Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, $"Convert to {nameof(DataAccess.Wrappers.CommentWrapper)}");
+            DataAccess.Wrappers.CommentWrapper commentWrapperToDelete = (DataAccess.Wrappers.CommentWrapper)parameter;
 
             // remove from db
             Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, "Remove value from data base");
-            photoInsideViewModel.UnitOfWork.CommentRepository.Delete(commentToDelete);
+            photoInsideViewModel.UnitOfWork.CommentRepository.Delete(commentWrapperToDelete.Comment);
             
             // update view
             Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, "Update View");
-            photoInsideViewModel.Comments.Remove(commentToDelete);
+            photoInsideViewModel.Comments.Remove(commentWrapperToDelete);
 
             // update data base
             Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, "Update Data base");

@@ -90,6 +90,7 @@
     <Compile Include="Structs\LikeDislikeAmount.cs" />
     <Compile Include="Structs\ValidNameAndPasswordAndUser.cs" />
     <Compile Include="Structs\ValidNameAndPassword.cs" />
+    <Compile Include="Wrappers\CommentWrapper.cs" />
     <Compile Include="Wrappers\PhotoWrapper.cs" />
   </ItemGroup>
   <ItemGroup>

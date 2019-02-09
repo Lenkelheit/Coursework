@@ -92,7 +92,7 @@
             Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, "Create comment");
 
             // update view
-            photoInsideViewModel.Comments.Add(comment);
+            photoInsideViewModel.Comments.Add(new DataAccess.Wrappers.CommentWrapper(comment));
             Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, "Update view");
 
             // update database

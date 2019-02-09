@@ -14,16 +14,17 @@ namespace Galagram.ViewModel.ViewModel.User
         ObservableCollection<DataAccess.Entities.Photo> photos;
         bool isFollowing;
 
-        ICommand goHomeCommand;
-        ICommand askQuestionCommand;
-        ICommand followCommand;
-        ICommand logOutCommand;
-        ICommand searchUserCommand;
-        ICommand settingCommand;
-        ICommand showFollowersListCommand;
-        ICommand showFollowingListCommand;
-        ICommand showPhotoCommand;
-        ICommand uploadPhotoCommand;
+        readonly ICommand goHomeCommand;
+        readonly ICommand askQuestionCommand;
+        readonly ICommand followCommand;
+        readonly ICommand logOutCommand;
+        readonly ICommand searchUserCommand;
+        readonly ICommand settingCommand;
+        readonly ICommand showFollowersListCommand;
+        readonly ICommand showFollowingListCommand;
+        readonly ICommand showPhotoCommand;
+        readonly ICommand uploadPhotoCommand;
+
         // CONSTRUCTORS
         /// <summary>
         /// Initialize a new instance of <see cref="MainWindowViewModel"/>

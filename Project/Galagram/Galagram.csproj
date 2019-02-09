@@ -90,7 +90,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Converters\CommentCollectionToLengthConverter.cs" />
     <Compile Include="Converters\ImageConverter.cs" />
     <Compile Include="Converters\ItemsToArrayConverter.cs" />
     <Compile Include="Converters\ReverseBooleanConverter.cs" />
