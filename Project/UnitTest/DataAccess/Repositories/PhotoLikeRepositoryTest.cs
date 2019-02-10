@@ -279,6 +279,7 @@ namespace UnitTest.DataAccess.Repositories
             // Act
             photoLikeToUpdate.IsLiked = isLiked;
             photoLikeRepository.Update(photoLikeToUpdate);
+            dbContext.SaveChanges();
 
             // Assert
             Assert.AreEqual(dbContext.PhotoLike.Find(photoLikeToUpdate.Id).IsLiked, isLiked);

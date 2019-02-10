@@ -51,7 +51,7 @@ namespace UnitTest.Resources.Classes
         public DbFiller()
         {
             // initialize test mode
-            fillMode = Core.Configuration.TestConfig.DATA_BASE_FILL_MODE;
+            fillMode = Core.Configuration.TestConfig.DATABASE_FILL_MODE;
 
             // initialize fields
             random = new Random();
@@ -726,16 +726,32 @@ namespace UnitTest.Resources.Classes
             }
         }
         private void ClearDataBase(global::DataAccess.Context.AppContext dbContext)
-        {
-#warning Probably very slow, could use SQl, but should write this in generic style
-            dbContext.Messages.RemoveRange(dbContext.Set<Message>());
-            dbContext.Subjects.RemoveRange(dbContext.Set<Subject>());
-            dbContext.PhotoLike.RemoveRange(dbContext.Set<PhotoLike>());
-            dbContext.CommentLike.RemoveRange(dbContext.Set<CommentLike>());
-            dbContext.Comments.RemoveRange(dbContext.Set<Comment>());
-            dbContext.Photos.RemoveRange(dbContext.Set<Photo>());
-            dbContext.Users.RemoveRange(dbContext.Set<User>());
-            dbContext.SaveChanges();
+        {            
+            // create transaction to clear DataBase
+            using (System.Data.Entity.DbContextTransaction transaction = dbContext.Database.BeginTransaction())
+            {
+                try
+                {
+                    // gets all tables' names
+                    string[] tableNames = dbContext.Database.SqlQuery<string>("SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'BASE TABLE' AND TABLE_NAME NOT LIKE '%Migration%'").ToArray();
+
+                    // clear out data in all tables
+                    foreach (string tableName in tableNames)
+                    {
+                        dbContext.Database.ExecuteSqlCommand($"DELETE FROM [{tableName}];");                        
+                    }
+
+                    // commit transaction 
+                    transaction.Commit();
+                }
+                catch
+                {
+                    // rollback transtaction on any error
+                    transaction.Rollback();
+
+                    throw;
+               }
+            }
         }
         #endregion
     }

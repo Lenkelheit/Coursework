@@ -279,6 +279,7 @@ namespace UnitTest.DataAccess.Repositories
             // Act
             commentLikeToUpdate.IsLiked = isLiked;
             commentLikeRepository.Update(commentLikeToUpdate);
+            dbContext.SaveChanges();
 
             // Assert
             Assert.AreEqual(dbContext.CommentLike.Find(commentLikeToUpdate.Id).IsLiked, isLiked);

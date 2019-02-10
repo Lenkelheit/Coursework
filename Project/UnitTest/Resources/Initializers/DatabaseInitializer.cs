@@ -17,12 +17,13 @@ namespace UnitTest.Resources.Initializers
         {
             connectionString = System.Configuration.ConfigurationManager.ConnectionStrings["TestDBConnection"].ConnectionString;
             dbContext = new DA.AppContext(connectionString);
+            dbContext.Configuration.AutoDetectChangesEnabled = false;
         }
         [AssemblyCleanup]
         public static void Finalizer()
         {
             dbContext.Dispose();
-            if (Core.Configuration.TestConfig.DO_DELETE_TEST_DB) System.Data.Entity.Database.Delete(connectionString);
+            if (Core.Configuration.TestConfig.DO_DELETE_TEST_DATABASE) System.Data.Entity.Database.Delete(connectionString);
         }
 
         // PROPERTIES

@@ -310,6 +310,7 @@ namespace UnitTest.DataAccess.Repositories
             // Act
             subjectToUpdate.Name = newSubjectName;
             subjectRepository.Update(subjectToUpdate);
+            dbContext.SaveChanges();
 
             // Assert
             Assert.AreEqual(dbContext.Subjects.Find(subjectToUpdate.Id).Name, newSubjectName);

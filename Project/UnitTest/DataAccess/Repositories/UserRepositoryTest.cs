@@ -101,7 +101,7 @@ namespace UnitTest.DataAccess.Repositories
         [TestMethod]
         public void GetFilterByPhotoAmount()
         {
-            if (Core.Configuration.TestConfig.DATA_BASE_FILL_MODE == Core.Enums.DataBaseFillMode.Regular)
+            if (Core.Configuration.TestConfig.DATABASE_FILL_MODE == Core.Enums.DataBaseFillMode.Regular)
             {
                 // Arrange
                 UserRepository userRepository = new UserRepository(dbContext);
@@ -198,7 +198,7 @@ namespace UnitTest.DataAccess.Repositories
         [TestMethod]
         public void GetByNickname_HasAllColumn()
         {
-            if (Core.Configuration.TestConfig.DATA_BASE_FILL_MODE == Core.Enums.DataBaseFillMode.Regular)
+            if (Core.Configuration.TestConfig.DATABASE_FILL_MODE == Core.Enums.DataBaseFillMode.Regular)
             {
                 // Arrange
                 UserRepository userRepository = new UserRepository(dbContext);
@@ -418,7 +418,7 @@ namespace UnitTest.DataAccess.Repositories
         [TestMethod]
         public void DeleteByKey()
         {
-            if (Core.Configuration.TestConfig.DATA_BASE_FILL_MODE == Core.Enums.DataBaseFillMode.Regular)
+            if (Core.Configuration.TestConfig.DATABASE_FILL_MODE == Core.Enums.DataBaseFillMode.Regular)
             {
                 // Arrange
                 UserRepository userRepository = new UserRepository(dbContext);
@@ -493,7 +493,7 @@ namespace UnitTest.DataAccess.Repositories
         [TestMethod]
         public void DeleteByValue()
         {
-            if (Core.Configuration.TestConfig.DATA_BASE_FILL_MODE == Core.Enums.DataBaseFillMode.Regular)
+            if (Core.Configuration.TestConfig.DATABASE_FILL_MODE == Core.Enums.DataBaseFillMode.Regular)
             {
                 // Arrange
                 UserRepository userRepository = new UserRepository(dbContext);
@@ -552,7 +552,7 @@ namespace UnitTest.DataAccess.Repositories
         [TestMethod]
         public void DeleteByChangedValue()
         {
-            if (Core.Configuration.TestConfig.DATA_BASE_FILL_MODE == Core.Enums.DataBaseFillMode.Regular)
+            if (Core.Configuration.TestConfig.DATABASE_FILL_MODE == Core.Enums.DataBaseFillMode.Regular)
             {
                 // Arrange
                 UserRepository userRepository = new UserRepository(dbContext);
@@ -613,6 +613,7 @@ namespace UnitTest.DataAccess.Repositories
             // Act
             userToUpdate.NickName = newNickName;
             userRepository.Update(userToUpdate);
+            dbContext.SaveChanges();
 
             // Assert
             Assert.AreEqual(dbContext.Users.Find(userToUpdate.Id).NickName, newNickName);
