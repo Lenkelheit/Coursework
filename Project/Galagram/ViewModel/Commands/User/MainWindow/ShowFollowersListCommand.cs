@@ -50,10 +50,14 @@
         {
             Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, $"Execute {nameof(ShowFollowersListCommand)}");
 
+            // opens followers window
             Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, $"Open modal Follow window for followers");
             mainWindowViewModel.WindowManager.ShowWindowDialog(key: nameof(Window.User.Follow),
                                                                viewModel: new ViewModel.User.FollowViewModel(Enums.User.FollowMode.Followers));
+
+            // updates main window after closing followers windosw
             mainWindowViewModel.IsFollowingUpdateExplicitly();
+            mainWindowViewModel.UpdateShownUser();
         }
     }
 }

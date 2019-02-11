@@ -6,4 +6,5 @@
     <converters:ItemsToArrayConverter x:Key="ItemsToArrayConverter"/>
     <converters:ImageConverter x:Key="ImageConverter"/>
     <converters:ReverseBooleanConverter x:Key="ReverseBooleanConverter"/>
+    <converters:IntToStringConverter x:Key="IntToStringConverter"/>
 </ResourceDictionary>

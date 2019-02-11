@@ -91,6 +91,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Converters\ImageConverter.cs" />
+    <Compile Include="Converters\IntToStringConverter.cs" />
     <Compile Include="Converters\ItemsToArrayConverter.cs" />
     <Compile Include="Converters\ReverseBooleanConverter.cs" />
     <Compile Include="Converters\UserConverter.cs" />

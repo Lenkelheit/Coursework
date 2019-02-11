@@ -80,12 +80,12 @@ namespace Galagram.ViewModel.ViewModel.User
         {
             get
             {
-                Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, $"Gets {nameof(SelectedPhotoIndex)} value {this.selectedPhotoIndex}");
+                Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug | Core.LogMode.Info, $"Gets {nameof(SelectedPhotoIndex)} value {this.selectedPhotoIndex}");
                 return selectedPhotoIndex;
             }
             set
             {
-                Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, $"Sets {nameof(SelectedPhotoIndex)} value {this.selectedPhotoIndex} to {value}");
+                Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug | Core.LogMode.Info, $"Sets {nameof(SelectedPhotoIndex)} value {this.selectedPhotoIndex} to {value}");
                 selectedPhotoIndex = value;
             }
         }
@@ -96,7 +96,7 @@ namespace Galagram.ViewModel.ViewModel.User
         {
             get
             {
-                Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, $"Gets {nameof(Photos)} with amount {photos.Count}");
+                Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug | Core.LogMode.Info, $"Gets {nameof(Photos)} with amount {photos.Count}");
                 return photos;
             }
         }
@@ -115,15 +115,17 @@ namespace Galagram.ViewModel.ViewModel.User
         {
             get
             {
-                Logger.LogAsync(Core.LogMode.Debug, $"Gets {nameof(IsFollowing)}, with value = {isFollowing}");
+                Logger.LogAsync(Core.LogMode.Debug | Core.LogMode.Info, $"Gets {nameof(IsFollowing)}, with value = {isFollowing}");
                 return isFollowing;
             }
             set
             {
-                Logger.LogAsync(Core.LogMode.Debug, $"Sets {nameof(IsFollowing)}. OldValue = {isFollowing}, new value = {value}");
+                Logger.LogAsync(Core.LogMode.Debug | Core.LogMode.Info, $"Sets {nameof(IsFollowing)}. OldValue = {isFollowing}, new value = {value}");
+
                 isFollowing = value;
 
                 OnPropertyChanged();
+                OnPropertyChanged(nameof(User));
             }
         }
         // COMMANDS

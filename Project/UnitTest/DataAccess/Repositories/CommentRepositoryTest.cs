@@ -188,7 +188,7 @@ namespace UnitTest.DataAccess.Repositories
             dbContext.SaveChanges();
 
             // Assert
-            CollectionAssert.Contains(dbContext.Comments.ToList(), comment);
+            CollectionAssert.Contains(dbContext.Comments.ToArray(), comment);
         }
         [TestMethod]
         [DataSource(
