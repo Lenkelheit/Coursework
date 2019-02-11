@@ -29,6 +29,9 @@ namespace DataAccess.Entities
             // passed object is null, exception
             if (obj == null) throw new System.ArgumentNullException(nameof(obj));
 
+            // same reference, return true
+            if (object.ReferenceEquals(this, obj)) return true;
+
             // gets passed object's type
             System.Type objectType = obj.GetType();
 
@@ -47,11 +50,26 @@ namespace DataAccess.Entities
 
                 // comparing properties
 
-                // if one is null while another is not
-                // or
-                // properties' values are not equal
-                // return false
-                if (currentProperty == null || objectProperty == null || !currentProperty.Equals(objectProperty)) return false;
+                // if one is null while another is not return false
+                if (currentProperty == null || objectProperty == null) return false;
+
+                // check if is IEnumerable                
+                if (currentProperty is IEnumerable<object>)
+                {
+                    // check collection's values on equality
+                    if (!System.Linq.Enumerable.SequenceEqual((IEnumerable<object>)currentProperty, (IEnumerable<object>)objectProperty))
+                    {
+                        // collections are not equal
+                        return false;
+                    }
+                 
+                }
+                else if (!currentProperty.Equals(objectProperty))
+                {
+                    // values are not equal
+                    return false;
+                }
+
             }
 
             // all properties' values are equal, return true
