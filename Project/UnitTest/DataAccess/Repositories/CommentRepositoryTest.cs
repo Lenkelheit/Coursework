@@ -88,7 +88,7 @@ namespace UnitTest.DataAccess.Repositories
         [TestMethod]
         public void GetFilterByMonth()
         {
-            if (Core.Configuration.TestConfig.DATA_BASE_FILL_MODE == Core.Enums.DataBaseFillMode.Regular)
+            if (Core.Configuration.TestConfig.DATABASE_FILL_MODE == Core.Enums.DataBaseFillMode.Regular)
             {
                 // Arrange
                 CommentRepository commentRepository = new CommentRepository(dbContext);
@@ -121,7 +121,7 @@ namespace UnitTest.DataAccess.Repositories
         [TestMethod]
         public void GetFilterAndOrder()
         {
-            if (Core.Configuration.TestConfig.DATA_BASE_FILL_MODE == Core.Enums.DataBaseFillMode.Regular)
+            if (Core.Configuration.TestConfig.DATABASE_FILL_MODE == Core.Enums.DataBaseFillMode.Regular)
             {
                 // Arrange
                 CommentRepository commentRepository = new CommentRepository(dbContext);
@@ -320,6 +320,7 @@ namespace UnitTest.DataAccess.Repositories
             // Act
             commentToUpdate.Text = newText;
             commentRepository.Update(commentToUpdate);
+            dbContext.SaveChanges();
 
             // Assert
             Assert.AreEqual(dbContext.Comments.Find(commentToUpdate.Id).Text, newText);
