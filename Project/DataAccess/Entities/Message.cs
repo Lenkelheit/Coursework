@@ -38,7 +38,7 @@ namespace DataAccess.Entities
         public System.DateTime Date { get; set; } = System.DateTime.Now;
 
 
-        #region  to string option
+        #region to string option
         /// <summary>
         /// Gets brief information about entity
         /// </summary>

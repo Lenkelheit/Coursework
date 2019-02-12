@@ -32,7 +32,7 @@ namespace DataAccess.Entities
         public virtual ICollection<Message> Messages { get; set; } = new List<Message>();
 
         // METHODS
-        #region  to string option
+        #region to string option
         /// <summary>
         /// Gets brief information about entity
         /// </summary>

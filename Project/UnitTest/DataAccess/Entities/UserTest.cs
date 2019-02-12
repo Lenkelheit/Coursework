@@ -137,5 +137,85 @@ namespace UnitTest.DataAccess.Entities
             CollectionAssert.AreEqual(expectedUser.CommentLikes.ToArray(), actualUser.CommentLikes.ToArray());
             CollectionAssert.AreEqual(expectedUser.Messages.ToArray(), actualUser.Messages.ToArray());
         }
+
+
+        // EQUAL
+        #region equal
+        [TestMethod]
+        public void Equals_NullValue_Exception()
+        {
+            // Arrange
+            User user1 = new User();
+            User user2 = null;
+
+            // Act
+            // Assert
+            Assert.ThrowsException<System.ArgumentNullException>(() => user1.Equals(user2));
+        }
+        [TestMethod]
+        public void Equals_DifferentType_False()
+        {
+            // Arrange
+            User user = new User();
+            PhotoLike photoLike = new PhotoLike();
+
+            // Act
+            // Assert
+            Assert.IsFalse(user.Equals(photoLike));
+            Assert.AreNotEqual(user, photoLike);
+            Assert.AreNotSame(user,photoLike);
+        }
+        [TestMethod]
+        public void Equals_TheSameInstance_True()
+        {
+            // Arrange
+            User user = new User();
+
+            // Act
+            // Assert
+            Assert.IsTrue(user.Equals(user));
+            Assert.AreEqual(user, user);
+            Assert.AreSame(user, user);
+        }
+        [TestMethod]
+        public void Equals_TheSameReference_True()
+        {
+            // Arrange
+            User user1 = new User();
+            User user2 = user1;
+
+            // Act
+            // Assert
+            Assert.IsTrue(user1.Equals(user2));
+            Assert.AreEqual(user1, user2);
+            Assert.AreSame(user1, user2);
+        }
+        [TestMethod]
+        public void Equals_TheSameValue_True()
+        {
+            // Arrange
+            User user1 = new User { NickName = "User" };
+            User user2 = new User { NickName = "User" };
+
+            // Act
+            // Assert
+            Assert.IsTrue(user1.Equals(user2));
+            Assert.AreEqual(user1, user2);
+            Assert.AreNotSame(user1, user2);
+        }
+        [TestMethod]
+        public void Equals_DifferentValue_False()
+        {
+            // Arrange
+            User user1 = new User { NickName = "User 1" };
+            User user2 = new User { NickName = "User 2" };
+
+            // Act
+            // Assert
+            Assert.IsFalse(user1.Equals(user2));
+            Assert.AreNotEqual(user1, user2);
+            Assert.AreNotSame(user1, user2);
+        }
+        #endregion
     }
 }
