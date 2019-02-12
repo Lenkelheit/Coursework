@@ -5,21 +5,6 @@
     /// </summary>
     public class LogOutCommand : CommandBase
     {
-        // FIELDS
-        ViewModel.User.MainWindowViewModel mainWindowViewModel;
-
-        // CONSTRUCTORS
-        /// <summary>
-        /// Initializes a new instance of <see cref="LogOutCommand"/>
-        /// </summary>
-        /// <param name="mainWindowViewModel">
-        /// An instance of <see cref="ViewModel.User.MainWindowViewModel"/>
-        /// </param>
-        public LogOutCommand(ViewModel.User.MainWindowViewModel mainWindowViewModel)
-        {
-            this.mainWindowViewModel = mainWindowViewModel;
-        }
-
         // METHODS
         /// <summary>
         /// Checks if command can be executed
@@ -33,6 +18,7 @@
         public override bool CanExecute(object parameter)
         {
             Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, $"Can execute {nameof(LogOutCommand)}");
+
             return true;
         }
         /// <summary>
@@ -52,7 +38,7 @@
 
             // navigate to registration window
             Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, $"Switch window to registration window");
-            mainWindowViewModel.WindowManager.SwitchMainWindow(nameof(Window.Registration), new ViewModel.RegistrationViewModel());
+            Services.WindowManager.Instance.SwitchMainWindow(key: nameof(Window.Registration), viewModel: new ViewModel.RegistrationViewModel(), doCloseAllWindow: true);
         }
     }
 }

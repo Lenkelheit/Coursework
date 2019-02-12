@@ -66,6 +66,7 @@
     <Compile Include="Messages\Info\ViewModel\Command\User\AskQuestion\Ask.cs" />
     <Compile Include="Messages\Info\ViewModel\Command\User\Setting\ApplyChanges.cs" />
     <Compile Include="Messages\Info\ViewModel\Command\User\Setting\Close.cs" />
+    <Compile Include="Messages\Info\ViewModel\Command\User\Setting\RemoveAccount.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />

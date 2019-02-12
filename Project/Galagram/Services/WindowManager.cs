@@ -211,7 +211,7 @@ namespace Galagram.Services
         private void RemoveIfClosed(string key)
         {
             // checking
-            if (string.IsNullOrWhiteSpace(key)) throw new System.ArgumentNullException(key);
+            if (string.IsNullOrWhiteSpace(key)) throw new ArgumentNullException(key);
 
             // try get window
             System.Windows.Window openedModalWindow;

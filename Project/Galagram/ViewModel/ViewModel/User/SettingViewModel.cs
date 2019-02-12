@@ -19,10 +19,11 @@ namespace Galagram.ViewModel.ViewModel.User
         string password;
         string newPassword;
 
-        ICommand applyChangesCommand;
-        ICommand loadNewAvatarCommand;
-        ICommand closeCommand;
-        ICommand resetAvatar;
+        readonly ICommand applyChangesCommand;
+        readonly ICommand loadNewAvatarCommand;
+        readonly ICommand closeCommand;
+        readonly ICommand resetAvatarCommand;
+        readonly ICommand removeAccountCommand;
 
         // CONSTRUCTORS
         /// <summary>
@@ -40,7 +41,8 @@ namespace Galagram.ViewModel.ViewModel.User
             this.applyChangesCommand = new Commands.User.Setting.ApplyChangesCommand(this);
             this.loadNewAvatarCommand = new Commands.User.Setting.LoadNewAvatarCommand(this);
             this.closeCommand = new Commands.User.Setting.CloseCommand(this);
-            this.resetAvatar = new Commands.User.Setting.ResetAvatarCommand(this);
+            this.resetAvatarCommand = new Commands.User.Setting.ResetAvatarCommand(this);
+            this.removeAccountCommand = new Commands.User.Setting.RemoveAccountCommand(this);
         }
 
         // PROPERTIES
@@ -169,7 +171,19 @@ namespace Galagram.ViewModel.ViewModel.User
             {
                 Logger.LogAsync(Core.LogMode.Debug, $"Gets {nameof(ResetAvatarCommand)}");
 
-                return resetAvatar;
+                return resetAvatarCommand;
+            }
+        }
+        /// <summary>
+        /// Gets action to remove user account
+        /// </summary>
+        public ICommand RemoveAccountCommand
+        {
+            get
+            {
+                Logger.LogAsync(Core.LogMode.Debug, $"Gets {nameof(RemoveAccountCommand)}");
+
+                return removeAccountCommand;
             }
         }
 

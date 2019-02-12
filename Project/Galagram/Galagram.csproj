@@ -104,6 +104,7 @@
     <Compile Include="ViewModel\Commands\Admin\DeleteCommand.cs" />
     <Compile Include="ViewModel\Commands\Admin\DeleteItem\DeleteItemCommand.cs" />
     <Compile Include="ViewModel\Commands\Admin\UpdateCommand.cs" />
+    <Compile Include="ViewModel\Commands\User\Setting\RemoveAccountCommand.cs" />
     <Compile Include="ViewModel\ViewModel\Admin\AllItemViewModelBase.cs" />
     <Compile Include="ViewModel\ViewModel\Admin\Comments\SingleViewModel.cs" />
     <Compile Include="ViewModel\ViewModel\Admin\DeleteItemViewModel.cs" />
