@@ -10,10 +10,11 @@ namespace Core
     public class Logger
     {
         // FIELDS
+        private static readonly Logger instance;
+
         private readonly SemaphoreSlim writeLock; // because writing to file occupy process
-        private static Logger instance;
-        private LogMode offLogMode;
         private readonly System.IO.FileInfo logFileInfo;
+        private LogMode offLogMode;
 
         // CONSTRUCTORS
         private Logger()

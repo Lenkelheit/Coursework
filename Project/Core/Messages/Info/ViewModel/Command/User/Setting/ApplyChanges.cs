@@ -8,11 +8,11 @@
         /// <summary>
         /// Password is empty
         /// </summary>
-        public readonly static string EMPTY_PASSWORD = string.Concat("Changes will not be setted", System.Environment.NewLine, "Password field is empty");
+        public readonly static string EMPTY_PASSWORD = "Password field is empty";
         /// <summary>
         /// User's password and written one is different
         /// </summary>
-        public readonly static string PASSWORD_IS_NOT_THE_SAME = string.Concat("Changes will not be setted", System.Environment.NewLine, "Password field is wrong");
+        public readonly static string PASSWORD_IS_NOT_THE_SAME = "Password field is wrong";
         /// <summary>
         /// User can not change nickname, it is occupied
         /// </summary>

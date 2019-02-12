@@ -46,7 +46,7 @@ namespace Galagram.ViewModel.ViewModel.User
             this.goHomeCommand = new Commands.User.MainWindow.GoHomeCommand(this);
             this.askQuestionCommand = new Commands.User.MainWindow.AskQuestionCommand(this);
             this.followCommand = new Commands.User.MainWindow.FollowCommand(this);
-            this.logOutCommand = new Commands.User.MainWindow.LogOutCommand(this);
+            this.logOutCommand = new Commands.User.MainWindow.LogOutCommand();
             this.searchUserCommand = new Commands.User.MainWindow.SearchUserCommand(this);
             this.settingCommand = new Commands.User.MainWindow.SettingCommand(this);
             this.showFollowersListCommand = new Commands.User.MainWindow.ShowFollowersListCommand(this);

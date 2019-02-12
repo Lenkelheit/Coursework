@@ -10,7 +10,7 @@
         /// </summary>
         public static readonly string ADMIN_WRONG_SUBJECT_LENGTH = string.Concat("Current subject length is not allowed", 
                                                                                 System.Environment.NewLine, 
-                                                                                "Min length = ", Core.Configuration.DBConfig.ADMIN_MESSAGE_SUBJECT_MIN_LENGTH, 
-                                                                                ", max length = ", Core.Configuration.DBConfig.ADMIN_MESSAGE_SUBJECT_MAX_LENGTH);
+                                                                                "Min length = ", Configuration.DBConfig.ADMIN_MESSAGE_SUBJECT_MIN_LENGTH, 
+                                                                                ", max length = ", Configuration.DBConfig.ADMIN_MESSAGE_SUBJECT_MAX_LENGTH);
     }
 }
