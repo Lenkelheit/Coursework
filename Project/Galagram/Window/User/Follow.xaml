@@ -24,11 +24,20 @@
                 <ColumnDefinition Width="60"/>
             </Grid.ColumnDefinitions>
 
-            <Label 
-                   Grid.Column="0" 
-                   Content="{Binding WindowName}"
-                   Style="{StaticResource HeaderLabel}"/>
-            
+            <Label Grid.Column="0" 
+                   Style="{StaticResource HeaderLabel}">
+                <Label.Content>
+                    <TextBlock>
+                        <TextBlock.Text>
+                            <MultiBinding StringFormat="{}{0} {1}">
+                                <Binding Path="WindowName" Mode="OneTime"/>
+                                <Binding Path="Follow.Count" Mode="OneWay" Converter="{StaticResource IntToStringConverter}"/>
+                            </MultiBinding>
+                        </TextBlock.Text>
+                    </TextBlock>
+                </Label.Content>
+            </Label>
+
             <Button Grid.Column="1" Click="Exit" Style="{StaticResource HeaderButton}">
                 <Image Source="/Resources/MenuImg/Exit.png"/>
             </Button>

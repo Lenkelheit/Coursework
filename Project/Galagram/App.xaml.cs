@@ -34,6 +34,7 @@ namespace Galagram
         /// </param>
         protected override void OnStartup(System.Windows.StartupEventArgs e)
         {
+            // log DataBase action
             DataAccess.Context.UnitOfWork.Instance.AppContext.Database.Log += delegate (string message)
             {
                 message = message.Trim();
@@ -42,6 +43,9 @@ namespace Galagram
                     Core.Logger.GetLogger.LogAsync(Core.LogMode.DataBase, message.TrimEnd());
                 }
             };
+            
+            // set up logger
+            Core.Logger.GetLogger.Off(AppConfig.OFF_LOG_MODES);
 
             // It is for single instance of application, when other application will be created it will redirect to first main one
             // and that other will be closed.

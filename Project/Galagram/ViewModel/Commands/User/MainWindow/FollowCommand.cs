@@ -45,8 +45,9 @@
         {
             Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, $"Execute {nameof(FollowCommand)}");
 
-            Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, $"Gets to shwon user followers current user");
+            Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, "Gets to shwon user followers current user");
 
+            // follow/unfollow
             bool isFollowing = mainWindowViewModel.IsFollowing;
             if (isFollowing)// unfollow
             {
@@ -56,9 +57,13 @@
             {
                 mainWindowViewModel.User.Followers.Add(mainWindowViewModel.DataStorage.LoggedUser);
             }
+
+            // update view
+            Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, "Update view");
             mainWindowViewModel.IsFollowing = !isFollowing;
 
             // update DB
+            Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, "Update DataBase");
             mainWindowViewModel.UnitOfWork.UserRepository.Update(mainWindowViewModel.User);
             mainWindowViewModel.UnitOfWork.UserRepository.Update(mainWindowViewModel.DataStorage.LoggedUser);
             mainWindowViewModel.UnitOfWork.Save();
