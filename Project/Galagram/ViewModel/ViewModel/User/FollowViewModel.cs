@@ -20,12 +20,12 @@ namespace Galagram.ViewModel.ViewModel.User
 
         // CONSTRUCTORS
         /// <summary>
-        /// Initialize a new instance of <see cref="FollowViewModel"/>
+        /// Initializes a new instance of <see cref="FollowViewModel"/>
         /// </summary>
         /// <param name="followMode">
         /// Determines in which mode open window
         /// </param>
-        public FollowViewModel( Enums.User.FollowMode followMode)
+        public FollowViewModel(Enums.User.FollowMode followMode)
         {
             this.selectedFollowIndex = Core.Configuration.Constants.WRONG_INDEX;
             this.followMode = followMode;
@@ -82,7 +82,7 @@ namespace Galagram.ViewModel.ViewModel.User
             }
             set
             {
-                Logger.LogAsync(Core.LogMode.Debug, $"Sets follow user. Amount {value.Count}");
+                Logger.LogAsync(Core.LogMode.Debug | Core.LogMode.Info, $"Sets follow user. Amount {value.Count}");
                 follow = value;
 
                 OnPropertyChanged();

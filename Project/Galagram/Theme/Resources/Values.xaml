@@ -1,6 +1,11 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:s="clr-namespace:System;assembly=mscorlib">
+                    xmlns:s="clr-namespace:System;assembly=mscorlib"
+                    xmlns:u="clr-namespace:Galagram.ViewModel.Enums.User">
     <s:Boolean x:Key="True">True</s:Boolean>
     <s:Boolean x:Key="False">False</s:Boolean>
+
+    <u:FollowMode x:Key="Followers">Followers</u:FollowMode>
+    <u:FollowMode x:Key="Following">Following</u:FollowMode>
+    
 </ResourceDictionary>

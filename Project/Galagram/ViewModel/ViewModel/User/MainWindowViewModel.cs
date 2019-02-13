@@ -20,8 +20,7 @@ namespace Galagram.ViewModel.ViewModel.User
         readonly ICommand logOutCommand;
         readonly ICommand searchUserCommand;
         readonly ICommand settingCommand;
-        readonly ICommand showFollowersListCommand;
-        readonly ICommand showFollowingListCommand;
+        readonly ICommand showFollowListCommand;
         readonly ICommand showPhotoCommand;
         readonly ICommand uploadPhotoCommand;
 
@@ -49,8 +48,7 @@ namespace Galagram.ViewModel.ViewModel.User
             this.logOutCommand = new Commands.User.MainWindow.LogOutCommand();
             this.searchUserCommand = new Commands.User.MainWindow.SearchUserCommand(this);
             this.settingCommand = new Commands.User.MainWindow.SettingCommand(this);
-            this.showFollowersListCommand = new Commands.User.MainWindow.ShowFollowersListCommand(this);
-            this.showFollowingListCommand = new Commands.User.MainWindow.ShowFollowingListCommand(this);
+            this.showFollowListCommand = new Commands.User.MainWindow.ShowFollowListCommand(this);
             this.showPhotoCommand = new Commands.User.MainWindow.ShowPhotoCommand(this);
             this.uploadPhotoCommand = new Commands.User.MainWindow.UploadPhotoCommand(this);
         }
@@ -80,12 +78,12 @@ namespace Galagram.ViewModel.ViewModel.User
         {
             get
             {
-                Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, $"Gets {nameof(SelectedPhotoIndex)} value {this.selectedPhotoIndex}");
+                Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug | Core.LogMode.Info, $"Gets {nameof(SelectedPhotoIndex)} value {this.selectedPhotoIndex}");
                 return selectedPhotoIndex;
             }
             set
             {
-                Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, $"Sets {nameof(SelectedPhotoIndex)} value {this.selectedPhotoIndex} to {value}");
+                Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug | Core.LogMode.Info, $"Sets {nameof(SelectedPhotoIndex)} value {this.selectedPhotoIndex} to {value}");
                 selectedPhotoIndex = value;
             }
         }
@@ -96,7 +94,7 @@ namespace Galagram.ViewModel.ViewModel.User
         {
             get
             {
-                Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, $"Gets {nameof(Photos)} with amount {photos.Count}");
+                Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug | Core.LogMode.Info, $"Gets {nameof(Photos)} with amount {photos.Count}");
                 return photos;
             }
         }
@@ -115,15 +113,17 @@ namespace Galagram.ViewModel.ViewModel.User
         {
             get
             {
-                Logger.LogAsync(Core.LogMode.Debug, $"Gets {nameof(IsFollowing)}, with value = {isFollowing}");
+                Logger.LogAsync(Core.LogMode.Debug | Core.LogMode.Info, $"Gets {nameof(IsFollowing)}, with value = {isFollowing}");
                 return isFollowing;
             }
             set
             {
-                Logger.LogAsync(Core.LogMode.Debug, $"Sets {nameof(IsFollowing)}. OldValue = {isFollowing}, new value = {value}");
+                Logger.LogAsync(Core.LogMode.Debug | Core.LogMode.Info, $"Sets {nameof(IsFollowing)}. OldValue = {isFollowing}, new value = {value}");
+
                 isFollowing = value;
 
                 OnPropertyChanged();
+                OnPropertyChanged(nameof(User));
             }
         }
         // COMMANDS
@@ -194,25 +194,14 @@ namespace Galagram.ViewModel.ViewModel.User
             }
         }
         /// <summary>
-        /// Gets action to show shown user followers
+        /// Gets action to opens window with shown user followers/following
         /// </summary>
-        public ICommand ShowFollowersListCommand
-        {
+        public ICommand ShowFollowListCommand
+    {
             get
             {
-                Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, $"Gets {nameof(ShowFollowersListCommand)}");
-                return showFollowersListCommand;
-            }
-        }
-        /// <summary>
-        /// Gets action to show shown user following
-        /// </summary>
-        public ICommand ShowFollowingListCommand
-        {
-            get
-            {
-                Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, $"Gets {nameof(ShowFollowingListCommand)}");
-                return showFollowingListCommand;
+                Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, $"Gets {nameof(ShowFollowListCommand)}");
+                return showFollowListCommand;
             }
         }
         /// <summary>
