@@ -16,7 +16,7 @@ namespace Galagram
         // FIELDS
         private static Mutex mutex;
 
-        // EXTERN METHOD
+        // EXTERN METHODS
         [DllImport("user32.dll")]
         [return: MarshalAs(UnmanagedType.Bool)]
         private static extern bool ShowWindow(System.IntPtr hWnd, int nCmdShow);
@@ -25,7 +25,7 @@ namespace Galagram
         private static extern bool SetForegroundWindow(System.IntPtr hWnd);
 
 
-        //METHODS
+        // METHODS
         /// <summary>
         /// Raises <see cref="System.Windows.Application.Startup"/> event.
         /// </summary>
@@ -34,6 +34,15 @@ namespace Galagram
         /// </param>
         protected override void OnStartup(System.Windows.StartupEventArgs e)
         {
+            DataAccess.Context.UnitOfWork.Instance.AppContext.Database.Log += delegate (string message)
+            {
+                message = message.Trim();
+                if (!string.IsNullOrWhiteSpace(message))
+                {
+                    Core.Logger.GetLogger.LogAsync(Core.LogMode.DataBase, message.TrimEnd());
+                }
+            };
+
             // It is for single instance of application, when other application will be created it will redirect to first main one
             // and that other will be closed.
             bool isCreatedNewMutex;

@@ -63,6 +63,10 @@ namespace DataAccess.Context
         /// </summary>
         public static UnitOfWork Instance => instance;
         /// <summary>
+        /// Gets an instance of <see cref="Context.AppContext"/>
+        /// </summary>
+        public AppContext AppContext => context;
+        /// <summary>
         /// Gets user repository
         /// </summary>
         public UserRepository UserRepository
