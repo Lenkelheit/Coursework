@@ -1,16 +1,16 @@
 ﻿namespace Galagram.ViewModel.Commands.User.MainWindow
 {
     /// <summary>
-    /// Shows shownd user followers
+    /// Opens showned user followers/following
     /// </summary>
-    public class ShowFollowersListCommand : CommandBase
+    public class ShowFollowListCommand : CommandBase
     {
         // FIELDS
         ViewModel.User.MainWindowViewModel mainWindowViewModel;
 
         // CONSTRUCTORS
         /// <summary>
-        /// Initializes a new instance of <see cref="ShowFollowersListCommand"/>
+        /// Initializes a new instance of <see cref="ShowFollowListCommand"/>
         /// </summary>
         /// <param name="mainWindowViewModel">
         /// An instance of <see cref="ViewModel.User.MainWindowViewModel"/>
@@ -18,7 +18,7 @@
         /// <exception cref="System.ArgumentNullException">
         /// Thrown when passed command argument is null
         /// </exception>
-        public ShowFollowersListCommand(ViewModel.User.MainWindowViewModel mainWindowViewModel)
+        public ShowFollowListCommand(ViewModel.User.MainWindowViewModel mainWindowViewModel)
         {
             if (mainWindowViewModel == null) throw new System.ArgumentNullException(nameof(mainWindowViewModel));
 
@@ -37,7 +37,7 @@
         /// </returns>
         public override bool CanExecute(object parameter)
         {
-            Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, $"Can execute {nameof(ShowFollowersListCommand)}");
+            Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, $"Can execute {nameof(ShowFollowListCommand)}");
             return true;
         }
         /// <summary>
@@ -45,17 +45,27 @@
         /// </summary>
         /// <param name="parameter">
         /// Command parameters
+        /// <para/>
+        /// <paramref name="parameter"/> is an instance of <see cref="Enums.User.FollowMode"/> that determines in which mode window should be opened
         /// </param>
+        /// <exception cref="System.ArgumentException">
+        /// Throws when <paramref name="parameter"/> is not <see cref="Enums.User.FollowMode"/>
+        /// </exception>
         public override void Execute(object parameter)
         {
-            Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, $"Execute {nameof(ShowFollowersListCommand)}");
+            Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, $"Execute {nameof(ShowFollowListCommand)}");
 
-            // opens followers window
-            Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, $"Open modal Follow window for followers");
+            // gets value that determines in which mode window should be opened
+            if (!(parameter is Enums.User.FollowMode)) throw new System.ArgumentException();
+            Enums.User.FollowMode follwMode = (Enums.User.FollowMode)parameter;
+            Core.Logger.GetLogger.LogAsync(Core.LogMode.Info, $"Follow mode = {follwMode}");
+
+            // opens follow window
+            Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, "Open modal Follow window");
             mainWindowViewModel.WindowManager.ShowWindowDialog(key: nameof(Window.User.Follow),
-                                                               viewModel: new ViewModel.User.FollowViewModel(Enums.User.FollowMode.Followers));
+                                                               viewModel: new ViewModel.User.FollowViewModel(follwMode));
 
-            // updates main window after closing followers window
+            // updates main window after closing follow window
             mainWindowViewModel.IsFollowingUpdateExplicitly();
             mainWindowViewModel.UpdateShownUser();
         }

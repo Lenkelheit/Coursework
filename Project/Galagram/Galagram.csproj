@@ -124,8 +124,7 @@
     <Compile Include="ViewModel\Commands\User\MainWindow\LogOutCommand.cs" />
     <Compile Include="ViewModel\Commands\User\MainWindow\SearchUserCommand.cs" />
     <Compile Include="ViewModel\Commands\User\MainWindow\SettingCommand.cs" />
-    <Compile Include="ViewModel\Commands\User\MainWindow\ShowFollowersListCommand.cs" />
-    <Compile Include="ViewModel\Commands\User\MainWindow\ShowFollowingListCommand.cs" />
+    <Compile Include="ViewModel\Commands\User\MainWindow\ShowFollowListCommand.cs" />
     <Compile Include="ViewModel\Commands\User\MainWindow\ShowPhotoCommand.cs" />
     <Compile Include="ViewModel\Commands\User\MainWindow\UploadPhotoCommand.cs" />
     <Compile Include="ViewModel\Commands\User\PhotoInside\DeleteCommentCommand.cs" />

@@ -131,13 +131,15 @@
                         ContentStringFormat="Following {0}"
                         Content="{Binding Path=User.Following.Count, Mode=OneWay,
                                     Converter={StaticResource IntToStringConverter}}"
-                        Command="{Binding ShowFollowingListCommand}"/>
+                        Command="{Binding ShowFollowListCommand}"
+                        CommandParameter="{StaticResource Following}"/>
                 <Button Grid.Row="4"
                         Style="{StaticResource ClickButton}"                        
                         ContentStringFormat="Followers {0}"
                         Content="{Binding Path=User.Followers.Count, Mode=OneWay,
                                     Converter={StaticResource IntToStringConverter}}"
-                        Command="{Binding ShowFollowersListCommand}"/>
+                        Command="{Binding ShowFollowListCommand}"
+                        CommandParameter="{StaticResource Followers}"/>
             </Grid>
             
             <!--RIGHT PANEL-->
