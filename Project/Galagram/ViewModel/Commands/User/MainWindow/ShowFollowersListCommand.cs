@@ -55,7 +55,7 @@
             mainWindowViewModel.WindowManager.ShowWindowDialog(key: nameof(Window.User.Follow),
                                                                viewModel: new ViewModel.User.FollowViewModel(Enums.User.FollowMode.Followers));
 
-            // updates main window after closing followers windosw
+            // updates main window after closing followers window
             mainWindowViewModel.IsFollowingUpdateExplicitly();
             mainWindowViewModel.UpdateShownUser();
         }

@@ -3,13 +3,22 @@
 namespace Galagram.Converters
 {
     /// <summary>
-    /// Converts integer value to short string formar
+    /// Converts integer value to short string format
     /// </summary>
     [ValueConversion(sourceType: typeof(int), targetType: typeof(string))]
     public class IntToStringConverter : IValueConverter
     {
+        // INNER TYPES
+        private enum IntType
+        {
+            Thousand = 3,
+            Million = 6,
+            Billion = 9
+        }
+
+        // METHODS
         /// <summary>
-        /// Converts integer value to short string formar
+        /// Converts integer value to short string format
         /// </summary>
         /// <param name="value">
         /// An integer value
@@ -42,9 +51,9 @@ namespace Galagram.Converters
             int number = System.Convert.ToInt32(value);
 
             if (number < 1000) return number.ToString();
-            else if (number < 1000000) return string.Format("{0}M", GetFirstDigit(number));
-            else if (number < 1000000000) return string.Format("{0}B", GetFirstDigit(number));
-            else return string.Format("> {0}B", GetFirstDigit(number));
+            else if (number < 1000000) return string.Format("{0}K", GetFirstDigit(number, IntType.Thousand));
+            else if (number < 1000000000) return string.Format("{0}M", GetFirstDigit(number, IntType.Million));
+            else return string.Format("{0}B", GetFirstDigit(number, IntType.Billion));
         }
         /// <summary>
         /// Not expected behavior.
@@ -59,9 +68,15 @@ namespace Galagram.Converters
             throw new System.NotImplementedException();
         }
 
-        private int GetFirstDigit(int number)
+        private int GetFirstDigit(int number, IntType intType)
         {
-            while (number >= 10) number /= 10;
+            number = System.Math.Abs(number);
+
+            for (int i = 0; i < (int)intType && number >= 10; ++i)
+            {
+                number /= 10;
+            }
+
             return number;
         }
     }

@@ -43,12 +43,12 @@ namespace DataAccess.Context
 
         // CONSTRUCTORS
         /// <summary>
-        /// Initialize a new instance of <see cref="AppContext"/>
+        /// Initializes a new instance of <see cref="AppContext"/>
         /// </summary>
         public AppContext()
             : base() { }
         /// <summary>
-        /// Initialize a new instance of <see cref="AppContext"/>
+        /// Initializes a new instance of <see cref="AppContext"/>
         /// </summary>
         /// <param name="connectionString">
         /// A connection string
@@ -63,7 +63,7 @@ namespace DataAccess.Context
 
         // METHODS
         /// <summary>
-        /// Build a database table by current model configuration
+        /// Builds a database table by current model configuration
         /// </summary>
         /// <param name="modelBuilder">
         /// Configurate model 

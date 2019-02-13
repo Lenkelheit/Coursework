@@ -37,7 +37,7 @@ namespace Core.Configuration
         /// <summary>
         /// The log modes that have to be off.
         /// </summary>
-        public static readonly LogMode OFF_LOG_MODES;
+        public static readonly LogMode OFF_LOG_MODES = 0;
         /// <summary>
         /// Template for logs.
         /// <para/>
