@@ -7,30 +7,34 @@
     public enum LogMode
     {
         /// <summary>
+        /// Shows works in database
+        /// </summary>
+        DataBase = 1,
+        /// <summary>
         /// Explain logic step by step
         /// </summary>
-        Debug = 1,
+        Debug = 2,
         /// <summary>
         /// Information about work, its efficiency
         /// </summary>
-        Info = 2,
+        Info = 4,
         /// <summary>
         /// Something weird happen
         /// <para/>
         /// Caught exception known type 
         /// </summary>
-        Warn = 4,
+        Warn = 8,
         /// <summary>
         /// Error has been occurred
         /// <para/>
         /// Caught exception unknown type 
         /// </summary>
-        Error = 8,
+        Error = 16,
         /// <summary>
         /// Immediately help required
         /// <para/>
         /// The application has shout down with exception
         /// </summary>
-        Fatal = 16
+        Fatal = 32
     }
 }

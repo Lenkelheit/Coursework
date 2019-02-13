@@ -732,14 +732,20 @@ namespace UnitTest.Resources.Classes
             {
                 try
                 {
+                    // disable all constraints in the database
+                    dbContext.Database.ExecuteSqlCommand("EXEC sp_MSforeachtable \"ALTER TABLE ? NOCHECK CONSTRAINT all\"");
+
                     // gets all tables' names
                     string[] tableNames = dbContext.Database.SqlQuery<string>("SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'BASE TABLE' AND TABLE_NAME NOT LIKE '%Migration%'").ToArray();
 
                     // clear out data in all tables
                     foreach (string tableName in tableNames)
                     {
-                        dbContext.Database.ExecuteSqlCommand($"DELETE FROM [{tableName}];");                        
+                        dbContext.Database.ExecuteSqlCommand($"DELETE FROM [{tableName}];");
                     }
+
+                    // unable all constraints in the database
+                    dbContext.Database.ExecuteSqlCommand("EXEC sp_MSforeachtable @command1=\"print '?'\", @command2=\"ALTER TABLE ? WITH CHECK CHECK CONSTRAINT all\"");
 
                     // commit transaction 
                     transaction.Commit();
