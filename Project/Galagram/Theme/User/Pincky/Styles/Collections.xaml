@@ -114,10 +114,21 @@
         <Setter Property="BorderThickness" Value="0"/>
         <Setter Property="VirtualizingPanel.ScrollUnit" Value="Pixel"/>
 
+        <!--TEMPLATE-->
+        <Setter Property="ItemsPanel">
+            <Setter.Value>
+                <ItemsPanelTemplate>
+                    <DockPanel LastChildFill="False" VerticalAlignment="Top" />
+                </ItemsPanelTemplate>
+            </Setter.Value>
+        </Setter>
+
+        <!--ITEM CONTAINER STYLE-->
         <Setter Property="ItemContainerStyle">
             <Setter.Value>
                 <Style TargetType="ListBoxItem">
                     <Setter Property="Template" Value="{StaticResource ListBoxDropImageTemplate}"/>
+                    <Setter Property="DockPanel.Dock" Value="Bottom" />
                 </Style>
             </Setter.Value>
         </Setter>

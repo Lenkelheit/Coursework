@@ -130,7 +130,8 @@
             </Grid>
             
             <!--RIGHT PANEL-->
-            <ListBox Grid.Column="2" Style="{StaticResource ListBoxAlbum}"
+            <ListBox Grid.Column="2"
+                     Style="{StaticResource ListBoxAlbum}"
                      SelectedIndex="{Binding SelectedPhotoIndex}"
                      ItemsSource="{Binding Photos}">
                 
