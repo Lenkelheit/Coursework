@@ -145,8 +145,9 @@
             <!--RIGHT PANEL-->
             <ListBox Grid.Column="2"
                      Style="{StaticResource ListBoxAlbum}"
-                     SelectedIndex="{Binding SelectedPhotoIndex}"
-                     ItemsSource="{Binding Photos}">
+                     SelectedIndex="{Binding SelectedPhotoIndex, Mode=OneWayToSource}"
+                     ItemsSource="{Binding Photos}"
+                     SelectedItem="{Binding SelectedPhoto, Mode=OneWayToSource}">
                 
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="MouseDoubleClick">
