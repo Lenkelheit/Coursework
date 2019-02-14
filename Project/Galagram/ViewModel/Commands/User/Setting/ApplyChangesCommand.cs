@@ -96,7 +96,8 @@ namespace Galagram.ViewModel.Commands.User.Setting
                     if (!System.IO.Directory.Exists(Core.Configuration.AppConfig.AVATAR_FOLDER))
                     {
                         settingViewModel.Logger.LogAsync(Core.LogMode.Debug, "Create avatar folder");
-                        System.IO.Directory.CreateDirectory(Core.Configuration.AppConfig.AVATAR_FOLDER);
+                        System.IO.DirectoryInfo avatarFolder = System.IO.Directory.CreateDirectory(Core.Configuration.AppConfig.AVATAR_FOLDER);
+                        avatarFolder.Attributes = Core.Configuration.AppConfig.AVATAR_FOLDER_ATTRIBUTES;
                     }
 
                     // move to constant avatar path
