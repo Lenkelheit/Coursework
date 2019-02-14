@@ -76,8 +76,12 @@
             <Setter.Value>
                 <Style TargetType="ListBoxItem">
                     <Setter Property="Background" Value="{StaticResource WhiteBrush}"/>
-                    <Setter Property="Margin" Value="2"/>
                     <Setter Property="Template" Value="{StaticResource ListItemCommentsTemplate}"/>
+                    
+                    <Setter Property="BorderThickness" Value="0, 2"/>
+                    <Setter Property="BorderBrush" Value="{DynamicResource GrayColorBrushV1}"/>
+                    
+                    <Setter Property="Padding" Value="2"/>
                 </Style>
             </Setter.Value>
         </Setter>
