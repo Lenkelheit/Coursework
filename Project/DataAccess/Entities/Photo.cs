@@ -19,12 +19,12 @@ namespace DataAccess.Entities
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public override System.Guid Id { get; set; }
         /// <summary>
-        /// A server path to a photo
+        /// A server name of the photo
         /// </summary>
-        [MinLength(PHOTO_PATH_MIN_LENGTH)]
-        [MaxLength(PHOTO_PATH_MAX_LENGTH)]
+        [MinLength(PHOTO_NAME_MIN_LENGTH)]
+        [MaxLength(PHOTO_NAME_MAX_LENGTH)]
         [FileExtensions(Extensions = PHOTO_EXTENSION)]
-		public string Path { get; set; }
+		public string Name { get; set; }
         /// <summary>
         /// A user that has been posted a photo
         /// </summary>

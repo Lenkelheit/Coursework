@@ -92,7 +92,7 @@ namespace UnitTest.DataAccess.Context
             // Arrange
             User user = new User()
             {
-                MainPhotoPath = Convert.ToString(TestContext.DataRow["Avatar"]),
+                MainPhotoName = Convert.ToString(TestContext.DataRow["Avatar"]),
                 NickName = Convert.ToString(TestContext.DataRow["NickName"]),
                 Password = Convert.ToString(TestContext.DataRow["Password"]),
             };
@@ -159,9 +159,9 @@ namespace UnitTest.DataAccess.Context
                 Password = "1111",
                 Photos = new List<Photo>()
                 {
-                    new Photo() { Path = "4/54/23.jpg" },
-                    new Photo() { Path = "5/54/24.jpg" },
-                    new Photo() { Path = "6/54/25.jpg" }
+                    new Photo() { Name = "23.jpg" },
+                    new Photo() { Name = "24.jpg" },
+                    new Photo() { Name = "25.jpg" }
                 }
             };
             string expectedUserNickName = user.NickName;
@@ -170,7 +170,7 @@ namespace UnitTest.DataAccess.Context
             // Act
             dbContext.Users.Add(user);
             dbContext.SaveChanges();
-            IQueryable<Photo> photosFromDb = dbContext.Photos.Where(photo => photo.Path == "4/54/23.jpg" || photo.Path == "5/54/24.jpg" || photo.Path == "6/54/25.jpg");
+            IQueryable<Photo> photosFromDb = dbContext.Photos.Where(photo => photo.Name == "23.jpg" || photo.Name == "24.jpg" || photo.Name == "25.jpg");
 
             int actualUserNickNameAmount = photosFromDb.Select(photo => photo.User.NickName).Distinct().Count();
             string actualUserNickName = photosFromDb.Select(photo => photo.User.NickName).Distinct().First();
@@ -187,7 +187,7 @@ namespace UnitTest.DataAccess.Context
             Assert.Fail();
 
             // Arrange
-            Photo photo = new Photo() { Path = "1/54/23.jpg" };
+            Photo photo = new Photo() { Name = "23.jpg" };
 
             // Act
             dbContext.Photos.Add(photo);
@@ -201,7 +201,7 @@ namespace UnitTest.DataAccess.Context
         public void AddUserPhotoLikes()
         {
             // Arrange
-            Photo photo = new Photo() { Path = "1/54/23.jpg" };
+            Photo photo = new Photo() { Name = "23.jpg" };
             User user = new User() { NickName = "John", Password = "1111" };
             PhotoLike photoLike = new PhotoLike() { IsLiked = true, Photo = photo };
             user.Photos.Add(photo);
@@ -217,7 +217,7 @@ namespace UnitTest.DataAccess.Context
             CollectionAssert.Contains(dbContext.PhotoLike.ToArray(), photoLike);
 
             CollectionAssert.Contains(dbContext.Users.First(u => u.NickName == user.NickName).PhotoLikes.ToArray(), photoLike);
-            CollectionAssert.Contains(dbContext.Photos.First(p => p.Path == photo.Path).Likes.ToArray(), photoLike);
+            CollectionAssert.Contains(dbContext.Photos.First(p => p.Name == photo.Name).Likes.ToArray(), photoLike);
         }
         [TestMethod]
         public void AddPhotoLikeWithoutPhoto_Exception()
@@ -244,7 +244,7 @@ namespace UnitTest.DataAccess.Context
             Assert.Fail();
 
             // Arrange
-            Photo photo = new Photo() { Path = "1/54/23.jpg" };
+            Photo photo = new Photo() { Name = "23.jpg" };
             PhotoLike photoLike = new PhotoLike() { IsLiked = true, Photo = photo };
 
             // Act
@@ -262,7 +262,7 @@ namespace UnitTest.DataAccess.Context
         public void DeletePhoto()
         {
             // Arrange
-            Photo photo = new Photo() { Path = "1/54/23.jpg" };
+            Photo photo = new Photo() { Name = "23.jpg" };
             User user = new User() { NickName = "John", Password = "1111" };
             user.Photos.Add(photo);
 
@@ -282,7 +282,7 @@ namespace UnitTest.DataAccess.Context
             Assert.Fail();
 
             // Arrange
-            Photo photo = new Photo() { Path = "1/54/23.jpg" };
+            Photo photo = new Photo() { Name = "23.jpg" };
             User user = new User() { NickName = "John", Password = "1111" };
             user.Photos.Add(photo);
 
@@ -300,7 +300,7 @@ namespace UnitTest.DataAccess.Context
         public void DeletePhotoLike()
         {
             // Arrange
-            Photo photo = new Photo() { Path = "1/54/23.jpg" };
+            Photo photo = new Photo() { Name = "23.jpg" };
             User user = new User() { NickName = "John", Password = "1111" };
             PhotoLike photoLike = new PhotoLike() { IsLiked = true, Photo = photo };
             user.Photos.Add(photo);
@@ -317,14 +317,14 @@ namespace UnitTest.DataAccess.Context
             CollectionAssert.DoesNotContain(dbContext.PhotoLike.ToArray(), photoLike);
 
             CollectionAssert.DoesNotContain(dbContext.Users.First(u => u.NickName == user.NickName).PhotoLikes.ToArray(), photoLike);
-            CollectionAssert.DoesNotContain(dbContext.Photos.First(p => p.Path == photo.Path).Likes.ToArray(), photoLike);
+            CollectionAssert.DoesNotContain(dbContext.Photos.First(p => p.Name == photo.Name).Likes.ToArray(), photoLike);
         }
         
         [TestMethod]
         public void DeletePhoto_AndPhotoLike_Cascade()
         {
             // Arrange
-            Photo photo = new Photo() { Path = "1/54/23.jpg" };
+            Photo photo = new Photo() { Name = "23.jpg" };
             User user = new User() { NickName = "John", Password = "1111" };
             PhotoLike photoLike = new PhotoLike() { IsLiked = true, Photo = photo };
             user.Photos.Add(photo);
@@ -349,7 +349,7 @@ namespace UnitTest.DataAccess.Context
             Assert.Fail();
 
             // Arrange
-            Photo photo = new Photo() { Path = "1/54/23.jpg" };
+            Photo photo = new Photo() { Name = "23.jpg" };
             User user1 = new User() { NickName = "John", Password = "1111" };
             User user2 = new User() { NickName = "Adam", Password = "1111" };
             PhotoLike photoLike = new PhotoLike() { IsLiked = true, Photo = photo, User = user1 };
@@ -379,7 +379,7 @@ namespace UnitTest.DataAccess.Context
             Assert.Fail();
             
             // Arrange
-            Photo photo = new Photo() { Path = "1/54/23.jpg" };
+            Photo photo = new Photo() { Name = "23.jpg" };
             User user = new User() { NickName = "Saimon", Password = "1111" };
             PhotoLike photoLike = new PhotoLike() { IsLiked = true, Photo = photo };
             user.Photos.Add(photo);
@@ -402,8 +402,8 @@ namespace UnitTest.DataAccess.Context
         public void AddUserWithPhotoAndUserWithComment()
         {
             // Arrange
-            Photo photo1 = new Photo() { Path = "1/54/23.jpg" };
-            Photo photo2 = new Photo() { Path = "1/54/24.jpg" };
+            Photo photo1 = new Photo() { Name = "23.jpg" };
+            Photo photo2 = new Photo() { Name = "24.jpg" };
 
             User user1 = new User()
             {
@@ -433,7 +433,7 @@ namespace UnitTest.DataAccess.Context
             dbContext.Users.Add(user2);
             dbContext.SaveChanges();
             int actualCommentUserNickNameAmount = dbContext.Comments.Select(x => x.User.NickName).Distinct().Count();
-            int actualCommentPhotoPathAmount = dbContext.Comments.Select(x => x.Photo.Path).Distinct().Count();
+            int actualCommentPhotoPathAmount = dbContext.Comments.Select(x => x.Photo.Name).Distinct().Count();
 
             // Assert
             CollectionAssert.Contains(dbContext.Users.ToArray(), user1);
@@ -512,8 +512,8 @@ namespace UnitTest.DataAccess.Context
         public void AddCommentLike()
         {
             // Arrange
-            Photo photo1 = new Photo() { Path = "1/54/23.jpg" };
-            Photo photo2 = new Photo() { Path = "1/54/24.jpg" };
+            Photo photo1 = new Photo() { Name = "23.jpg" };
+            Photo photo2 = new Photo() { Name = "24.jpg" };
 
             User user1 = new User()
             {
@@ -549,8 +549,8 @@ namespace UnitTest.DataAccess.Context
         public void DeleteComment()
         {
             // Arrange
-            Photo photo1 = new Photo() { Path = "1/54/23.jpg" };
-            Photo photo2 = new Photo() { Path = "1/54/24.jpg" };
+            Photo photo1 = new Photo() { Name = "23.jpg" };
+            Photo photo2 = new Photo() { Name = "24.jpg" };
 
             User user1 = new User()
             {
@@ -590,8 +590,8 @@ namespace UnitTest.DataAccess.Context
         public void DeleteCommentLike()
         {
             // Arrange
-            Photo photo1 = new Photo() { Path = "1/54/23.jpg" };
-            Photo photo2 = new Photo() { Path = "1/54/24.jpg" };
+            Photo photo1 = new Photo() { Name = "23.jpg" };
+            Photo photo2 = new Photo() { Name = "24.jpg" };
 
             User user1 = new User()
             {
@@ -630,8 +630,8 @@ namespace UnitTest.DataAccess.Context
         public void DeleteUser_AndComment_Cascade()
         {
             // Arrange
-            Photo photo1 = new Photo() { Path = "1/54/23.jpg" };
-            Photo photo2 = new Photo() { Path = "1/54/24.jpg" };
+            Photo photo1 = new Photo() { Name = "23.jpg" };
+            Photo photo2 = new Photo() { Name = "24.jpg" };
 
             User user1 = new User()
             {
@@ -668,8 +668,8 @@ namespace UnitTest.DataAccess.Context
         public void DeleteUser_AndCommentLike_Cascade()
         {
             // Arrange
-            Photo photo1 = new Photo() { Path = "1/54/23.jpg" };
-            Photo photo2 = new Photo() { Path = "1/54/24.jpg" };
+            Photo photo1 = new Photo() { Name = "23.jpg" };
+            Photo photo2 = new Photo() { Name = "24.jpg" };
 
             User user1 = new User()
             {
@@ -715,8 +715,8 @@ namespace UnitTest.DataAccess.Context
         public void DeleteComment_AndCommentLike_Cascade()
         {
             // Arrange
-            Photo photo1 = new Photo() { Path = "1/54/23.jpg" };
-            Photo photo2 = new Photo() { Path = "1/54/24.jpg" };
+            Photo photo1 = new Photo() { Name = "23.jpg" };
+            Photo photo2 = new Photo() { Name = "24.jpg" };
 
             User user1 = new User()
             {
@@ -752,8 +752,8 @@ namespace UnitTest.DataAccess.Context
         public void DeletePhoto_AndComment_Cascade()
         {
             // Arrange
-            Photo photo1 = new Photo() { Path = "1/54/23.jpg" };
-            Photo photo2 = new Photo() { Path = "1/54/24.jpg" };
+            Photo photo1 = new Photo() { Name = "23.jpg" };
+            Photo photo2 = new Photo() { Name = "24.jpg" };
 
             User user1 = new User()
             {
@@ -789,8 +789,8 @@ namespace UnitTest.DataAccess.Context
             Assert.Fail();
 
             // Arrange
-            Photo photo1 = new Photo() { Path = "1/54/23.jpg" };
-            Photo photo2 = new Photo() { Path = "1/54/24.jpg" };
+            Photo photo1 = new Photo() { Name = "23.jpg" };
+            Photo photo2 = new Photo() { Name = "24.jpg" };
 
             User user1 = new User()
             {
@@ -830,8 +830,8 @@ namespace UnitTest.DataAccess.Context
             Assert.Fail();
 
             // Arrange
-            Photo photo1 = new Photo() { Path = "1/54/23.jpg" };
-            Photo photo2 = new Photo() { Path = "1/54/24.jpg" };
+            Photo photo1 = new Photo() { Name = "23.jpg" };
+            Photo photo2 = new Photo() { Name = "24.jpg" };
 
             User user1 = new User()
             {
@@ -871,8 +871,8 @@ namespace UnitTest.DataAccess.Context
             Assert.Fail();
 
             // Arrange
-            Photo photo1 = new Photo() { Path = "1/54/23.jpg" };
-            Photo photo2 = new Photo() { Path = "1/54/24.jpg" };
+            Photo photo1 = new Photo() { Name = "23.jpg" };
+            Photo photo2 = new Photo() { Name = "24.jpg" };
 
             User user1 = new User()
             {
@@ -914,8 +914,8 @@ namespace UnitTest.DataAccess.Context
             Assert.Fail();
 
             // Arrange
-            Photo photo1 = new Photo() { Path = "1/54/23.jpg" };
-            Photo photo2 = new Photo() { Path = "1/54/24.jpg" };
+            Photo photo1 = new Photo() { Name = "23.jpg" };
+            Photo photo2 = new Photo() { Name = "24.jpg" };
 
             User user1 = new User()
             {

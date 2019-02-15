@@ -86,8 +86,8 @@
             DataAccess.Entities.Comment comment = new DataAccess.Entities.Comment
             {
                 Text = commentText,
-                User = Services.DataStorage.Instance.LoggedUser,
-                Photo = photoInsideViewModel.Photo
+                User = Services.DataStorage.Instance.LoggedUser.User,
+                Photo = photoInsideViewModel.PhotoWrapper.Photo
             };
             Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, "Create comment");
 

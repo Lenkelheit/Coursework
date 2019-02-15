@@ -7,7 +7,7 @@ namespace DataAccess.Configuration
     {
         public UserConfigurataion()
         {
-            Property(u => u.MainPhotoPath).IsOptional();
+            Property(u => u.MainPhotoName).IsOptional();
             Property(u => u.NickName).IsRequired();
             Property(u => u.Password).IsRequired();            
 

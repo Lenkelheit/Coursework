@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <PhotoDetail>
-  <Photo Path="1.bmp"/>
-  <Photo Path="2.svg"/>
-  <Photo Path="3.tiff"/>
-  <Photo Path="4.tga"/>
+  <Photo Name="1.bmp"/>
+  <Photo Name="2.svg"/>
+  <Photo Name="3.tiff"/>
+  <Photo Name="4.tga"/>
 </PhotoDetail>

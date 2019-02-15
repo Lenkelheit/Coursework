@@ -51,11 +51,11 @@
             bool isFollowing = mainWindowViewModel.IsFollowing;
             if (isFollowing)// unfollow
             {
-                mainWindowViewModel.User.Followers.Remove(mainWindowViewModel.DataStorage.LoggedUser);
+                mainWindowViewModel.User.User.Followers.Remove(mainWindowViewModel.DataStorage.LoggedUser.User);
             }
             else // follow
             {
-                mainWindowViewModel.User.Followers.Add(mainWindowViewModel.DataStorage.LoggedUser);
+                mainWindowViewModel.User.User.Followers.Add(mainWindowViewModel.DataStorage.LoggedUser.User);
             }
 
             // update view
@@ -64,8 +64,8 @@
 
             // update DB
             Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, "Update DataBase");
-            mainWindowViewModel.UnitOfWork.UserRepository.Update(mainWindowViewModel.User);
-            mainWindowViewModel.UnitOfWork.UserRepository.Update(mainWindowViewModel.DataStorage.LoggedUser);
+            mainWindowViewModel.UnitOfWork.UserRepository.Update(mainWindowViewModel.User.User);
+            mainWindowViewModel.UnitOfWork.UserRepository.Update(mainWindowViewModel.DataStorage.LoggedUser.User);
             mainWindowViewModel.UnitOfWork.Save();
         }
     }

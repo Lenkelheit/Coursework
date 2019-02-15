@@ -55,9 +55,9 @@
                 // create temp folder, and log it
                 settingViewModel.CreateTempFolderIfNotExist();
 
-                // get random name
+                // get avatar path
                 string localAvatarPath = fileNames[0];
-                string serverTempAvatarPath = settingViewModel.GetRandomTempFileName(fileExtension: System.IO.Path.GetExtension(localAvatarPath));
+                string serverTempAvatarPath = string.Format(Core.Configuration.AppConfig.TEMP_FILE_FORMAT, System.IO.Path.GetFileName(localAvatarPath));
 
                 settingViewModel.Logger.LogAsync(Core.LogMode.Debug, $"New temp server path {serverTempAvatarPath}");
 

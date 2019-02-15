@@ -37,15 +37,14 @@
         public const int ADMIN_MESSAGE_SUBJECT_MAX_LENGTH = 25;
 
         // PHOTOS
-
         /// <summary>
-        /// Photo server path string min length
+        /// Photo server name string min length
         /// </summary>
-        public const int PHOTO_PATH_MIN_LENGTH = 5;
+        public const int PHOTO_NAME_MIN_LENGTH = 5;
         /// <summary>
-        /// Photo server path string max length
+        /// Photo server name string max length
         /// </summary>
-        public const int PHOTO_PATH_MAX_LENGTH = 256;
+        public const int PHOTO_NAME_MAX_LENGTH = 256;
         /// <summary>
         /// Allowed photo extension
         /// <para/>
@@ -56,11 +55,11 @@
 
         // USER
         /// <summary>
-        /// Avatar server path string min length
+        /// Avatar server name string min length
         /// </summary>
         public const int AVATAR_MIN_LENGTH = 5;
         /// <summary>
-        /// Avatar server path string max length
+        /// Avatar server name string max length
         /// </summary>
         public const int AVATAR_MAX_LENGTH = 264;
 

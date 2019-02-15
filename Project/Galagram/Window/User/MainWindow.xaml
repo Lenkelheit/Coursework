@@ -106,7 +106,7 @@
                 </Grid.RowDefinitions>
 
                 <Label Grid.Row="0" 
-                       Content="{Binding User.NickName, Mode=OneWay}" 
+                       Content="{Binding User.User.NickName, Mode=OneWay}" 
                        Style="{StaticResource CenterLabel}"/>
                 <Image Grid.Row="1" Style="{StaticResource Photo}">
                     <Image.Source>
@@ -129,14 +129,14 @@
                 <Button Grid.Row="3"
                         Style="{StaticResource ClickButton}"
                         ContentStringFormat="Following {0}"
-                        Content="{Binding Path=User.Following.Count, Mode=OneWay,
+                        Content="{Binding Path=User.User.Following.Count, Mode=OneWay,
                                     Converter={StaticResource IntToStringConverter}}"
                         Command="{Binding ShowFollowListCommand}"
                         CommandParameter="{StaticResource Following}"/>
                 <Button Grid.Row="4"
                         Style="{StaticResource ClickButton}"                        
                         ContentStringFormat="Followers {0}"
-                        Content="{Binding Path=User.Followers.Count, Mode=OneWay,
+                        Content="{Binding Path=User.User.Followers.Count, Mode=OneWay,
                                     Converter={StaticResource IntToStringConverter}}"
                         Command="{Binding ShowFollowListCommand}"
                         CommandParameter="{StaticResource Followers}"/>

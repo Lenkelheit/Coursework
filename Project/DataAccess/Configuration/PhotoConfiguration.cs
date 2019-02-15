@@ -7,7 +7,7 @@ namespace DataAccess.Configuration
     {
         public PhotoConfiguration()
         {
-            Property(p => p.Path).IsRequired();
+            Property(p => p.Name).IsRequired();
 
             HasOptional(p => p.User).WithMany(u => u.Photos).Map(m => m.MapKey("UserId")).WillCascadeOnDelete(false);
         }

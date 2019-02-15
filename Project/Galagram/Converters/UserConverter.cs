@@ -2,7 +2,7 @@
 using System.Windows.Data;
 using System.Globalization;
 
-using DataAccess.Entities;
+using DataAccess.Wrappers;
 
 namespace Galagram.Converters
 {
@@ -15,7 +15,7 @@ namespace Galagram.Converters
     /// <para/>
     /// Has been used in comment section, to show delete button, when logged user visit other user pages
     /// </summary>
-    [ValueConversion(sourceType: typeof(User[]), targetType: typeof(bool))]
+    [ValueConversion(sourceType: typeof(UserWrapper[]), targetType: typeof(bool))]
     public class UserCompareConverter : IMultiValueConverter
     {
         /// <summary>
@@ -42,8 +42,8 @@ namespace Galagram.Converters
         /// </returns>
         public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
-            User user1 = (User)values[0];// logged user
-            User user2 = values[1] as User;// user from follow list or from comment section
+            UserWrapper user1 = (UserWrapper)values[0];// logged user
+            UserWrapper user2 = values[1] as UserWrapper;// user from follow list or from comment section
 
             if (user2 == null) return false; // disconnected item
 

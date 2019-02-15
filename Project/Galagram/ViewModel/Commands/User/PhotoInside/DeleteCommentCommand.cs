@@ -64,8 +64,8 @@
 
             // update data base
             Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, "Update Data base");
-            photoInsideViewModel.UnitOfWork.UserRepository.Update(photoInsideViewModel.DataStorage.LoggedUser);
-            photoInsideViewModel.UnitOfWork.PhotoRepository.Update(photoInsideViewModel.Photo);
+            photoInsideViewModel.UnitOfWork.UserRepository.Update(photoInsideViewModel.DataStorage.LoggedUser.User);
+            photoInsideViewModel.UnitOfWork.PhotoRepository.Update(photoInsideViewModel.PhotoWrapper.Photo);
 
             // save changes
             Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, "Save changes");

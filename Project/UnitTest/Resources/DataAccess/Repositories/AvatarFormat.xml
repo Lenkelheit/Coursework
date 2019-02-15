@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <UserDetails>
-  <User Avatar="12/5.jpg" NickName="John Doe" Password="1111"/>
-  <User Avatar="12/5.png" NickName="John Doe" Password="1111"/>
-  <User Avatar="12/5.gif" NickName="John Doe" Password="1111"/>
+  <User Avatar="5.jpg" NickName="John Doe" Password="1111"/>
+  <User Avatar="5.png" NickName="John Doe" Password="1111"/>
+  <User Avatar="5.gif" NickName="John Doe" Password="1111"/>
 </UserDetails>

@@ -172,8 +172,8 @@ namespace UnitTest.DataAccess.Entities
         public void Equals_SamePhoto_True()
         {
             // Arrange
-            Photo photo1 = new Photo { Path = "photo name" };
-            Photo photo2 = new Photo { Path = "photo name" };
+            Photo photo1 = new Photo { Name = "photo name" };
+            Photo photo2 = new Photo { Name = "photo name" };
 
             PhotoLike photoLike1 = new PhotoLike() { IsLiked = true, Photo = photo1 };
             PhotoLike photoLike2 = new PhotoLike() { IsLiked = true, Photo = photo2 };
@@ -188,8 +188,8 @@ namespace UnitTest.DataAccess.Entities
         public void Equals_DifferentLikes_False()
         {
             // Arrange
-            Photo photo1 = new Photo { Path = "photo name 1" };
-            Photo photo2 = new Photo { Path = "photo name 2" };
+            Photo photo1 = new Photo { Name = "photo name 1" };
+            Photo photo2 = new Photo { Name = "photo name 2" };
 
             PhotoLike photoLike1 = new PhotoLike() { IsLiked = true, Photo = photo1 };
             PhotoLike photoLike2 = new PhotoLike() { IsLiked = true, Photo = photo2 };
@@ -205,7 +205,7 @@ namespace UnitTest.DataAccess.Entities
         {
             // Arrange
             Photo photo1 = null;
-            Photo photo2 = new Photo { Path = "photo name" };
+            Photo photo2 = new Photo { Name = "photo name" };
 
             PhotoLike photoLike1 = new PhotoLike() { IsLiked = true, Photo = photo1 };
             PhotoLike photoLike2 = new PhotoLike() { IsLiked = true, Photo = photo2 };
@@ -220,7 +220,7 @@ namespace UnitTest.DataAccess.Entities
         public void Equals_SecondPhotoNull_False()
         {
             // Arrange
-            Photo photo1 = new Photo { Path = "photo name" };
+            Photo photo1 = new Photo { Name = "photo name" };
             Photo photo2 = null;
 
             PhotoLike photoLike1 = new PhotoLike() { IsLiked = true, Photo = photo1 };

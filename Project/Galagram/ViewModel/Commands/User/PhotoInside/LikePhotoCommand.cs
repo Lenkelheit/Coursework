@@ -49,8 +49,8 @@
             
             // gets value
             bool isLike = System.Convert.ToBoolean(parameter);
-            DataAccess.Entities.Photo photo = photoInsideViewModel.Photo;
-            DataAccess.Entities.User user = Services.DataStorage.Instance.LoggedUser;
+            DataAccess.Entities.Photo photo = photoInsideViewModel.PhotoWrapper.Photo;
+            DataAccess.Entities.User user = Services.DataStorage.Instance.LoggedUser.User;
             DataAccess.Entities.PhotoLike photoLike = photoInsideViewModel.UnitOfWork.PhotoLikeRepository.TryGetUserLike(photo, user);
 
             // suitable for likes and dislikes

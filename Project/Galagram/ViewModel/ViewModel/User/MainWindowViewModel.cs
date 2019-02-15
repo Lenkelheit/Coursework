@@ -1,17 +1,17 @@
 ﻿using System.Windows.Input;
-using System.ComponentModel;
 using System.Collections.ObjectModel;
+using System.Linq;
 
 namespace Galagram.ViewModel.ViewModel.User
 {
     /// <summary>
-    /// An logic class for <see cref="Galagram.Window.User.MainWindow"/>
+    /// An logic class for <see cref="Window.User.MainWindow"/>
     /// </summary>
     public class MainWindowViewModel : ViewModelBase
     {
         // FIELDS
         int selectedPhotoIndex;
-        ObservableCollection<DataAccess.Entities.Photo> photos;
+        ObservableCollection<DataAccess.Wrappers.PhotoWrapper> photos;
         bool isFollowing;
 
         readonly ICommand goHomeCommand;
@@ -31,7 +31,8 @@ namespace Galagram.ViewModel.ViewModel.User
         public MainWindowViewModel()
         {
             this.selectedPhotoIndex = Core.Configuration.Constants.WRONG_INDEX;
-            this.photos = new ObservableCollection<DataAccess.Entities.Photo>(DataStorage.ShownUser.Photos);
+            this.photos = new ObservableCollection<DataAccess.Wrappers.PhotoWrapper>(DataStorage.ShownUser.User.Photos
+                .Select(photo => new DataAccess.Wrappers.PhotoWrapper(photo)).ToArray());
 
             if (IsCurrentUserShown)
             {
@@ -39,7 +40,7 @@ namespace Galagram.ViewModel.ViewModel.User
             }
             else
             {
-                this.isFollowing = DataStorage.ShownUser.Followers.Contains(DataStorage.LoggedUser);
+                this.isFollowing = DataStorage.ShownUser.User.Followers.Contains(DataStorage.LoggedUser.User);
             }
 
             this.goHomeCommand = new Commands.User.MainWindow.GoHomeCommand(this);
@@ -57,7 +58,7 @@ namespace Galagram.ViewModel.ViewModel.User
         /// <summary>
         /// Gets or sets user that is shown
         /// </summary>
-        public DataAccess.Entities.User User
+        public DataAccess.Wrappers.UserWrapper User
         {
             get
             {
@@ -90,7 +91,7 @@ namespace Galagram.ViewModel.ViewModel.User
         /// <summary>
         /// Gets photo collection
         /// </summary>
-        public ObservableCollection<DataAccess.Entities.Photo> Photos
+        public ObservableCollection<DataAccess.Wrappers.PhotoWrapper> Photos
         {
             get
             {
@@ -234,7 +235,8 @@ namespace Galagram.ViewModel.ViewModel.User
         public void GoToCurrentUser()
         {
             DataStorage.ShowLoggedUser();
-            photos = new ObservableCollection<DataAccess.Entities.Photo>(DataStorage.ShownUser.Photos);
+            this.photos = new ObservableCollection<DataAccess.Wrappers.PhotoWrapper>(DataStorage.ShownUser.User.Photos
+                .Select(photo => new DataAccess.Wrappers.PhotoWrapper(photo)).ToArray());
 
             OnPropertyChanged(nameof(User));
             OnPropertyChanged(nameof(Photos));
@@ -250,7 +252,7 @@ namespace Galagram.ViewModel.ViewModel.User
             }
             else
             {
-                this.isFollowing = DataStorage.ShownUser.Followers.Contains(DataStorage.LoggedUser);
+                this.isFollowing = DataStorage.ShownUser.User.Followers.Contains(DataStorage.LoggedUser.User);
             }
 
             OnPropertyChanged(nameof(IsFollowing));

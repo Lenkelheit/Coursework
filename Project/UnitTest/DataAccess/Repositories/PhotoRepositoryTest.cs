@@ -110,12 +110,12 @@ namespace UnitTest.DataAccess.Repositories
             int expectedPhotoInDb = Resources.Classes.DbFiller.Instance.PhotoAmount;
 
             // Act
-            Photo[] photosFromDb = photoRepository.Get(orderBy: photo => photo.OrderBy(p => p.Path)).ToArray();
+            Photo[] photosFromDb = photoRepository.Get(orderBy: photo => photo.OrderBy(p => p.Name)).ToArray();
             int actualPhotoInDb = photosFromDb.Length;
 
             // Assert
             Assert.AreEqual(expectedPhotoInDb, actualPhotoInDb);
-            CollectionAssert.AreEqual(dbContext.Photos.OrderBy(p => p.Path).ToArray(), photosFromDb);
+            CollectionAssert.AreEqual(dbContext.Photos.OrderBy(p => p.Name).ToArray(), photosFromDb);
         }
         [TestMethod]
         public void GetFilterAndOrder()
@@ -125,10 +125,10 @@ namespace UnitTest.DataAccess.Repositories
                 // Arrange
                 PhotoRepository photoRepository = new PhotoRepository(dbContext);
                 int expectedPhotoInDb = 3;
-                Photo[] valueInDataBase = dbContext.Photos.Where(p => p.User.NickName == "John").OrderByDescending(p => p.Path).ToArray();
+                Photo[] valueInDataBase = dbContext.Photos.Where(p => p.User.NickName == "John").OrderByDescending(p => p.Name).ToArray();
 
                 // Act
-                Photo[] photosFromDb = photoRepository.Get(filter: p => p.User.NickName == "John", orderBy: o => o.OrderByDescending(p => p.Path)).ToArray();
+                Photo[] photosFromDb = photoRepository.Get(filter: p => p.User.NickName == "John", orderBy: o => o.OrderByDescending(p => p.Name)).ToArray();
                 int actualPhotoInDb = photosFromDb.Length;
 
                 // Assert
@@ -178,7 +178,7 @@ namespace UnitTest.DataAccess.Repositories
             Photo photo = new Photo
             {
                 User = dbContext.Users.First(),
-                Path = "1/4.jpg"
+                Name = "4.jpg"
             };
 
             // Act
@@ -201,7 +201,7 @@ namespace UnitTest.DataAccess.Repositories
             Photo photo = new Photo()
             {
                 User = dbContext.Users.First(),
-                Path = Convert.ToString(TestContext.DataRow["Path"])
+                Name = Convert.ToString(TestContext.DataRow["Name"])
             };
 
             // Act
@@ -225,7 +225,7 @@ namespace UnitTest.DataAccess.Repositories
             Photo photo = new Photo()
             {
                 User = dbContext.Users.First(),
-                Path = Convert.ToString(TestContext.DataRow["Path"])
+                Name = Convert.ToString(TestContext.DataRow["Name"])
             };
 
             // Act
@@ -325,7 +325,7 @@ namespace UnitTest.DataAccess.Repositories
             // Arrange
             PhotoRepository photoRepository = new PhotoRepository(dbContext);
             Photo changedPhotoToDelete = dbContext.Photos.First();
-            changedPhotoToDelete.Path = "Changed it.jpg";
+            changedPhotoToDelete.Name = "Changed it.jpg";
 
             // Act
             List<CommentLike> deletedCommentLikes = dbContext.CommentLike
@@ -354,12 +354,12 @@ namespace UnitTest.DataAccess.Repositories
             string newPath = "new path.jpg";
 
             // Act
-            photoToUpdate.Path = newPath;
+            photoToUpdate.Name = newPath;
             photoRepository.Update(photoToUpdate);
             dbContext.SaveChanges();
 
             // Assert
-            Assert.AreEqual(dbContext.Photos.Find(photoToUpdate.Id).Path, newPath);
+            Assert.AreEqual(dbContext.Photos.Find(photoToUpdate.Id).Name, newPath);
         }
         #endregion
         // GET LIKE DISLIKE AMOUNT

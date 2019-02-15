@@ -57,9 +57,9 @@
                 return;
             }
 
-            if (settingViewModel.Password != settingViewModel.DataStorage.LoggedUser.Password)
+            if (settingViewModel.Password != settingViewModel.DataStorage.LoggedUser.User.Password)
             {
-                settingViewModel.Logger.LogAsync(Core.LogMode.Debug | Core.LogMode.Info, $"Account can not be deleted. Password is wrong. User password = {settingViewModel.DataStorage.LoggedUser.Password}, written password = {settingViewModel.Password}");
+                settingViewModel.Logger.LogAsync(Core.LogMode.Debug | Core.LogMode.Info, $"Account can not be deleted. Password is wrong. User password = {settingViewModel.DataStorage.LoggedUser.User.Password}, written password = {settingViewModel.Password}");
                 settingViewModel.WindowManager.ShowMessageWindow(Core.Messages.Info.ViewModel.Command.User.Setting.ApplyChanges.PASSWORD_IS_NOT_THE_SAME);
 
                 return;

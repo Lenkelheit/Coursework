@@ -237,7 +237,7 @@ namespace UnitTest.DataAccess.Entities
         {
             // Arrange
             Photo photo1 = null;
-            Photo photo2 = new Photo { Path = "photo name" };
+            Photo photo2 = new Photo { Name = "photo name" };
 
             Comment comment1 = new Comment { Text = "Comment", Photo = photo1 };
             Comment comment2 = new Comment { Text = "Comment", Photo = photo2 };
@@ -252,7 +252,7 @@ namespace UnitTest.DataAccess.Entities
         public void Equals_SecondPhotoNull_False()
         {
             // Arrange
-            Photo photo1 = new Photo { Path = "photo name" };
+            Photo photo1 = new Photo { Name = "photo name" };
             Photo photo2 = null;
 
             Comment comment1 = new Comment { Text = "Comment", Photo = photo1 };

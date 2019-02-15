@@ -48,17 +48,20 @@ namespace UnitTest.Resources.Classes
         int[] messageMonthAmount;
 
         // CONSTRUCTORS
-        public DbFiller()
+        private DbFiller()
         {
             // initialize test mode
             fillMode = Core.Configuration.TestConfig.DATABASE_FILL_MODE;
 
             // initialize fields
             random = new Random();
-            names = new string[50] { "John", "Wan", "Neil", "Lynna", "Chrissy", "Vivienne", "Ambrose", "Salina", "Thelma", "Joellen", "Donovan", "Margarita", "Eliseo", "Lavada",
-                                     "Letitia", "Kayleen", "Hermine", "Yvette", "Dino", "Tabitha", "Margareta", "Jordon", "Loree", "Crystle", "Darcey", "Tameika", "Josiah", "Kathie",
-                                     "Galen", "Chauncey", "Jeannetta", "Sharonda", "Petra", "Victor", "Vida", "Corinna", "Dee", "Pia", "Carry", "Hipolito", "Colleen", "Katelynn",
-                                     "Henry", "Argelia", "Rossie", "Lavonia", "Zena", "Ashleigh", "Annmarie", "Debbra" };
+            names = new string[50]
+            {
+                "John", "Wan", "Neil", "Lynna", "Chrissy", "Vivienne", "Ambrose", "Salina", "Thelma", "Joellen", "Donovan", "Margarita", "Eliseo", "Lavada",
+                "Letitia", "Kayleen", "Hermine", "Yvette", "Dino", "Tabitha", "Margareta", "Jordon", "Loree", "Crystle", "Darcey", "Tameika", "Josiah", "Kathie",
+                "Galen", "Chauncey", "Jeannetta", "Sharonda", "Petra", "Victor", "Vida", "Corinna", "Dee", "Pia", "Carry", "Hipolito", "Colleen", "Katelynn",
+                "Henry", "Argelia", "Rossie", "Lavonia", "Zena", "Ashleigh", "Annmarie", "Debbra"
+            };
 
             words = string.Concat("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras accumsan mi a quam viverra luctus. ",
                                   "Suspendisse ut vulputate nisi, nec fermentum libero. ",
@@ -158,11 +161,11 @@ namespace UnitTest.Resources.Classes
         {
             // USERS
             #region USERS
-            User user1 = new User { NickName = "John",       Password = "1111", MainPhotoPath = "1223/466/64.jpg", IsAdmin = false };
-            User user2 = new User { NickName = "Kayson",     Password = "1111", MainPhotoPath = null,              IsAdmin = false };
-            User user3 = new User { NickName = "Clementine", Password = "1111", MainPhotoPath = "1223/466/64.jpg", IsAdmin = false };
-            User user4 = new User { NickName = "Beverley",   Password = "1111", MainPhotoPath = null,              IsAdmin = false };
-            User user5 = new User { NickName = "Harold",     Password = "1111", MainPhotoPath = "1223/466/64.jpg", IsAdmin = true };
+            User user1 = new User { NickName = "John",       Password = "1111", MainPhotoName = "64.jpg", IsAdmin = false };
+            User user2 = new User { NickName = "Kayson",     Password = "1111", MainPhotoName = null,     IsAdmin = false };
+            User user3 = new User { NickName = "Clementine", Password = "1111", MainPhotoName = "64.jpg", IsAdmin = false };
+            User user4 = new User { NickName = "Beverley",   Password = "1111", MainPhotoName = null,     IsAdmin = false };
+            User user5 = new User { NickName = "Harold",     Password = "1111", MainPhotoName = "64.jpg", IsAdmin = true };
 
             firstUser = user1;
             firstUserNickname = user1.NickName;
@@ -191,27 +194,27 @@ namespace UnitTest.Resources.Classes
             #region PHOTOS
             // to user
             // 1
-            Photo photo1 = new Photo { Path = "1/1.jpg", User = user1 };
-            Photo photo2 = new Photo { Path = "1/2.jpg", User = user1 };
-            Photo photo3 = new Photo { Path = "1/3.jpg", User = user1 };
+            Photo photo1 = new Photo { Name = "1.1.jpg", User = user1 };
+            Photo photo2 = new Photo { Name = "1.2.jpg", User = user1 };
+            Photo photo3 = new Photo { Name = "1.3.jpg", User = user1 };
 
             // 2
-            Photo photo4 = new Photo { Path = "2/1.jpg", User = user2 };
-            Photo photo5 = new Photo { Path = "2/2.jpg", User = user2 };
-            Photo photo6 = new Photo { Path = "2/3.jpg", User = user2 };
-            Photo photo7 = new Photo { Path = "2/4.jpg", User = user2 };
-            Photo photo8 = new Photo { Path = "2/5.jpg", User = user2 };
+            Photo photo4 = new Photo { Name = "2.1.jpg", User = user2 };
+            Photo photo5 = new Photo { Name = "2.2.jpg", User = user2 };
+            Photo photo6 = new Photo { Name = "2.3.jpg", User = user2 };
+            Photo photo7 = new Photo { Name = "2.4.jpg", User = user2 };
+            Photo photo8 = new Photo { Name = "2.5.jpg", User = user2 };
 
             // 3
-            Photo photo9 = new Photo { Path = "3/1.jpg", User = user3 };
-            Photo photo10 = new Photo { Path = "3/2.jpg", User = user3 };
+            Photo photo9 = new Photo { Name = "3.1.jpg", User = user3 };
+            Photo photo10 = new Photo { Name = "3.2.jpg", User = user3 };
 
             // 4
-            Photo photo11 = new Photo { Path = "4/1.jpg", User = user4 };
+            Photo photo11 = new Photo { Name = "4.1.jpg", User = user4 };
 
             // 5
-            Photo photo12 = new Photo { Path = "5/1.jpg", User = user5 };
-            Photo photo13 = new Photo { Path = "5/2.jpg", User = user5 };
+            Photo photo12 = new Photo { Name = "5.1.jpg", User = user5 };
+            Photo photo13 = new Photo { Name = "5.2.jpg", User = user5 };
 
             photoAmount = 13;
 
@@ -497,7 +500,7 @@ namespace UnitTest.Resources.Classes
                 {
                     NickName = names[random.Next(names.Length)] + i,
                     Password = GeneratePassword(),
-                    MainPhotoPath = hasAvatar ? GenerateImagePath() : null,
+                    MainPhotoName = hasAvatar ? GenerateImageName() : null,
                     IsAdmin = isAdmin
                 };
 
@@ -530,7 +533,7 @@ namespace UnitTest.Resources.Classes
             for (int i = 0; i < photoAmount; ++i)
             {
                 User user = users[random.Next(users.Length)];
-                photos[i] = new Photo { Path = GenerateImagePath(), User = user };
+                photos[i] = new Photo { Name = GenerateImageName(), User = user };
 
                 if (userPhotoAmount.ContainsKey(user.NickName)) ++userPhotoAmount[user.NickName];
                 else userPhotoAmount.Add(user.NickName, 1);
@@ -669,9 +672,9 @@ namespace UnitTest.Resources.Classes
             }
             return password.ToString();
         }
-        private string GenerateImagePath()
+        private string GenerateImageName()
         {
-            return $"{random.Next()}/{random.Next()}/{random.Next()}/.jpg";            
+            return $"{random.Next()}.jpg";         
         }
         private DateTime GenerateDate()
         {
@@ -726,20 +729,26 @@ namespace UnitTest.Resources.Classes
             }
         }
         private void ClearDataBase(global::DataAccess.Context.AppContext dbContext)
-        {            
+        {
             // create transaction to clear DataBase
             using (System.Data.Entity.DbContextTransaction transaction = dbContext.Database.BeginTransaction())
             {
                 try
                 {
+                    // disable all constraints in the database
+                    dbContext.Database.ExecuteSqlCommand("EXEC sp_MSforeachtable \"ALTER TABLE ? NOCHECK CONSTRAINT all\"");
+
                     // gets all tables' names
                     string[] tableNames = dbContext.Database.SqlQuery<string>("SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'BASE TABLE' AND TABLE_NAME NOT LIKE '%Migration%'").ToArray();
 
                     // clear out data in all tables
                     foreach (string tableName in tableNames)
                     {
-                        dbContext.Database.ExecuteSqlCommand($"DELETE FROM [{tableName}];");                        
+                        dbContext.Database.ExecuteSqlCommand($"DELETE FROM [{tableName}];");
                     }
+
+                    // unable all constraints in the database
+                    dbContext.Database.ExecuteSqlCommand("EXEC sp_MSforeachtable @command1=\"print '?'\", @command2=\"ALTER TABLE ? WITH CHECK CHECK CONSTRAINT all\"");
 
                     // commit transaction 
                     transaction.Commit();
@@ -750,7 +759,7 @@ namespace UnitTest.Resources.Classes
                     transaction.Rollback();
 
                     throw;
-               }
+                }
             }
         }
         #endregion

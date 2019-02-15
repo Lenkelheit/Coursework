@@ -7,7 +7,7 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("UnitTest")]
-[assembly: AssemblyDescription("Consists unit tests for other project")]
+[assembly: AssemblyDescription("Consists of unit tests for other projects")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Galagram Inc.")]
 [assembly: AssemblyProduct("UnitTest")]

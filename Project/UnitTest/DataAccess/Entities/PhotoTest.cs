@@ -44,7 +44,7 @@ namespace UnitTest.DataAccess.Entities
             User user = dbContext.Users.First();
             Photo expectedPhoto = new Photo
             {
-                Path = "Some test path.jpg",
+                Name = "Some test name.jpg",
                 User = user,
                 Likes = new List<PhotoLike>
                 {
@@ -73,7 +73,7 @@ namespace UnitTest.DataAccess.Entities
             Photo actualPhoto = dbContext.Photos.Find(expectedPhoto.Id);
 
             // Assert
-            Assert.AreEqual(expectedPhoto.Path, actualPhoto.Path);
+            Assert.AreEqual(expectedPhoto.Name, actualPhoto.Name);
             Assert.AreEqual(expectedPhoto.User, actualPhoto.User);
             CollectionAssert.AreEqual(expectedPhoto.Likes.ToArray(), actualPhoto.Likes.ToArray());
             CollectionAssert.AreEqual(expectedPhoto.Comments.ToArray(), actualPhoto.Comments.ToArray());
@@ -135,8 +135,8 @@ namespace UnitTest.DataAccess.Entities
         public void Equals_TheSameValue_True()
         {
             // Arrange
-            Photo photo1 = new Photo { Path = "photo name" };
-            Photo photo2 = new Photo { Path = "photo name" };
+            Photo photo1 = new Photo { Name = "photo name" };
+            Photo photo2 = new Photo { Name = "photo name" };
 
             // Act
             // Assert
@@ -148,8 +148,8 @@ namespace UnitTest.DataAccess.Entities
         public void Equals_DifferentValue_False()
         {
             // Arrange
-            Photo photo1 = new Photo { Path = "photo name 1" };
-            Photo photo2 = new Photo { Path = "photo name 2" };
+            Photo photo1 = new Photo { Name = "photo name 1" };
+            Photo photo2 = new Photo { Name = "photo name 2" };
 
             // Act
             // Assert
@@ -164,8 +164,8 @@ namespace UnitTest.DataAccess.Entities
             User user1 = new User { NickName = "User" };
             User user2 = new User { NickName = "User" };
 
-            Photo photo1 = new Photo { Path = "photo name", User = user1 };
-            Photo photo2 = new Photo { Path = "photo name", User = user2 };
+            Photo photo1 = new Photo { Name = "photo name", User = user1 };
+            Photo photo2 = new Photo { Name = "photo name", User = user2 };
 
             // Act
             // Assert
@@ -180,8 +180,8 @@ namespace UnitTest.DataAccess.Entities
             User user1 = new User { NickName = "User 1" };
             User user2 = new User { NickName = "User 2" };
 
-            Photo photo1 = new Photo { Path = "photo name", User = user1 };
-            Photo photo2 = new Photo { Path = "photo name", User = user2 };
+            Photo photo1 = new Photo { Name = "photo name", User = user1 };
+            Photo photo2 = new Photo { Name = "photo name", User = user2 };
 
             // Act
             // Assert
@@ -208,8 +208,8 @@ namespace UnitTest.DataAccess.Entities
                 new PhotoLike { IsLiked = true }
             };
 
-            Photo photo1 = new Photo { Path = "photo name", Likes = photoLikes1 };
-            Photo photo2 = new Photo { Path = "photo name", Likes = photoLikes2 };
+            Photo photo1 = new Photo { Name = "photo name", Likes = photoLikes1 };
+            Photo photo2 = new Photo { Name = "photo name", Likes = photoLikes2 };
 
             // Act
             // Assert
@@ -236,8 +236,8 @@ namespace UnitTest.DataAccess.Entities
                 new PhotoLike { IsLiked = true }
             };
 
-            Photo photo1 = new Photo { Path = "photo name", Likes = photoLikes1 };
-            Photo photo2 = new Photo { Path = "photo name", Likes = photoLikes2 };
+            Photo photo1 = new Photo { Name = "photo name", Likes = photoLikes1 };
+            Photo photo2 = new Photo { Name = "photo name", Likes = photoLikes2 };
 
             // Act
             // Assert
@@ -257,8 +257,8 @@ namespace UnitTest.DataAccess.Entities
             };
             Comment[] comments2 = null;
 
-            Photo photo1 = new Photo { Path = "photo name", Comments = comments1 };
-            Photo photo2 = new Photo { Path = "photo name", Comments = comments2 };
+            Photo photo1 = new Photo { Name = "photo name", Comments = comments1 };
+            Photo photo2 = new Photo { Name = "photo name", Comments = comments2 };
 
             // Act
             // Assert
@@ -278,8 +278,8 @@ namespace UnitTest.DataAccess.Entities
                 new Comment { Text = "Comment" }
             };
 
-            Photo photo1 = new Photo { Path = "photo name", Comments = comments1 };
-            Photo photo2 = new Photo { Path = "photo name", Comments = comments2 };
+            Photo photo1 = new Photo { Name = "photo name", Comments = comments1 };
+            Photo photo2 = new Photo { Name = "photo name", Comments = comments2 };
 
             // Act
             // Assert

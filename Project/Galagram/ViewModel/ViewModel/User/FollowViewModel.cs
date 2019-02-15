@@ -1,5 +1,6 @@
 using System.Windows.Input;
 using System.Collections.ObjectModel;
+using System.Linq;
 
 namespace Galagram.ViewModel.ViewModel.User
 {
@@ -13,7 +14,7 @@ namespace Galagram.ViewModel.ViewModel.User
 
         int selectedFollowIndex;
         #warning set it to array after optimization in future milestones
-        ObservableCollection<DataAccess.Entities.User> follow;
+        ObservableCollection<DataAccess.Wrappers.UserWrapper> follow;
 
         ICommand deleteFollowCommand;
         ICommand openProfileCommand;
@@ -32,11 +33,13 @@ namespace Galagram.ViewModel.ViewModel.User
 
             if (followMode == Enums.User.FollowMode.Followers)
             {
-                this.follow = new ObservableCollection<DataAccess.Entities.User>(DataStorage.ShownUser.Followers);
+                this.follow = new ObservableCollection<DataAccess.Wrappers.UserWrapper>(DataStorage.ShownUser.User.Followers
+                    .Select(user => new DataAccess.Wrappers.UserWrapper(user)));
             }
             else if (followMode == Enums.User.FollowMode.Following)
             {
-                this.follow = new ObservableCollection<DataAccess.Entities.User>(DataStorage.ShownUser.Following);
+                this.follow = new ObservableCollection<DataAccess.Wrappers.UserWrapper>(DataStorage.ShownUser.User.Following
+                    .Select(user => new DataAccess.Wrappers.UserWrapper(user)));
             }
 
             this.deleteFollowCommand = new Commands.User.Follow.DeleteFollowCommand(this);
@@ -73,7 +76,7 @@ namespace Galagram.ViewModel.ViewModel.User
         /// <summary>
         /// Gets or sets follow user
         /// </summary>
-        public ObservableCollection<DataAccess.Entities.User> Follow
+        public ObservableCollection<DataAccess.Wrappers.UserWrapper> Follow
         {
             get
             {

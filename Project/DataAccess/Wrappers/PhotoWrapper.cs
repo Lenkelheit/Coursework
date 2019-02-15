@@ -9,6 +9,7 @@ namespace DataAccess.Wrappers
     {
         // FIELDS
         Entities.Photo photo;
+        string photoPath;
         int likeAmount;
         int dislikeAmount;
         int commentAmount;
@@ -23,6 +24,7 @@ namespace DataAccess.Wrappers
         public PhotoWrapper(Entities.Photo photo)
         {
             this.photo = photo;
+            this.photoPath = string.Format(Core.Configuration.AppConfig.PHOTOS_SAVE_PATH_FORMAT, photo.User.Id, photo.Name);
             this.likeAmount = photo.Likes.Count(l => l.IsLiked);
             this.dislikeAmount = photo.Likes.Count - likeAmount;
             this.commentAmount = photo.Comments.Count;
@@ -33,6 +35,10 @@ namespace DataAccess.Wrappers
         /// Gets wrapped photo
         /// </summary>
         public Entities.Photo Photo => photo;
+        /// <summary>
+        /// Gets photo path
+        /// </summary>
+        public string PhotoPath => photoPath;
         /// <summary>
         /// Gets like amount
         /// </summary>

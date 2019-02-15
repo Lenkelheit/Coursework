@@ -63,7 +63,7 @@
             }
             
             Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, $"Open modal {nameof(Window.User.PhotoInside)} window");
-            mainWindowViewModel.WindowManager.ShowWindowDialog(key: nameof(Window.User.PhotoInside), 
+            mainWindowViewModel.WindowManager.ShowWindowDialog(key: nameof(Window.User.PhotoInside),
                                                                viewModel: new ViewModel.User.PhotoInsideViewModel(photo: mainWindowViewModel.Photos[index]));
         }
     }

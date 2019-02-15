@@ -62,7 +62,7 @@ namespace UnitTest.DataAccess.Repositories
             int expectedUserWithoutAvatarInDb = Resources.Classes.DbFiller.Instance.UserWithoutAvatar;
 
             // Act
-            int actualUserWithoutAvatarDb = userRepository.Count(user => string.IsNullOrWhiteSpace(user.MainPhotoPath));
+            int actualUserWithoutAvatarDb = userRepository.Count(user => string.IsNullOrWhiteSpace(user.MainPhotoName));
 
             // Assert
             Assert.AreEqual(expectedUserWithoutAvatarInDb, actualUserWithoutAvatarDb);
@@ -206,7 +206,7 @@ namespace UnitTest.DataAccess.Repositories
 
                 string expectedNickname = "Harold";
                 string expectedPassword = "1111";
-                string expectedAvatarPath = "1223/466/64.jpg";
+                string expectedAvatarPath = "64.jpg";
                 bool expectedIsAdminValue = true;
                 int expectedFollowersAmount = 0;
                 int expectedFollowingAmount = 2;
@@ -220,7 +220,7 @@ namespace UnitTest.DataAccess.Repositories
                 User usersFromDb = userRepository.Get(nameToSearch);
                 string actualNickname = usersFromDb.NickName;
                 string actualPassword = usersFromDb.Password;
-                string actualAvatarPath = usersFromDb.MainPhotoPath;
+                string actualAvatarPath = usersFromDb.MainPhotoName;
                 bool actualIsAdminValue = usersFromDb.IsAdmin;
                 int actualFollowersAmount = usersFromDb.Followers.Count;
                 int actualFollowingAmount = usersFromDb.Following.Count;
@@ -321,7 +321,7 @@ namespace UnitTest.DataAccess.Repositories
             UserRepository userRepository = new UserRepository(dbContext);
             User user = new User()
             {
-                MainPhotoPath = Convert.ToString(TestContext.DataRow["Avatar"]),
+                MainPhotoName = Convert.ToString(TestContext.DataRow["Avatar"]),
                 NickName = Convert.ToString(TestContext.DataRow["NickName"]),
                 Password = Convert.ToString(TestContext.DataRow["Password"])
             };
@@ -345,7 +345,7 @@ namespace UnitTest.DataAccess.Repositories
             UserRepository userRepository = new UserRepository(dbContext);
             User user = new User()
             {
-                MainPhotoPath = Convert.ToString(TestContext.DataRow["Avatar"]),
+                MainPhotoName = Convert.ToString(TestContext.DataRow["Avatar"]),
                 NickName = Convert.ToString(TestContext.DataRow["NickName"]),
                 Password = Convert.ToString(TestContext.DataRow["Password"])
             };
@@ -391,9 +391,9 @@ namespace UnitTest.DataAccess.Repositories
                 Password = "1111",
                 Photos = new List<Photo>()
                 {
-                    new Photo() { Path = "4/54/23.jpg" },
-                    new Photo() { Path = "5/54/24.jpg" },
-                    new Photo() { Path = "6/54/25.jpg" }
+                    new Photo() { Name = "23.jpg" },
+                    new Photo() { Name = "24.jpg" },
+                    new Photo() { Name = "25.jpg" }
                 }
             };
             int expectedForeignKeyAmount = 1;
@@ -401,7 +401,7 @@ namespace UnitTest.DataAccess.Repositories
             // Act
             userRepository.Insert(user);
             dbContext.SaveChanges();
-            IQueryable<Photo> photosFromDb = dbContext.Photos.Where(photo => photo.Path == "4/54/23.jpg" || photo.Path == "5/54/24.jpg" || photo.Path == "6/54/25.jpg");
+            IQueryable<Photo> photosFromDb = dbContext.Photos.Where(photo => photo.Name == "23.jpg" || photo.Name == "24.jpg" || photo.Name == "25.jpg");
 
             int actualForeignKeyAmount = photosFromDb.Select(photo => photo.User.Id).Distinct().Count();
             Guid actualForeignKey = photosFromDb.Select(photo => photo.User.Id).Distinct().First();

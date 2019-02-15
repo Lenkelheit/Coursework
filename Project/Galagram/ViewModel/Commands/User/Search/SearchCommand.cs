@@ -69,9 +69,10 @@ namespace Galagram.ViewModel.Commands.User.Search
             // gets all founded user ordered by nickname, and set them to array
             searchViewModel.Users = searchViewModel.UnitOfWork
                     .UserRepository
-                        .Get(filter: user => user.NickName.Contains(searchViewModel.Text), 
+                        .Get(filter: user => user.NickName.Contains(searchViewModel.Text),
                              orderBy: o => o.OrderBy(user => user.NickName))
-                                .ToArray();
+                                .AsEnumerable().Select(user => new DataAccess.Wrappers.UserWrapper(user))
+                                    .ToArray();
         }
     }
 }

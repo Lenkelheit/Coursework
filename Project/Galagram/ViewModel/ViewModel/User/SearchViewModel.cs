@@ -11,7 +11,7 @@ namespace Galagram.ViewModel.ViewModel.User
         // FIELDS
         string searchText;
         int selectedUserIndex;
-        DataAccess.Entities.User[] foundedUsers;
+        DataAccess.Wrappers.UserWrapper[] foundedUsers;
 
         ICommand searchCommand;
         ICommand openProfileCommand;
@@ -66,7 +66,7 @@ namespace Galagram.ViewModel.ViewModel.User
         /// <summary>
         /// Gets or sets founded user
         /// </summary>
-        public DataAccess.Entities.User[] Users
+        public DataAccess.Wrappers.UserWrapper[] Users
         {
             get
             {

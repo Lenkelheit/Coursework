@@ -56,7 +56,7 @@ namespace Galagram.ViewModel.Commands.User.PhotoInside
             // gets value
             bool isLike = System.Convert.ToBoolean((parameter as System.Array).GetValue(0));
             CommentWrapper commentWrapper = (CommentWrapper)(parameter as System.Array).GetValue(1);
-            DataAccess.Entities.User user = Services.DataStorage.Instance.LoggedUser;
+            DataAccess.Entities.User user = Services.DataStorage.Instance.LoggedUser.User;
             CommentLike commentLike = photoInsideViewModel.UnitOfWork.CommentLikeRepository.TryGetUserLike(commentWrapper.Comment, user);
 
             // suitable for likes and dislikes

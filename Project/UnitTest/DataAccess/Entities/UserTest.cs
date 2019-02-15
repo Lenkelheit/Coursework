@@ -46,7 +46,7 @@ namespace UnitTest.DataAccess.Entities
             Photo photo = dbContext.Photos.First();
             User expectedUser = new User
             {
-                MainPhotoPath = "Test main photo path.jpg",
+                MainPhotoName = "Test main photo path.jpg",
                 NickName = "Test nickname",
                 Password = "1111",
                 IsAdmin = false,
@@ -54,7 +54,7 @@ namespace UnitTest.DataAccess.Entities
                 {
                     new Photo
                     {
-                        Path = "Some test path.jpg",
+                        Name = "Some test name.jpg",
                         Likes = new List<PhotoLike>
                         {
                             new PhotoLike{ IsLiked = true, User = firstUser },
@@ -125,7 +125,7 @@ namespace UnitTest.DataAccess.Entities
             User actualUser = dbContext.Users.Find(expectedUser.Id);
 
             // Assert
-            Assert.AreEqual(expectedUser.MainPhotoPath, actualUser.MainPhotoPath);
+            Assert.AreEqual(expectedUser.MainPhotoName, actualUser.MainPhotoName);
             Assert.AreEqual(expectedUser.NickName, actualUser.NickName);
             Assert.AreEqual(expectedUser.Password, actualUser.Password);
             Assert.AreEqual(expectedUser.IsAdmin, actualUser.IsAdmin);

@@ -44,7 +44,7 @@
             <!--IMAGE-->
             <Image Grid.Column="0" Style="{StaticResource Photo}">
                 <Image.Source>
-                    <Binding Path="Photo.Path" >
+                    <Binding Path="PhotoWrapper.PhotoPath" >
                         <Binding.FallbackValue>
                             <ImageSource>/Resources/OtherImg/NoPhoto.png</ImageSource>
                         </Binding.FallbackValue>

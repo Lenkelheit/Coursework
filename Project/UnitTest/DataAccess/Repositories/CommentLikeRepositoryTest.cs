@@ -124,7 +124,7 @@ namespace UnitTest.DataAccess.Repositories
             // Act
             CommentLike[] commentLikeFromDb = commentLikeRepository
                 .Get(filter: cl => cl.IsLiked == true, orderBy: o => o.OrderByDescending(cl => cl.User.NickName)).ToArray();
-            int actualCommentLikeWithLikeInDb = commentLikeFromDb.Count();
+            int actualCommentLikeWithLikeInDb = commentLikeFromDb.Length;
 
             // Assert
             Assert.AreEqual(expectedCommentLikeWithLikeInDb, actualCommentLikeWithLikeInDb);

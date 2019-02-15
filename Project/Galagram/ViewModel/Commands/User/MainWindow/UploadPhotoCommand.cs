@@ -58,35 +58,32 @@
             {
                 Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, "Adding photo");
 
-                int insertedPhotoCount = 0; // cuz Count() do not change after insert, needs for multiple photos adding
                 foreach (var photoPath in photoNames)
                 {
                     Core.Logger.GetLogger.LogAsync(Core.LogMode.Info, $"Photo path {photoPath}");
                     // copy photo to server
-                    string serverPath = CopyPhotoToServer(
+                    string serverName = CopyPhotoToServer(
                         pathToPhoto: photoPath,
-                        userId: mainWindowViewModel.DataStorage.LoggedUser.Id,
-                        photoId: mainWindowViewModel.UnitOfWork.PhotoRepository.Count() + 1 + insertedPhotoCount);
-                    Core.Logger.GetLogger.LogAsync(Core.LogMode.Info, $"Server photo path {serverPath}");
+                        userId: mainWindowViewModel.DataStorage.LoggedUser.User.Id);
+                    Core.Logger.GetLogger.LogAsync(Core.LogMode.Info, $"Server photo name {serverName}");
 
                     // create photo
                     DataAccess.Entities.Photo photo = new DataAccess.Entities.Photo
                     {
-                        User = mainWindowViewModel.DataStorage.LoggedUser,
-                        Path = serverPath
+                        User = mainWindowViewModel.DataStorage.LoggedUser.User,
+                        Name = serverName
                     };
 
                     // add photo to a view, if only user is on his own page
                     if (mainWindowViewModel.IsCurrentUserShown)
                     {
                         Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, "Add photo to view");
-                        mainWindowViewModel.Photos.Add(photo);
+                        mainWindowViewModel.Photos.Add(new DataAccess.Wrappers.PhotoWrapper(photo));
                     }
 
                     // insert photo to DB
                     Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, "Insert photo to photo repositories");
                     mainWindowViewModel.UnitOfWork.PhotoRepository.Insert(photo);
-                    ++insertedPhotoCount;
                 }
 
                 // save to DB
@@ -102,7 +99,7 @@
             }
         }
 
-        private string CopyPhotoToServer(string pathToPhoto, System.Guid userId, int photoId)
+        private string CopyPhotoToServer(string pathToPhoto, System.Guid userId)
         {
             // create photo folder if needed
             if (!System.IO.Directory.Exists(Core.Configuration.AppConfig.PHOTOS_SAVE_FOLDER))
@@ -119,11 +116,11 @@
                 Core.Logger.GetLogger.LogAsync(Core.LogMode.Info, $"User folder by path {userFolder} has been created");
             }
 
-
             // copy photo to server
-            string serverPath = string.Format(Core.Configuration.AppConfig.PHOTOS_SAVE_PATH_FORMAT, userId, photoId, System.IO.Path.GetExtension(pathToPhoto));
+            string serverName = System.IO.Path.GetFileName(pathToPhoto);
+            string serverPath = string.Format(Core.Configuration.AppConfig.PHOTOS_SAVE_PATH_FORMAT, userId, serverName);
             System.IO.File.Copy(pathToPhoto, serverPath);
-            return serverPath;
+            return serverName;
         }
     }
 }

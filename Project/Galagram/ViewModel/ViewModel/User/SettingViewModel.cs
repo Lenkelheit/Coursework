@@ -32,7 +32,7 @@ namespace Galagram.ViewModel.ViewModel.User
         public SettingViewModel()
         {
             this.changedField = new System.Collections.BitArray(System.Enum.GetNames(typeof(SettingFieldChanged)).Length);
-            
+
             this.tempAvatarPath = DataStorage.LoggedUser.MainPhotoPath;
             this.newNickname = string.Empty;
             this.password = string.Empty;
@@ -80,7 +80,7 @@ namespace Galagram.ViewModel.ViewModel.User
             {
                 Logger.LogAsync(Core.LogMode.Debug, $"Gets or sets {nameof(NewNickname)}. Old value = {newNickname}, new value = {newNickname}");
                 newNickname = value;
-                changedField.Set((int)SettingFieldChanged.Nickname, DataStorage.LoggedUser.NickName != newNickname && !string.IsNullOrWhiteSpace(newNickname));
+                changedField.Set((int)SettingFieldChanged.Nickname, DataStorage.LoggedUser.User.NickName != newNickname && !string.IsNullOrWhiteSpace(newNickname));
 
                 OnPropertyChanged();
             }
@@ -119,7 +119,7 @@ namespace Galagram.ViewModel.ViewModel.User
             {
                 Logger.LogAsync(Core.LogMode.Debug, $"Sets new {nameof(NewPassword)}. Old value = {newPassword}, new value = {value}");
                 newPassword = value;
-                changedField.Set((int)SettingFieldChanged.Password, DataStorage.LoggedUser.Password != newPassword && !string.IsNullOrWhiteSpace(newPassword));
+                changedField.Set((int)SettingFieldChanged.Password, DataStorage.LoggedUser.User.Password != newPassword && !string.IsNullOrWhiteSpace(newPassword));
 
                 OnPropertyChanged();
             }
@@ -239,30 +239,6 @@ namespace Galagram.ViewModel.ViewModel.User
                 Logger.LogAsync(Core.LogMode.Debug, "Create Temp Folder");
                 System.IO.Directory.CreateDirectory(Core.Configuration.AppConfig.TEMP_FOLDER);
             }
-        }
-        /// <summary>
-        /// Generates for passed file temp file name
-        /// </summary>
-        /// <param name="fileExtension">
-        /// File extension with . 
-        /// </param>
-        /// <returns>
-        /// Free file name
-        /// </returns>
-        public string GetRandomTempFileName(string fileExtension)
-        {
-            System.Random random = new System.Random();
-            string serverPath;
-
-            // gets random free name
-            do
-            {
-                int fileHashName = random.Next().GetHashCode();
-
-                serverPath = string.Format(Core.Configuration.AppConfig.TEMP_FILE_FORMAT, fileHashName, fileExtension);
-            } while (System.IO.File.Exists(serverPath));
-
-            return serverPath;
         }
         /// <summary>
         /// Check if nickname and password pass all validations rule

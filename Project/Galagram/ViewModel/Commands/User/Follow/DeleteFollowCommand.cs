@@ -1,4 +1,4 @@
-using D = DataAccess.Entities;
+using D = DataAccess.Wrappers;
 using Galagram.ViewModel.Enums.User;
 
 namespace Galagram.ViewModel.Commands.User.Follow
@@ -49,8 +49,8 @@ namespace Galagram.ViewModel.Commands.User.Follow
             Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, $"Exetute {nameof(DeleteFollowCommand)}");
 
             // gets user to delete
-            D.User userToUnFollow = (D.User)parameter;
-            Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, $"User nickname to unfollow {userToUnFollow.NickName}");
+            D.UserWrapper userToUnFollow = (D.UserWrapper)parameter;
+            Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, $"User nickname to unfollow {userToUnFollow.User.NickName}");
 
             // unfolow someone from you
             // or
@@ -58,12 +58,12 @@ namespace Galagram.ViewModel.Commands.User.Follow
             if (followViewModel.FollowMode == FollowMode.Followers)
             {
                 Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, "Remove user from followers");
-                followViewModel.DataStorage.ShownUser.Followers.Remove(userToUnFollow);
+                followViewModel.DataStorage.ShownUser.User.Followers.Remove(userToUnFollow.User);
             }
             else if (followViewModel.FollowMode == FollowMode.Following)
             {
                 Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, "Remove user from following");
-                followViewModel.DataStorage.ShownUser.Following.Remove(userToUnFollow);
+                followViewModel.DataStorage.ShownUser.User.Following.Remove(userToUnFollow.User);
             }
 
             // update view
@@ -72,8 +72,8 @@ namespace Galagram.ViewModel.Commands.User.Follow
 
             // update DB
             Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, "Save changes to DataBase");
-            followViewModel.UnitOfWork.UserRepository.Update(followViewModel.DataStorage.LoggedUser);
-            followViewModel.UnitOfWork.UserRepository.Update(followViewModel.DataStorage.ShownUser);
+            followViewModel.UnitOfWork.UserRepository.Update(followViewModel.DataStorage.LoggedUser.User);
+            followViewModel.UnitOfWork.UserRepository.Update(followViewModel.DataStorage.ShownUser.User);
             followViewModel.UnitOfWork.Save();            
         }
     }

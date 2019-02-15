@@ -64,9 +64,9 @@ namespace Galagram.ViewModel.Commands.User.Setting
                 return;
             }
             // is password right
-            if (settingViewModel.Password != settingViewModel.DataStorage.LoggedUser.Password)
+            if (settingViewModel.Password != settingViewModel.DataStorage.LoggedUser.User.Password)
             {
-                settingViewModel.Logger.LogAsync(Core.LogMode.Debug, $"Changes can not be applied. Password is wrong. User password = {settingViewModel.DataStorage.LoggedUser.Password}, written password = {settingViewModel.Password}");
+                settingViewModel.Logger.LogAsync(Core.LogMode.Debug, $"Changes can not be applied. Password is wrong. User password = {settingViewModel.DataStorage.LoggedUser.User.Password}, written password = {settingViewModel.Password}");
                 settingViewModel.WindowManager.ShowMessageWindow(Core.Messages.Info.ViewModel.Command.User.Setting.ApplyChanges.PASSWORD_IS_NOT_THE_SAME);
                 return;
             }
@@ -89,7 +89,6 @@ namespace Galagram.ViewModel.Commands.User.Setting
                 }
                 else // set new avatar
                 {
-                    
                     settingViewModel.Logger.LogAsync(Core.LogMode.Debug, "Sets new avatar");
 
                     // create folder if not exist
@@ -101,12 +100,14 @@ namespace Galagram.ViewModel.Commands.User.Setting
 
                     // move to constant avatar path
                     settingViewModel.Logger.LogAsync(Core.LogMode.Debug, "Move avatar to constant folder");
-                    string constAvatarPath = string.Format(Core.Configuration.AppConfig.AVATAR_FORMAT, settingViewModel.DataStorage.LoggedUser.Id, System.IO.Path.GetExtension(tempAvatarPath));
+                    string avatarName = System.IO.Path.GetFileName(tempAvatarPath);
+                    string constAvatarPath = string.Format(Core.Configuration.AppConfig.AVATAR_FORMAT, avatarName);
 
                     // move photo to that folder
                     // move if not exist, overwrite if exist
                     System.IO.File.Copy(tempAvatarPath, constAvatarPath, overwrite: true);
 
+                    // update view
                     // sets new avatar
                     // sets if null, do nothing if exist
                     settingViewModel.DataStorage.LoggedUser.MainPhotoPath = constAvatarPath;
@@ -119,7 +120,7 @@ namespace Galagram.ViewModel.Commands.User.Setting
             if (settingViewModel.DoesFieldChanged((int)SettingFieldChanged.Nickname))
             {
                 settingViewModel.Logger.LogAsync(Core.LogMode.Debug, "Sets new nickname");
-                settingViewModel.Logger.LogAsync(Core.LogMode.Info, $"Old nickname = {settingViewModel.DataStorage.LoggedUser.NickName}, new nickname = {settingViewModel.NewNickname}");
+                settingViewModel.Logger.LogAsync(Core.LogMode.Info, $"Old nickname = {settingViewModel.DataStorage.LoggedUser.User.NickName}, new nickname = {settingViewModel.NewNickname}");
 
                 if (!settingViewModel.UnitOfWork.UserRepository.IsNicknameFree(settingViewModel.NewNickname) || !settingViewModel.IsNewNicknameValid())// do not change nickname, its occupied or wrong
                 {
@@ -128,7 +129,7 @@ namespace Galagram.ViewModel.Commands.User.Setting
                 }
                 else // sets new nickname
                 {
-                    settingViewModel.DataStorage.LoggedUser.NickName = settingViewModel.NewNickname;
+                    settingViewModel.DataStorage.LoggedUser.User.NickName = settingViewModel.NewNickname;
                 }
             }
             #endregion
@@ -137,19 +138,19 @@ namespace Galagram.ViewModel.Commands.User.Setting
             if (settingViewModel.DoesFieldChanged((int)SettingFieldChanged.Password))
             {
                 settingViewModel.Logger.LogAsync(Core.LogMode.Debug, "Sets new password");
-                settingViewModel.Logger.LogAsync(Core.LogMode.Info, $"Old password = {settingViewModel.DataStorage.LoggedUser.Password}, new password = {settingViewModel.Password}");
+                settingViewModel.Logger.LogAsync(Core.LogMode.Info, $"Old password = {settingViewModel.DataStorage.LoggedUser.User.Password}, new password = {settingViewModel.Password}");
 
                 // change password if can, or show error message
                 if (settingViewModel.IsNewPasswordValid())
                 {
-                    settingViewModel.DataStorage.LoggedUser.Password = settingViewModel.NewPassword;
+                    settingViewModel.DataStorage.LoggedUser.User.Password = settingViewModel.NewPassword;
                 }
             }
             #endregion
 
-            // update databese
+            // update database
             settingViewModel.Logger.LogAsync(Core.LogMode.Debug, "Update user");
-            settingViewModel.UnitOfWork.UserRepository.Update(settingViewModel.DataStorage.LoggedUser);
+            settingViewModel.UnitOfWork.UserRepository.Update(settingViewModel.DataStorage.LoggedUser.User);
             settingViewModel.UnitOfWork.Save();
 
             // reset fields on setting window

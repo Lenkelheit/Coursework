@@ -6,7 +6,7 @@
     public enum DataBaseFillMode
     {
         /// <summary>
-        /// Low amount of know data 
+        /// Low amount of known data 
         /// </summary>
         Regular,
         /// <summary>

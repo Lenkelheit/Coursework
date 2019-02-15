@@ -13,7 +13,7 @@ namespace Galagram.ViewModel.ViewModel.User
     public class PhotoInsideViewModel : ViewModelBase
     {
         // FIELDS
-        readonly DataAccess.Entities.Photo photo;
+        readonly PhotoWrapper photoWrapper;
         int selectedCommentIndex;
         #warning set it to array after optimization in future milestones
         ObservableCollection<CommentWrapper> comments;
@@ -29,14 +29,14 @@ namespace Galagram.ViewModel.ViewModel.User
         /// <summary>
         /// Initialize a new instance of <see cref="PhotoInsideViewModel"/>
         /// </summary>
-        public PhotoInsideViewModel(DataAccess.Entities.Photo photo)
+        public PhotoInsideViewModel(PhotoWrapper photo)
         {
-            this.photo = photo;
+            this.photoWrapper = photo;
             this.selectedCommentIndex = Core.Configuration.Constants.WRONG_INDEX;
-            this.comments = new ObservableCollection<CommentWrapper>(photo.Comments.Select(comment => new CommentWrapper(comment)));
+            this.comments = new ObservableCollection<CommentWrapper>(photoWrapper.Photo.Comments.Select(comment => new CommentWrapper(comment)));
             this.commentText = string.Empty;
 
-            this.likeDislikeAmount = UnitOfWork.PhotoRepository.GetLikeDislikeAmount(photo);
+            this.likeDislikeAmount = UnitOfWork.PhotoRepository.GetLikeDislikeAmount(photoWrapper.Photo);
 
             this.likePhotoCommand = new Commands.User.PhotoInside.LikePhotoCommand(this);
             this.likeCommentCommand = new Commands.User.PhotoInside.LikeCommentCommand(this);
@@ -65,12 +65,12 @@ namespace Galagram.ViewModel.ViewModel.User
         /// <summary>
         /// Gets opened photo
         /// </summary>
-        public DataAccess.Entities.Photo Photo
+        public PhotoWrapper PhotoWrapper
         {
             get
             {
-                Logger.LogAsync(Core.LogMode.Debug, $"Gets {nameof(Photo)}");
-                return photo;
+                Logger.LogAsync(Core.LogMode.Debug, $"Gets {nameof(PhotoWrapper)}");
+                return photoWrapper;
             }
         }
         /// <summary>

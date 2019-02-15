@@ -46,11 +46,11 @@
             Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, $"Execute {nameof(OpenProfileCommand)}");
 
             // gets user id
-            System.Guid userId = searchViewModel.Users[searchViewModel.SelectedUserIndex].Id;
+            System.Guid userId = searchViewModel.Users[searchViewModel.SelectedUserIndex].User.Id;
             Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, $"User id {userId}");
 
             // sets shown user
-            searchViewModel.DataStorage.ShownUser = DataAccess.Context.UnitOfWork.Instance.UserRepository.Get(userId);
+            searchViewModel.DataStorage.ShownUser = new DataAccess.Wrappers.UserWrapper(DataAccess.Context.UnitOfWork.Instance.UserRepository.Get(userId));
 
             // open new window with current user
             Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, $"Close all window. Open new Window with current profile");

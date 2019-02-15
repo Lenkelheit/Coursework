@@ -54,11 +54,11 @@
             }
 
             // gets user id
-            System.Guid userId = followViewModel.Follow[index].Id;
+            System.Guid userId = followViewModel.Follow[index].User.Id;
             Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, $"User id {userId}");
 
             // sets new shown user
-            followViewModel.DataStorage.ShownUser = DataAccess.Context.UnitOfWork.Instance.UserRepository.Get(userId);
+            followViewModel.DataStorage.ShownUser.User = DataAccess.Context.UnitOfWork.Instance.UserRepository.Get(userId);
 
             // opens new window with current user
             Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, $"Close all window. Open new Window with current profile");

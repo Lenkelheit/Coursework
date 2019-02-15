@@ -21,12 +21,12 @@ namespace DataAccess.Entities
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public override System.Guid Id { get; set; }
         /// <summary>
-        /// A local path to avatar
+        /// A local name of the avatar
         /// </summary>
         [MinLength(AVATAR_MIN_LENGTH)]
         [MaxLength(AVATAR_MAX_LENGTH)]
         [FileExtensions(Extensions = PHOTO_EXTENSION)]
-        public string MainPhotoPath { get; set; }
+        public string MainPhotoName { get; set; }
         /// <summary>
         /// Nickname of the user
         /// </summary>

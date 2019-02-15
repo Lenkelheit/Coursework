@@ -72,11 +72,10 @@
                 Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, $"User can not log in, because his password is wrong");
                 return;
             }
-            
-            // sets current user as shown and as logged one
-            registrationViewModel.DataStorage.LoggedUser = validNameAndPasswordAndUser.User;
-            registrationViewModel.DataStorage.ShownUser = validNameAndPasswordAndUser.User;
 
+            // sets current user as shown and as logged one
+            registrationViewModel.DataStorage.LoggedUser = new DataAccess.Wrappers.UserWrapper(validNameAndPasswordAndUser.User);
+            registrationViewModel.DataStorage.ShownUser = registrationViewModel.DataStorage.LoggedUser;
 
             // check if want to log in as admin
             bool doLogInAsAdmin = false;

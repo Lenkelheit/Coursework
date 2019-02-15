@@ -29,11 +29,11 @@
         /// <summary>
         /// Gets or sets Logged user
         /// </summary>
-        public DataAccess.Entities.User LoggedUser { get; set; }
+        public DataAccess.Wrappers.UserWrapper LoggedUser { get; set; }
         /// <summary>
         /// Gets or sets Shown user
         /// </summary>
-        public DataAccess.Entities.User ShownUser { get; set; }
+        public DataAccess.Wrappers.UserWrapper ShownUser { get; set; }
         /// <summary>
         /// Gets or sets admin window content control
         /// </summary>
@@ -42,7 +42,7 @@
         /// <summary>
         /// Gets true if current user and shown user is the same, otherwise — false
         /// </summary>
-        public bool IsCurrentUserShown => LoggedUser == ShownUser;
+        public bool IsCurrentUserShown => LoggedUser.User == ShownUser.User;
 
         // METHODS
         /// <summary>
