@@ -89,13 +89,13 @@ namespace DataAccess.Context
         /// </returns>
         public override int SaveChanges()
         {
-            PhotoLike.Local.Where(ph => ph.Photo == null || ph.User == null).ToList().ForEach(ph => PhotoLike.Remove(ph));
+            PhotoLike.Local.Where(ph => ph.Photo == null || ph.User == null).ToList().ForEach(ph => Entry(ph).State = EntityState.Deleted);
 
-            Photos.Local.Where(p => p.User == null).ToList().ForEach(p => Photos.Remove(p));
+            Photos.Local.Where(p => p.User == null).ToList().ForEach(p => Entry(p).State = EntityState.Deleted);
 
-            CommentLike.Local.Where(cl => cl.Comment == null || cl.User == null).ToList().ForEach(cl => CommentLike.Remove(cl));
+            CommentLike.Local.Where(cl => cl.Comment == null || cl.User == null).ToList().ForEach(cl => Entry(cl).State = EntityState.Deleted);
 
-            Comments.Local.Where(c => c.Photo == null || c.User == null).ToList().ForEach(c => Comments.Remove(c));
+            Comments.Local.Where(c => c.Photo == null || c.User == null).ToList().ForEach(c => Entry(c).State = EntityState.Deleted);
 
             return base.SaveChanges();
         }
