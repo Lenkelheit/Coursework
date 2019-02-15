@@ -1,6 +1,5 @@
 ﻿using System.Windows.Input;
-using System.ComponentModel;
-using System.Collections.ObjectModel;
+using System.Collections.Generic;
 
 namespace Galagram.ViewModel.ViewModel.User
 {
@@ -11,7 +10,8 @@ namespace Galagram.ViewModel.ViewModel.User
     {
         // FIELDS
         int selectedPhotoIndex;
-        ObservableCollection<DataAccess.Entities.Photo> photos;
+        DataAccess.Entities.Photo selectedPhoto;
+        Collections.ReverseCollection<DataAccess.Entities.Photo> photos;
         bool isFollowing;
 
         readonly ICommand goHomeCommand;
@@ -31,7 +31,8 @@ namespace Galagram.ViewModel.ViewModel.User
         public MainWindowViewModel()
         {
             this.selectedPhotoIndex = Core.Configuration.Constants.WRONG_INDEX;
-            this.photos = new ObservableCollection<DataAccess.Entities.Photo>(DataStorage.ShownUser.Photos);
+            this.selectedPhoto = null;
+            this.photos = new Collections.ReverseCollection<DataAccess.Entities.Photo>(DataStorage.ShownUser.Photos);
 
             if (IsCurrentUserShown)
             {
@@ -84,13 +85,30 @@ namespace Galagram.ViewModel.ViewModel.User
             set
             {
                 Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug | Core.LogMode.Info, $"Sets {nameof(SelectedPhotoIndex)} value {this.selectedPhotoIndex} to {value}");
-                selectedPhotoIndex = value;
+                SetProperty(ref selectedPhotoIndex, value);
+            }
+        }
+        /// <summary>
+        /// Gets or sets selected photo
+        /// </summary>
+        public DataAccess.Entities.Photo SelectedPhoto
+        {
+            get
+            {
+                Logger.LogAsync(Core.LogMode.Debug, $"Gets {nameof(SelectedPhoto)}");
+                return selectedPhoto;
+            }
+            set
+            {
+                Logger.LogAsync(Core.LogMode.Debug, $"Sets {nameof(SelectedPhoto)}");
+
+                SetProperty(ref selectedPhoto, value);
             }
         }
         /// <summary>
         /// Gets photo collection
         /// </summary>
-        public ObservableCollection<DataAccess.Entities.Photo> Photos
+        public Collections.ReverseCollection<DataAccess.Entities.Photo> Photos
         {
             get
             {
@@ -234,7 +252,7 @@ namespace Galagram.ViewModel.ViewModel.User
         public void GoToCurrentUser()
         {
             DataStorage.ShowLoggedUser();
-            photos = new ObservableCollection<DataAccess.Entities.Photo>(DataStorage.ShownUser.Photos);
+            photos = new Collections.ReverseCollection<DataAccess.Entities.Photo>(DataStorage.ShownUser.Photos);
 
             OnPropertyChanged(nameof(User));
             OnPropertyChanged(nameof(Photos));
@@ -256,9 +274,12 @@ namespace Galagram.ViewModel.ViewModel.User
             OnPropertyChanged(nameof(IsFollowing));
         }
         /// <summary>
-        /// Raise <see cref="ViewModelBase.PropertyChanged"/> on <see cref="MainWindowViewModel.User"/>
+        /// Raise <see cref="ViewModelBase.PropertyChanged"/> on <paramref name="propertyName"/>
         /// </summary>
-        public void UpdateShownUser()
+        /// <param name="propertyName">
+        /// Property on which <see cref="ViewModelBase.PropertyChanged"/> raised
+        /// </param>
+        public void UpdateExplicitly(string propertyName)
         {
             OnPropertyChanged(nameof(User));
         }

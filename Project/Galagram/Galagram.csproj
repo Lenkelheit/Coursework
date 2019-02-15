@@ -90,6 +90,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Collections\ReverseCollection.cs" />
     <Compile Include="Converters\ImageConverter.cs" />
     <Compile Include="Converters\IntToStringConverter.cs" />
     <Compile Include="Converters\ItemsToArrayConverter.cs" />

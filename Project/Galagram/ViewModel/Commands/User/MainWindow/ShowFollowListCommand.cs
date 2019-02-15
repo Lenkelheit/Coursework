@@ -67,7 +67,7 @@
 
             // updates main window after closing follow window
             mainWindowViewModel.IsFollowingUpdateExplicitly();
-            mainWindowViewModel.UpdateShownUser();
+            mainWindowViewModel.UpdateExplicitly(nameof(mainWindowViewModel.User));
         }
     }
 }

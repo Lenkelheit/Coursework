@@ -55,7 +55,7 @@
             mainWindowViewModel.WindowManager.ShowWindowDialog(nameof(Window.User.Setting), new ViewModel.User.SettingViewModel());
 
             // update changes
-            mainWindowViewModel.UpdateShownUser();
+            mainWindowViewModel.UpdateExplicitly(nameof(mainWindowViewModel.User));
         }
     }
 }
