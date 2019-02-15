@@ -1,4 +1,6 @@
-﻿namespace Galagram.ViewModel.Commands.User.MainWindow
+﻿using System.IO;
+
+namespace Galagram.ViewModel.Commands.User.MainWindow
 {
     /// <summary>
     /// Opens open file dialog to select photo to upload
@@ -105,24 +107,27 @@
         private string CopyPhotoToServer(string pathToPhoto, System.Guid userId, int photoId)
         {
             // create photo folder if needed
-            if (!System.IO.Directory.Exists(Core.Configuration.AppConfig.PHOTOS_SAVE_FOLDER))
+            if (!Directory.Exists(Core.Configuration.AppConfig.PHOTOS_SAVE_FOLDER))
             {
                 Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, "Create photo folder");
-                System.IO.Directory.CreateDirectory(Core.Configuration.AppConfig.PHOTOS_SAVE_FOLDER);
+                DirectoryInfo photosDirectory = Directory.CreateDirectory(Core.Configuration.AppConfig.PHOTOS_SAVE_FOLDER);
+                photosDirectory.Attributes = Core.Configuration.AppConfig.PHOTOS_FOLDER_ATTRIBUTES;
             }
+
             // create folder for current user if neaded
-            string userFolder = string.Join(System.IO.Path.DirectorySeparatorChar.ToString(), Core.Configuration.AppConfig.PHOTOS_SAVE_FOLDER, userId);
-            if (!System.IO.Directory.Exists(userFolder))
+            string userFolder = string.Join(Path.DirectorySeparatorChar.ToString(), Core.Configuration.AppConfig.PHOTOS_SAVE_FOLDER, userId);
+            if (!Directory.Exists(userFolder))
             {
                 Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, "Create user folder");
-                System.IO.Directory.CreateDirectory(userFolder);
+                DirectoryInfo photoDirectory = Directory.CreateDirectory(userFolder);
+                photoDirectory.Attributes = Core.Configuration.AppConfig.PHOTOS_FOLDER_ATTRIBUTES;
+
                 Core.Logger.GetLogger.LogAsync(Core.LogMode.Info, $"User folder by path {userFolder} has been created");
             }
 
-
             // copy photo to server
-            string serverPath = string.Format(Core.Configuration.AppConfig.PHOTOS_SAVE_PATH_FORMAT, userId, photoId, System.IO.Path.GetExtension(pathToPhoto));
-            System.IO.File.Copy(pathToPhoto, serverPath);
+            string serverPath = string.Format(Core.Configuration.AppConfig.PHOTOS_SAVE_PATH_FORMAT, userId, photoId, Path.GetExtension(pathToPhoto));
+            File.Copy(pathToPhoto, serverPath);
             return serverPath;
         }
     }

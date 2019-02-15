@@ -1,3 +1,5 @@
+using System.IO;
+
 namespace Core.Configuration
 {
     /// <summary>
@@ -59,6 +61,10 @@ namespace Core.Configuration
         /// {1} — extension with . <para/>
         /// </summary>
         public static readonly string AVATAR_FORMAT = string.Join(DIRECTORY_SEPARATOR_STR, AVATAR_FOLDER, "{0}{1}");
+        /// <summary>
+        /// Determines attributes for avatars folder
+        /// </summary>
+        public static readonly FileAttributes AVATAR_FOLDER_ATTRIBUTES = FileAttributes.Directory | FileAttributes.Hidden;
         #endregion
 
         // PHOTOS
@@ -77,6 +83,10 @@ namespace Core.Configuration
         /// {2} — extension with . <para/>
         /// </summary>
         public static readonly string PHOTOS_SAVE_PATH_FORMAT = string.Join(DIRECTORY_SEPARATOR_STR, PHOTOS_SAVE_FOLDER, "{0}", "{1}{2}");
+        /// <summary>
+        /// Determines attributes for photos folder
+        /// </summary>
+        public static readonly FileAttributes PHOTOS_FOLDER_ATTRIBUTES = FileAttributes.Directory | FileAttributes.Hidden;
         #endregion
 
         // TEMP
