@@ -48,6 +48,7 @@
         <Button Grid.Row="6" Grid.Column="0"  
                 Style="{StaticResource AdminButton}"
                 Command="{Binding GoBackCommand}"
+                CommandParameter="{Binding ShownEntity}"
                 Content="Go Back"/>
         <Button Grid.Row="6" Grid.Column="1"  
                 Style="{StaticResource AdminButton}"
