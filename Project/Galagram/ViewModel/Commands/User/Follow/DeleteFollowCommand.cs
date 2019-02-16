@@ -68,7 +68,7 @@ namespace Galagram.ViewModel.Commands.User.Follow
 
             // update view
             Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, "Update view");
-            followViewModel.Follow.Remove(userToUnFollow);
+            followViewModel.Users.Remove(userToUnFollow);
 
             // update DB
             Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, "Save changes to DataBase");

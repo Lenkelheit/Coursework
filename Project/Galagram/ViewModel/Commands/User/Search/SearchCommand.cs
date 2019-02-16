@@ -67,11 +67,11 @@ namespace Galagram.ViewModel.Commands.User.Search
             Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, $"Execute {nameof(SearchCommand)}");
 
             // gets all founded user ordered by nickname, and set them to array
-            searchViewModel.Users = searchViewModel.UnitOfWork
+            searchViewModel.Users = new System.Collections.ObjectModel.ObservableCollection<DataAccess.Entities.User>(
+                searchViewModel.UnitOfWork
                     .UserRepository
-                        .Get(filter: user => user.NickName.Contains(searchViewModel.Text), 
-                             orderBy: o => o.OrderBy(user => user.NickName))
-                                .ToArray();
+                        .Get(filter: user => user.NickName.Contains(searchViewModel.Text),
+                             orderBy: o => o.OrderBy(user => user.NickName)));
         }
     }
 }

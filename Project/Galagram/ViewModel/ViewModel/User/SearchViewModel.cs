@@ -1,32 +1,26 @@
 ﻿using System.Windows.Input;
-using System.ComponentModel;
 
 namespace Galagram.ViewModel.ViewModel.User
 {
     /// <summary>
     /// A logic class for <see cref="Galagram.Window.User.Search"/> window
     /// </summary>
-    public class SearchViewModel : ViewModelBase
+    public class SearchViewModel : OpenProfileViewModelBase
     {
         // FIELDS
         string searchText;
-        int selectedUserIndex;
-        DataAccess.Entities.User[] foundedUsers;
 
         ICommand searchCommand;
-        ICommand openProfileCommand;
+
         // CONSTRUCTORS
         /// <summary>
         /// Initialize a new instance of <see cref="SearchViewModel"/>
         /// </summary>
-        public SearchViewModel()
+        public SearchViewModel() : base()
         {
             this.searchText = string.Empty;
-            this.selectedUserIndex = Core.Configuration.Constants.WRONG_INDEX;
-            this.foundedUsers = null;
 
             this.searchCommand = new Commands.User.Search.SearchCommand(this);
-            this.openProfileCommand = new Commands.User.Search.OpenProfileCommand(this);
         }
         // PROPERTIES
         /// <summary>
@@ -46,40 +40,6 @@ namespace Galagram.ViewModel.ViewModel.User
                 OnPropertyChanged();
             }
         }
-        /// <summary>
-        /// Gets or sets selected user index
-        /// </summary>
-        public int SelectedUserIndex
-        {
-            get
-            {
-                Logger.LogAsync(Core.LogMode.Debug, $"Gets {nameof(SelectedUserIndex)} with value {selectedUserIndex}");
-                return selectedUserIndex;
-            }
-            set
-            {
-                Logger.LogAsync(Core.LogMode.Debug, $"Sets {nameof(SelectedUserIndex)}, old value = {selectedUserIndex}, new value = {value}");
-                selectedUserIndex = value;
-                OnPropertyChanged();
-            }
-        }
-        /// <summary>
-        /// Gets or sets founded user
-        /// </summary>
-        public DataAccess.Entities.User[] Users
-        {
-            get
-            {
-                Logger.LogAsync(Core.LogMode.Debug, "Gets founded user");
-                return foundedUsers;
-            }
-            set
-            {
-                Logger.LogAsync(Core.LogMode.Debug, $"Sets founded user. Amount {value.Length}");
-                foundedUsers = value;
-                OnPropertyChanged();
-            }
-        }
         // COMMANDS
         /// <summary>
         /// A logic to show user by passed pattern
@@ -90,17 +50,6 @@ namespace Galagram.ViewModel.ViewModel.User
             {
                 Logger.LogAsync(Core.LogMode.Debug, $"Gets {nameof(SearchCommand)}");
                 return searchCommand;
-            }
-        }
-        /// <summary>
-        /// A logic to open profile with current user id
-        /// </summary>
-        public ICommand OpenProfileCommand
-        {
-            get
-            {
-                Logger.LogAsync(Core.LogMode.Debug, $"Gets {nameof(OpenProfileCommand)}");
-                return openProfileCommand;
             }
         }
     }
