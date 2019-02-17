@@ -31,7 +31,7 @@
                         <TextBlock.Text>
                             <MultiBinding StringFormat="{}{0} {1}">
                                 <Binding Path="WindowName" Mode="OneTime"/>
-                                <Binding Path="Follow.Count" Mode="OneWay" Converter="{StaticResource IntToStringConverter}"/>
+                                <Binding Path="Users.Count" Mode="OneWay" Converter="{StaticResource IntToStringConverter}"/>
                             </MultiBinding>
                         </TextBlock.Text>
                     </TextBlock>
@@ -45,8 +45,8 @@
 
         <!--FOLLOW LIST BOX-->
         <ListBox Grid.Row="2" Style="{StaticResource ListBoxFollow}"
-            SelectedIndex="{Binding SelectedFollowIndex, Mode=OneWayToSource}"
-            ItemsSource="{Binding Follow}">
+            SelectedIndex="{Binding SelectedUserIndex, Mode=OneWayToSource}"
+            ItemsSource="{Binding Users}">
 
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="MouseDoubleClick">

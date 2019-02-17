@@ -1,4 +1,4 @@
-﻿namespace Galagram.ViewModel.Commands.User.Search
+﻿namespace Galagram.ViewModel.Commands.User
 {
     /// <summary>
     /// Opens new profile by current id
@@ -6,18 +6,18 @@
     public class OpenProfileCommand : CommandBase
     {
         // FIELDS
-        ViewModel.User.SearchViewModel searchViewModel;
+        ViewModel.User.OpenProfileViewModelBase openProfileViewModelBase;
 
         // CONSTRUCTORS
         /// <summary>
         /// Initializes a new instance of <see cref="OpenProfileCommand"/>
         /// </summary>
-        /// <param name="searchViewModel">
-        /// An instance of <see cref="ViewModel.User.SearchViewModel"/>
+        /// <param name="openProfileViewModelBase">
+        /// An instance of <see cref="ViewModel.User.OpenProfileViewModelBase"/>
         /// </param>
-        public OpenProfileCommand(ViewModel.User.SearchViewModel searchViewModel)
+        public OpenProfileCommand(ViewModel.User.OpenProfileViewModelBase openProfileViewModelBase)
         {
-            this.searchViewModel = searchViewModel;
+            this.openProfileViewModelBase = openProfileViewModelBase;
         }
 
         // METHODS
@@ -45,12 +45,20 @@
         {
             Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, $"Execute {nameof(OpenProfileCommand)}");
 
-            // gets user id
-            System.Guid userId = searchViewModel.Users[searchViewModel.SelectedUserIndex].Id;
-            Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, $"User id {userId}");
+            // gets index
+            int index = openProfileViewModelBase.SelectedUserIndex;
+            if (index == Core.Configuration.Constants.WRONG_INDEX)
+            {
+                Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, $"Execute {nameof(OpenProfileCommand)} suspended. Wrong index value {index}");
+                return;
+            }
 
-            // sets shown user
-            searchViewModel.DataStorage.ShownUser = DataAccess.Context.UnitOfWork.Instance.UserRepository.Get(userId);
+            // gets user
+            DataAccess.Entities.User selectedUser = openProfileViewModelBase.Users[index];
+            Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, $"User id {selectedUser.Id}");
+
+            // sets new shown user
+            openProfileViewModelBase.DataStorage.ShownUser = selectedUser;
 
             // open new window with current user
             Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, $"Close all window. Open new Window with current profile");

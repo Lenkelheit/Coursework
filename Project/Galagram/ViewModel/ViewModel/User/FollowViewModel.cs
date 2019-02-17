@@ -6,17 +6,12 @@ namespace Galagram.ViewModel.ViewModel.User
     /// <summary>
     /// A logic class for <see cref="FollowViewModel"/>
     /// </summary>
-    public class FollowViewModel : ViewModelBase
+    public class FollowViewModel : OpenProfileViewModelBase
     {
         // FIELDS
         Enums.User.FollowMode followMode;
-
-        int selectedFollowIndex;
-        #warning set it to array after optimization in future milestones
-        ObservableCollection<DataAccess.Entities.User> follow;
-
+        
         ICommand deleteFollowCommand;
-        ICommand openProfileCommand;
 
         // CONSTRUCTORS
         /// <summary>
@@ -25,22 +20,20 @@ namespace Galagram.ViewModel.ViewModel.User
         /// <param name="followMode">
         /// Determines in which mode open window
         /// </param>
-        public FollowViewModel(Enums.User.FollowMode followMode)
+        public FollowViewModel(Enums.User.FollowMode followMode) : base()
         {
-            this.selectedFollowIndex = Core.Configuration.Constants.WRONG_INDEX;
             this.followMode = followMode;
 
             if (followMode == Enums.User.FollowMode.Followers)
             {
-                this.follow = new ObservableCollection<DataAccess.Entities.User>(DataStorage.ShownUser.Followers);
+                this.users = new ObservableCollection<DataAccess.Entities.User>(DataStorage.ShownUser.Followers);
             }
             else if (followMode == Enums.User.FollowMode.Following)
             {
-                this.follow = new ObservableCollection<DataAccess.Entities.User>(DataStorage.ShownUser.Following);
+                this.users = new ObservableCollection<DataAccess.Entities.User>(DataStorage.ShownUser.Following);
             }
 
             this.deleteFollowCommand = new Commands.User.Follow.DeleteFollowCommand(this);
-            this.openProfileCommand = new Commands.User.Follow.OpenProfileCommand(this);
         }
 
         // PROPERTIES
@@ -52,42 +45,6 @@ namespace Galagram.ViewModel.ViewModel.User
         /// Gets follow window header
         /// </summary>
         public string WindowName => followMode.ToString();
-        /// <summary>
-        /// Gets or sets selected follower index
-        /// </summary>
-        public int SelectedFollowIndex
-        {
-            get
-            {
-                Logger.LogAsync(Core.LogMode.Debug, $"Gets {nameof(SelectedFollowIndex)} with value = {selectedFollowIndex}");
-                return selectedFollowIndex;
-            }
-            set
-            {
-                selectedFollowIndex = value;
-                Logger.LogAsync(Core.LogMode.Debug, $"Sets {nameof(SelectedFollowIndex)}. Old value = {selectedFollowIndex}, new value = {value}");
-
-                OnPropertyChanged();              
-            }
-        }
-        /// <summary>
-        /// Gets or sets follow user
-        /// </summary>
-        public ObservableCollection<DataAccess.Entities.User> Follow
-        {
-            get
-            {
-                Logger.LogAsync(Core.LogMode.Debug, "Gets follow user");
-                return follow;
-            }
-            set
-            {
-                Logger.LogAsync(Core.LogMode.Debug | Core.LogMode.Info, $"Sets follow user. Amount {value.Count}");
-                follow = value;
-
-                OnPropertyChanged();
-            }
-        }
 
         // COMMANDS
         /// <summary>
@@ -99,17 +56,6 @@ namespace Galagram.ViewModel.ViewModel.User
             {
                 Logger.LogAsync(Core.LogMode.Debug, $"Gets {nameof(DeleteFollowCommand)}");
                 return deleteFollowCommand;
-            }
-        }
-        /// <summary>
-        /// A logic command to open user profile
-        /// </summary>
-        public ICommand OpenProfileCommand
-        {
-            get
-            {
-                Logger.LogAsync(Core.LogMode.Debug, $"Gets {nameof(OpenProfileCommand)}");
-                return openProfileCommand;
             }
         }
     }
