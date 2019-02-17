@@ -68,7 +68,8 @@
         <Button Grid.Row="6" Grid.Column="0"  
                 Style="{StaticResource AdminButton}"
                 Content="Go Back"
-                Command="{Binding GoBackCommand}"/>
+                Command="{Binding GoBackCommand}"
+                CommandParameter="{Binding ShownEntity}"/>
         <Button Grid.Row="6" Grid.Column="1"  
                 Style="{StaticResource AdminButton}"
                 Content="{Binding CrudOperationName}"
