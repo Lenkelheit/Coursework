@@ -105,6 +105,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Resources\Classes\DbFiller.cs" />
     <Compile Include="ViewModel\Commands\RelayCommandTest.cs" />
+    <Compile Include="View\Collections\ReverseCollectionTest.cs" />
     <Compile Include="View\Services\NavigationManagerTest.cs" />
     <Compile Include="View\Services\WindowManagerTest.cs" />
   </ItemGroup>
@@ -141,6 +142,9 @@
     <Content Include="Resources\DataAccess\Repositories\WrongSubject.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Resources\View\Collections\ReverseCollection\IndexerValueSet.xml" />
+    <Content Include="Resources\View\Collections\ReverseCollection\ThreeRandomItem.xml" />
+    <Content Include="Resources\View\Collections\ReverseCollection\WrongIndex.xml" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
