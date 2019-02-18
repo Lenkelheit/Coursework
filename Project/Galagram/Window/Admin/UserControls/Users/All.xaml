@@ -10,8 +10,8 @@
         <!--SCALING-->
         <Grid.RowDefinitions>
             <RowDefinition Height="50"/>
-            <RowDefinition Height="50"/>
-            <RowDefinition Height="50"/>
+            <RowDefinition Height="60"/>
+            <RowDefinition Height="60"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
@@ -28,6 +28,7 @@
         <Grid Grid.Row="1" Grid.Column="0" Grid.RowSpan="2">
             <!--smaller scaling-->
             <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
@@ -48,6 +49,21 @@
             <TextBox Grid.Row="1" Grid.Column="1"
                      Style="{StaticResource ItemTextBox_Admin}"
                      Text="{Binding NicknameSubstring, Mode=OneWayToSource}"/>
+
+            <!--SHOWN IS BLOCKED-->
+            <Label Grid.Row="2" Grid.Column="0" 
+                    Content="is blocked:"
+                    Style="{StaticResource ItemLabel_Admin}"/>
+
+            <CheckBox Grid.Row="2" Grid.Column="1"
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Center"
+                    IsThreeState="True"
+                    IsChecked="{Binding IsBlocked, Mode=OneWayToSource}">
+                <CheckBox.LayoutTransform>
+                    <ScaleTransform ScaleX="2.5" ScaleY="2.5" />
+                </CheckBox.LayoutTransform>
+            </CheckBox>
         </Grid>
 
         <!--FILTER BUTTON-->

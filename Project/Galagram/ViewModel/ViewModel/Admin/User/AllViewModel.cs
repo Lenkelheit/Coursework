@@ -12,6 +12,7 @@ namespace Galagram.ViewModel.ViewModel.Admin.User
         // FIELDS
         ListCollectionView entities;
         string nicknameSubstring;
+        bool? isBlocked;
 
         ICommand openCommand;
         ICommand editCommand;
@@ -24,6 +25,7 @@ namespace Galagram.ViewModel.ViewModel.Admin.User
         {
             entities = new ListCollectionView(UnitOfWork.UserRepository.Get().ToArray());
             nicknameSubstring = string.Empty;
+            isBlocked = null;
 
             // commands
             openCommand = new Commands.RelayCommand(NavigateToReadContent);
@@ -46,11 +48,30 @@ namespace Galagram.ViewModel.ViewModel.Admin.User
             }
             set
             {
-                Logger.LogAsync(Core.LogMode.Info, $"Sets {nameof(NicknameSubstring)}. Old value = {nicknameSubstring}, new value = {nicknameSubstring}");
+                Logger.LogAsync(Core.LogMode.Info, $"Sets {nameof(NicknameSubstring)}. Old value = {nicknameSubstring}, new value = {value}");
 
                 SetProperty(ref nicknameSubstring, value);
             }
         }
+        /// <summary>
+        /// Gets or sets filter value that determines if user is blocked
+        /// </summary>
+        public bool? IsBlocked
+        {
+            get
+            {
+                Logger.LogAsync(Core.LogMode.Debug | Core.LogMode.Info, $"Gets {nameof(IsBlocked)} with value = {isBlocked}");
+
+                return isBlocked;
+            }
+            set
+            {
+                Logger.LogAsync(Core.LogMode.Debug | Core.LogMode.Info, $"Sets {nameof(IsBlocked)}. Old value = {isBlocked}, new value = {value}");
+
+                SetProperty(ref isBlocked, value);
+            }
+        }
+
         /// <summary>
         /// Gets filtered entites list
         /// </summary>
@@ -104,9 +125,17 @@ namespace Galagram.ViewModel.ViewModel.Admin.User
         {
             // gets user
             DataAccess.Entities.User user = (DataAccess.Entities.User)entity;
+            bool isShown = true;
 
             // filtering
-            return DataAccess.Filters.UserFilter.Has(user, nicknameSubstring);
+            if (isBlocked != null)
+            {
+                isShown &= user.IsBlocked == isBlocked.Value;
+            }
+
+            isShown &= DataAccess.Filters.UserFilter.Has(user, nicknameSubstring);
+
+            return isShown;
         }
 
         // NAVIGATION METHODS

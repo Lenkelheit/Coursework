@@ -39,7 +39,9 @@
         {
             Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, $"Can Exetute {nameof(AskCommand)}");
 
-            return true;
+            Core.Logger.GetLogger.LogAsync(Core.LogMode.Info, $"Is user blocked by admin = {Services.DataStorage.Instance.LoggedUser.IsBlocked}");
+
+            return !Services.DataStorage.Instance.LoggedUser.IsBlocked;
         }
         /// <summary>
         /// Executes the command
