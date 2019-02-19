@@ -96,6 +96,7 @@
     <Compile Include="DataAccess\Entities\CommentTest.cs" />
     <Compile Include="DataAccess\Repositories\CommentLikeRepositoryTest.cs" />
     <Compile Include="DataAccess\Repositories\CommentRepositoryTest.cs" />
+    <Compile Include="DataAccess\Repositories\NonGenericRepositorySubjectTest.cs" />
     <Compile Include="DataAccess\Repositories\PhotoLikeRepositoryTest.cs" />
     <Compile Include="DataAccess\Repositories\PhotoRepositoryTest.cs" />
     <Compile Include="DataAccess\Repositories\MessageRepositoryTest.cs" />

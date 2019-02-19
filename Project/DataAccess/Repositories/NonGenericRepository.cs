@@ -10,8 +10,6 @@ namespace DataAccess.Repositories
     /// </summary>
     public class NonGenericRepository : Interfaces.IRepository<object>
     {
-#warning NOT IMPLEMENTED
-
         // FIELDS
         internal Context.AppContext context;
         internal DbSet dbSet;
@@ -33,11 +31,22 @@ namespace DataAccess.Repositories
         }
 
         // METHODS
+        /// <summary>
+        /// Not implemented behaviour
+        /// </summary>
+        /// <returns>Count of entities</returns>
+        [Obsolete(message: "Not implemented behaviour", error: true)]
         public int Count()
         {
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// Counts records in data set which satisfy the condition
+        /// </summary>
+        /// <param name="predicate">The condition by which record should be count</param>
+        /// <returns>Returns the amount of records in data set which satisfy the condition</returns>
+        [Obsolete(message: "Not implemented behaviour", error: true)]
         public int Count(Func<object, bool> predicate)
         {
             throw new NotImplementedException();
@@ -61,16 +70,28 @@ namespace DataAccess.Repositories
             dbSet.Remove(entityToDelete);
         }
 
+        /// <summary>
+        /// Gets data from data base
+        /// </summary>
+        /// <param name="filter">Filter for data</param>
+        /// <param name="orderBy">The order of the received items</param>
+        /// <param name="includeProperties">Included properties</param>
+        /// <returns>Queried entities collection</returns>
+        [Obsolete(message: "Not implemented behaviour", error: true)]
         public IQueryable<object> Get(Expression<Func<object, bool>> filter = null, 
                                        Func<IQueryable<object>, IOrderedQueryable<object>> orderBy = null, 
                                        string includeProperties = "")
         {
             throw new NotImplementedException();
         }
-
+        /// <summary>
+        /// Gets entity by id
+        /// </summary>
+        /// <param name="id">Entities id</param>
+        /// <returns>Finded entity</returns>
         public object Get(object id)
         {
-            throw new NotImplementedException();
+            return dbSet.Find(id);
         }
         /// <summary>
         /// Inserts data in data base
