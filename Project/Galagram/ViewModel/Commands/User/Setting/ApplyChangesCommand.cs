@@ -59,7 +59,7 @@ namespace Galagram.ViewModel.Commands.User.Setting
             // check fields
             if (string.IsNullOrWhiteSpace(settingViewModel.Password))
             {
-                settingViewModel.Logger.LogAsync(Core.LogMode.Debug, "Changes can not be applied. Password is emoty");
+                settingViewModel.Logger.LogAsync(Core.LogMode.Debug, "Changes can not be applied. Password is empty");
                 settingViewModel.WindowManager.ShowMessageWindow(Core.Messages.Info.ViewModel.Command.User.Setting.ApplyChanges.EMPTY_PASSWORD);
                 return;
             }

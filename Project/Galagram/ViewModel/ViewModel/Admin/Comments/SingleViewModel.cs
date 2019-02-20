@@ -11,7 +11,7 @@ namespace Galagram.ViewModel.ViewModel.Admin.Comments
         // FIELDS
         string[] likedUserNickname;
         string[] disLikedUserNickname;
-        
+
         ICommand deleteOrUpdateCommand;
 
         // CONSTRUCTORS
@@ -29,14 +29,15 @@ namespace Galagram.ViewModel.ViewModel.Admin.Comments
         /// </exception>
         public SingleViewModel(DataAccess.Entities.Comment comment, bool isEditingEnabled)
             :base(shownEntity: comment, isWritingEnabled: isEditingEnabled)
-        {           
+        {
             ILookup<bool, string> groupedByLike = comment.Likes.ToLookup(c => c.IsLiked, u => u.User.NickName);
             this.likedUserNickname = groupedByLike[true].ToArray();
             this.disLikedUserNickname = groupedByLike[false].ToArray();
 
             // commands
-            deleteOrUpdateCommand = isEditingEnabled ? (ICommand) new Commands.Admin.UpdateCommand()
-                                                     : (ICommand) new Commands.Admin.DeleteCommand();
+            deleteOrUpdateCommand = isEditingEnabled ? (ICommand)new Commands.Admin.MultipleCommand(new ICommand[]
+                                                        { new Commands.Admin.Comment.Single.ValidateCommand(this), new Commands.Admin.UpdateCommand() })
+                                                     : (ICommand)new Commands.Admin.DeleteCommand(); 
         }
 
         // PROPERTIES

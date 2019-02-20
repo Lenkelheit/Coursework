@@ -281,7 +281,7 @@ namespace Galagram.Services
         /// A parent control in which current user control should be shown
         /// </param>
         /// <param name="doSearchForDefault">
-        /// Determines if its required to search for user vontrol with default constructor
+        /// Determines if its required to search for user control with default constructor
         /// <para/>
         /// Can create new user control only if its DataContext has default constructor
         /// </param>
@@ -314,7 +314,7 @@ namespace Galagram.Services
         /// Returns previous user control with previous DataContext
         /// </summary> 
         /// <param name="doSearchForDefault">
-        /// Determines if its required to search for user vontrol with default constructor
+        /// Determines if its required to search for user control with default constructor
         /// <para/>
         /// Can create new user control only if its DataContext has default constructor
         /// </param>

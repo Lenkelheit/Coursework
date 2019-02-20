@@ -100,7 +100,7 @@
                        Style="{StaticResource ItemLabel_Admin}"/>
 
                 <TextBox Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2"
-                         Text="{Binding ShownEntity.Text}"
+                         Text="{Binding ShownEntity.Text, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                          IsEnabled="{Binding IsWritingEnabled}"
                          Style="{StaticResource ItemTextBoxMultiline_Admin}"/>
 

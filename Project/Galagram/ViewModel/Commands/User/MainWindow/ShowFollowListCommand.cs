@@ -57,13 +57,13 @@
 
             // gets value that determines in which mode window should be opened
             if (!(parameter is Enums.User.FollowMode)) throw new System.ArgumentException();
-            Enums.User.FollowMode follwMode = (Enums.User.FollowMode)parameter;
-            Core.Logger.GetLogger.LogAsync(Core.LogMode.Info, $"Follow mode = {follwMode}");
+            Enums.User.FollowMode followMode = (Enums.User.FollowMode)parameter;
+            Core.Logger.GetLogger.LogAsync(Core.LogMode.Info, $"Follow mode = {followMode}");
 
             // opens follow window
             Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, "Open modal Follow window");
             mainWindowViewModel.WindowManager.ShowWindowDialog(key: nameof(Window.User.Follow),
-                                                               viewModel: new ViewModel.User.FollowViewModel(follwMode));
+                                                               viewModel: new ViewModel.User.FollowViewModel(followMode));
 
             // updates main window after closing follow window
             mainWindowViewModel.IsFollowingUpdateExplicitly();

@@ -8,7 +8,7 @@ namespace Galagram.ViewModel.Commands.Admin
     public class UpdateCommand : CommandBase
     {
         /// <summary>
-        /// Check if command  can be executed
+        /// Check if command can be executed
         /// </summary>
         /// <param name="parameter">
         /// Additionals parameters
@@ -45,7 +45,7 @@ namespace Galagram.ViewModel.Commands.Admin
                     .Update(entityToUpdate);
 
             // save changes
-            Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, "Save changes to Data Base");
+            Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, "Save changes to database");
             DataAccess.Context.UnitOfWork.Instance.Save();
 
             // go back to previous content with its view model

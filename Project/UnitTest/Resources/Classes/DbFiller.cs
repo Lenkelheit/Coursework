@@ -48,7 +48,7 @@ namespace UnitTest.Resources.Classes
         int[] messageMonthAmount;
 
         // CONSTRUCTORS
-        public DbFiller()
+        private DbFiller()
         {
             // initialize test mode
             fillMode = Core.Configuration.TestConfig.DATABASE_FILL_MODE;

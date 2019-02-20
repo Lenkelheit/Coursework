@@ -8,7 +8,7 @@ using System.Windows;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("Galagram")]
-[assembly: AssemblyDescription("Main project that contain windows and logic for them")]
+[assembly: AssemblyDescription("Main project that contains windows and logic for them")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Galagram Inc.")]
 [assembly: AssemblyProduct("Galagram")]

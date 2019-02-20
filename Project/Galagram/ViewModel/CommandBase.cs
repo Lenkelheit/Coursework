@@ -6,6 +6,11 @@
     public abstract class CommandBase : System.Windows.Input.ICommand
     {
         /// <summary>
+        /// State of the command executing
+        /// </summary>
+        public Enums.Admin.CommandState CommandState { get; set; } = Enums.Admin.CommandState.Default;
+
+        /// <summary>
         /// Occurs when state of the command has been changed
         /// </summary>
         public virtual event System.EventHandler CanExecuteChanged;
