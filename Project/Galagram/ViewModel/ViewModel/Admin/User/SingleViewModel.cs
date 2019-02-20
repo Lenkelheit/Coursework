@@ -41,7 +41,7 @@ namespace Galagram.ViewModel.ViewModel.Admin.User
             this.resetAvatarCommand = new Commands.RelayCommand((obj) =>
             {
                 user.MainPhotoPath = null;
-                OnPropertyChanged(nameof(User));
+                OnPropertyChanged(nameof(ShownEntity));
             });
 
             this.showPhotoCommand = new Commands.RelayCommand(NavigateToPhoto);

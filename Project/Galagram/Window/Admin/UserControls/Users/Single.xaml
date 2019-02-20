@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:Galagram.Window.Admin.UserControls.Users"
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              mc:Ignorable="d" 
-             d:DesignHeight="600" d:DesignWidth="800"
+             d:DesignHeight="700" d:DesignWidth="800"
              Background="{StaticResource GrayColorBrushV6}">
     <Grid>
         <!--SCALING-->
@@ -26,6 +26,7 @@
             </ScrollViewer.Resources>
             <Grid>
                 <Grid.RowDefinitions>
+                    <RowDefinition Height="50"/>
                     <RowDefinition Height="50"/>
                     <RowDefinition Height="50"/>
                     <RowDefinition Height="50"/>
@@ -107,8 +108,23 @@
                     </CheckBox.LayoutTransform>
                 </CheckBox>
 
+                <!--IS BLOCKED-->
+                <Label Grid.Row="5" Grid.Column="0" 
+                       Content="Is Blocked"
+                       Style="{StaticResource ItemLabel_Admin}"/>
+
+                <CheckBox Grid.Row="5" Grid.Column="1"
+                          VerticalAlignment="Center"
+                          HorizontalAlignment="Center"
+                          IsChecked="{Binding ShownEntity.IsBlocked, Mode=TwoWay}"
+                          IsEnabled="{Binding IsWritingEnabled}">
+                    <CheckBox.LayoutTransform>
+                        <ScaleTransform ScaleX="2.5" ScaleY="2.5" />
+                    </CheckBox.LayoutTransform>
+                </CheckBox>
+
                 <!--FOLLOWERS / FOLLOWING-->
-                <Grid Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2">
+                <Grid Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="2">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="*"/>
@@ -148,13 +164,13 @@
                 </Grid>
 
                 <!--PHOTOS-->
-                <Label Grid.Row="6" Grid.Column="0"
+                <Label Grid.Row="7" Grid.Column="0"
                        Content="Photos"
                        Style="{StaticResource ItemLabel_Admin}"/>
-                <Label Grid.Row="6" Grid.Column="1"
+                <Label Grid.Row="7" Grid.Column="1"
                        Content="{Binding Photos.Length}"
                        Style="{StaticResource ItemLabel_Admin}"/>
-                <ListBox Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="2" 
+                <ListBox Grid.Row="8" Grid.Column="0" Grid.ColumnSpan="2" 
                          Style="{StaticResource ListBoxPhoto_Admin}"
                          ItemsSource="{Binding Photos}"
                          SelectedIndex="{Binding SelectedPhotoIndex, Mode=OneWayToSource}">
@@ -171,12 +187,12 @@
 
 
         <!--BUTTONS-->
-        <Button Grid.Row="8" Grid.Column="0"  
+        <Button Grid.Row="9" Grid.Column="0"  
                 Style="{StaticResource AdminButton}"
                 Content="Go Back"
                 Command="{Binding GoBackCommand}"
                 CommandParameter="{Binding ShownEntity}"/>
-        <Button Grid.Row="8" Grid.Column="1"  
+        <Button Grid.Row="9" Grid.Column="1"  
                 Style="{StaticResource AdminButton}"
                 Content="{Binding CrudOperationName}"
                 Command="{Binding CrudOperation}"

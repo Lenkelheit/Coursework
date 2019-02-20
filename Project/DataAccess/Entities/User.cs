@@ -71,6 +71,10 @@ namespace DataAccess.Entities
         /// Defines is current user an admin
         /// </summary>
         public bool IsAdmin { get; set; }
+        /// <summary>
+        /// Defines is current user is blocked by admin
+        /// </summary>
+        public bool IsBlocked { get; set; }
 
         // METHODS
         #region  to string option
