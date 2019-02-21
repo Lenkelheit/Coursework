@@ -22,7 +22,7 @@
 
         // METHODS
         /// <summary>
-        /// Check if command  can be executed
+        /// Check if command can be executed
         /// </summary>
         /// <param name="parameter">
         /// Additionals parameters
@@ -32,7 +32,7 @@
         /// </returns>
         public override bool CanExecute(object parameter)
         {
-            Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, $"Can Execure {nameof(CreateUpdateCommand)}");
+            Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, $"Can Execute {nameof(CreateUpdateCommand)}");
 
             return true;
         }
@@ -47,7 +47,7 @@
         /// </param>
         public override void Execute(object parameter)
         {
-            Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, $"Execure {nameof(CreateUpdateCommand)}");
+            Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, $"Execute {nameof(CreateUpdateCommand)}");
 
             // gets entity
             DataAccess.Entities.Subject subject = (DataAccess.Entities.Subject)subjectSingleViewModel.ShownEntity;

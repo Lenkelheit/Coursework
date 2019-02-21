@@ -111,7 +111,7 @@ namespace UnitTest.DataAccess.Repositories
 
             // Act
             Subject[] subjectFromDb = subjectRepository.Get(orderBy: subject => subject.OrderBy(s => s.Name)).ToArray();
-            int actualUserInDb = subjectFromDb.Count();
+            int actualUserInDb = subjectFromDb.Length;
 
             // Assert
             Assert.AreEqual(expectedSubjectInDb, actualUserInDb);
@@ -127,7 +127,7 @@ namespace UnitTest.DataAccess.Repositories
 
             // Act
             Subject[] subjectFromDb = subjectRepository.Get(filter: subject => subject.Messages.Count > 0, orderBy: o => o.OrderByDescending(s => s.Name)).ToArray();
-            int actualSubjectFromDb = subjectFromDb.Count();
+            int actualSubjectFromDb = subjectFromDb.Length;
 
             // Assert
             Assert.AreEqual(expectedSubjectInDB, actualSubjectFromDb);

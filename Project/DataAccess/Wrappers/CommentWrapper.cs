@@ -17,7 +17,7 @@ namespace DataAccess.Wrappers
         /// Initializes a new instance of <see cref="CommentWrapper"/>
         /// </summary>
         /// <param name="comment">
-        /// An instance of <see cref="Entities.Comment"/> t
+        /// An instance of <see cref="Entities.Comment"/>
         /// </param>
         public CommentWrapper(Entities.Comment comment)
         {

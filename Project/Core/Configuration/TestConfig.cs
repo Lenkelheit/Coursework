@@ -11,7 +11,7 @@
         public static readonly bool DO_DELETE_TEST_DATABASE = false;
 
         /// <summary>
-        /// Specify test mode for DataBase
+        /// Specifies test mode for DataBase
         /// </summary>
         public static readonly Enums.DataBaseFillMode DATABASE_FILL_MODE = Enums.DataBaseFillMode.Regular;
     }

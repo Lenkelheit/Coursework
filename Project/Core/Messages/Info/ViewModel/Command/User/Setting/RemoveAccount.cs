@@ -1,7 +1,7 @@
 ﻿namespace Core.Messages.Info.ViewModel.Command.User.Setting
 {
     /// <summary>
-    /// Consists of all messages thet happen in <see cref="RemoveAccount"/> command
+    /// Consists of all messages that happen in <see cref="RemoveAccount"/> command
     /// </summary>
     public static class RemoveAccount
     {

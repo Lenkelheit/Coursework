@@ -17,6 +17,10 @@
                 <Setter Property="Background" Value="{StaticResource GrayColorBrushV1}"/>
                 <Setter Property="Foreground" Value="{StaticResource BlackBrush}"/>
             </Trigger>
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="Background" Value="{StaticResource GrayColorBrushV6}"/>
+                <Setter Property="Foreground" Value="{StaticResource WhiteBrush}"/>
+            </Trigger>
         </Style.Triggers>
     </Style>
 

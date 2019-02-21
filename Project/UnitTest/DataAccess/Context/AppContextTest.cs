@@ -323,6 +323,8 @@ namespace UnitTest.DataAccess.Context
         [TestMethod]
         public void DeletePhoto_AndPhotoLike_Cascade()
         {
+            Assert.Fail();
+
             // Arrange
             Photo photo = new Photo() { Path = "1/54/23.jpg" };
             User user = new User() { NickName = "John", Password = "1111" };
@@ -481,6 +483,7 @@ namespace UnitTest.DataAccess.Context
         public void AddPhotoCommentWithoutPhoto_Exception()
         {
             Assert.Fail();
+
             // Arrange
             Comment comment1 = new Comment() { Text = "Comment text", Date = DateTime.Now };
             Comment comment2 = new Comment() { Text = "Comment text", Date = DateTime.Now };
@@ -629,6 +632,8 @@ namespace UnitTest.DataAccess.Context
         [TestMethod]
         public void DeleteUser_AndComment_Cascade()
         {
+            Assert.Fail();
+
             // Arrange
             Photo photo1 = new Photo() { Path = "1/54/23.jpg" };
             Photo photo2 = new Photo() { Path = "1/54/24.jpg" };
@@ -667,6 +672,8 @@ namespace UnitTest.DataAccess.Context
         [TestMethod]
         public void DeleteUser_AndCommentLike_Cascade()
         {
+            Assert.Fail();
+
             // Arrange
             Photo photo1 = new Photo() { Path = "1/54/23.jpg" };
             Photo photo2 = new Photo() { Path = "1/54/24.jpg" };
@@ -714,6 +721,8 @@ namespace UnitTest.DataAccess.Context
         [TestMethod]
         public void DeleteComment_AndCommentLike_Cascade()
         {
+            Assert.Fail();
+
             // Arrange
             Photo photo1 = new Photo() { Path = "1/54/23.jpg" };
             Photo photo2 = new Photo() { Path = "1/54/24.jpg" };
@@ -751,6 +760,8 @@ namespace UnitTest.DataAccess.Context
         [TestMethod]
         public void DeletePhoto_AndComment_Cascade()
         {
+            Assert.Fail();
+
             // Arrange
             Photo photo1 = new Photo() { Path = "1/54/23.jpg" };
             Photo photo2 = new Photo() { Path = "1/54/24.jpg" };
@@ -909,7 +920,7 @@ namespace UnitTest.DataAccess.Context
             CollectionAssert.DoesNotContain(dbContext.Users.First(u => u.NickName == user2.NickName).CommentLikes.ToArray(), commentLike);
         }
         [TestMethod]
-        public void DeleteUser_AndMesaageAndPhotoAndPhotoLikeAndCommentAndCommentLike_Cascade()
+        public void DeleteUser_AndMessageAndPhotoAndPhotoLikeAndCommentAndCommentLike_Cascade()
         {
             Assert.Fail();
 

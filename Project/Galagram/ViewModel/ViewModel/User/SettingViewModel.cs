@@ -78,7 +78,7 @@ namespace Galagram.ViewModel.ViewModel.User
             }
             set
             {
-                Logger.LogAsync(Core.LogMode.Debug, $"Gets or sets {nameof(NewNickname)}. Old value = {newNickname}, new value = {newNickname}");
+                Logger.LogAsync(Core.LogMode.Debug, $"Sets {nameof(NewNickname)}. Old value = {newNickname}, new value = {value}");
                 newNickname = value;
                 changedField.Set((int)SettingFieldChanged.Nickname, DataStorage.LoggedUser.NickName != newNickname && !string.IsNullOrWhiteSpace(newNickname));
 

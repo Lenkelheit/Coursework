@@ -60,8 +60,8 @@
 
             // validate
             bool canExecute = !string.IsNullOrWhiteSpace(commentText);
-            canExecute &= Core.Configuration.DBConfig.COMMENT_TEXT_MIN_LENGTH < commentText.Length;
-            canExecute &= Core.Configuration.DBConfig.COMMENT_TEXT_MAX_LENGTH > commentText.Length;
+            canExecute &= Core.Configuration.DBConfig.COMMENT_TEXT_MIN_LENGTH <= commentText.Length;
+            canExecute &= Core.Configuration.DBConfig.COMMENT_TEXT_MAX_LENGTH >= commentText.Length;
 
             Core.Logger.GetLogger.LogAsync(Core.LogMode.Info, $"{nameof(canExecute)} value = {canExecute}");
 

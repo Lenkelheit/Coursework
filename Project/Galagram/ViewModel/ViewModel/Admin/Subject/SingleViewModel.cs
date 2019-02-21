@@ -25,7 +25,7 @@ namespace Galagram.ViewModel.ViewModel.Admin.Subject
         /// <param name="isEditingEnabled">
         /// Determines is editing allowed
         /// </param>
-        public SingleViewModel(DataAccess.Entities.Subject subject, bool isNew, bool isEditingEnabled= true)
+        public SingleViewModel(DataAccess.Entities.Subject subject, bool isNew, bool isEditingEnabled = true)
             : base(shownEntity: subject, isWritingEnabled: isEditingEnabled)
         {
             this.isNew = isNew;

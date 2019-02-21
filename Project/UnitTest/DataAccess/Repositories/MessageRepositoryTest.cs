@@ -125,7 +125,7 @@ namespace UnitTest.DataAccess.Repositories
 
             // Act
             Message[] messageFromDB = messageRepository.Get(orderBy: message => message.OrderBy(m => m.Date.Day)).ToArray();
-            int actualUserInDb = messageFromDB.Count();
+            int actualUserInDb = messageFromDB.Length;
 
             // Assert
             Assert.AreEqual(expectedMessage, actualUserInDb);
