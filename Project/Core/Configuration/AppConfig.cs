@@ -76,10 +76,10 @@ namespace Core.Configuration
         /// <summary>
         /// A path to saved photos.
         /// <para/>
-        /// ImageFolder/UserIdFolder/imageId.jpg
+        /// ImageFolder/UserIdFolder/image.jpg
         /// <para/>
         /// {0} — user id   <para/>
-        /// {1} — photo id  <para/>
+        /// {1} — photo name  <para/>
         /// {2} — extension with . <para/>
         /// </summary>
         public static readonly string PHOTOS_SAVE_PATH_FORMAT = string.Join(DIRECTORY_SEPARATOR_STR, PHOTOS_SAVE_FOLDER, "{0}", "{1}{2}");
