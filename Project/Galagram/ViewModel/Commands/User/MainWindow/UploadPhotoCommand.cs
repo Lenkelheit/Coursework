@@ -59,17 +59,20 @@ namespace Galagram.ViewModel.Commands.User.MainWindow
             if (photoNames != null)
             {
                 Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, "Adding photo");
-
-                int insertedPhotoCount = 0; // cuz Count() do not change after insert, needs for multiple photos adding
-                foreach (var photoPath in photoNames)
+                
+                foreach (string photoPath in photoNames)
                 {
                     Core.Logger.GetLogger.LogAsync(Core.LogMode.Info, $"Photo path {photoPath}");
-                    // copy photo to server
-                    string serverPath = CopyPhotoToServer(
-                        pathToPhoto: photoPath,
-                        userId: mainWindowViewModel.DataStorage.LoggedUser.Id,
-                        photoId: mainWindowViewModel.UnitOfWork.PhotoRepository.Count() + 1 + insertedPhotoCount);
+
+                    // get random free photo name
+                    string serverPath = GetRandomFreeName(mainWindowViewModel.DataStorage.LoggedUser.Id.ToString(), photoPath);
                     Core.Logger.GetLogger.LogAsync(Core.LogMode.Info, $"Server photo path {serverPath}");
+
+                    // copy photo to server
+                    Core.Logger.GetLogger.LogAsync(Core.LogMode.Info, "Copy photo to server");
+                    CopyPhotoToServer(userId: mainWindowViewModel.DataStorage.LoggedUser.Id.ToString(),
+                                      pathToPhoto: photoPath,
+                                      serverPath: serverPath);
 
                     // create photo
                     DataAccess.Entities.Photo photo = new DataAccess.Entities.Photo
@@ -88,7 +91,6 @@ namespace Galagram.ViewModel.Commands.User.MainWindow
                     // insert photo to DB
                     Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, "Insert photo to photo repositories");
                     mainWindowViewModel.UnitOfWork.PhotoRepository.Insert(photo);
-                    ++insertedPhotoCount;
                 }
 
                 // save to DB
@@ -104,7 +106,7 @@ namespace Galagram.ViewModel.Commands.User.MainWindow
             }
         }
 
-        private string CopyPhotoToServer(string pathToPhoto, System.Guid userId, int photoId)
+        private string CopyPhotoToServer(string userId, string pathToPhoto, string serverPath)
         {
             // create photo folder if needed
             if (!Directory.Exists(Core.Configuration.AppConfig.PHOTOS_SAVE_FOLDER))
@@ -126,8 +128,24 @@ namespace Galagram.ViewModel.Commands.User.MainWindow
             }
 
             // copy photo to server
-            string serverPath = string.Format(Core.Configuration.AppConfig.PHOTOS_SAVE_PATH_FORMAT, userId, photoId, Path.GetExtension(pathToPhoto));
             File.Copy(pathToPhoto, serverPath);
+            return serverPath;
+        }
+        private string GetRandomFreeName(string userId, string currentFilePath)
+        {
+
+            System.Random random = new System.Random();
+            string serverPath;
+            string fileExtension = Path.GetExtension(currentFilePath);
+
+            // gets random free name
+            do
+            {
+                int fileHashName = random.Next().GetHashCode();
+
+                serverPath = string.Format(Core.Configuration.AppConfig.PHOTOS_SAVE_PATH_FORMAT, userId, fileHashName, fileExtension);
+            } while (File.Exists(serverPath));
+
             return serverPath;
         }
     }

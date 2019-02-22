@@ -9,7 +9,7 @@ namespace DataAccess.Repositories
     {
         // CONSTRUCTORS
         /// <summary>
-        /// Initialize a new instance of <see cref="UserRepository"/>
+        /// Initializes a new instance of <see cref="UserRepository"/>
         /// </summary>
         /// <param name="context">Data context</param>
         public UserRepository(Context.AppContext context)
@@ -31,6 +31,7 @@ namespace DataAccess.Repositories
         public bool IsNicknameFree(string nickName)
         {
             if (string.IsNullOrWhiteSpace(nickName)) throw new System.ArgumentNullException(nameof(nickName));
+
             // return true with First occurrence
             return !dbSet.AsNoTracking().AsEnumerable().Any(user => user.NickName == nickName);
         }
