@@ -127,6 +127,13 @@
         <Setter Property="Background" Value="{StaticResource WhiteBrush}"/>
 
         <Style.Triggers>
+            <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}},
+                                           Path=DataContext.LikeValue, 
+                                           Mode=OneWay,
+                                           UpdateSourceTrigger=PropertyChanged}" Value="True">
+                <Setter Property="Background" Value="{StaticResource PinkBrush}"/>
+            </DataTrigger>
+            
             <Trigger Property="IsMouseOver" Value="True">
                 <Setter Property="Background" Value="{StaticResource PinkBrush}"/>
             </Trigger>
@@ -143,6 +150,14 @@
         <Setter Property="Background" Value="{StaticResource WhiteBrush}"/>
 
         <Style.Triggers>
+
+            <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}},
+                                           Path=DataContext.LikeValue, 
+                                           Mode=OneWay,
+                                           UpdateSourceTrigger=PropertyChanged}" Value="False">
+                <Setter Property="Background" Value="{StaticResource SilverBrush}"/>
+            </DataTrigger>
+            
             <Trigger Property="IsMouseOver" Value="True">
                 <Setter Property="Background" Value="{StaticResource SilverBrush}"/>
             </Trigger>

@@ -317,5 +317,54 @@ namespace UnitTest.DataAccess.Repositories
             Assert.AreEqual(expectedPhotoLikeFromDb, actualPhotoLikeFromDb);
         }
         #endregion
+        // HAS LIKED
+        #region HAS LIKED
+        [TestMethod]
+        public void HasLiked_Liked_ReturnTrue()
+        {
+            // Arrange
+            PhotoLikeRepository photoLikeRepository = new PhotoLikeRepository(dbContext);
+            User defaultUser = dbFiller.FirstUser;
+            Photo photoToCheck = dbContext.Photos.First();
+            bool? expectedHasLiked = true;
+
+            // Act
+            bool? actualHasLiked = photoLikeRepository.HasLiked(photoToCheck, defaultUser);
+
+            // Assert
+            Assert.AreEqual(expectedHasLiked, actualHasLiked);
+        }
+        [TestMethod]
+        public void HasLiked_Disliked_ReturnFalse()
+        {
+            // Arrange
+            PhotoLikeRepository photoLikeRepository = new PhotoLikeRepository(dbContext);
+            User defaultUser = dbContext.Users.First(u => u.NickName == dbFiller.UserDisliked);
+            Photo photoToCheck = dbContext.Photos.First();
+            bool? expectedHasLiked = false;
+
+            // Act
+            bool? actualHasLiked = photoLikeRepository.HasLiked(photoToCheck, defaultUser);
+
+            // Assert
+            Assert.AreEqual(expectedHasLiked, actualHasLiked);
+        }
+
+        [TestMethod]
+        public void HasLiked_NotFound_ReturnNull()
+        {
+            // Arrange
+            PhotoLikeRepository photoLikeRepository = new PhotoLikeRepository(dbContext);
+            User userThatHasNoLiked = dbContext.Users.First(u => u.NickName == dbFiller.UserWithoutPhotoLike);
+            Photo photoToCheck = dbContext.Photos.First();
+            bool? expectedHasLiked = null;
+
+            // Act
+            bool? actualHasLiked = photoLikeRepository.HasLiked(photoToCheck, userThatHasNoLiked);
+
+            // Assert
+            Assert.AreEqual(expectedHasLiked, actualHasLiked);
+        }
+        #endregion
     }
 }

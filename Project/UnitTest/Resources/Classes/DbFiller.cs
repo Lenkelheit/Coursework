@@ -31,6 +31,7 @@ namespace UnitTest.Resources.Classes
 
         int photoLikeAmount;
         int photoLikeAmountWithLike;
+        string userDisliked;
         string userWithoutPhotoLike;        
 
         int commentAmount;
@@ -78,6 +79,7 @@ namespace UnitTest.Resources.Classes
 
             photoLikeAmount = 0;
             photoLikeAmountWithLike = 0;
+            userDisliked = string.Empty;
             userWithoutPhotoLike = string.Empty;
 
             commentAmount = 0;
@@ -115,6 +117,7 @@ namespace UnitTest.Resources.Classes
 
         public int PhotoLikeAmount => photoLikeAmount;
         public int PhotoLikeAmountWithLike => photoLikeAmountWithLike;
+        public string UserDisliked => userDisliked;
         public string UserWithoutPhotoLike => userWithoutPhotoLike;
 
         public int CommentAmount => commentAmount;
@@ -271,6 +274,7 @@ namespace UnitTest.Resources.Classes
             // 13
             // no likes
 
+            userDisliked = user2.NickName;
             photoLikeAmount = 27;
             photoLikeAmountWithLike = 18;
             userWithoutPhotoLike = user5.NickName;
@@ -556,6 +560,7 @@ namespace UnitTest.Resources.Classes
                 if (isLiked) ++photoLikeAmountWithLike;
             }
 
+            userDisliked = photoLikes.First(l => !l.IsLiked).User.NickName;
             photoLikeAmount = likesAmount;
             userWithoutPhotoLike = users.Last().NickName;
             #endregion
@@ -703,6 +708,7 @@ namespace UnitTest.Resources.Classes
 
             photoLikeAmount = 0;
             photoLikeAmountWithLike = 0;
+            userDisliked = string.Empty;
             userWithoutPhotoLike = string.Empty;
 
             commentAmount = 0;

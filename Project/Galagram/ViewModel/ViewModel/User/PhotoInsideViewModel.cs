@@ -20,6 +20,7 @@ namespace Galagram.ViewModel.ViewModel.User
         string commentText;
 
         DataAccess.Structs.LikeDislikeAmount likeDislikeAmount;
+        bool? likeValue;
 
         readonly ICommand likePhotoCommand;
         readonly ICommand likeCommentCommand;
@@ -37,6 +38,7 @@ namespace Galagram.ViewModel.ViewModel.User
             this.commentText = string.Empty;
 
             this.likeDislikeAmount = UnitOfWork.PhotoRepository.GetLikeDislikeAmount(photo);
+            this.likeValue = UnitOfWork.PhotoLikeRepository.HasLiked(photo, Services.DataStorage.Instance.LoggedUser);
 
             this.likePhotoCommand = new Commands.User.PhotoInside.LikePhotoCommand(this);
             this.likeCommentCommand = new Commands.User.PhotoInside.LikeCommentCommand(this);
@@ -131,6 +133,25 @@ namespace Galagram.ViewModel.ViewModel.User
                 commentText = value;
 
                 OnPropertyChanged();
+            }
+        }
+        /// <summary>
+        /// Gets or sets value that determines if user liked current photo
+        /// </summary>
+        public bool? LikeValue
+        {
+            get
+            {
+                Logger.LogAsync(Core.LogMode.Debug | Core.LogMode.Info, $"Get {nameof(LikeValue)} with value = {likeValue}");
+
+                return likeValue;
+            }
+            set
+            {
+                Logger.LogAsync(Core.LogMode.Debug, $"Sets {nameof(LikeValue)}");
+                Logger.LogAsync(Core.LogMode.Info, $"{nameof(LikeValue)}. Old value = {likeValue}, new value = {value}");
+
+                SetProperty(ref likeValue, value);
             }
         }
 
