@@ -6,7 +6,8 @@
         <Image Style="{DynamicResource PhotoImage}"
                Cursor="Hand">
             <Image.Source>
-                <Binding Path="Path" >
+                <Binding Path="Path"
+                         Converter="{StaticResource ImageConverter}">
                     <Binding.FallbackValue>
                         <ImageSource>/Resources/OtherImg/NoPhoto.png</ImageSource>
                     </Binding.FallbackValue>

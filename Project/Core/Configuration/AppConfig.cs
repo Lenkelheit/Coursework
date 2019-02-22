@@ -18,7 +18,10 @@ namespace Core.Configuration
 
         // FOLDER CONFIG
         #region FOLDER CONFIG
-        internal static readonly string DIRECTORY_SEPARATOR_STR = System.IO.Path.DirectorySeparatorChar.ToString();
+        /// <summary>
+        /// A directory separator depending on environment
+        /// </summary>
+        public static readonly string DIRECTORY_SEPARATOR_STR = Path.DirectorySeparatorChar.ToString();
         /// <summary>
         /// A path to executing file.
         /// </summary>

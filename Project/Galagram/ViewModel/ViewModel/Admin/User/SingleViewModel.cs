@@ -10,6 +10,7 @@ namespace Galagram.ViewModel.ViewModel.Admin.User
     {
         // FIELDS
         string realNickname;
+        string realAvatarPath;
 
         DataAccess.Wrappers.PhotoWrapper[] photos;
         int selectedPhotoIndex;
@@ -36,7 +37,8 @@ namespace Galagram.ViewModel.ViewModel.Admin.User
         public SingleViewModel(DataAccess.Entities.User user, bool isEditingEnabled)
             : base(shownEntity: user, isWritingEnabled: isEditingEnabled)
         {
-            realNickname = user.NickName;
+            this.realNickname = user.NickName;
+            this.realAvatarPath = user.MainPhotoPath;
 
             this.photos = user.Photos.Select(photo => new DataAccess.Wrappers.PhotoWrapper(photo)).ToArray();
             this.selectedPhotoIndex = Core.Configuration.Constants.WRONG_INDEX;
@@ -50,30 +52,47 @@ namespace Galagram.ViewModel.ViewModel.Admin.User
 
             this.showPhotoCommand = new Commands.RelayCommand(NavigateToPhoto);
 
-            this.deleteOrUpdateCommand = isEditingEnabled ? (ICommand)new Commands.Admin.MultipleCommand(new ICommand[]
-                                                            { new Commands.Admin.User.Single.ValidateCommand(this), new Commands.Admin.UpdateCommand() })
-                                                          : (ICommand)new Commands.Admin.DeleteCommand();
+            this.deleteOrUpdateCommand = isEditingEnabled ? (ICommand)new Commands.MultipleCommand(new CommandBase[]
+                                                            {
+                                                                new Commands.Admin.User.Single.ValidateCommand(this),
+                                                                new Commands.Admin.UpdateCommand()
+                                                            })
+                                                          : (ICommand)new Commands.MultipleCommand(new CommandBase[]
+                                                            {
+                                                                new Commands.Admin.DeleteCommand(),
+                                                                new Commands.Shared.DeletePhotoFolderCommand(((DataAccess.Entities.User)ShownEntity).Id.ToString()),
+                                                                new Commands.Shared.DeleteAvatarFromServerCommand(((DataAccess.Entities.User)ShownEntity).MainPhotoPath)
+                                                            });
 
             Logger.LogAsync(Core.LogMode.Debug, $"Initializes {nameof(SingleViewModel)}");
         }
 
         // PROPERTIES
         /// <summary>
-        /// Gets or sets user's real nickname
+        /// Gets user's real nickname
         /// </summary>
         public string RealNickname
         {
             get
             {
-                Logger.LogAsync(Core.LogMode.Debug, $"Gets {nameof(RealNickname)} with value = {realNickname}");
+                Logger.LogAsync(Core.LogMode.Debug | Core.LogMode.Info, $"Gets {nameof(RealNickname)} with value = {realNickname}");
+
                 return realNickname;
             }
-            set
+        }
+        /// <summary>
+        /// Gets original avatar path
+        /// </summary>
+        public string RealAvatarPath
+        {
+            get
             {
-                Logger.LogAsync(Core.LogMode.Debug, $"Sets {nameof(RealNickname)}. Old value = {realNickname}, new value = {value}");
-                realNickname = value;
+                Logger.LogAsync(Core.LogMode.Debug | Core.LogMode.Info, $"Gets {nameof(RealAvatarPath)} with value = {realAvatarPath}");
+
+                return realAvatarPath;
             }
         }
+
         /// <summary>
         /// Gets or sets selected photo index
         /// </summary>

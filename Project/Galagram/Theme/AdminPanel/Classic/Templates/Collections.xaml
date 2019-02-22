@@ -133,7 +133,8 @@
             <!--CONTENT-->
             <Image Width="50" Height="50" Grid.Row="0" Margin="0, 5, 0, 0">
                 <Image.Source>
-                    <Binding Path="Photo.Path">
+                    <Binding Path="Photo.Path"
+                             Converter="{StaticResource ImageConverter}">
                         <Binding.TargetNullValue>
                             <ImageSource>/Resources/OtherImg/NoPhoto.png</ImageSource>
                         </Binding.TargetNullValue>

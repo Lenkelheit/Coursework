@@ -10,10 +10,10 @@ namespace Galagram.ViewModel.ViewModel.Admin
         // FIELDS
         DataAccess.Interfaces.IEntity selectedEntity;
 
-        ICommand deleteCommand;
+        internal ICommand deleteCommand;
 
-        ICommand resetFilterCommand;
-        ICommand setFilterCommand;
+        internal ICommand resetFilterCommand;
+        internal ICommand setFilterCommand;
 
         // CONSTRUCTORS
         /// <summary>
@@ -72,7 +72,7 @@ namespace Galagram.ViewModel.ViewModel.Admin
         /// <summary>
         /// Return command to opens view with deleting entity
         /// </summary>
-        public ICommand DeleteCommand
+        public virtual ICommand DeleteCommand
         {
             get
             {

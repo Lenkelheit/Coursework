@@ -35,8 +35,11 @@ namespace Galagram.ViewModel.ViewModel.Admin.Comments
             this.disLikedUserNickname = groupedByLike[false].ToArray();
 
             // commands
-            deleteOrUpdateCommand = isEditingEnabled ? (ICommand)new Commands.Admin.MultipleCommand(new ICommand[]
-                                                        { new Commands.Admin.Comment.Single.ValidateCommand(this), new Commands.Admin.UpdateCommand() })
+            deleteOrUpdateCommand = isEditingEnabled ? (ICommand)new Commands.MultipleCommand(new CommandBase[]
+                                                        {
+                                                            new Commands.Admin.Comment.Single.ValidateCommand(this),
+                                                            new Commands.Admin.UpdateCommand()
+                                                        })
                                                      : (ICommand)new Commands.Admin.DeleteCommand(); 
         }
 
