@@ -41,19 +41,21 @@
                        Content="Photo"
                        Style="{StaticResource ItemLabel_Admin}"/>
         <WrapPanel Grid.Row="2" Grid.Column="1"  HorizontalAlignment="Center">
-            <Image Width="50" Height="50">
-                <Image.Source>
-                    <Binding Path="ShownEntity.Path"
+            <Border Background="{StaticResource SilverBrush}">
+                <Image Width="50" Height="50">
+                    <Image.Source>
+                        <Binding Path="ShownEntity.Path"
                              Converter="{StaticResource ImageConverter}">
-                        <Binding.TargetNullValue>
-                            <ImageSource>/Resources/OtherImg/NoPhoto.png</ImageSource>
-                        </Binding.TargetNullValue>
-                        <Binding.FallbackValue>
-                            <ImageSource>/Resources/OtherImg/NoPhoto.png</ImageSource>
-                        </Binding.FallbackValue>
-                    </Binding>
-                </Image.Source>
-            </Image>
+                            <Binding.TargetNullValue>
+                                <ImageSource>/Resources/OtherImg/NoPhoto.png</ImageSource>
+                            </Binding.TargetNullValue>
+                            <Binding.FallbackValue>
+                                <ImageSource>/Resources/OtherImg/NoPhoto.png</ImageSource>
+                            </Binding.FallbackValue>
+                        </Binding>
+                    </Image.Source>
+                </Image>
+            </Border>
 
             <!--
             <Button Style="{StaticResource AdminInterfaceButton}" 
