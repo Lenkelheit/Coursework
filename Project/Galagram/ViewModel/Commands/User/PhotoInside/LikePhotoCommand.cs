@@ -79,6 +79,9 @@
                 Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, "Update View");
                 if (isLike) ++photoInsideViewModel.LikeDislikeAmount.LikesAmount;
                 else        ++photoInsideViewModel.LikeDislikeAmount.DisLikesAmount;
+
+                // liked
+                photoInsideViewModel.LikeValue = isLike;
             }
             else// 2. there is a like
             {
@@ -95,6 +98,9 @@
                     Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, "Update View");
                     if (isLike) --photoInsideViewModel.LikeDislikeAmount.LikesAmount;
                     else        --photoInsideViewModel.LikeDislikeAmount.DisLikesAmount;
+
+                    // same button, remove
+                    photoInsideViewModel.LikeValue = null;
                 }
                 else// 2.2 toggle dislike to like
                 {
@@ -117,6 +123,9 @@
                         --photoInsideViewModel.LikeDislikeAmount.LikesAmount;
                         ++photoInsideViewModel.LikeDislikeAmount.DisLikesAmount;
                     }
+
+                    // toggle like
+                    photoInsideViewModel.LikeValue = isLike;
                 }
             }
 
