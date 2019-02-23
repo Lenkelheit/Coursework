@@ -280,19 +280,19 @@ namespace Galagram.ViewModel.ViewModel.User
         {
             if (string.IsNullOrWhiteSpace(this.newNickname))
             {
-                WindowManager.ShowMessageWindow(Core.Messages.Info.ViewModel.Command.Registration.NICKNAME_EMPTY);
+                WindowManager.ShowMessageWindow(Core.Messages.Info.ViewModel.NICKNAME_EMPTY);
                 Logger.LogAsync(Core.LogMode.Debug, $"User can not change nickname, because his nickname is empty");
                 return false;
             }
             if (this.newNickname.Length < Core.Configuration.DBConfig.NICKNAME_MIN_LENGTH)
             {
-                WindowManager.ShowMessageWindow(Core.Messages.Info.ViewModel.Command.Registration.NICKNAME_TOO_SHORT);
+                WindowManager.ShowMessageWindow(Core.Messages.Info.ViewModel.NICKNAME_TOO_SHORT);
                 Logger.LogAsync(Core.LogMode.Debug, $"User can not change nickname, because his nickname is too short {this.newNickname.Length}");
                 return false;
             }
             if (this.newNickname.Length > Core.Configuration.DBConfig.NICKNAME_MAX_LENGTH)
             {
-                WindowManager.ShowMessageWindow(Core.Messages.Info.ViewModel.Command.Registration.NICKNAME_TOO_LONG);
+                WindowManager.ShowMessageWindow(Core.Messages.Info.ViewModel.NICKNAME_TOO_LONG);
                 Logger.LogAsync(Core.LogMode.Debug, $"User can not change nickname, because his nickname is too long {this.newNickname.Length}");
                 return false;
             }
@@ -308,20 +308,20 @@ namespace Galagram.ViewModel.ViewModel.User
         {
             if (string.IsNullOrWhiteSpace(this.newPassword))
             {
-                WindowManager.ShowMessageWindow(Core.Messages.Info.ViewModel.Command.Registration.PASSWORD_EMPTY);
+                WindowManager.ShowMessageWindow(Core.Messages.Info.ViewModel.PASSWORD_EMPTY);
                 Logger.LogAsync(Core.LogMode.Debug, $"User can not change password, because his password is empty");
                 return false;
             }
 
             if (this.newPassword.Length < Core.Configuration.DBConfig.PASSWORD_MIN_LENGTH)
             {
-                WindowManager.ShowMessageWindow(Core.Messages.Info.ViewModel.Command.Registration.PASSWORD_TOO_SHORT);
+                WindowManager.ShowMessageWindow(Core.Messages.Info.ViewModel.PASSWORD_TOO_SHORT);
                 Logger.LogAsync(Core.LogMode.Debug, $"User can not change password, because his password is too short {this.newPassword.Length}");
                 return false;
             }
             if (this.newPassword.Length > Core.Configuration.DBConfig.PASSWORD_MAX_LENGTH)
             {
-                WindowManager.ShowMessageWindow(Core.Messages.Info.ViewModel.Command.Registration.PASSWORD_TOO_LONG);
+                WindowManager.ShowMessageWindow(Core.Messages.Info.ViewModel.PASSWORD_TOO_LONG);
                 Logger.LogAsync(Core.LogMode.Debug, $"User can not change password, because his password is too long {this.newPassword.Length}");
                 return false;
             }

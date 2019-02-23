@@ -3,12 +3,12 @@
 namespace Galagram.ViewModel.Commands.Admin
 {
     /// <summary>
-    /// Update an instance of the entity
+    /// Updates an instance of the entity
     /// </summary>
     public class UpdateCommand : CommandBase
     {
         /// <summary>
-        /// Check if command can be executed
+        /// Checks if command can be executed
         /// </summary>
         /// <param name="parameter">
         /// Additionals parameters
@@ -24,7 +24,7 @@ namespace Galagram.ViewModel.Commands.Admin
         }
 
         /// <summary>
-        /// Execute the command
+        /// Executes the command
         /// </summary>
         /// <param name="parameter">
         /// Command parameter

@@ -48,7 +48,7 @@
             // field changed and changes has not been saved
             if (settingViewModel.DoesFieldChanged())
             {
-                if (Services.WindowManager.Instance.ShowMessageWindow(Core.Messages.Info.ViewModel.Command.User.Setting.Close.UNSAVED_CHANGES_MESSAGE,
+                if (Services.WindowManager.Instance.ShowMessageWindow(Core.Messages.Info.ViewModel.UNSAVED_CHANGES_MESSAGE,
                     Core.Messages.Info.MessageBoxHeader.WARNING,
                     Window.Enums.MessageBoxButton.YesNo) == false)
                 {

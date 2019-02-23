@@ -1,7 +1,7 @@
 ﻿namespace Core.Messages.Info
 {
     /// <summary>
-    /// Consists of all messages happen in Admin Panel
+    /// Consists of all messages happened in Admin Panel
     /// </summary>
     public static class Admin
     {

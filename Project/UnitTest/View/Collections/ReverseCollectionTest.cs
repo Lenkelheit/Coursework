@@ -375,6 +375,8 @@ namespace UnitTest.View.Collections
             Assert.AreEqual(expectedItemIndex, actualItemIndex);
         }
         #endregion
+        // COPY TO
+        #region COPY TO
         [TestMethod]
         public void CopyTo_FromStart()
         {
@@ -391,8 +393,6 @@ namespace UnitTest.View.Collections
             // Assert
             CollectionAssert.AreEqual(reversedArray, copyArray);
         }
-        // COPY TO
-        #region COPY TO
         [TestMethod]
         public void CopyTo_ToMiddle()
         {

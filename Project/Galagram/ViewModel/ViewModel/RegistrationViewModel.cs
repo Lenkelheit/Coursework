@@ -97,37 +97,37 @@ namespace Galagram.ViewModel.ViewModel
         {
             if (string.IsNullOrWhiteSpace(this.nickname))
             {
-                WindowManager.ShowMessageWindow(Core.Messages.Info.ViewModel.Command.Registration.NICKNAME_EMPTY);
+                WindowManager.ShowMessageWindow(Core.Messages.Info.ViewModel.NICKNAME_EMPTY);
                 Logger.LogAsync(Core.LogMode.Debug, $"User can not sign up or log in, because his nickname is empty");
                 return false;
             }
             if (string.IsNullOrWhiteSpace(this.password))
             {
-                WindowManager.ShowMessageWindow(Core.Messages.Info.ViewModel.Command.Registration.PASSWORD_EMPTY);
+                WindowManager.ShowMessageWindow(Core.Messages.Info.ViewModel.PASSWORD_EMPTY);
                 Logger.LogAsync(Core.LogMode.Debug, $"User can not sign up or log in, because his password is empty");
                 return false;
             }
             if (this.nickname.Length < Core.Configuration.DBConfig.NICKNAME_MIN_LENGTH)
             {
-                WindowManager.ShowMessageWindow(Core.Messages.Info.ViewModel.Command.Registration.NICKNAME_TOO_SHORT);
+                WindowManager.ShowMessageWindow(Core.Messages.Info.ViewModel.NICKNAME_TOO_SHORT);
                 Logger.LogAsync(Core.LogMode.Debug, $"User can not sign up or log in, because his nickname is too short {this.nickname.Length}");
                 return false;
             }
             if (this.nickname.Length > Core.Configuration.DBConfig.NICKNAME_MAX_LENGTH)
             {
-                WindowManager.ShowMessageWindow(Core.Messages.Info.ViewModel.Command.Registration.NICKNAME_TOO_LONG);
+                WindowManager.ShowMessageWindow(Core.Messages.Info.ViewModel.NICKNAME_TOO_LONG);
                 Logger.LogAsync(Core.LogMode.Debug, $"User can not sign up or log in, because his nickname is too long {this.nickname.Length}");
                 return false;
             }
             if (this.password.Length < Core.Configuration.DBConfig.PASSWORD_MIN_LENGTH)
             {
-                WindowManager.ShowMessageWindow(Core.Messages.Info.ViewModel.Command.Registration.PASSWORD_TOO_SHORT);
+                WindowManager.ShowMessageWindow(Core.Messages.Info.ViewModel.PASSWORD_TOO_SHORT);
                 Logger.LogAsync(Core.LogMode.Debug, $"User can not sign up or log in, because his password is too short {this.password.Length}");
                 return false;
             }
             if (this.password.Length > Core.Configuration.DBConfig.PASSWORD_MAX_LENGTH)
             {
-                WindowManager.ShowMessageWindow(Core.Messages.Info.ViewModel.Command.Registration.PASSWORD_TOO_LONG);
+                WindowManager.ShowMessageWindow(Core.Messages.Info.ViewModel.PASSWORD_TOO_LONG);
                 Logger.LogAsync(Core.LogMode.Debug, $"User can not sign up or log in, because his password is too long {this.password.Length}");
                 return false;
             }

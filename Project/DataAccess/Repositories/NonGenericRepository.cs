@@ -16,7 +16,7 @@ namespace DataAccess.Repositories
 
         // CONSTRUCTORS
         /// <summary>
-        /// Initialize a new instance of <see cref="NonGenericRepository"/>
+        /// Initializes a new instance of <see cref="NonGenericRepository"/>
         /// </summary>
         /// <param name="context">
         /// Data context
@@ -42,7 +42,7 @@ namespace DataAccess.Repositories
         }
 
         /// <summary>
-        /// Counts records in data set which satisfy the condition
+        /// Not implemented behaviour
         /// </summary>
         /// <param name="predicate">The condition by which record should be count</param>
         /// <returns>Returns the amount of records in data set which satisfy the condition</returns>
@@ -71,7 +71,7 @@ namespace DataAccess.Repositories
         }
 
         /// <summary>
-        /// Gets data from data base
+        /// Not implemented behaviour
         /// </summary>
         /// <param name="filter">Filter for data</param>
         /// <param name="orderBy">The order of the received items</param>

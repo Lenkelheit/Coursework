@@ -10,7 +10,7 @@
 
         // CONSTRUCTORS
         /// <summary>
-        /// Initialize a new instance of <see cref="CreateUpdateCommand"/>
+        /// Initializes a new instance of <see cref="CreateUpdateCommand"/>
         /// </summary>
         /// <param name="subjectSingleViewModel">
         /// An instance of <see cref="ViewModel.Admin.Subject.SingleViewModel"/>
@@ -22,7 +22,7 @@
 
         // METHODS
         /// <summary>
-        /// Check if command can be executed
+        /// Checks if command can be executed
         /// </summary>
         /// <param name="parameter">
         /// Additionals parameters
@@ -38,7 +38,7 @@
         }
 
         /// <summary>
-        /// Execute the command
+        /// Executes the command
         /// </summary>
         /// <param name="parameter">
         /// Command parameter

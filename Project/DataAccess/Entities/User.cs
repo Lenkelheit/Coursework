@@ -72,7 +72,7 @@ namespace DataAccess.Entities
         /// </summary>
         public bool IsAdmin { get; set; }
         /// <summary>
-        /// Defines is current user is blocked by admin
+        /// Defines is current user blocked by admin
         /// </summary>
         public bool IsBlocked { get; set; }
 

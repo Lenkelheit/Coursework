@@ -3,7 +3,7 @@
     /// <summary>
     /// Consists of all configuration needed in unit test
     /// </summary>
-    public class TestConfig
+    public static class TestConfig
     {
         /// <summary>
         /// Determines if need to delete test database

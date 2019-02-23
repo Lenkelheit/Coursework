@@ -52,7 +52,7 @@ namespace Galagram.ViewModel.Commands.User.Setting
             if (!settingViewModel.DoesFieldChanged())
             {
                 settingViewModel.Logger.LogAsync(Core.LogMode.Debug, "There were no changes");
-                settingViewModel.WindowManager.ShowMessageWindow(Core.Messages.Info.ViewModel.Command.User.Setting.ApplyChanges.NO_CHANGES);
+                settingViewModel.WindowManager.ShowMessageWindow(Core.Messages.Info.ViewModel.NO_CHANGES);
                 return;
             }
 
@@ -64,7 +64,7 @@ namespace Galagram.ViewModel.Commands.User.Setting
                 {
                     // do not change nickname, its occupied
                     settingViewModel.Logger.LogAsync(Core.LogMode.Info, "Nickname can not be changed");
-                    settingViewModel.WindowManager.ShowMessageWindow(Core.Messages.Info.ViewModel.Command.User.Setting.ApplyChanges.NICKNAME_IS_NOT_FREE);
+                    settingViewModel.WindowManager.ShowMessageWindow(Core.Messages.Info.ViewModel.NICKNAME_IS_NOT_FREE);
 
                     return;
                 }
@@ -79,13 +79,13 @@ namespace Galagram.ViewModel.Commands.User.Setting
             if (string.IsNullOrWhiteSpace(settingViewModel.Password))
             {
                 settingViewModel.Logger.LogAsync(Core.LogMode.Debug, "Changes can not be applied. Password is empty");
-                settingViewModel.WindowManager.ShowMessageWindow(Core.Messages.Info.ViewModel.Command.User.Setting.ApplyChanges.EMPTY_PASSWORD);
+                settingViewModel.WindowManager.ShowMessageWindow(Core.Messages.Info.ViewModel.EMPTY_PASSWORD);
                 return;
             }
             if (settingViewModel.Password != settingViewModel.DataStorage.LoggedUser.Password)
             {
                 settingViewModel.Logger.LogAsync(Core.LogMode.Debug, $"Changes can not be applied. Password is wrong. User password = {settingViewModel.DataStorage.LoggedUser.Password}, written password = {settingViewModel.Password}");
-                settingViewModel.WindowManager.ShowMessageWindow(Core.Messages.Info.ViewModel.Command.User.Setting.ApplyChanges.PASSWORD_IS_NOT_THE_SAME);
+                settingViewModel.WindowManager.ShowMessageWindow(Core.Messages.Info.ViewModel.PASSWORD_IS_NOT_THE_SAME);
                 return;
             }
             if (settingViewModel.DoesFieldChanged((int)SettingFieldChanged.Password) && !settingViewModel.IsNewPasswordValid())
@@ -178,7 +178,7 @@ namespace Galagram.ViewModel.Commands.User.Setting
             settingViewModel.ResetFields();
             
             // notify user about success
-            settingViewModel.WindowManager.ShowMessageWindow(Core.Messages.Info.ViewModel.Command.User.Setting.ApplyChanges.CHANGES_APPLIED);
+            settingViewModel.WindowManager.ShowMessageWindow(Core.Messages.Info.ViewModel.CHANGES_APPLIED);
         }
     }
 }

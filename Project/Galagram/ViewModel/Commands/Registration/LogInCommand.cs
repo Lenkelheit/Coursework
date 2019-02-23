@@ -60,7 +60,7 @@
             if (!validNameAndPasswordAndUser.ValidNameAndPassword.IsNameValid)
             {
                 // shows error message, cancel command executing
-                registrationViewModel.WindowManager.ShowMessageWindow(Core.Messages.Info.ViewModel.Command.Registration.NICKNAME_IS_WRONG);
+                registrationViewModel.WindowManager.ShowMessageWindow(Core.Messages.Info.ViewModel.NICKNAME_IS_WRONG);
                 Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, $"User can not log in, because his nickname is wrong");
                 return;
             }
@@ -68,7 +68,7 @@
             if (!validNameAndPasswordAndUser.ValidNameAndPassword.IsPasswordValid)
             {
                 // shows error message, cancel command executing
-                registrationViewModel.WindowManager.ShowMessageWindow(Core.Messages.Info.ViewModel.Command.Registration.PASSWORD_IS_WRONG);
+                registrationViewModel.WindowManager.ShowMessageWindow(Core.Messages.Info.ViewModel.PASSWORD_IS_WRONG);
                 Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, $"User can not log in, because his password is wrong");
                 return;
             }
@@ -83,7 +83,7 @@
             if (validNameAndPasswordAndUser.User.IsAdmin)
             {
                 doLogInAsAdmin = Services.WindowManager.Instance.ShowMessageWindow(
-                    text: Core.Messages.Info.ViewModel.Command.Registration.IS_NEED_LOG_IN_AS_ADMIN, 
+                    text: Core.Messages.Info.ViewModel.IS_NEED_LOG_IN_AS_ADMIN, 
                     header: string.Empty, 
                     buttonType: Window.Enums.MessageBoxButton.YesNo).Value;
             }

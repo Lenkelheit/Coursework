@@ -13,12 +13,18 @@
         /// <returns>
         /// Returns file size in bytes.
         /// </returns>
+        /// <exception cref="System.OverflowException">
+        /// Throws when returning value can not fit returning type
+        /// </exception>
         public static long GetSize(long size, Enums.FileSizeMode fileSizeMode)
         {
             long basis2to10power = 1024;
             for (Enums.FileSizeMode i = 0; i <= fileSizeMode; ++i) 
             {
-                size *= basis2to10power;
+                checked
+                {
+                    size *= basis2to10power;
+                }
             }
             return size;
         }
