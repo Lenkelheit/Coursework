@@ -76,7 +76,7 @@
 
             // notify user about succesful message sending
             Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, "Notify user about succesful message sending");
-            askQuestionViewModel.WindowManager.ShowMessageWindow(Core.Messages.Info.ViewModel.Command.User.AskQuestion.Ask.MESSAGE_SENT);
+            askQuestionViewModel.WindowManager.ShowMessageWindow(Core.Messages.Info.ViewModel.MESSAGE_SENT);
         }
     }
 }

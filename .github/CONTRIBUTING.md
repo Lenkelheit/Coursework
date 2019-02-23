@@ -1,11 +1,9 @@
 # Contents
-* [Project Configuration](#project-configuration)
 * [Project Convention](#project-convention)
 * [Log Convention](#log-convention)
 * [Test Convention](#test-convention)
 * [Github Convention](#github-convention)
 * [File Hierarchy](#file-hierarchy)
-* [Team Work](#team-work)
 * [Coding Convention](#coding-convention)
   * [General](#general)
   * [Naming](#naming)
@@ -158,6 +156,8 @@ Additional folders depend on projects.
   - comments should be clear and understandable
   - single-line comments preffered over end-line ones
   - do use comments in complex block of codes
+- Region
+  - should be uppercased
 
 #### Naming
 

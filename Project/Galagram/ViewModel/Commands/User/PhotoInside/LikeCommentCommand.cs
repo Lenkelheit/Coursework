@@ -126,10 +126,6 @@ namespace Galagram.ViewModel.Commands.User.PhotoInside
                     }
                 }
             }
-
-            // update interface, comment likes
-            Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, "Update view");
-            //commentWrapper.PropertyUpdates(nameof(Comment.Likes));
             
             // save changes to database
             Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, "Save changes to data base");

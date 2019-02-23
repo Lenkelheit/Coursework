@@ -10,7 +10,7 @@
 
         // CONSTRUCTORS
         /// <summary>
-        /// Initialize a new instance of <see cref="ValidateCommand"/>
+        /// Initializes a new instance of <see cref="ValidateCommand"/>
         /// </summary>
         /// <param name="userSingleViewModel">
         /// An instance of <see cref="ViewModel.Admin.User.SingleViewModel"/>
@@ -22,7 +22,7 @@
 
         // METHODS
         /// <summary>
-        /// Check if command can be executed
+        /// Checks if command can be executed
         /// </summary>
         /// <param name="parameter">
         /// Additionals parameters
@@ -38,7 +38,7 @@
         }
 
         /// <summary>
-        /// Execute the command
+        /// Executes the command
         /// </summary>
         /// <param name="parameter">
         /// Command parameter
@@ -70,11 +70,11 @@
             }
             else if (userSingleViewModel.RealNickname != userNickname && !userSingleViewModel.UnitOfWork.UserRepository.IsNicknameFree(userNickname)) 
             {
-                // interrupt command executing, wrong user's nickname has already been taked
+                // interrupt command executing, wrong user's nickname has already been taken
                 Core.Logger.GetLogger.LogAsync(Core.LogMode.Info, "Nickname can not be changed. It is occupied");
 
                 // show message
-                userSingleViewModel.WindowManager.ShowMessageWindow(Core.Messages.Info.ViewModel.Command.User.Setting.ApplyChanges.NICKNAME_IS_NOT_FREE);
+                userSingleViewModel.WindowManager.ShowMessageWindow(Core.Messages.Info.ViewModel.NICKNAME_IS_NOT_FREE);
 
                 // interrupt command
                 CommandState = Enums.Admin.CommandState.Interrupted;

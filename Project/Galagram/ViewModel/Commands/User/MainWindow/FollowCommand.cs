@@ -45,7 +45,7 @@
         {
             Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, $"Execute {nameof(FollowCommand)}");
 
-            Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, "Gets to shwon user followers current user");
+            Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, "Shows followers/following list to user");
 
             // follow/unfollow
             bool isFollowing = mainWindowViewModel.IsFollowing;

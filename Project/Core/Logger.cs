@@ -35,16 +35,21 @@ namespace Core
         {
             writeLock.Dispose();
         }
+
         // PROPERTIES
         /// <summary>
         /// Gets logger instance
         /// </summary>
         public static Logger GetLogger => instance;
+
         // METHODS
         /// <summary>
         /// Turns off log modes.
         /// <para/>
-        /// For multiple off modes use "|" between them, for example: <see cref="LogMode.Debug"/> | <see cref="LogMode.Info"/>.
+        /// For multiple off modes use "|" between them
+        /// <example>
+        /// <see cref="LogMode.Debug"/> | <see cref="LogMode.Info"/>
+        /// </example>
         /// </summary>
         /// <param name="logMode">The log mode(s) that will be off.</param>
         public void Off(LogMode logMode)
@@ -55,7 +60,10 @@ namespace Core
         /// <summary>
         /// Turns on log modes.
         /// <para/>
-        /// For multiple on modes use "|" between them, for example: <see cref="LogMode.Debug"/> | <see cref="LogMode.Info"/>.
+        /// For multiple on modes use "|" between them
+        /// <example>
+        /// <see cref="LogMode.Debug"/> | <see cref="LogMode.Info"/>
+        /// </example>
         /// </summary>
         /// <param name="logMode">The log mode(s) that will be on.</param>
         public void On(LogMode logMode)

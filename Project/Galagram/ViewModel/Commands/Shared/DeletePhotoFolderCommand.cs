@@ -57,7 +57,7 @@ namespace Galagram.ViewModel.Commands.Shared
         }
 
         // FIELDS
-        CommandBase baseCommand;
+        readonly CommandBase baseCommand;
 
         // CONSTRUCTORS
         /// <summary>

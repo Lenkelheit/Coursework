@@ -40,7 +40,7 @@ namespace Galagram
                 message = message.Trim();
                 if (!string.IsNullOrWhiteSpace(message))
                 {
-                    Core.Logger.GetLogger.LogAsync(Core.LogMode.DataBase, message.TrimEnd());
+                    Core.Logger.GetLogger.LogAsync(Core.LogMode.DataBase, message);
                 }
             };
             

@@ -33,7 +33,11 @@
             // You don't have to change entity if you want to go back.
             // The entity is detached after it has been created and it isn't yet in database.
             if (parameter != null && DataAccess.Context.UnitOfWork.Instance.AppContext.Entry(parameter).State != System.Data.Entity.EntityState.Detached)
+            {
+                Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, "Detach entity");
+
                 DataAccess.Context.UnitOfWork.Instance.AppContext.Entry(parameter).State = System.Data.Entity.EntityState.Unchanged;
+            }
 
             // go back to previous content with its view model
             Services.NavigationManager.Instance.NavigateToPrevious(Services.DataStorage.Instance.AdminWindowContentControl);

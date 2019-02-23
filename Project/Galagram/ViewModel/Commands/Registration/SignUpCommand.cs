@@ -54,7 +54,7 @@
 
             if (!registrationViewModel.UnitOfWork.UserRepository.IsNicknameFree(registrationViewModel.Nickname))
             {
-                registrationViewModel.WindowManager.ShowMessageWindow(Core.Messages.Info.ViewModel.Command.Registration.NICKNAME_IS_NOT_AVAILABLE);
+                registrationViewModel.WindowManager.ShowMessageWindow(Core.Messages.Info.ViewModel.NICKNAME_IS_NOT_AVAILABLE);
                 Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, $"User can not sign up, because his nickname is not available");
                 return;
             }

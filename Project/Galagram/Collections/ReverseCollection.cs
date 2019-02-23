@@ -57,11 +57,11 @@ namespace Galagram.Collections
         /// </summary>
         public bool IsReadOnly => false;
         /// <summary>
-        /// Determines whenever collection is empty
+        /// Determines whether collection is empty
         /// </summary>
         public bool IsEmpty => this.Count == 0;
 
-        // INDEXIERS        
+        // INDEXERS        
         /// <summary>
         /// Gets or sets the element at the specified index.
         /// </summary>
@@ -231,7 +231,7 @@ namespace Galagram.Collections
         /// The object to locate in the <see cref="ReverseCollection{T}"/>
         /// </param>
         /// <returns>
-        /// The index of item if found in the list; otherwise, -1.
+        /// The index of item if found in the list; otherwise — -1.
         /// </returns>
         public int IndexOf(T item)
         {

@@ -62,11 +62,7 @@
     <Compile Include="Messages\Error\ViewModel.cs" />
     <Compile Include="Messages\Info\Admin.cs" />
     <Compile Include="Messages\Info\MessageBoxHeader.cs" />
-    <Compile Include="Messages\Info\ViewModel\Command\Registration.cs" />
-    <Compile Include="Messages\Info\ViewModel\Command\User\AskQuestion\Ask.cs" />
-    <Compile Include="Messages\Info\ViewModel\Command\User\Setting\ApplyChanges.cs" />
-    <Compile Include="Messages\Info\ViewModel\Command\User\Setting\Close.cs" />
-    <Compile Include="Messages\Info\ViewModel\Command\User\Setting\RemoveAccount.cs" />
+    <Compile Include="Messages\Info\ViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />

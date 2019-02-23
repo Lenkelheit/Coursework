@@ -8,4 +8,4 @@ before_build:
 
 build:
  verbosity: quiet
- project: Project/Galagram/Galagram.csproj 
+ project: Project/Galagram.sln
