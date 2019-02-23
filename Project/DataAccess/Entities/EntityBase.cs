@@ -15,7 +15,8 @@ namespace DataAccess.Entities
         public abstract System.Guid Id { get; set; }
 
         // METHODS
-
+#warning bug #186
+        /*
         /// <summary>
         /// Determines whether the specified object is equal to the current object.
         /// </summary>
@@ -75,6 +76,7 @@ namespace DataAccess.Entities
             // all properties' values are equal, return true
             return true;
         }
+        */
         /// <summary>
         /// Gets hash code
         /// </summary>

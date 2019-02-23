@@ -63,20 +63,23 @@
                 <Label Grid.Row="2" Grid.Column="0" 
                        Content="Avatar"
                        Style="{StaticResource ItemLabel_Admin}"/>
-                <WrapPanel Grid.Row="2" Grid.Column="1"  HorizontalAlignment="Center">
-                    <Image Width="50" Height="50">
-                        <Image.Source>
-                            <Binding Path="ShownEntity.MainPhotoPath"
-                                     Converter="{StaticResource ImageConverter}">
-                                <Binding.TargetNullValue>
-                                    <ImageSource>/Resources/OtherImg/NoAvatar.png</ImageSource>
-                                </Binding.TargetNullValue>
-                                <Binding.FallbackValue>
-                                    <ImageSource>/Resources/OtherImg/NoAvatar.png</ImageSource>
-                                </Binding.FallbackValue>
-                            </Binding>
-                        </Image.Source>
-                    </Image>
+                <WrapPanel Grid.Row="2" Grid.Column="1"
+                           HorizontalAlignment="Center">
+                    <Border Background="{StaticResource SilverBrush}">
+                        <Image Width="50" Height="50">
+                            <Image.Source>
+                                <Binding Path="ShownEntity.MainPhotoPath"
+                                         Converter="{StaticResource ImageConverter}">
+                                    <Binding.TargetNullValue>
+                                        <ImageSource>/Resources/OtherImg/NoAvatar.png</ImageSource>
+                                    </Binding.TargetNullValue>
+                                    <Binding.FallbackValue>
+                                        <ImageSource>/Resources/OtherImg/NoAvatar.png</ImageSource>
+                                    </Binding.FallbackValue>
+                                </Binding>
+                            </Image.Source>
+                        </Image>
+                    </Border>
 
                     <!--<Button Style="{StaticResource AdminInterfaceButton}"  Content="select new" Width="100" />-->
                     <Button Style="{StaticResource AdminInterfaceButton}" Width="100"

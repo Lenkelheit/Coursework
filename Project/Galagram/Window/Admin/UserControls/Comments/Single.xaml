@@ -56,20 +56,21 @@
                        Content="Photo"
                        Style="{StaticResource ItemLabel_Admin}"/>
                 <WrapPanel Grid.Row="2" Grid.Column="1"  
-                           HorizontalAlignment="Center"
-                           Background="{StaticResource SilverBrush}">
-                    <Image Width="50" Height="50">
-                        <Image.Source>
-                            <Binding Path="ShownEntity.Photo.Path">
-                                <Binding.TargetNullValue>
-                                    <ImageSource>/Resources/OtherImg/NoPhoto.png</ImageSource>
-                                </Binding.TargetNullValue>
-                                <Binding.FallbackValue>
-                                    <ImageSource>/Resources/OtherImg/NoPhoto.png</ImageSource>
-                                </Binding.FallbackValue>
-                            </Binding>
-                        </Image.Source>
-                    </Image>
+                           HorizontalAlignment="Center">
+                    <Border Background="{StaticResource SilverBrush}">
+                        <Image Width="50" Height="50">
+                            <Image.Source>
+                                <Binding Path="ShownEntity.Photo.Path">
+                                    <Binding.TargetNullValue>
+                                        <ImageSource>/Resources/OtherImg/NoPhoto.png</ImageSource>
+                                    </Binding.TargetNullValue>
+                                    <Binding.FallbackValue>
+                                        <ImageSource>/Resources/OtherImg/NoPhoto.png</ImageSource>
+                                    </Binding.FallbackValue>
+                                </Binding>
+                            </Image.Source>
+                        </Image>
+                    </Border>
                 </WrapPanel>
                 <!--DATE-->
                 <Label Grid.Row="3" Grid.Column="0" 
