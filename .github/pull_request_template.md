@@ -2,7 +2,6 @@
 
 Please include a summary of the change and which issue is fixed. 
 Please also include relevant motivation and context. 
-Please delete paragraphs that are not relevant.
 
 #### Fixes # (issues)
 
@@ -29,6 +28,6 @@ Please delete paragraphs that are not relevant.
 
 If you have change design fill in this part
 
-### A picture of design before pull request
+|A picture of design before pull request|A picture of design after pull request|
+|:-------------------------------------:|:------------------------------------:|
 
-### A picture of design after pull request
