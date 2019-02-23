@@ -1,0 +1,117 @@
+﻿<UserControl x:Class="Galagram.Window.Admin.UserControls.Photo.Single"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Galagram.Window.Admin.UserControls.Photo"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="50"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+
+        <!--ID-->
+        <Label Grid.Row="0" Grid.Column="0" 
+                       Content="Photo ID"
+                       Style="{StaticResource ItemLabel_Admin}"/>
+        <TextBox Grid.Row="0" Grid.Column="1" 
+                 Text="{Binding ShownEntity.Id}"
+                 IsReadOnly="True"
+                 Style="{StaticResource ItemTextBox_Admin}"/>
+        <!--AUTHOR-->
+        <Label Grid.Row="1" Grid.Column="0" 
+                       Content="Author"
+                       Style="{StaticResource ItemLabel_Admin}"/>
+        <TextBox Grid.Row="1" Grid.Column="1" 
+                 Text="{Binding ShownEntity.User.NickName}"
+                 IsReadOnly="True"
+                 Style="{StaticResource ItemTextBox_Admin}"/>
+        <!--PHOTO-->
+        <Label Grid.Row="2" Grid.Column="0" 
+                       Content="Photo"
+                       Style="{StaticResource ItemLabel_Admin}"/>
+        <WrapPanel Grid.Row="2" Grid.Column="1"  HorizontalAlignment="Center">
+            <Border Background="{StaticResource SilverBrush}">
+                <Image Width="50" Height="50">
+                    <Image.Source>
+                        <Binding Path="ShownEntity.Path"
+                             Converter="{StaticResource ImageConverter}">
+                            <Binding.TargetNullValue>
+                                <ImageSource>/Resources/OtherImg/NoPhoto.png</ImageSource>
+                            </Binding.TargetNullValue>
+                            <Binding.FallbackValue>
+                                <ImageSource>/Resources/OtherImg/NoPhoto.png</ImageSource>
+                            </Binding.FallbackValue>
+                        </Binding>
+                    </Image.Source>
+                </Image>
+            </Border>
+
+            <!--
+            <Button Style="{StaticResource AdminInterfaceButton}" 
+                    MinWidth="100"
+                    IsEnabled="{Binding IsWritingEnabled}"
+                    Content="select new" />-->
+        </WrapPanel>
+        
+
+
+        <Grid Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="50"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <!--LIKE-->
+            <Label Grid.Row="0" Grid.Column="0" 
+                       Content="Like"
+                       Style="{StaticResource ItemLabel_Admin}"/>
+            <Label Grid.Row="0" Grid.Column="1" 
+                       Content="{Binding LikedUserName.Length}"
+                       Style="{StaticResource ItemLabel_Admin}"/>
+
+            <ListBox Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"
+                     Style="{StaticResource ListBox_Admin}"
+                     ItemsSource="{Binding LikedUserName}"/>
+            <!--DISLIKE-->
+            <Label Grid.Row="0" Grid.Column="2" 
+                       Content="Dislike"
+                       Style="{StaticResource ItemLabel_Admin}"/>
+            <Label Grid.Row="0" Grid.Column="3" 
+                       Content="{Binding DisLikedUserName.Length}"
+                       Style="{StaticResource ItemLabel_Admin}"/>
+            <ListBox Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="2"
+                     Style="{StaticResource ListBox_Admin}"
+                     ItemsSource="{Binding DisLikedUserName}"/>
+        </Grid>
+
+        <!--BUTTONS-->
+        <Button Grid.Row="8" Grid.Column="0"  
+                Style="{StaticResource AdminButton}"
+                Content="Go Back"
+                Command="{Binding GoBackCommand}"
+                CommandParameter="{Binding ShownEntity}"/>
+        <Button Grid.Row="8" Grid.Column="1"  
+                Style="{StaticResource AdminButton}"
+                Content="{Binding CrudOperationName}"
+                Command="{Binding CrudOperation}"
+                CommandParameter="{Binding ShownEntity}"/>
+    </Grid>
+</UserControl>

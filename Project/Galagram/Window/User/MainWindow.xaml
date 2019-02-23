@@ -105,31 +105,49 @@
                     <RowDefinition Height="40"/>
                 </Grid.RowDefinitions>
 
-                <Label Grid.Row="0" Content="{Binding User.NickName, Mode=OneWay}" Style="{StaticResource CenterLabel}"/>
+                <Label Grid.Row="0" 
+                       Content="{Binding User.NickName, Mode=OneWay}" 
+                       Style="{StaticResource CenterLabel}"/>
                 <Image Grid.Row="1" Style="{StaticResource Photo}">
                     <Image.Source>
-                        <Binding Path="User.MainPhotoPath" >
+                        <Binding Path="User.MainPhotoPath"
+                                 Converter="{StaticResource ImageConverter}">
                             <Binding.TargetNullValue>
-                                <ImageSource>/Resources/OtherImg/NoImg.png</ImageSource>
+                                <ImageSource>/Resources/OtherImg/NoAvatar.png</ImageSource>
                             </Binding.TargetNullValue>
                             <Binding.FallbackValue>
-                                <ImageSource>/Resources/OtherImg/NoImg.png</ImageSource>
+                                <ImageSource>/Resources/OtherImg/NoAvatar.png</ImageSource>
                             </Binding.FallbackValue>
                         </Binding>
                     </Image.Source>
                 </Image>
-                <Button Grid.Row="2" Style="{StaticResource FollowButton}"
+                
+                <!--BUTTONS-->
+                <Button Grid.Row="2"
+                        Style="{StaticResource FollowButton}"
                         Command="{Binding FollowCommand}"/>
-                <Button Grid.Row="3" Content="Following" Style="{StaticResource ClickButton}"
-                        Command="{Binding ShowFollowingListCommand}"/>
-                <Button Grid.Row="4" Content="Followers" Style="{StaticResource ClickButton}"
-                        Command="{Binding ShowFollowersListCommand}"/>
+                <Button Grid.Row="3"
+                        Style="{StaticResource ClickButton}"
+                        ContentStringFormat="Following {0}"
+                        Content="{Binding Path=User.Following.Count, Mode=OneWay,
+                                    Converter={StaticResource IntToStringConverter}}"
+                        Command="{Binding ShowFollowListCommand}"
+                        CommandParameter="{StaticResource Following}"/>
+                <Button Grid.Row="4"
+                        Style="{StaticResource ClickButton}"                        
+                        ContentStringFormat="Followers {0}"
+                        Content="{Binding Path=User.Followers.Count, Mode=OneWay,
+                                    Converter={StaticResource IntToStringConverter}}"
+                        Command="{Binding ShowFollowListCommand}"
+                        CommandParameter="{StaticResource Followers}"/>
             </Grid>
             
             <!--RIGHT PANEL-->
-            <ListBox Grid.Column="2" Style="{StaticResource ListBoxAlbum}"
-                     SelectedIndex="{Binding SelectedPhotoIndex}"
-                     ItemsSource="{Binding Photos}">
+            <ListBox Grid.Column="2"
+                     Style="{StaticResource ListBoxAlbum}"
+                     SelectedIndex="{Binding SelectedPhotoIndex, Mode=OneWayToSource}"
+                     ItemsSource="{Binding Photos}"
+                     SelectedItem="{Binding SelectedPhoto, Mode=OneWayToSource}">
                 
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="MouseDoubleClick">

@@ -46,27 +46,27 @@
                 <Image.Source>
                     <Binding Path="Photo.Path" >
                         <Binding.FallbackValue>
-                            <ImageSource>/Resources/OtherImg/NoImg.png</ImageSource>
+                            <ImageSource>/Resources/OtherImg/NoPhoto.png</ImageSource>
                         </Binding.FallbackValue>
                         <Binding.TargetNullValue>
-                            <ImageSource>/Resources/OtherImg/NoImg.png</ImageSource>
+                            <ImageSource>/Resources/OtherImg/NoPhoto.png</ImageSource>
                         </Binding.TargetNullValue>
                     </Binding>
                 </Image.Source>
             </Image>
             
             <!--COMMENTS-->
-            <ListBox Grid.Column="1" Style="{StaticResource ListBoxComments}"
-                     ItemsSource="{Binding Comments}"/>
+            <ListBox Grid.Column="1"
+                     Style="{StaticResource ListBoxComments}"
+                     ItemsSource="{Binding Comments}"
+                     SelectedIndex="{Binding SelectedCommentIndex, Mode=OneWayToSource}"/>
         </Grid>      
         
         <!--BUTTONS-->
         <Grid Grid.Row="2">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="2*"/>
                 
                 <ColumnDefinition Width="3*"/>
                 <ColumnDefinition Width="1*"/>
@@ -75,27 +75,29 @@
             <!--LIKE-->
             <Button Grid.Column="0" Style="{StaticResource LikePhotoButton}"
                     Command="{Binding LikePhotoCommand}" CommandParameter="True">
-                <Image Source="/Resources/InterfaceImage/Heart.png" Margin="10"/>
+                <UniformGrid Columns="2">
+                    <Image Source="/Resources/InterfaceImage/Heart.png" Margin="10"/>
+                    <Label Grid.Column="1" Style="{StaticResource CenterLabel}" 
+                           Content="{Binding LikeDislikeAmount.LikesAmount}"/>
+                </UniformGrid>
             </Button>
-            <Label Grid.Column="1" Style="{StaticResource CenterLabel}" 
-                   Content="{Binding LikeDislikeAmount.LikesAmount}"/>
 
-            <Button Grid.Column="2" Style="{StaticResource DisLikePhotoButton}"
+            <Button Grid.Column="1" Style="{StaticResource DisLikePhotoButton}"
                     Command="{Binding LikePhotoCommand}" CommandParameter="False">
-                <Image Source="/Resources/InterfaceImage/BrokenHeart.png" Margin="10"/>
+                <UniformGrid Columns="2">
+                    <Image Source="/Resources/InterfaceImage/BrokenHeart.png" Margin="10"/>
+                    <Label Grid.Column="3" Style="{StaticResource CenterLabel}"
+                           Content="{Binding  LikeDislikeAmount.DisLikesAmount}"/>
+                </UniformGrid>
             </Button>
-            <Label Grid.Column="3" Style="{StaticResource CenterLabel}"
-                   Content="{Binding  LikeDislikeAmount.DisLikesAmount}"/>
             
 
             <!--WRITE YOUR COMMENT-->
-            <TextBox Grid.Column="4" 
-                     Style="{StaticResource MessageTextBox}" 
-                     Margin="1"
-                     ScrollViewer.VerticalScrollBarVisibility="Hidden"
+            <TextBox Grid.Column="2" 
+                     Style="{StaticResource WriteCommentTextBox_User}"                      
                      MaxLength="{Binding MaxCommentLength}"
                      Text="{Binding CommentText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-            <Button Grid.Column="5" Content="Write" 
+            <Button Grid.Column="3" Content="Write" 
                     Style="{StaticResource ClickButton}"
                     Command="{Binding WriteCommentCommand}"/>
 

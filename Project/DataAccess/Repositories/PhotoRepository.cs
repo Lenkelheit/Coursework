@@ -1,4 +1,4 @@
-﻿using System.Linq;
+using System.Linq;
 
 namespace DataAccess.Repositories
 {
@@ -34,6 +34,36 @@ namespace DataAccess.Repositories
                 LikesAmount = likeCount,
                 DisLikesAmount = photo.Likes.Count - likeCount
             };
+        }
+        /// <summary>
+        /// Deletes preset photo.
+        /// </summary>
+        /// <param name="entityToDelete">Photo to delete.</param>
+        /// <exception cref="System.ArgumentNullException">
+        /// Throws when passed <paramref name="entityToDelete"/> is null.
+        /// </exception>
+        public override void Delete(Entities.Photo entityToDelete)
+        {
+            if (entityToDelete == null) throw new System.ArgumentNullException(nameof(entityToDelete));
+
+            dbSet.Attach(entityToDelete);
+
+            // Photo's photolikes
+            entityToDelete.Likes.ToList().ForEach(l => l.Photo = null);
+
+            // Photo's comments
+            entityToDelete.Comments.ToList().ForEach(c => 
+            {
+                // Photo's comment's commentlikes
+                c.Likes.ToList().ForEach(cl => cl.Comment = null);
+
+                // Photo's comment
+                c.Photo = null;
+            });
+
+            context.Entry(entityToDelete).State = System.Data.Entity.EntityState.Modified;
+
+            base.Delete(entityToDelete);
         }
     }
 }

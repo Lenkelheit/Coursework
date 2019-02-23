@@ -16,7 +16,7 @@
 
         // CONSTRUCTORS
         /// <summary>
-        /// Initialize a new instance of <see cref="AskCommand"/>
+        /// Initializes a new instance of <see cref="AskCommand"/>
         /// </summary>
         /// <param name="askQuestionViewModel">
         /// An instance of <see cref="ViewModel.User.AskQuestionViewModel"/>
@@ -27,7 +27,7 @@
         }
         // METHODS
         /// <summary>
-        /// Check if command  can be executed
+        /// Checks if command can be executed
         /// </summary>
         /// <param name="parameter">
         /// Additionals parameters
@@ -39,10 +39,12 @@
         {
             Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, $"Can Exetute {nameof(AskCommand)}");
 
-            return true;
+            Core.Logger.GetLogger.LogAsync(Core.LogMode.Info, $"Is user blocked by admin = {Services.DataStorage.Instance.LoggedUser.IsBlocked}");
+
+            return !Services.DataStorage.Instance.LoggedUser.IsBlocked;
         }
         /// <summary>
-        /// Execute the command
+        /// Executes the command
         /// </summary>
         /// <param name="parameter">
         /// Command parameter
@@ -63,7 +65,7 @@
                 Text = askQuestionViewModel.Message,
                 User = askQuestionViewModel.DataStorage.LoggedUser,
             };
-            Core.Logger.GetLogger.LogAsync(Core.LogMode.Info, $"Create new message with: Subject: {message.Subject.Name}, Message Length: {message.Text.Length}, Messge: {message.Text}, User NickName: {message.User.NickName}, Date: {message.Date}");
+            Core.Logger.GetLogger.LogAsync(Core.LogMode.Info, $"Create new message with: Subject: {message.Subject.Name}, Message Length: {message.Text.Length}, Message: {message.Text}, User NickName: {message.User.NickName}, Date: {message.Date}");
 
             askQuestionViewModel.UnitOfWork.MessageRepository.Insert(message);
             askQuestionViewModel.UnitOfWork.Save();
@@ -72,9 +74,9 @@
             // reset message text, subject stay the same
             askQuestionViewModel.ResetFields();
 
-            // notified user about succesful message sending
+            // notify user about succesful message sending
             Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, "Notify user about succesful message sending");
-            askQuestionViewModel.WindowManager.ShowMessageWindow(Core.Messages.Info.ViewModel.Command.User.AskQuestion.Ask.MESSAGE_SENT);
+            askQuestionViewModel.WindowManager.ShowMessageWindow(Core.Messages.Info.ViewModel.MESSAGE_SENT);
         }
     }
 }

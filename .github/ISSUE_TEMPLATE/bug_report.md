@@ -1,6 +1,7 @@
 ---
 name: Bug report
 about: Create a report to help us improve
+labels: bug
 
 ---
 
@@ -22,3 +23,6 @@ If applicable, add screenshots to help explain your problem.
 
 **Additional context**
 Add any other context about the problem here.
+
+**Possible solution**
+If you have idea how to fix this, describe it here

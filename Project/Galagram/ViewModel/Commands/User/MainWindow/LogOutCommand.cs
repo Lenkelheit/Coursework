@@ -5,24 +5,9 @@
     /// </summary>
     public class LogOutCommand : CommandBase
     {
-        // FIELDS
-        ViewModel.User.MainWindowViewModel mainWindowViewModel;
-
-        // CONSTRUCTORS
-        /// <summary>
-        /// Initialize a new instance of <see cref="LogOutCommand"/>
-        /// </summary>
-        /// <param name="mainWindowViewModel">
-        /// An instance of <see cref="ViewModel.User.MainWindowViewModel"/>
-        /// </param>
-        public LogOutCommand(ViewModel.User.MainWindowViewModel mainWindowViewModel)
-        {
-            this.mainWindowViewModel = mainWindowViewModel;
-        }
-
         // METHODS
         /// <summary>
-        /// Check if command can be executed
+        /// Checks if command can be executed
         /// </summary>
         /// <param name="parameter">
         /// Additionals parameters
@@ -33,10 +18,11 @@
         public override bool CanExecute(object parameter)
         {
             Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, $"Can execute {nameof(LogOutCommand)}");
+
             return true;
         }
         /// <summary>
-        /// Execute command
+        /// Executes command
         /// </summary>
         /// <param name="parameter">
         /// Command parameters
@@ -45,8 +31,14 @@
         {
             Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, $"Execute {nameof(LogOutCommand)}");
 
+            // reset users on log out
+            Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, $"Resets shown and logged user");
+            Services.DataStorage.Instance.LoggedUser = null;
+            Services.DataStorage.Instance.ShownUser = null;
+
+            // navigate to registration window
             Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, $"Switch window to registration window");
-            mainWindowViewModel.WindowManager.SwitchMainWindow(nameof(Window.Registration), new ViewModel.RegistrationViewModel());
+            Services.WindowManager.Instance.SwitchMainWindow(key: nameof(Window.Registration), viewModel: new ViewModel.RegistrationViewModel(), doCloseAllWindow: true);
         }
     }
 }

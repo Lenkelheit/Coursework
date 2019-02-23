@@ -1,9 +1,9 @@
 ﻿namespace Galagram.ViewModel.Commands.Registration
 {
     /// <summary>
-    /// Check if name and password is correct
+    /// Checks if name and password are correct
     /// <para/>
-    /// Check if nickname is available
+    /// Checks if nickname is available
     /// <para/>
     /// If everything is correct, log in a user
     /// </summary>
@@ -14,7 +14,7 @@
 
         // CONSTRUCTORS
         /// <summary>
-        /// Initialize a new instance of <see cref="SignUpCommand"/>
+        /// Initializes a new instance of <see cref="SignUpCommand"/>
         /// </summary>
         /// <param name="registrationViewModel">
         /// An instance of <see cref="ViewModel.RegistrationViewModel"/>
@@ -26,7 +26,7 @@
 
         // METHODS
         /// <summary>
-        /// Check if command can be executed
+        /// Checks if command can be executed
         /// </summary>
         /// <param name="parameter">
         /// Additionals parameters
@@ -41,7 +41,7 @@
             return true;
         }
         /// <summary>
-        /// Execute the command
+        /// Executes the command
         /// </summary>
         /// <param name="parameter">
         /// Command parameter
@@ -54,7 +54,7 @@
 
             if (!registrationViewModel.UnitOfWork.UserRepository.IsNicknameFree(registrationViewModel.Nickname))
             {
-                registrationViewModel.WindowManager.ShowMessageWindow(Core.Messages.Info.ViewModel.Command.Registration.NICKNAME_IS_NOT_AVAILABLE);
+                registrationViewModel.WindowManager.ShowMessageWindow(Core.Messages.Info.ViewModel.NICKNAME_IS_NOT_AVAILABLE);
                 Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, $"User can not sign up, because his nickname is not available");
                 return;
             }
@@ -87,6 +87,6 @@
             registrationViewModel.WindowManager.SwitchMainWindow(
                 key: nameof(Galagram.Window.User.MainWindow),
                 viewModel: new ViewModel.User.MainWindowViewModel());
-            }
         }
+    }
 }

@@ -1,6 +1,5 @@
 ﻿using System.Windows.Input;
-using System.ComponentModel;
-using System.Collections.ObjectModel;
+using System.Collections.Generic;
 
 namespace Galagram.ViewModel.ViewModel.User
 {
@@ -11,19 +10,20 @@ namespace Galagram.ViewModel.ViewModel.User
     {
         // FIELDS
         int selectedPhotoIndex;
-        ObservableCollection<DataAccess.Entities.Photo> photos;
+        DataAccess.Entities.Photo selectedPhoto;
+        Collections.ReverseCollection<DataAccess.Entities.Photo> photos;
         bool isFollowing;
 
-        ICommand goHomeCommand;
-        ICommand askQuestionCommand;
-        ICommand followCommand;
-        ICommand logOutCommand;
-        ICommand searchUserCommand;
-        ICommand settingCommand;
-        ICommand showFollowersListCommand;
-        ICommand showFollowingListCommand;
-        ICommand showPhotoCommand;
-        ICommand uploadPhotoCommand;
+        readonly ICommand goHomeCommand;
+        readonly ICommand askQuestionCommand;
+        readonly ICommand followCommand;
+        readonly ICommand logOutCommand;
+        readonly ICommand searchUserCommand;
+        readonly ICommand settingCommand;
+        readonly ICommand showFollowListCommand;
+        readonly ICommand showPhotoCommand;
+        readonly ICommand uploadPhotoCommand;
+
         // CONSTRUCTORS
         /// <summary>
         /// Initialize a new instance of <see cref="MainWindowViewModel"/>
@@ -31,7 +31,8 @@ namespace Galagram.ViewModel.ViewModel.User
         public MainWindowViewModel()
         {
             this.selectedPhotoIndex = Core.Configuration.Constants.WRONG_INDEX;
-            this.photos = new ObservableCollection<DataAccess.Entities.Photo>(DataStorage.ShownUser.Photos);
+            this.selectedPhoto = null;
+            this.photos = new Collections.ReverseCollection<DataAccess.Entities.Photo>(DataStorage.ShownUser.Photos);
 
             if (IsCurrentUserShown)
             {
@@ -45,11 +46,10 @@ namespace Galagram.ViewModel.ViewModel.User
             this.goHomeCommand = new Commands.User.MainWindow.GoHomeCommand(this);
             this.askQuestionCommand = new Commands.User.MainWindow.AskQuestionCommand(this);
             this.followCommand = new Commands.User.MainWindow.FollowCommand(this);
-            this.logOutCommand = new Commands.User.MainWindow.LogOutCommand(this);
+            this.logOutCommand = new Commands.User.MainWindow.LogOutCommand();
             this.searchUserCommand = new Commands.User.MainWindow.SearchUserCommand(this);
             this.settingCommand = new Commands.User.MainWindow.SettingCommand(this);
-            this.showFollowersListCommand = new Commands.User.MainWindow.ShowFollowersListCommand(this);
-            this.showFollowingListCommand = new Commands.User.MainWindow.ShowFollowingListCommand(this);
+            this.showFollowListCommand = new Commands.User.MainWindow.ShowFollowListCommand(this);
             this.showPhotoCommand = new Commands.User.MainWindow.ShowPhotoCommand(this);
             this.uploadPhotoCommand = new Commands.User.MainWindow.UploadPhotoCommand(this);
         }
@@ -79,23 +79,40 @@ namespace Galagram.ViewModel.ViewModel.User
         {
             get
             {
-                Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, $"Gets {nameof(SelectedPhotoIndex)} value {this.selectedPhotoIndex}");
+                Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug | Core.LogMode.Info, $"Gets {nameof(SelectedPhotoIndex)} value {this.selectedPhotoIndex}");
                 return selectedPhotoIndex;
             }
             set
             {
-                Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, $"Sets {nameof(SelectedPhotoIndex)} value {this.selectedPhotoIndex} to {value}");
-                selectedPhotoIndex = value;
+                Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug | Core.LogMode.Info, $"Sets {nameof(SelectedPhotoIndex)} value {this.selectedPhotoIndex} to {value}");
+                SetProperty(ref selectedPhotoIndex, value);
+            }
+        }
+        /// <summary>
+        /// Gets or sets selected photo
+        /// </summary>
+        public DataAccess.Entities.Photo SelectedPhoto
+        {
+            get
+            {
+                Logger.LogAsync(Core.LogMode.Debug, $"Gets {nameof(SelectedPhoto)}");
+                return selectedPhoto;
+            }
+            set
+            {
+                Logger.LogAsync(Core.LogMode.Debug, $"Sets {nameof(SelectedPhoto)}");
+
+                SetProperty(ref selectedPhoto, value);
             }
         }
         /// <summary>
         /// Gets photo collection
         /// </summary>
-        public ObservableCollection<DataAccess.Entities.Photo> Photos
+        public Collections.ReverseCollection<DataAccess.Entities.Photo> Photos
         {
             get
             {
-                Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, $"Gets {nameof(Photos)} with amount {photos.Count}");
+                Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug | Core.LogMode.Info, $"Gets {nameof(Photos)} with amount {photos.Count}");
                 return photos;
             }
         }
@@ -114,15 +131,17 @@ namespace Galagram.ViewModel.ViewModel.User
         {
             get
             {
-                Logger.LogAsync(Core.LogMode.Debug, $"Gets {nameof(IsFollowing)}, with value = {isFollowing}");
+                Logger.LogAsync(Core.LogMode.Debug | Core.LogMode.Info, $"Gets {nameof(IsFollowing)}, with value = {isFollowing}");
                 return isFollowing;
             }
             set
             {
-                Logger.LogAsync(Core.LogMode.Debug, $"Sets {nameof(IsFollowing)}. OldValue = {isFollowing}, new value = {value}");
+                Logger.LogAsync(Core.LogMode.Debug | Core.LogMode.Info, $"Sets {nameof(IsFollowing)}. OldValue = {isFollowing}, new value = {value}");
+
                 isFollowing = value;
 
                 OnPropertyChanged();
+                OnPropertyChanged(nameof(User));
             }
         }
         // COMMANDS
@@ -193,25 +212,14 @@ namespace Galagram.ViewModel.ViewModel.User
             }
         }
         /// <summary>
-        /// Gets action to show shown user followers
+        /// Gets action to opens window with shown user followers/following
         /// </summary>
-        public ICommand ShowFollowersListCommand
-        {
+        public ICommand ShowFollowListCommand
+    {
             get
             {
-                Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, $"Gets {nameof(ShowFollowersListCommand)}");
-                return showFollowersListCommand;
-            }
-        }
-        /// <summary>
-        /// Gets action to show shown user following
-        /// </summary>
-        public ICommand ShowFollowingListCommand
-        {
-            get
-            {
-                Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, $"Gets {nameof(ShowFollowingListCommand)}");
-                return showFollowingListCommand;
+                Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, $"Gets {nameof(ShowFollowListCommand)}");
+                return showFollowListCommand;
             }
         }
         /// <summary>
@@ -244,7 +252,7 @@ namespace Galagram.ViewModel.ViewModel.User
         public void GoToCurrentUser()
         {
             DataStorage.ShowLoggedUser();
-            photos = new ObservableCollection<DataAccess.Entities.Photo>(DataStorage.ShownUser.Photos);
+            photos = new Collections.ReverseCollection<DataAccess.Entities.Photo>(DataStorage.ShownUser.Photos);
 
             OnPropertyChanged(nameof(User));
             OnPropertyChanged(nameof(Photos));
@@ -266,9 +274,12 @@ namespace Galagram.ViewModel.ViewModel.User
             OnPropertyChanged(nameof(IsFollowing));
         }
         /// <summary>
-        /// Raise <see cref="ViewModelBase.PropertyChanged"/> on <see cref="MainWindowViewModel.User"/>
+        /// Raise <see cref="ViewModelBase.PropertyChanged"/> on <paramref name="propertyName"/>
         /// </summary>
-        public void UpdateShownUser()
+        /// <param name="propertyName">
+        /// Property on which <see cref="ViewModelBase.PropertyChanged"/> raised
+        /// </param>
+        public void UpdateExplicitly(string propertyName)
         {
             OnPropertyChanged(nameof(User));
         }

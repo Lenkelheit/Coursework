@@ -59,20 +59,5 @@
         </ControlTemplate.Triggers>
     </ControlTemplate>
 
-    <!--TEXT BOX-->
-    <ControlTemplate TargetType="{x:Type TextBoxBase}" x:Key="TextBoxTemplate">
-        <Border
-                            BorderBrush="{TemplateBinding BorderBrush}" 
-                            BorderThickness="{TemplateBinding BorderThickness}"
-                            Background="{TemplateBinding Background}"
-                            SnapsToDevicePixels="True">
-            <ScrollViewer
-                            x:Name="PART_ContentHost" 
-                            Focusable="False"
-                            HorizontalScrollBarVisibility="Hidden"
-                            VerticalScrollBarVisibility="Hidden"/>
-        </Border>
-    </ControlTemplate>
-
 
 </ResourceDictionary>

@@ -10,7 +10,7 @@
 
         // CONSTRUCTORS
         /// <summary>
-        /// Initialize a new instance of <see cref="LikePhotoCommand"/>
+        /// Initializes a new instance of <see cref="LikePhotoCommand"/>
         /// </summary>
         /// <param name="photoInsideViewModel">
         /// An instance of <see cref="ViewModel.User.PhotoInsideViewModel"/>
@@ -22,7 +22,7 @@
 
         // METHODS
         /// <summary>
-        /// Check if command can be executed
+        /// Checks if command can be executed
         /// </summary>
         /// <param name="parameter">
         /// Additionals parameters
@@ -36,10 +36,12 @@
             return true;
         }
         /// <summary>
-        /// Execute command
+        /// Executes command
         /// </summary>
         /// <param name="parameter">
         /// Command parameters
+        /// <para/>
+        /// 1 — bool, is like or dislike
         /// </param>
         public override void Execute(object parameter)
         {
@@ -56,7 +58,7 @@
             // 1. if like is new -> add it
             // 2. else if there is like or dislike
             //      2.1. if click on the same button type -> remove like
-            //      2.2  else if click on the oposite button type -> toggle like
+            //      2.2  else if click on the opposite button type -> toggle like
 
             Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, isLike ? "Liking" : "Disliking");
 
@@ -77,6 +79,9 @@
                 Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, "Update View");
                 if (isLike) ++photoInsideViewModel.LikeDislikeAmount.LikesAmount;
                 else        ++photoInsideViewModel.LikeDislikeAmount.DisLikesAmount;
+
+                // liked
+                photoInsideViewModel.LikeValue = isLike;
             }
             else// 2. there is a like
             {
@@ -93,13 +98,16 @@
                     Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, "Update View");
                     if (isLike) --photoInsideViewModel.LikeDislikeAmount.LikesAmount;
                     else        --photoInsideViewModel.LikeDislikeAmount.DisLikesAmount;
+
+                    // same button, remove
+                    photoInsideViewModel.LikeValue = null;
                 }
                 else// 2.2 toggle dislike to like
                 {
                     Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, "Toggle like");
                     Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, "Update valuse in data base");
 
-                    // updata data base
+                    // updata database
                     photoLike.IsLiked = isLike; // toggle
                     DataAccess.Context.UnitOfWork.Instance.PhotoLikeRepository.Update(photoLike);
 
@@ -115,6 +123,9 @@
                         --photoInsideViewModel.LikeDislikeAmount.LikesAmount;
                         ++photoInsideViewModel.LikeDislikeAmount.DisLikesAmount;
                     }
+
+                    // toggle like
+                    photoInsideViewModel.LikeValue = isLike;
                 }
             }
 
@@ -122,7 +133,7 @@
             Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, "Update view. Raise event");
             photoInsideViewModel.UpdateLikes();
 
-            //  save changes to data base
+            // save changes to database
             Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, "Save changes to data base");
             DataAccess.Context.UnitOfWork.Instance.Save();
         }

@@ -101,7 +101,7 @@ namespace Galagram.ViewModel.ViewModel.User
             Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, "Check if subject is selected");
             if (selectedSubjectIndex == Core.Configuration.Constants.WRONG_INDEX)
             {
-                WindowManager.ShowMessageWindow(Core.Messages.Info.ViewModel.Command.User.AskQuestion.Ask.SUBJECT_IS_NOT_SELECTED);
+                WindowManager.ShowMessageWindow(Core.Messages.Info.ViewModel.SUBJECT_IS_NOT_SELECTED);
                 Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, $"Message is not send, because subject is not selected, current index is {selectedSubjectIndex}");
                 return false;
             }
@@ -114,19 +114,19 @@ namespace Galagram.ViewModel.ViewModel.User
             Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, "Check if message has any text");
             if (string.IsNullOrWhiteSpace(messageText))
             {
-                WindowManager.ShowMessageWindow(Core.Messages.Info.ViewModel.Command.User.AskQuestion.Ask.EMPTY_MESSAGE);
+                WindowManager.ShowMessageWindow(Core.Messages.Info.ViewModel.EMPTY_MESSAGE);
                 Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, "Message is not send, bacausse it is empty");
                 return false;
             }
             if (messageText.Length < Core.Configuration.DBConfig.ADMIN_MESSAGE_MIN_LENGTH)
             {
-                WindowManager.ShowMessageWindow(Core.Messages.Info.ViewModel.Command.User.AskQuestion.Ask.MESSAGE_TOO_SHORT);
+                WindowManager.ShowMessageWindow(Core.Messages.Info.ViewModel.MESSAGE_TOO_SHORT);
                 Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, $"Message is not send, bacausse it is too short. Current Length {messageText.Length}");
                 return false;
             }
             if (messageText.Length > Core.Configuration.DBConfig.ADMIN_MESSAGE_MAX_LENGTH)
             {
-                WindowManager.ShowMessageWindow(Core.Messages.Info.ViewModel.Command.User.AskQuestion.Ask.MESSAGE_TOO_LONG);
+                WindowManager.ShowMessageWindow(Core.Messages.Info.ViewModel.MESSAGE_TOO_LONG);
                 Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, $"Message is not send, bacausse it is too long. Current Length {messageText.Length}");
                 return false;
             }
@@ -138,7 +138,7 @@ namespace Galagram.ViewModel.ViewModel.User
         public void ResetFields()
         {
             Message = string.Empty;
-            Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, "Value are reseted");
+            Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, "Values are reseted");
         }
     }
 }

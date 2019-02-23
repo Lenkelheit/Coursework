@@ -1,0 +1,204 @@
+﻿<UserControl x:Class="Galagram.Window.Admin.UserControls.Users.Single"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Galagram.Window.Admin.UserControls.Users"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             mc:Ignorable="d" 
+             d:DesignHeight="700" d:DesignWidth="800"
+             Background="{StaticResource GrayColorBrushV6}">
+    <Grid>
+        <!--SCALING-->
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="50"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <!--CONTENT-->
+        <ScrollViewer Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2">
+            <ScrollViewer.Resources>
+                <Style TargetType="ScrollBar"/>
+            </ScrollViewer.Resources>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="50"/>
+                    <RowDefinition Height="50"/>
+                    <RowDefinition Height="50"/>
+                    <RowDefinition Height="50"/>
+                    <RowDefinition Height="50"/>
+                    <RowDefinition Height="50"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="50"/>
+                    <RowDefinition Height="150"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+
+                <!--ID-->
+                <Label Grid.Row="0" Grid.Column="0" 
+                       Content="User ID"
+                       Style="{StaticResource ItemLabel_Admin}"/>
+                <TextBox Grid.Row="0" Grid.Column="1" 
+                         Text="{Binding ShownEntity.Id, Mode=OneTime}"
+                         IsReadOnly="True"
+                         Style="{StaticResource ItemTextBox_Admin}"/>
+                <!--NICKNAME-->
+                <Label Grid.Row="1" Grid.Column="0" 
+                       Content="Nickname"
+                       Style="{StaticResource ItemLabel_Admin}"/>
+                <TextBox Grid.Row="1" Grid.Column="1" 
+                         Text="{Binding ShownEntity.NickName, Mode=TwoWay}"
+                         IsEnabled="{Binding IsWritingEnabled}"
+                         Style="{StaticResource ItemTextBox_Admin}"/>
+                
+                <!--AVATAR-->
+                <Label Grid.Row="2" Grid.Column="0" 
+                       Content="Avatar"
+                       Style="{StaticResource ItemLabel_Admin}"/>
+                <WrapPanel Grid.Row="2" Grid.Column="1"
+                           HorizontalAlignment="Center">
+                    <Border Background="{StaticResource SilverBrush}">
+                        <Image Width="50" Height="50">
+                            <Image.Source>
+                                <Binding Path="ShownEntity.MainPhotoPath"
+                                         Converter="{StaticResource ImageConverter}">
+                                    <Binding.TargetNullValue>
+                                        <ImageSource>/Resources/OtherImg/NoAvatar.png</ImageSource>
+                                    </Binding.TargetNullValue>
+                                    <Binding.FallbackValue>
+                                        <ImageSource>/Resources/OtherImg/NoAvatar.png</ImageSource>
+                                    </Binding.FallbackValue>
+                                </Binding>
+                            </Image.Source>
+                        </Image>
+                    </Border>
+
+                    <!--<Button Style="{StaticResource AdminInterfaceButton}"  Content="select new" Width="100" />-->
+                    <Button Style="{StaticResource AdminInterfaceButton}" Width="100"
+                            Content="reset"
+                            IsEnabled="{Binding IsWritingEnabled}"
+                            Command="{Binding ResetAvatarCommand}"/>
+                </WrapPanel>
+
+                <!--PASSWORD-->
+                <Label Grid.Row="3" Grid.Column="0" 
+                       Content="Password"
+                       Style="{StaticResource ItemLabel_Admin}"/>
+                <TextBox Grid.Row="3" Grid.Column="1" 
+                         Text="{Binding ShownEntity.Password, Mode=TwoWay}"
+                         Style="{StaticResource ItemTextBox_Admin}"
+                         IsEnabled="{Binding IsWritingEnabled}"/>
+                <!--IS ADMIN-->
+                <Label Grid.Row="4" Grid.Column="0" 
+                       Content="Is Admin"
+                       Style="{StaticResource ItemLabel_Admin}"/>
+
+                <CheckBox Grid.Row="4" Grid.Column="1"
+                          VerticalAlignment="Center"
+                          HorizontalAlignment="Center"
+                          IsChecked="{Binding ShownEntity.IsAdmin, Mode=TwoWay}"
+                          IsEnabled="{Binding IsWritingEnabled}">
+                    <CheckBox.LayoutTransform>
+                        <ScaleTransform ScaleX="2.5" ScaleY="2.5" />
+                    </CheckBox.LayoutTransform>
+                </CheckBox>
+
+                <!--IS BLOCKED-->
+                <Label Grid.Row="5" Grid.Column="0" 
+                       Content="Is Blocked"
+                       Style="{StaticResource ItemLabel_Admin}"/>
+
+                <CheckBox Grid.Row="5" Grid.Column="1"
+                          VerticalAlignment="Center"
+                          HorizontalAlignment="Center"
+                          IsChecked="{Binding ShownEntity.IsBlocked, Mode=TwoWay}"
+                          IsEnabled="{Binding IsWritingEnabled}">
+                    <CheckBox.LayoutTransform>
+                        <ScaleTransform ScaleX="2.5" ScaleY="2.5" />
+                    </CheckBox.LayoutTransform>
+                </CheckBox>
+
+                <!--FOLLOWERS / FOLLOWING-->
+                <Grid Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="2">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="50"/>
+                        <RowDefinition Height="100"/>
+                    </Grid.RowDefinitions>
+
+                    <!--FOLLOWERS-->
+                    <Label Grid.Row="0" Grid.Column="0" 
+                       Content="Followers"
+                       Style="{StaticResource ItemLabel_Admin}"/>
+                    <Label Grid.Row="0" Grid.Column="1" 
+                       Content="{Binding ShownEntity.Followers.Count}"
+                       Style="{StaticResource ItemLabel_Admin}"/>
+
+                    <ListBox Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" 
+                             Style="{StaticResource ListBox_Admin}"
+                             ItemsSource="{Binding ShownEntity.Followers}"
+                             DisplayMemberPath="NickName"/>
+                    <!--FOLLOWING-->
+                    <Label Grid.Row="0" Grid.Column="2" 
+                       Content="Following"
+                       Style="{StaticResource ItemLabel_Admin}"/>
+                    <Label Grid.Row="0" Grid.Column="3" 
+                       Content="{Binding ShownEntity.Following.Count}"
+                       Style="{StaticResource ItemLabel_Admin}"/>
+                    <ListBox Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="2" 
+                             Style="{StaticResource ListBox_Admin}"
+                             ItemsSource="{Binding ShownEntity.Following}"
+                             DisplayMemberPath="NickName"/>
+
+                </Grid>
+
+                <!--PHOTOS-->
+                <Label Grid.Row="7" Grid.Column="0"
+                       Content="Photos"
+                       Style="{StaticResource ItemLabel_Admin}"/>
+                <Label Grid.Row="7" Grid.Column="1"
+                       Content="{Binding Photos.Length}"
+                       Style="{StaticResource ItemLabel_Admin}"/>
+                <ListBox Grid.Row="8" Grid.Column="0" Grid.ColumnSpan="2" 
+                         Style="{StaticResource ListBoxPhoto_Admin}"
+                         ItemsSource="{Binding Photos}"
+                         SelectedIndex="{Binding SelectedPhotoIndex, Mode=OneWayToSource}">
+
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="MouseDoubleClick">
+                            <i:InvokeCommandAction Command="{Binding ShowPhotoCommand}"/>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </ListBox>
+            </Grid>
+
+        </ScrollViewer>
+
+
+        <!--BUTTONS-->
+        <Button Grid.Row="9" Grid.Column="0"  
+                Style="{StaticResource AdminButton}"
+                Content="Go Back"
+                Command="{Binding GoBackCommand}"
+                CommandParameter="{Binding ShownEntity}"/>
+        <Button Grid.Row="9" Grid.Column="1"  
+                Style="{StaticResource AdminButton}"
+                Content="{Binding CrudOperationName}"
+                Command="{Binding CrudOperation}"
+                CommandParameter="{Binding ShownEntity}"/>
+    </Grid>
+</UserControl>

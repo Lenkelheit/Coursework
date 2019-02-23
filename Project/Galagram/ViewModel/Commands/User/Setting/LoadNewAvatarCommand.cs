@@ -1,9 +1,7 @@
-﻿using Microsoft.Win32;
-
-namespace Galagram.ViewModel.Commands.User.Setting
+﻿namespace Galagram.ViewModel.Commands.User.Setting
 {
     /// <summary>
-    /// Load a photo as a new avatar
+    /// Loads a photo as a new avatar
     /// </summary>
     public class LoadNewAvatarCommand : CommandBase
     {
@@ -12,7 +10,7 @@ namespace Galagram.ViewModel.Commands.User.Setting
 
         // CONSTRUCTORS
         /// <summary>
-        /// Initialize a new instance of <see cref="LoadNewAvatarCommand"/>
+        /// Initializes a new instance of <see cref="LoadNewAvatarCommand"/>
         /// </summary>
         /// <param name="settingViewModel">
         /// An instance of <see cref="ViewModel.User.SettingViewModel"/>
@@ -24,7 +22,7 @@ namespace Galagram.ViewModel.Commands.User.Setting
 
         // METHODS
         /// <summary>
-        /// Check if command can be executed
+        /// Checks if command can be executed
         /// </summary>
         /// <param name="parameter">
         /// Additionals parameters
@@ -38,7 +36,7 @@ namespace Galagram.ViewModel.Commands.User.Setting
             return true;
         }
         /// <summary>
-        /// Execute command
+        /// Executes command
         /// </summary>
         /// <param name="parameter">
         /// Command parameters
@@ -47,12 +45,10 @@ namespace Galagram.ViewModel.Commands.User.Setting
         {
             Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, $"Execute {nameof(LoadNewAvatarCommand)}");
 
-            OpenFileDialog openFileDialog = new OpenFileDialog()
-            {
-                Multiselect = false,
-            };
-            
-            if (openFileDialog.ShowDialog() == true)
+            Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, "Open file dialog");
+            string[] fileNames = Services.WindowManager.Instance.OpenFileDialog(filterString: Core.Configuration.DBConfig.PHOTO_EXTENSION);
+
+            if (fileNames != null)
             {
                 settingViewModel.Logger.LogAsync(Core.LogMode.Debug, "Load new avatar");
 
@@ -60,7 +56,7 @@ namespace Galagram.ViewModel.Commands.User.Setting
                 settingViewModel.CreateTempFolderIfNotExist();
 
                 // get random name
-                string localAvatarPath = openFileDialog.FileName;
+                string localAvatarPath = fileNames[0];
                 string serverTempAvatarPath = settingViewModel.GetRandomTempFileName(fileExtension: System.IO.Path.GetExtension(localAvatarPath));
 
                 settingViewModel.Logger.LogAsync(Core.LogMode.Debug, $"New temp server path {serverTempAvatarPath}");

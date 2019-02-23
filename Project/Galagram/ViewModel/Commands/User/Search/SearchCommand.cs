@@ -3,7 +3,7 @@
 namespace Galagram.ViewModel.Commands.User.Search
 {
     /// <summary>
-    /// Search user by passed text, shown all founded values
+    /// Searches user by passed text, shown all founded values
     /// </summary>
     public class SearchCommand : CommandBase
     {
@@ -28,7 +28,7 @@ namespace Galagram.ViewModel.Commands.User.Search
 
         // CONSTRUCTORS
         /// <summary>
-        /// Initialize a new instance of <see cref="SearchCommand"/>
+        /// Initializes a new instance of <see cref="SearchCommand"/>
         /// </summary>
         /// <param name="searchViewModel">
         /// An instance of <see cref="ViewModel.User.SearchViewModel"/>
@@ -40,7 +40,7 @@ namespace Galagram.ViewModel.Commands.User.Search
 
         // METHODS
         /// <summary>
-        /// Check if command can be executed
+        /// Checks if command can be executed
         /// <para/>
         /// Can not be executed if search text is empty
         /// </summary>
@@ -67,11 +67,11 @@ namespace Galagram.ViewModel.Commands.User.Search
             Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, $"Execute {nameof(SearchCommand)}");
 
             // gets all founded user ordered by nickname, and set them to array
-            searchViewModel.Users = searchViewModel.UnitOfWork
+            searchViewModel.Users = new System.Collections.ObjectModel.ObservableCollection<DataAccess.Entities.User>(
+                searchViewModel.UnitOfWork
                     .UserRepository
-                        .Get(filter: user => user.NickName.Contains(searchViewModel.Text), 
-                             orderBy: o => o.OrderBy(user => user.NickName))
-                                .ToArray();
+                        .Get(filter: user => user.NickName.Contains(searchViewModel.Text),
+                             orderBy: o => o.OrderBy(user => user.NickName)));
         }
     }
 }

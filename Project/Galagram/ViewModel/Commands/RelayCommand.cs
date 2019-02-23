@@ -1,9 +1,9 @@
 ﻿namespace Galagram.ViewModel.Commands
 {
     /// <summary>
-    /// A WPF command which represent action as <see cref="System.Action"/>.
+    /// A WPF command which represents action as <see cref="System.Action"/>.
     /// </summary>
-    public class RelayCommand : System.Windows.Input.ICommand
+    public class RelayCommand : CommandBase
     {
         // FIELDS
         private System.Action<object> execute;
@@ -11,9 +11,9 @@
 
         // EVENT
         /// <summary>
-        /// Raise when <see cref="CanExecute(object)"/> changed.
+        /// Raises when <see cref="CanExecute(object)"/> changed.
         /// </summary>
-        public event System.EventHandler CanExecuteChanged
+        public override event System.EventHandler CanExecuteChanged
         {
             add
             {
@@ -27,13 +27,13 @@
 
         // CONSTRUCTORS
         /// <summary>
-        /// Initialize a new instance of <see cref="RelayCommand"/>.
+        /// Initializes a new instance of <see cref="RelayCommand"/>.
         /// </summary>
         /// <param name="execute">
-        /// An method that should be executed.
+        /// A method that should be executed.
         /// </param>
         /// <param name="canExecute">
-        /// An method that checks if command can be executed.
+        /// A method that checks if command can be executed.
         /// </param>
         public RelayCommand(System.Action<object> execute, System.Func<object, bool> canExecute = null)
         {
@@ -46,22 +46,22 @@
         /// Checks if command can be executed.
         /// </summary>
         /// <param name="parameter">
-        /// The parameter that define if command can be executed.
+        /// The parameter that defines if command can be executed.
         /// </param>
         /// <returns>
         /// True — if command can be executed, otherwise — false.
         /// </returns>
-        public bool CanExecute(object parameter)
+        public override bool CanExecute(object parameter)
         {
             return this.canExecute == null || this.canExecute(parameter);
         }
         /// <summary>
-        /// Execute a command.
+        /// Executes a command.
         /// </summary>
         /// <param name="parameter">
         /// The parameter which command needs to be executed.
         /// </param>
-        public void Execute(object parameter)
+        public override void Execute(object parameter)
         {
             this.execute(parameter);
         }

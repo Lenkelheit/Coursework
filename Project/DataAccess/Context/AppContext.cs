@@ -1,4 +1,5 @@
-﻿using System.Data.Entity;
+using System.Data.Entity;
+using System.Linq;
 
 using DataAccess.Entities;
 using DataAccess.Configuration;
@@ -42,12 +43,12 @@ namespace DataAccess.Context
 
         // CONSTRUCTORS
         /// <summary>
-        /// Initialize a new instance of <see cref="AppContext"/>
+        /// Initializes a new instance of <see cref="AppContext"/>
         /// </summary>
         public AppContext()
             : base() { }
         /// <summary>
-        /// Initialize a new instance of <see cref="AppContext"/>
+        /// Initializes a new instance of <see cref="AppContext"/>
         /// </summary>
         /// <param name="connectionString">
         /// A connection string
@@ -62,7 +63,7 @@ namespace DataAccess.Context
 
         // METHODS
         /// <summary>
-        /// Build a database table by current model configuration
+        /// Builds a database table by current model configuration
         /// </summary>
         /// <param name="modelBuilder">
         /// Configurate model 
@@ -78,6 +79,25 @@ namespace DataAccess.Context
             modelBuilder.Configurations.Add(new UserConfigurataion());
 
             base.OnModelCreating(modelBuilder);
+        }
+
+        /// <summary>
+        /// Saves all changes made in this context to the underlying database.
+        /// </summary>
+        /// <returns>
+        /// Amount of transaction that has been confirmed.
+        /// </returns>
+        public override int SaveChanges()
+        {
+            PhotoLike.Local.Where(ph => ph.Photo == null || ph.User == null).ToList().ForEach(ph => Entry(ph).State = EntityState.Deleted);
+
+            Photos.Local.Where(p => p.User == null).ToList().ForEach(p => Entry(p).State = EntityState.Deleted);
+
+            CommentLike.Local.Where(cl => cl.Comment == null || cl.User == null).ToList().ForEach(cl => Entry(cl).State = EntityState.Deleted);
+
+            Comments.Local.Where(c => c.Photo == null || c.User == null).ToList().ForEach(c => Entry(c).State = EntityState.Deleted);
+
+            return base.SaveChanges();
         }
     }
 }

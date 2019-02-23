@@ -1,6 +1,6 @@
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 using static Core.Configuration.DBConfig;
 
@@ -9,25 +9,28 @@ namespace DataAccess.Entities
     /// <summary>
     /// Maps to Comments table
     /// </summary>
-	public class Comment : INotifyPropertyChanged
-	{
+	public class Comment : EntityBase
+    {
         // PROPERTIES
         /// <summary>
         /// Unique identifier
         /// </summary>
-		public int Id { get; set; }
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public override System.Guid Id { get; set; }
+
         /// <summary>
         /// An user that wrote a comment
         /// </summary>
-		public virtual User User { get; set; }
+        public virtual User User { get; set; }
         /// <summary>
-        /// A photo to wich comment has been wriiten
+        /// A photo to which comment has been written
         /// </summary>
         public virtual Photo Photo { get; set; }
         /// <summary>
         /// A collection of likes to current comment
         /// </summary>
-		public virtual ICollection<CommentLike> Likes { get; set; } = new List<CommentLike>();
+		public virtual ICollection<CommentLike> Likes { get; set; } = new HashSet<CommentLike>();
         /// <summary>
         /// Comment's text
         /// </summary>
@@ -39,22 +42,22 @@ namespace DataAccess.Entities
         /// </summary>
 		public System.DateTime Date { get; set; } = System.DateTime.Now;
 
-        #region NotifyOnPropertyChanged
-        // this part is used to updates comment likes on click. Check LikeCommentCommad
+        #region  to string option
         /// <summary>
-        /// Occurs when property changed
+        /// Gets brief information about entity
         /// </summary>
-        public event PropertyChangedEventHandler PropertyChanged;
-        
-        /// <summary>
-        /// Invoke <see cref="PropertyChanged"/>
-        /// </summary>
-        /// <param name="proppertyName">
-        /// Property name that has been updated
-        /// </param>
-        public void PropertyUpdates(string proppertyName)
+        /// <returns>Brief information about entity</returns>
+        protected override string GetBriefInfo()
         {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(proppertyName));
+            return string.Concat(nameof(Comment), " with text : ", Text.Substring(startIndex: 0, length: 20));
+        }
+        /// <summary>
+        /// Gets entity name
+        /// </summary>
+        /// <returns>Entity's name</returns>
+        protected override string GetName()
+        {
+            return nameof(Comment);
         }
         #endregion
     }

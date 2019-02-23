@@ -1,6 +1,10 @@
-﻿using System;
+using System;
 using System.Linq;
 using System.Text;
+using System.Collections.Generic;
+
+using Core.Enums;
+
 using DataAccess.Entities;
 
 namespace UnitTest.Resources.Classes
@@ -8,26 +12,152 @@ namespace UnitTest.Resources.Classes
     internal class DbFiller
     {
         // FIELDS
+        static readonly DbFiller instance;
+
+        readonly DataBaseFillMode fillMode;
+
         readonly Random random;
         readonly string[] names;
         readonly string[] words;
+
+        User firstUser;
+        string firstUserNickname;
+        int userAmount;
+        int adminAmount;
+        int userWithAvatar;
+
+        int photoAmount;
+        Dictionary<string, int> userPhotoAmount;
+
+        int photoLikeAmount;
+        int photoLikeAmountWithLike;
+        string userDisliked;
+        string userWithoutPhotoLike;        
+
+        int commentAmount;
+
+        int commentLikeAmount;
+        int commentLikeAmountWithLike;
+        int[] commentMonth;// amount of comment per month
+        string userWithoutCommentLike;
+
+        int subjectAmount;
+        Dictionary<string, int> subjectMessageAmount;
+
+        int messageAmount;
+        int messageWithSubjectAmount;
+        int[] messageMonthAmount;
+
         // CONSTRUCTORS
-        public DbFiller()
+        private DbFiller()
         {
+            // initialize test mode
+            fillMode = Core.Configuration.TestConfig.DATABASE_FILL_MODE;
+
+            // initialize fields
             random = new Random();
-            names = new string[50] { "Bennie", "Wan", "Neil", "Lynna", "Chrissy", "Vivienne", "Ambrose", "Salina", "Thelma", "Joellen", "Donovan", "Margarita", "Eliseo", "Lavada",
+            names = new string[50] { "John", "Wan", "Neil", "Lynna", "Chrissy", "Vivienne", "Ambrose", "Salina", "Thelma", "Joellen", "Donovan", "Margarita", "Eliseo", "Lavada",
                                      "Letitia", "Kayleen", "Hermine", "Yvette", "Dino", "Tabitha", "Margareta", "Jordon", "Loree", "Crystle", "Darcey", "Tameika", "Josiah", "Kathie",
                                      "Galen", "Chauncey", "Jeannetta", "Sharonda", "Petra", "Victor", "Vida", "Corinna", "Dee", "Pia", "Carry", "Hipolito", "Colleen", "Katelynn",
                                      "Henry", "Argelia", "Rossie", "Lavonia", "Zena", "Ashleigh", "Annmarie", "Debbra" };
+
             words = string.Concat("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras accumsan mi a quam viverra luctus. ",
                                   "Suspendisse ut vulputate nisi, nec fermentum libero. ",
                                   "Morbi sollicitudin, orci sit amet congue cursus, nibh nunc lobortis orci, et hendrerit arcu nunc a lorem. Curabitur dignissim risus non diam ornare mattis ac vitae elit. ",
                                   "Suspendisse euismod gravida diam et varius. Sed quis commodo magna. Nunc a ex nec erat feugiat dapibus. Donec id nulla et dolor efficitur convallis. ",
-                                  "Maecenas vel sem neque. Vivamus volutpat quam ac urna condimentum, vitae posuere neque scelerisque. Aenean et lacinia dolor.").ToLower().Split(new char[] { ',', '.'}, StringSplitOptions.RemoveEmptyEntries);
+                                  "Maecenas vel sem neque. Vivamus volutpat quam ac urna condimentum, vitae posuere neque scelerisque. Aenean et lacinia dolor.")
+                                  .ToLower().Split(new char[] { ',', '.', ' ' }, StringSplitOptions.RemoveEmptyEntries);
+
+            // initialize counter
+            firstUserNickname = string.Empty;
+            userAmount = 0;
+            adminAmount = 0;
+            userWithAvatar = 0;
+
+            photoAmount = 0;
+            userPhotoAmount = new Dictionary<string, int>();
+
+            photoLikeAmount = 0;
+            photoLikeAmountWithLike = 0;
+            userDisliked = string.Empty;
+            userWithoutPhotoLike = string.Empty;
+
+            commentAmount = 0;
+
+            commentLikeAmount = 0;
+            commentLikeAmountWithLike = 0;
+            commentMonth = new int[12];
+            userWithoutCommentLike = string.Empty;
+
+            subjectAmount = 0;
+            subjectMessageAmount = new Dictionary<string, int>();
+
+            messageAmount = 0;
+            messageWithSubjectAmount = 0;
+            messageMonthAmount = new int[12];
 
         }
+        static DbFiller()
+        {
+            instance = new DbFiller();
+        }
+
+        // PROPERTIES
+        public static DbFiller Instance => instance;
+
+        public User FirstUser => firstUser;
+        public string FirstUserNickname => firstUserNickname;
+        public int UserAmount => userAmount;
+        public int UserWithAvatar => userWithAvatar;
+        public int UserWithoutAvatar => userAmount - userWithAvatar;
+        public int AdminAmount => adminAmount;
+
+        public int PhotoAmount => photoAmount;
+        public int GetPhotoAmountByUser(string nickname) => userPhotoAmount.ContainsKey(nickname) ? userPhotoAmount[nickname] : 0;
+
+        public int PhotoLikeAmount => photoLikeAmount;
+        public int PhotoLikeAmountWithLike => photoLikeAmountWithLike;
+        public string UserDisliked => userDisliked;
+        public string UserWithoutPhotoLike => userWithoutPhotoLike;
+
+        public int CommentAmount => commentAmount;
+
+        public int CommentLikeAmount => commentLikeAmount;
+        public int CommentLikeAmountWithLike => commentLikeAmountWithLike;
+        public string UserWithoutCommentLike => userWithoutCommentLike;
+        public int GetCommentByMonth(int monthNumber) => commentMonth[monthNumber - 1];
+
+        public int SubjectAmount => subjectAmount;
+        public Dictionary<string, int> SubjectMessageAmount => subjectMessageAmount;
+
+        public int MessageAmount => messageAmount;
+        public int MessageWithSubjectAmount => messageWithSubjectAmount;
+        public int MessageWithoutSubjectAmount => messageAmount - messageWithSubjectAmount;
+        public int GetMessageByMonth(int monthNumber) => messageMonthAmount[monthNumber - 1];
+
         // DB METHODS
         public void Fill(global::DataAccess.Context.AppContext dbContext)
+        {
+            switch (fillMode)
+            {
+                case DataBaseFillMode.Regular: RegularFill(dbContext); break;
+                case DataBaseFillMode.Easy: RandomFill(dbContext: dbContext, userAmount: 10, photoAmount: 10, commentAmount: 100, likesAmount: 100, subjectAmount: 2, messagesAmount: 50); break;
+                case DataBaseFillMode.Middle: RandomFill(dbContext: dbContext, userAmount: 500, photoAmount: 500, commentAmount: 1000, likesAmount: 3000, subjectAmount: 5, messagesAmount: 500); break;
+                case DataBaseFillMode.Hard: RandomFill(dbContext: dbContext, userAmount: 1000, photoAmount: 1000, commentAmount: 2000, likesAmount: 5000, subjectAmount: 10, messagesAmount: 1000); break;
+
+                default: throw new NotImplementedException("Wrong DataBase fill mode");
+            }
+        }
+
+        public void Purge(global::DataAccess.Context.AppContext dbContext)
+        {
+            ResetFields();
+            ClearDataBase(dbContext);
+        }
+
+        // PRIVATE METHODS
+        #region FILL MODE
+        private void RegularFill(global::DataAccess.Context.AppContext dbContext)
         {
             // USERS
             #region USERS
@@ -36,6 +166,12 @@ namespace UnitTest.Resources.Classes
             User user3 = new User { NickName = "Clementine", Password = "1111", MainPhotoPath = "1223/466/64.jpg", IsAdmin = false };
             User user4 = new User { NickName = "Beverley",   Password = "1111", MainPhotoPath = null,              IsAdmin = false };
             User user5 = new User { NickName = "Harold",     Password = "1111", MainPhotoPath = "1223/466/64.jpg", IsAdmin = true };
+
+            firstUser = user1;
+            firstUserNickname = user1.NickName;
+            userAmount = 5;
+            userWithAvatar = 3;
+            adminAmount = 1;
             #endregion
 
             // FOLLOWERS
@@ -79,6 +215,14 @@ namespace UnitTest.Resources.Classes
             // 5
             Photo photo12 = new Photo { Path = "5/1.jpg", User = user5 };
             Photo photo13 = new Photo { Path = "5/2.jpg", User = user5 };
+
+            photoAmount = 13;
+
+            userPhotoAmount.Add(user1.NickName, 3);
+            userPhotoAmount.Add(user2.NickName, 5);
+            userPhotoAmount.Add(user3.NickName, 2);
+            userPhotoAmount.Add(user4.NickName, 1);
+            userPhotoAmount.Add(user5.NickName, 2);
             #endregion
 
             // PHOTO LIKES
@@ -102,12 +246,12 @@ namespace UnitTest.Resources.Classes
             PhotoLike photoLike11 = new PhotoLike { IsLiked = true, Photo = photo4, User = user2 };
             // 5
             PhotoLike photoLike12 = new PhotoLike { IsLiked = true, Photo = photo5, User = user3 };
-            PhotoLike photoLike13 = new PhotoLike { IsLiked = true, Photo = photo5, User = user5 };
+            PhotoLike photoLike13 = new PhotoLike { IsLiked = true, Photo = photo5, User = user4 };
             // 6
             PhotoLike photoLike14 = new PhotoLike { IsLiked = false, Photo = photo6, User = user1 };
             PhotoLike photoLike15 = new PhotoLike { IsLiked = true, Photo = photo6, User = user2 };
             // 7
-            PhotoLike photoLike16 = new PhotoLike { IsLiked = true, Photo = photo7, User = user5 };
+            PhotoLike photoLike16 = new PhotoLike { IsLiked = true, Photo = photo7, User = user2 };
             PhotoLike photoLike17 = new PhotoLike { IsLiked = true, Photo = photo7, User = user4 };
             // 8
             PhotoLike photoLike18 = new PhotoLike { IsLiked = false, Photo = photo8, User = user1 };
@@ -121,14 +265,19 @@ namespace UnitTest.Resources.Classes
             PhotoLike photoLike21 = new PhotoLike { IsLiked = true, Photo = photo11, User = user4 };
             PhotoLike photoLike22 = new PhotoLike { IsLiked = false, Photo = photo11, User = user1 };
             PhotoLike photoLike23 = new PhotoLike { IsLiked = false, Photo = photo11, User = user3 };
-            PhotoLike photoLike24 = new PhotoLike { IsLiked = true, Photo = photo11, User = user5 };
+            PhotoLike photoLike24 = new PhotoLike { IsLiked = true, Photo = photo11, User = user2 };
 
             // 12
             PhotoLike photoLike25 = new PhotoLike { IsLiked = true, Photo = photo12, User = user4 };
             PhotoLike photoLike26 = new PhotoLike { IsLiked = false, Photo = photo12, User = user2 };
-            PhotoLike photoLike27 = new PhotoLike { IsLiked = true, Photo = photo12, User = user5 };
+            PhotoLike photoLike27 = new PhotoLike { IsLiked = true, Photo = photo12, User = user1 };
             // 13
             // no likes
+
+            userDisliked = user2.NickName;
+            photoLikeAmount = 27;
+            photoLikeAmountWithLike = 18;
+            userWithoutPhotoLike = user5.NickName;
             #endregion
 
             // COMMENTS
@@ -183,6 +332,20 @@ namespace UnitTest.Resources.Classes
             // 13
             Comment comment29 = new Comment { Date = new DateTime(year: 2012, month: 5, day: 2), Photo = photo13, User = user2, Text = "I want to get away, I want to fly away, Yeah yeah yeah" };
             Comment comment30 = new Comment { Date = new DateTime(year: 2014, month: 6, day: 3), Photo = photo13, User = user2, Text = "Where is my mind" };
+
+            commentAmount = 30;
+            commentMonth[0] = 3;
+            commentMonth[1] = 3;
+            commentMonth[2] = 3;
+            commentMonth[3] = 2;
+            commentMonth[4] = 2;
+            commentMonth[5] = 2;
+            commentMonth[6] = 2;
+            commentMonth[7] = 2;
+            commentMonth[8] = 2;
+            commentMonth[9] = 2;
+            commentMonth[10] = 2;
+            commentMonth[11] = 2;
             #endregion
 
             // COMMENTS LIKE
@@ -241,6 +404,9 @@ namespace UnitTest.Resources.Classes
             // 29
             // 30
 
+            commentLikeAmount = 22;
+            commentLikeAmountWithLike = 14;
+            userWithoutCommentLike = user4.NickName;
             #endregion
 
             // SUBJECTS
@@ -250,6 +416,8 @@ namespace UnitTest.Resources.Classes
             Subject subject3 = new Subject { Name = "Subject 3" };
             Subject subject4 = new Subject { Name = "Subject 4" };
             Subject subject5 = new Subject { Name = "Subject 5" };
+
+            subjectAmount = 5;
             #endregion
 
             // MESSAGES
@@ -276,20 +444,42 @@ namespace UnitTest.Resources.Classes
             // 6 deleted subject
             Message message14 = new Message { Date = new DateTime(year: 2013, month: 2, day: 15), Subject = null, User = user1, Text = "Cut my life into pieces" };
             Message message15 = new Message { Date = new DateTime(year: 2014, month: 3, day: 15), Subject = null, User = user2, Text = "Listen to the wind blow, watch the sun rise, Running in the shadows, damn your love, damn your lies" };
+
+            messageAmount = 15;
+            messageWithSubjectAmount = 13;
+            subjectMessageAmount[subject1.Name] = 3;
+            subjectMessageAmount[subject2.Name] = 2;
+            subjectMessageAmount[subject3.Name] = 2;
+            subjectMessageAmount[subject4.Name] = 2;
+            subjectMessageAmount[subject5.Name] = 4;
+            subjectMessageAmount["no subject"]  = 2;
+
+            messageMonthAmount[0] = 2;
+            messageMonthAmount[1] = 2;
+            messageMonthAmount[2] = 2;
+            messageMonthAmount[3] = 1;
+            messageMonthAmount[4] = 1;
+            messageMonthAmount[5] = 1;
+            messageMonthAmount[6] = 1;
+            messageMonthAmount[7] = 1;
+            messageMonthAmount[8] = 1;
+            messageMonthAmount[9] = 1;
+            messageMonthAmount[10] = 1;
+            messageMonthAmount[11] = 1;
             #endregion
 
             #region Adding
             dbContext.Users.AddRange(new User[] { user1, user2, user3, user4, user5 });
             dbContext.Photos.AddRange(new Photo[] { photo1, photo2, photo3, photo4, photo5, photo6, photo7, photo8, photo9, photo10, photo11, photo12, photo13 });
-            //dbContext.PhotoLike.AddRange(new PhotoLike[] { photoLike1, photoLike2, photoLike3, photoLike4, photoLike5, photoLike6, photoLike7, photoLike8, photoLike9,
-            //                                               photoLike10, photoLike11, photoLike12, photoLike13, photoLike14, photoLike15, photoLike16, photoLike17, photoLike18, photoLike19,
-            //                                               photoLike20, photoLike21, photoLike22, photoLike23, photoLike24, photoLike25, photoLike26, photoLike27 });
+            dbContext.PhotoLike.AddRange(new PhotoLike[] { photoLike1, photoLike2, photoLike3, photoLike4, photoLike5, photoLike6, photoLike7, photoLike8, photoLike9,
+                                                           photoLike10, photoLike11, photoLike12, photoLike13, photoLike14, photoLike15, photoLike16, photoLike17, photoLike18, photoLike19,
+                                                           photoLike20, photoLike21, photoLike22, photoLike23, photoLike24, photoLike25, photoLike26, photoLike27 });
             dbContext.Comments.AddRange(new Comment[] { comment1, comment2, comment3, comment4, comment5, comment6, comment7, comment8, comment9,
                                                         comment10, comment11, comment12, comment13, comment14, comment15, comment16, comment17, comment18, comment19,
                                                         comment20, comment21, comment22, comment23, comment24, comment25, comment26, comment27, comment28, comment29, comment30});
-            //dbContext.CommentLike.AddRange(new CommentLike[] { commentLike1, commentLike2, commentLike3, commentLike4, commentLike5, commentLike6, commentLike7, commentLike8, commentLike9,
-            //                                                   commentLike11, commentLike12, commentLike13, commentLike14, commentLike15, commentLike16, commentLike17, commentLike18, commentLike19,
-            //                                                   commentLike20, commentLike21, commentLike22 });
+            dbContext.CommentLike.AddRange(new CommentLike[] { commentLike1, commentLike2, commentLike3, commentLike4, commentLike5, commentLike6, commentLike7, commentLike8, commentLike9,
+                                                               commentLike10 ,commentLike11, commentLike12, commentLike13, commentLike14, commentLike15, commentLike16, commentLike17,
+                                                               commentLike18, commentLike19, commentLike20, commentLike21, commentLike22 });
             dbContext.Subjects.AddRange(new Subject[] { subject1, subject2, subject3, subject4, subject5 });
             dbContext.Messages.AddRange(new Message[] { message1, message2, message3, message4, message5, message6, message7, message8, message9,
                                                         message10, message11, message12, message13, message14, message15 });
@@ -297,35 +487,43 @@ namespace UnitTest.Resources.Classes
             #endregion
         }
 
-        public void RandomFill(global::DataAccess.Context.AppContext dbContext, int userAmount = 1000, int photoAmount = 10000, int commentAmount = 2000, int likesAmount = 5000, int subjectAmount = 10, int messagesAmount = 1000)
+        private void RandomFill(global::DataAccess.Context.AppContext dbContext, int userAmount = 1000, int photoAmount = 10000, int commentAmount = 2000, int likesAmount = 5000, int subjectAmount = 10, int messagesAmount = 1000)
         {
-            throw new System.NotImplementedException("its broken, ian I dont know why");
             // USERS
             #region USERS
             User[] users = new User[userAmount];
             for (int i = 0; i < userAmount; ++i)
             {
+                bool isAdmin = random.Next(5) == 4;
+                bool hasAvatar = random.Next(5) == 4;
+
                 users[i] = new User
                 {
-                    NickName = names[random.Next(names.Length)],
+                    NickName = names[random.Next(names.Length)] + i,
                     Password = GeneratePassword(),
-                    MainPhotoPath = GenerateImagePath(),
-                    IsAdmin = random.Next(5) > 4 
+                    MainPhotoPath = hasAvatar ? GenerateImagePath() : null,
+                    IsAdmin = isAdmin
                 };
+
+                if (isAdmin) ++adminAmount;
+                if (hasAvatar) ++userWithAvatar;
             }
+
+            firstUser = users.First();
+            firstUserNickname = users.First().NickName;
+            this.userAmount = userAmount;
             #endregion
 
             // FOLLOWERS
             #region FOLLOWERS
             for (int i = 0; i < userAmount; ++i)
             {
-                int followersAmount = random.Next(25);
-                for (int j = 0; j < followersAmount; ++j)
+                for (int j = 0; j < userAmount; ++j)
                 {
-                    int followerId = random.Next(users.Length);
-                    if (followerId == i) continue; // do not follow on himself
-
-                    users[i].Followers.Add(users[followerId]);
+                    if (j != i && random.NextDouble() < 0.10) // 10 % to be a follower
+                    {
+                        users[i].Followers.Add(users[j]);
+                    }
                 }
             }
             #endregion
@@ -335,8 +533,14 @@ namespace UnitTest.Resources.Classes
             Photo[] photos = new Photo[photoAmount];
             for (int i = 0; i < photoAmount; ++i)
             {
-                photos[i] = new Photo { Path = GenerateImagePath(), User = users[random.Next(users.Length)] };
+                User user = users[random.Next(users.Length)];
+                photos[i] = new Photo { Path = GenerateImagePath(), User = user };
+
+                if (userPhotoAmount.ContainsKey(user.NickName)) ++userPhotoAmount[user.NickName];
+                else userPhotoAmount.Add(user.NickName, 1);
             }
+
+            this.photoAmount = photoAmount;
             #endregion
 
             // PHOTO LIKES
@@ -344,13 +548,21 @@ namespace UnitTest.Resources.Classes
             PhotoLike[] photoLikes = new PhotoLike[likesAmount];
             for (int i = 0; i < likesAmount; ++i)
             {
+                bool isLiked = random.Next(2) == 1;
+
                 photoLikes[i] = new PhotoLike
                 {
-                    IsLiked = random.Next(2) > 1,
+                    IsLiked = isLiked,
                     Photo = photos[random.Next(photoAmount)],
-                    User = users[random.Next(userAmount)]
+                    User = users[random.Next(userAmount-1)] // last user sets no likes
                 };
+
+                if (isLiked) ++photoLikeAmountWithLike;
             }
+
+            userDisliked = photoLikes.First(l => !l.IsLiked).User.NickName;
+            photoLikeAmount = likesAmount;
+            userWithoutPhotoLike = users.Last().NickName;
             #endregion
 
             // COMMENTS
@@ -358,14 +570,19 @@ namespace UnitTest.Resources.Classes
             Comment[] comments = new Comment[commentAmount];
             for (int i = 0; i < commentAmount; ++i)
             {
+                DateTime date = GenerateDate();
                 comments[i] = new Comment
                 {
-                    Date = GenerateDate(),
+                    Date = date,
                     Photo = photos[random.Next(photoAmount)],
                     User = users[random.Next(userAmount)],
                     Text = GenerateSentence()
                 };
+
+                ++commentMonth[date.Month - 1];
             }
+
+            this.commentAmount = commentAmount;
             #endregion
 
             // COMMENTS LIKE
@@ -373,13 +590,19 @@ namespace UnitTest.Resources.Classes
             CommentLike[] commentLikes = new CommentLike[likesAmount];
             for (int i = 0; i < likesAmount; ++i)
             {
+                bool isLiked = random.Next(2) == 1;
                 commentLikes[i] = new CommentLike
                 {
-                    IsLiked = random.Next(2) > 1,
+                    IsLiked = isLiked,
                     Comment = comments[random.Next(commentAmount)],
-                    User = users[random.Next(userAmount)]
+                    User = users[random.Next(userAmount - 1)] // last user sets no likes 
                 };
+
+                if(isLiked) ++commentLikeAmountWithLike;
             }
+
+            commentLikeAmount = likesAmount;
+            userWithoutCommentLike = users.Last().NickName;
             #endregion
 
             // SUBJECTS
@@ -389,6 +612,8 @@ namespace UnitTest.Resources.Classes
             {
                 subjects[i] = new Subject { Name = $"Subject {i + 1}" };
             }
+
+            this.subjectAmount = subjectAmount;
             #endregion
 
             // MESSAGES
@@ -396,41 +621,50 @@ namespace UnitTest.Resources.Classes
             Message[] messages = new Message[messagesAmount];
             for (int i = 0; i < messagesAmount; ++i)
             {
+                bool hasSubject = random.Next(2) == 1;
+                Subject subject = subjects[random.Next(subjectAmount)];
+                DateTime date = GenerateDate();
+
                 messages[i] = new Message
                 {
-                    Date = GenerateDate(),
-                    Subject = subjects[random.Next(subjectAmount)],
+                    Date = date,
+                    Subject = hasSubject ? subject : null,
                     User = users[random.Next(userAmount)],
                     Text = GenerateSentence()
                 };
+
+                if (hasSubject)
+                {
+                    ++messageWithSubjectAmount;
+
+                    if (subjectMessageAmount.ContainsKey(subject.Name)) ++subjectMessageAmount[subject.Name];
+                    else subjectMessageAmount[subject.Name] = 1;
+                }
+                else
+                {
+                    if (subjectMessageAmount.ContainsKey("no subject")) ++subjectMessageAmount["no subject"];
+                    else subjectMessageAmount["no subject"] = 1;
+                }
+                ++messageMonthAmount[date.Month - 1];
             }
+
+            messageAmount = messagesAmount;
             #endregion
 
             #region Adding
             dbContext.Users.AddRange(users);
             dbContext.Photos.AddRange(photos);
-            //dbContext.PhotoLike.AddRange(photoLikes);
+            dbContext.PhotoLike.AddRange(photoLikes);
             dbContext.Comments.AddRange(comments);
-            //dbContext.CommentLike.AddRange(commentLikes);
+            dbContext.CommentLike.AddRange(commentLikes);
             dbContext.Subjects.AddRange(subjects);
             dbContext.Messages.AddRange(messages);
             dbContext.SaveChanges();
             #endregion
         }
+        #endregion
 
-        public void Purge(global::DataAccess.Context.AppContext dbContext)
-        {
-            #warning Probably very slow, could use SQl, but should write this in generic style
-            dbContext.Users.RemoveRange(dbContext.Set<User>());
-            dbContext.Photos.RemoveRange(dbContext.Set<Photo>());
-            dbContext.PhotoLike.RemoveRange(dbContext.Set<PhotoLike>());
-            dbContext.Comments.RemoveRange(dbContext.Set<Comment>());
-            dbContext.CommentLike.RemoveRange(dbContext.Set<CommentLike>());
-            dbContext.Messages.RemoveRange(dbContext.Set<Message>());
-            dbContext.Subjects.RemoveRange(dbContext.Set<Subject>());
-            dbContext.SaveChanges();
-        }
-        // PRIVATE METHODS
+        #region ADDITIONAL METHOD
         private string GeneratePassword(int length = 4)
         {
             StringBuilder password = new StringBuilder(length);
@@ -458,5 +692,79 @@ namespace UnitTest.Resources.Classes
             }
             return sentence.ToString();
         }
+        #endregion
+
+        #region CLEAN
+        private void ResetFields()
+        {
+            firstUser = null;
+            firstUserNickname = string.Empty;
+            userAmount = 0;
+            adminAmount = 0;
+            userWithAvatar = 0;
+
+            photoAmount = 0;
+            userPhotoAmount.Clear();
+
+            photoLikeAmount = 0;
+            photoLikeAmountWithLike = 0;
+            userDisliked = string.Empty;
+            userWithoutPhotoLike = string.Empty;
+
+            commentAmount = 0;
+
+            commentLikeAmount = 0;
+            commentLikeAmountWithLike = 0;
+            for (int i = 0; i < commentMonth.Length; ++i)
+            {
+                commentMonth[i] = 0;
+            }
+            userWithoutCommentLike = string.Empty;
+
+            subjectAmount = 0;
+            subjectMessageAmount.Clear();
+
+            messageAmount = 0;
+            messageWithSubjectAmount = 0;
+            for (int i = 0; i < messageMonthAmount.Length; ++i)
+            {
+                messageMonthAmount[i] = 0;
+            }
+        }
+        private void ClearDataBase(global::DataAccess.Context.AppContext dbContext)
+        {            
+            // create transaction to clear DataBase
+            using (System.Data.Entity.DbContextTransaction transaction = dbContext.Database.BeginTransaction())
+            {
+                try
+                {
+                    // disable all constraints in the database
+                    dbContext.Database.ExecuteSqlCommand("EXEC sp_MSforeachtable \"ALTER TABLE ? NOCHECK CONSTRAINT all\"");
+
+                    // gets all tables' names
+                    string[] tableNames = dbContext.Database.SqlQuery<string>("SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'BASE TABLE' AND TABLE_NAME NOT LIKE '%Migration%'").ToArray();
+
+                    // clear out data in all tables
+                    foreach (string tableName in tableNames)
+                    {
+                        dbContext.Database.ExecuteSqlCommand($"DELETE FROM [{tableName}];");
+                    }
+
+                    // enable all constraints in the database
+                    dbContext.Database.ExecuteSqlCommand("EXEC sp_MSforeachtable @command1=\"print '?'\", @command2=\"ALTER TABLE ? WITH CHECK CHECK CONSTRAINT all\"");
+
+                    // commit transaction 
+                    transaction.Commit();
+                }
+                catch
+                {
+                    // rollback transtaction on any error
+                    transaction.Rollback();
+
+                    throw;
+               }
+            }
+        }
+        #endregion
     }
 }

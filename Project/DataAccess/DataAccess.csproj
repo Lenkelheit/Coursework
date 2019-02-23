@@ -31,9 +31,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Core">
-      <HintPath>..\Core\bin\Debug\Core.dll</HintPath>
-    </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
@@ -51,6 +48,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Comparers\SubjectComparer.cs" />
+    <Compile Include="Comparers\UserComparer.cs" />
     <Compile Include="Configuration\CommentConfiguration.cs" />
     <Compile Include="Configuration\CommentLikeConfiguration.cs" />
     <Compile Include="Configuration\MessageConfiguration.cs" />
@@ -62,29 +61,47 @@
     <Compile Include="Context\UnitOfWork.cs" />
     <Compile Include="Entities\Comment.cs" />
     <Compile Include="Entities\CommentLike.cs" />
+    <Compile Include="Entities\EntityBase.cs" />
     <Compile Include="Entities\LikeBase.cs" />
     <Compile Include="Entities\Message.cs" />
     <Compile Include="Entities\Photo.cs" />
     <Compile Include="Entities\PhotoLike.cs" />
     <Compile Include="Entities\Subject.cs" />
     <Compile Include="Entities\User.cs" />
+    <Compile Include="Enums\Comparers\SubjectCompareType.cs" />
+    <Compile Include="Enums\Comparers\UserCompareType.cs" />
+    <Compile Include="Enums\EntityStringFormat.cs" />
+    <Compile Include="Filters\CommentFilter.cs" />
+    <Compile Include="Filters\MessageFilter.cs" />
+    <Compile Include="Filters\UserFilter.cs" />
     <Compile Include="Initializers\AppContextInitializer.cs" />
-    <Compile Include="Interfaces\IGenericRepository.cs" />
+    <Compile Include="Interfaces\IEntity.cs" />
+    <Compile Include="Interfaces\IRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\CommentLikeRepository.cs" />
     <Compile Include="Repositories\CommentRepository.cs" />
     <Compile Include="Repositories\GenericRepository.cs" />
     <Compile Include="Repositories\MessageRepository.cs" />
+    <Compile Include="Repositories\NonGenericRepository.cs" />
     <Compile Include="Repositories\PhotoLikeRepository.cs" />
     <Compile Include="Repositories\PhotoRepository.cs" />
     <Compile Include="Repositories\SubjectRepository.cs" />
     <Compile Include="Repositories\UserRepository.cs" />
     <Compile Include="Structs\LikeDislikeAmount.cs" />
+    <Compile Include="Structs\ValidNameAndPasswordAndUser.cs" />
     <Compile Include="Structs\ValidNameAndPassword.cs" />
+    <Compile Include="Wrappers\CommentWrapper.cs" />
+    <Compile Include="Wrappers\PhotoWrapper.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Core\Core.csproj">
+      <Project>{a5d47a88-abdd-4ad3-806f-ed0703b0feda}</Project>
+      <Name>Core</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

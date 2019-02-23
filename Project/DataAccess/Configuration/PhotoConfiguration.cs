@@ -1,4 +1,4 @@
-﻿using DataAccess.Entities;
+using DataAccess.Entities;
 using System.Data.Entity.ModelConfiguration;
 
 namespace DataAccess.Configuration
@@ -9,7 +9,7 @@ namespace DataAccess.Configuration
         {
             Property(p => p.Path).IsRequired();
 
-            HasRequired(p => p.User).WithMany(u => u.Photos).Map(m => m.MapKey("UserId")).WillCascadeOnDelete(false);
+            HasOptional(p => p.User).WithMany(u => u.Photos).Map(m => m.MapKey("UserId")).WillCascadeOnDelete(false);
         }
     }
 }

@@ -19,11 +19,11 @@
         {
             get
             {
-                return DeleteItemLbl.Text;
+                return DeleteItemLbl.Content.ToString();
             }
             set
             {
-                DeleteItemLbl.Text = value;
+                DeleteItemLbl.Content = value;
             }
         }
     }

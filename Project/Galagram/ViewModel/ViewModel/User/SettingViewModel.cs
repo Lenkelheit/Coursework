@@ -19,9 +19,11 @@ namespace Galagram.ViewModel.ViewModel.User
         string password;
         string newPassword;
 
-        ICommand applyChangesCommand;
-        ICommand loadNewAvatarCommand;
-        ICommand cleanOnCloseCommand;
+        readonly ICommand applyChangesCommand;
+        readonly ICommand loadNewAvatarCommand;
+        readonly ICommand closeCommand;
+        readonly ICommand resetAvatarCommand;
+        readonly ICommand removeAccountCommand;
 
         // CONSTRUCTORS
         /// <summary>
@@ -38,7 +40,15 @@ namespace Galagram.ViewModel.ViewModel.User
 
             this.applyChangesCommand = new Commands.User.Setting.ApplyChangesCommand(this);
             this.loadNewAvatarCommand = new Commands.User.Setting.LoadNewAvatarCommand(this);
-            this.cleanOnCloseCommand = new Commands.User.Setting.CleanOnCloseCommand(this);
+            this.closeCommand = new Commands.User.Setting.CloseCommand(this);
+            this.resetAvatarCommand = new Commands.User.Setting.ResetAvatarCommand(this);
+            this.removeAccountCommand = new Commands.MultipleCommand(new CommandBase[]
+            {
+                 new Commands.User.Setting.RemoveAccountCommand(this),
+                 new Commands.Shared.DeletePhotoFolderCommand(DataStorage.LoggedUser.Id.ToString()),
+                 new Commands.Shared.DeleteAvatarFromServerCommand(DataStorage.LoggedUser.MainPhotoPath),
+                 new Commands.User.MainWindow.LogOutCommand()
+            });
         }
 
         // PROPERTIES
@@ -57,7 +67,7 @@ namespace Galagram.ViewModel.ViewModel.User
             {
                 Logger.LogAsync(Core.LogMode.Debug, $"Sets {nameof(TempAvatarPath)}. Old = {tempAvatarPath}, new = {value}");
                 tempAvatarPath = value;
-                changedField.Set((int)SettingFieldChanged.Avatar, tempAvatarPath != null);
+                changedField.Set((int)SettingFieldChanged.Avatar, true);
 
                 OnPropertyChanged();
             }
@@ -74,7 +84,7 @@ namespace Galagram.ViewModel.ViewModel.User
             }
             set
             {
-                Logger.LogAsync(Core.LogMode.Debug, $"Gets or sets {nameof(NewNickname)}. Old value = {newNickname}, new value = {newNickname}");
+                Logger.LogAsync(Core.LogMode.Debug, $"Sets {nameof(NewNickname)}. Old value = {newNickname}, new value = {value}");
                 newNickname = value;
                 changedField.Set((int)SettingFieldChanged.Nickname, DataStorage.LoggedUser.NickName != newNickname && !string.IsNullOrWhiteSpace(newNickname));
 
@@ -149,15 +159,40 @@ namespace Galagram.ViewModel.ViewModel.User
         /// <summary>
         /// Gets action to clean up all garbage after setting
         /// </summary>
-        public ICommand CleanOnCloseCommand
+        public ICommand CloseCommand
         {
             get
             {
-                Logger.LogAsync(Core.LogMode.Debug, $"Gets {nameof(cleanOnCloseCommand)}");
+                Logger.LogAsync(Core.LogMode.Debug, $"Gets {nameof(CloseCommand)}");
 
-                return cleanOnCloseCommand;
+                return closeCommand;
             }
         }
+        /// <summary>
+        /// Resets avatar to its default value
+        /// </summary>
+        public ICommand ResetAvatarCommand
+        {
+            get
+            {
+                Logger.LogAsync(Core.LogMode.Debug, $"Gets {nameof(ResetAvatarCommand)}");
+
+                return resetAvatarCommand;
+            }
+        }
+        /// <summary>
+        /// Gets action to remove user account
+        /// </summary>
+        public ICommand RemoveAccountCommand
+        {
+            get
+            {
+                Logger.LogAsync(Core.LogMode.Debug, $"Gets {nameof(RemoveAccountCommand)}");
+
+                return removeAccountCommand;
+            }
+        }
+
         // METHODS
         /// <summary>
         /// Gets value if field has been changed
@@ -245,19 +280,19 @@ namespace Galagram.ViewModel.ViewModel.User
         {
             if (string.IsNullOrWhiteSpace(this.newNickname))
             {
-                WindowManager.ShowMessageWindow(Core.Messages.Info.ViewModel.Command.Registration.NICKNAME_EMPTY);
+                WindowManager.ShowMessageWindow(Core.Messages.Info.ViewModel.NICKNAME_EMPTY);
                 Logger.LogAsync(Core.LogMode.Debug, $"User can not change nickname, because his nickname is empty");
                 return false;
             }
             if (this.newNickname.Length < Core.Configuration.DBConfig.NICKNAME_MIN_LENGTH)
             {
-                WindowManager.ShowMessageWindow(Core.Messages.Info.ViewModel.Command.Registration.NICKNAME_TOO_SHORT);
+                WindowManager.ShowMessageWindow(Core.Messages.Info.ViewModel.NICKNAME_TOO_SHORT);
                 Logger.LogAsync(Core.LogMode.Debug, $"User can not change nickname, because his nickname is too short {this.newNickname.Length}");
                 return false;
             }
             if (this.newNickname.Length > Core.Configuration.DBConfig.NICKNAME_MAX_LENGTH)
             {
-                WindowManager.ShowMessageWindow(Core.Messages.Info.ViewModel.Command.Registration.NICKNAME_TOO_LONG);
+                WindowManager.ShowMessageWindow(Core.Messages.Info.ViewModel.NICKNAME_TOO_LONG);
                 Logger.LogAsync(Core.LogMode.Debug, $"User can not change nickname, because his nickname is too long {this.newNickname.Length}");
                 return false;
             }
@@ -273,20 +308,20 @@ namespace Galagram.ViewModel.ViewModel.User
         {
             if (string.IsNullOrWhiteSpace(this.newPassword))
             {
-                WindowManager.ShowMessageWindow(Core.Messages.Info.ViewModel.Command.Registration.PASSWORD_EMPTY);
+                WindowManager.ShowMessageWindow(Core.Messages.Info.ViewModel.PASSWORD_EMPTY);
                 Logger.LogAsync(Core.LogMode.Debug, $"User can not change password, because his password is empty");
                 return false;
             }
 
             if (this.newPassword.Length < Core.Configuration.DBConfig.PASSWORD_MIN_LENGTH)
             {
-                WindowManager.ShowMessageWindow(Core.Messages.Info.ViewModel.Command.Registration.PASSWORD_TOO_SHORT);
+                WindowManager.ShowMessageWindow(Core.Messages.Info.ViewModel.PASSWORD_TOO_SHORT);
                 Logger.LogAsync(Core.LogMode.Debug, $"User can not change password, because his password is too short {this.newPassword.Length}");
                 return false;
             }
             if (this.newPassword.Length > Core.Configuration.DBConfig.PASSWORD_MAX_LENGTH)
             {
-                WindowManager.ShowMessageWindow(Core.Messages.Info.ViewModel.Command.Registration.PASSWORD_TOO_LONG);
+                WindowManager.ShowMessageWindow(Core.Messages.Info.ViewModel.PASSWORD_TOO_LONG);
                 Logger.LogAsync(Core.LogMode.Debug, $"User can not change password, because his password is too long {this.newPassword.Length}");
                 return false;
             }

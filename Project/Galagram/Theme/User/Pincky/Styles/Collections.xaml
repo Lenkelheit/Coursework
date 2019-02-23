@@ -1,6 +1,5 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:local="clr-namespace:Galagram.Theme.User.Pincky.Styles">
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
     <!--LIST BOX BASE-->
     <Style TargetType="ListBoxItem" x:Key="ListBoxItemBase">
@@ -16,9 +15,14 @@
     </Style>
     <!--LIST BOX FOR SEARCH-->
     <Style TargetType="ListBox" x:Key="ListBoxSearch">
+        <Setter Property="FontSize" Value="22"/>
         <Setter Property="Background" Value="{StaticResource WhiteBrush}"/>
         <Setter Property="BorderThickness" Value="0"/>
         <Setter Property="Margin" Value="0, 10, 0, 0"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        <Setter Property="VerticalAlignment" Value="Stretch"/>
+        <Setter Property="HorizontalAlignment" Value="Stretch"/>
 
         <Setter Property="ItemContainerStyle">
             <Setter.Value>
@@ -41,7 +45,10 @@
         <Setter Property="Background" Value="{StaticResource WhiteBrush}"/>
         <Setter Property="BorderThickness" Value="0"/>
         <Setter Property="Margin" Value="0, 20, 0, 0"/>
-
+        <Setter Property="FontSize" Value="22"/>
+        <Setter Property="VerticalAlignment" Value="Stretch"/>
+        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+        
         <Setter Property="ItemContainerStyle">
             <Setter.Value>
                 <Style TargetType="ListBoxItem" BasedOn="{StaticResource ListBoxItemBase}">
@@ -54,25 +61,35 @@
             </Setter.Value>
         </Setter>
     </Style>
+    
     <!--LIST BOX FOR COMMENTS-->
     <Style TargetType="ListBox" x:Key="ListBoxComments">
         <Setter Property="Background" Value="{StaticResource WhiteBrush}"/>
         <Setter Property="BorderThickness" Value="0"/>
         <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled"/>
         <Setter Property="ScrollViewer.CanContentScroll" Value="False"/>
+        <Setter Property="FontSize" Value="22"/>
+        <Setter Property="VerticalAlignment" Value="Stretch"/>
+        <Setter Property="HorizontalAlignment" Value="Stretch"/>
 
         <Setter Property="ItemContainerStyle">
             <Setter.Value>
                 <Style TargetType="ListBoxItem">
                     <Setter Property="Background" Value="{StaticResource WhiteBrush}"/>
-                    <Setter Property="Margin" Value="2"/>
                     <Setter Property="Template" Value="{StaticResource ListItemCommentsTemplate}"/>
+                    
+                    <Setter Property="BorderThickness" Value="0, 2"/>
+                    <Setter Property="BorderBrush" Value="{DynamicResource GrayColorBrushV1}"/>
+                    
+                    <Setter Property="Padding" Value="2"/>
                 </Style>
             </Setter.Value>
         </Setter>
     </Style>
+    
     <!--LIST BOX FOR PHOTOS-->
     <Style TargetType="ListBox" x:Key="ListBoxAlbum">
+        <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto"/>
         <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled"/>
 
         <Setter Property="Template">
@@ -84,10 +101,38 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
+        
         <Setter Property="ItemContainerStyle">
             <Setter.Value>
                 <Style TargetType="ListBoxItem" BasedOn="{StaticResource ListBoxItemBase}">
                     <Setter Property="Template" Value="{StaticResource ListBoxAlbumImageTemplate}"/>
+                </Style>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!--LiST BOX WITH DROPPED IMAGES-->
+    <Style TargetType="ListBox" x:Key="ListBoxDropImage">
+        <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled"/>
+        <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="VirtualizingPanel.ScrollUnit" Value="Pixel"/>
+
+        <!--TEMPLATE-->
+        <Setter Property="ItemsPanel">
+            <Setter.Value>
+                <ItemsPanelTemplate>
+                    <DockPanel LastChildFill="False" VerticalAlignment="Top" />
+                </ItemsPanelTemplate>
+            </Setter.Value>
+        </Setter>
+
+        <!--ITEM CONTAINER STYLE-->
+        <Setter Property="ItemContainerStyle">
+            <Setter.Value>
+                <Style TargetType="ListBoxItem">
+                    <Setter Property="Template" Value="{StaticResource ListBoxDropImageTemplate}"/>
+                    <Setter Property="DockPanel.Dock" Value="Bottom" />
                 </Style>
             </Setter.Value>
         </Setter>

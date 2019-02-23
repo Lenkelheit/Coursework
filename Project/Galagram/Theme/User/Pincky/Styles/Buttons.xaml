@@ -2,12 +2,13 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     
 
-        <!--BUTTON-->
+    <!--BUTTON-->
     <Style TargetType="Button" x:Key="ButtonBase">
         <Setter Property="Template" Value="{StaticResource ButtonTemplate}"/>
         <Setter Property="Cursor" Value="Hand"/>
         <Setter Property="BorderThickness" Value="0"/>
     </Style>
+
     <!--BUTTON FOR FOLLOW DELETE-->
     <Style BasedOn="{StaticResource ButtonBase}" TargetType="{x:Type Button}" x:Key="FollowDeleteCrossButton">
         <Style.Triggers>
@@ -42,6 +43,7 @@
 
         </Style.Triggers>
     </Style>
+    
     <!--BUTTON FOR COMMENT DELETE-->
     <Style BasedOn="{StaticResource ButtonBase}" TargetType="{x:Type Button}" x:Key="CommentDeleteCrossButton">
         <Style.Triggers>
@@ -66,8 +68,8 @@
                     <MultiBinding Converter="{StaticResource UserConverter}">
                         <!--LOGGED USER-->
                         <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}" Path="DataContext.DataStorage.LoggedUser" Mode="OneWay"/>
-                        <!--USER IN FOLLOW LIST-->
-                        <Binding RelativeSource="{RelativeSource Self}" Path="DataContext.User" Mode="OneWay" />
+                        <!--USER IN COMMENT LIST-->
+                        <Binding RelativeSource="{RelativeSource Self}" Path="DataContext.Comment.User" Mode="OneWay" />
                     </MultiBinding>
                 </DataTrigger.Binding>
 
@@ -113,11 +115,25 @@
             </DataTrigger>
         </Style.Triggers>
     </Style>
+
+    <!--DANGEROUS CLICK BUTTON-->
+    <Style TargetType="Button" x:Key="DangerousButton" BasedOn="{StaticResource ClickButton}">
+        <Setter Property="Foreground" Value="{StaticResource DarkRedBrush}"/>
+        <Setter Property="FontSize" Value="22"/>
+    </Style>
+    
     <!--LIKE PHOTO BUTTON-->
     <Style TargetType="Button" x:Key="LikePhotoButton" BasedOn="{StaticResource ButtonBase}">
         <Setter Property="Background" Value="{StaticResource WhiteBrush}"/>
 
         <Style.Triggers>
+            <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}},
+                                           Path=DataContext.LikeValue, 
+                                           Mode=OneWay,
+                                           UpdateSourceTrigger=PropertyChanged}" Value="True">
+                <Setter Property="Background" Value="{StaticResource PinkBrush}"/>
+            </DataTrigger>
+            
             <Trigger Property="IsMouseOver" Value="True">
                 <Setter Property="Background" Value="{StaticResource PinkBrush}"/>
             </Trigger>
@@ -134,6 +150,14 @@
         <Setter Property="Background" Value="{StaticResource WhiteBrush}"/>
 
         <Style.Triggers>
+
+            <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}},
+                                           Path=DataContext.LikeValue, 
+                                           Mode=OneWay,
+                                           UpdateSourceTrigger=PropertyChanged}" Value="False">
+                <Setter Property="Background" Value="{StaticResource SilverBrush}"/>
+            </DataTrigger>
+            
             <Trigger Property="IsMouseOver" Value="True">
                 <Setter Property="Background" Value="{StaticResource SilverBrush}"/>
             </Trigger>

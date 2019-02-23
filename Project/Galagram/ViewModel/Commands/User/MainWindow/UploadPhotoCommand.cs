@@ -1,4 +1,4 @@
-﻿using Microsoft.Win32;
+﻿using System.IO;
 
 namespace Galagram.ViewModel.Commands.User.MainWindow
 {
@@ -12,7 +12,7 @@ namespace Galagram.ViewModel.Commands.User.MainWindow
 
         // CONSTRUCTORS
         /// <summary>
-        /// Initialize a new instance of <see cref="UploadPhotoCommand"/>
+        /// Initializes a new instance of <see cref="UploadPhotoCommand"/>
         /// </summary>
         /// <param name="mainWindowViewModel">
         /// An instance of <see cref="ViewModel.User.MainWindowViewModel"/>
@@ -29,7 +29,7 @@ namespace Galagram.ViewModel.Commands.User.MainWindow
 
         // METHODS
         /// <summary>
-        /// Check if command can be executed
+        /// Checks if command can be executed
         /// </summary>
         /// <param name="parameter">
         /// Additional parameters
@@ -43,7 +43,7 @@ namespace Galagram.ViewModel.Commands.User.MainWindow
             return true;
         }
         /// <summary>
-        /// Execute command
+        /// Executes command
         /// </summary>
         /// <param name="parameter">
         /// Command parameters
@@ -53,25 +53,26 @@ namespace Galagram.ViewModel.Commands.User.MainWindow
             Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, $"Execute {nameof(UploadPhotoCommand)}");
 
             Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, "Open file dialog to upload photo");
-            OpenFileDialog openFileDialog = new OpenFileDialog()
-            {
-                Multiselect = true,
-            };
-
-            if (openFileDialog.ShowDialog() == true)
+            string[] photoNames = Services.WindowManager.Instance.OpenFileDialog(filterString: Core.Configuration.DBConfig.PHOTO_EXTENSION,
+                                                                                 isMultiselectAllowed: true);
+            // user select a photo
+            if (photoNames != null)
             {
                 Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, "Adding photo");
-
-                int insertedPhotoCount = 0; // cuz Count() do not change after insert, needs for multiple photos adding
-                foreach (var photoPath in openFileDialog.FileNames)
+                
+                foreach (string photoPath in photoNames)
                 {
                     Core.Logger.GetLogger.LogAsync(Core.LogMode.Info, $"Photo path {photoPath}");
-                    // copy photo to server
-                    string serverPath = CopyPhotoToServer(
-                        pathToPhoto: photoPath,
-                        userId: mainWindowViewModel.DataStorage.LoggedUser.Id,
-                        photoId: mainWindowViewModel.UnitOfWork.PhotoRepository.Count() + 1 + insertedPhotoCount);
+
+                    // get random free photo name
+                    string serverPath = GetRandomFreeName(mainWindowViewModel.DataStorage.LoggedUser.Id.ToString(), photoPath);
                     Core.Logger.GetLogger.LogAsync(Core.LogMode.Info, $"Server photo path {serverPath}");
+
+                    // copy photo to server
+                    Core.Logger.GetLogger.LogAsync(Core.LogMode.Info, "Copy photo to server");
+                    CopyPhotoToServer(userId: mainWindowViewModel.DataStorage.LoggedUser.Id.ToString(),
+                                      pathToPhoto: photoPath,
+                                      serverPath: serverPath);
 
                     // create photo
                     DataAccess.Entities.Photo photo = new DataAccess.Entities.Photo
@@ -90,7 +91,6 @@ namespace Galagram.ViewModel.Commands.User.MainWindow
                     // insert photo to DB
                     Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, "Insert photo to photo repositories");
                     mainWindowViewModel.UnitOfWork.PhotoRepository.Insert(photo);
-                    ++insertedPhotoCount;
                 }
 
                 // save to DB
@@ -106,27 +106,46 @@ namespace Galagram.ViewModel.Commands.User.MainWindow
             }
         }
 
-        private string CopyPhotoToServer(string pathToPhoto, int userId, int photoId)
+        private string CopyPhotoToServer(string userId, string pathToPhoto, string serverPath)
         {
-            // create photo folder if neaded
-            if (!System.IO.Directory.Exists(Core.Configuration.AppConfig.PHOTOS_SAVE_FOLDER))
+            // create photo folder if needed
+            if (!Directory.Exists(Core.Configuration.AppConfig.PHOTOS_SAVE_FOLDER))
             {
                 Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, "Create photo folder");
-                System.IO.Directory.CreateDirectory(Core.Configuration.AppConfig.PHOTOS_SAVE_FOLDER);
+                DirectoryInfo photosDirectory = Directory.CreateDirectory(Core.Configuration.AppConfig.PHOTOS_SAVE_FOLDER);
+                photosDirectory.Attributes = Core.Configuration.AppConfig.PHOTOS_FOLDER_ATTRIBUTES;
             }
+
             // create folder for current user if neaded
-            string userFolder = string.Join(System.IO.Path.DirectorySeparatorChar.ToString(), Core.Configuration.AppConfig.PHOTOS_SAVE_FOLDER, userId);
-            if (!System.IO.Directory.Exists(userFolder))
+            string userFolder = string.Join(Path.DirectorySeparatorChar.ToString(), Core.Configuration.AppConfig.PHOTOS_SAVE_FOLDER, userId);
+            if (!Directory.Exists(userFolder))
             {
                 Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, "Create user folder");
-                System.IO.Directory.CreateDirectory(userFolder);
+                DirectoryInfo photoDirectory = Directory.CreateDirectory(userFolder);
+                photoDirectory.Attributes = Core.Configuration.AppConfig.PHOTOS_FOLDER_ATTRIBUTES;
+
                 Core.Logger.GetLogger.LogAsync(Core.LogMode.Info, $"User folder by path {userFolder} has been created");
             }
 
-
             // copy photo to server
-            string serverPath = string.Format(Core.Configuration.AppConfig.PHOTOS_SAVE_PATH_FORMAT, userId, photoId, System.IO.Path.GetExtension(pathToPhoto));
-            System.IO.File.Copy(pathToPhoto, serverPath);
+            File.Copy(pathToPhoto, serverPath);
+            return serverPath;
+        }
+        private string GetRandomFreeName(string userId, string currentFilePath)
+        {
+
+            System.Random random = new System.Random();
+            string serverPath;
+            string fileExtension = Path.GetExtension(currentFilePath);
+
+            // gets random free name
+            do
+            {
+                int fileHashName = random.Next().GetHashCode();
+
+                serverPath = string.Format(Core.Configuration.AppConfig.PHOTOS_SAVE_PATH_FORMAT, userId, fileHashName, fileExtension);
+            } while (File.Exists(serverPath));
+
             return serverPath;
         }
     }

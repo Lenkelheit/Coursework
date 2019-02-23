@@ -10,7 +10,7 @@
 
         // CONSTRUCTORS
         /// <summary>
-        /// Initialize a new instance of <see cref="FollowCommand"/>
+        /// Initializes a new instance of <see cref="FollowCommand"/>
         /// </summary>
         /// <param name="mainWindowViewModel">
         /// An instance of <see cref="ViewModel.User.MainWindowViewModel"/>
@@ -22,7 +22,7 @@
 
         // METHODS
         /// <summary>
-        /// Check if command can be executed
+        /// Checks if command can be executed
         /// </summary>
         /// <param name="parameter">
         /// Additionals parameters
@@ -36,7 +36,7 @@
             return true;
         }
         /// <summary>
-        /// Execute command
+        /// Executes command
         /// </summary>
         /// <param name="parameter">
         /// Command parameters
@@ -45,8 +45,9 @@
         {
             Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, $"Execute {nameof(FollowCommand)}");
 
-            Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, $"Gets to shwon user followers current user");
+            Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, "Shows followers/following list to user");
 
+            // follow/unfollow
             bool isFollowing = mainWindowViewModel.IsFollowing;
             if (isFollowing)// unfollow
             {
@@ -56,8 +57,13 @@
             {
                 mainWindowViewModel.User.Followers.Add(mainWindowViewModel.DataStorage.LoggedUser);
             }
+
+            // update view
+            Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, "Update view");
             mainWindowViewModel.IsFollowing = !isFollowing;
 
+            // update DB
+            Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, "Update DataBase");
             mainWindowViewModel.UnitOfWork.UserRepository.Update(mainWindowViewModel.User);
             mainWindowViewModel.UnitOfWork.UserRepository.Update(mainWindowViewModel.DataStorage.LoggedUser);
             mainWindowViewModel.UnitOfWork.Save();

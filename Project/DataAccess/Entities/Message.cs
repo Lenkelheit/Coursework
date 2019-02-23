@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 using static Core.Configuration.DBConfig;
 
@@ -9,12 +10,14 @@ namespace DataAccess.Entities
     /// <para/>
     /// Messages are sent to the Admin
     /// </summary>
-    public class Message
+    public class Message : EntityBase
     {
         /// <summary>
         /// Unique identifier
         /// </summary>
-        public int Id { get; set; }
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public override System.Guid Id { get; set; }
         /// <summary>
         /// A text of the message
         /// </summary>
@@ -30,8 +33,28 @@ namespace DataAccess.Entities
         /// </summary>
         public virtual Subject Subject { get; set; }
         /// <summary>
-        /// A date, when message was send
+        /// A date, when message was sent
         /// </summary>
         public System.DateTime Date { get; set; } = System.DateTime.Now;
+
+
+        #region to string option
+        /// <summary>
+        /// Gets brief information about entity
+        /// </summary>
+        /// <returns>Brief information about entity</returns>
+        protected override string GetBriefInfo()
+        {
+            return string.Concat(nameof(Message), " with text : ", Text.Substring(startIndex: 0, length: 20));
+        }
+        /// <summary>
+        /// Gets entity name
+        /// </summary>
+        /// <returns>Entity's name</returns>
+        protected override string GetName()
+        {
+            return nameof(Message);
+        }
+        #endregion
     }
 }

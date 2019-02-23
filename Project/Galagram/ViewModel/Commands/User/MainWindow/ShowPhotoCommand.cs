@@ -10,7 +10,7 @@
 
         // CONSTRUCTORS
         /// <summary>
-        /// Initialize a new instance of <see cref="ShowPhotoCommand"/>
+        /// Initializes a new instance of <see cref="ShowPhotoCommand"/>
         /// </summary>
         /// <param name="mainWindowViewModel">
         /// An instance of <see cref="ViewModel.User.MainWindowViewModel"/>
@@ -27,7 +27,7 @@
 
         // METHODS
         /// <summary>
-        /// Check if command can be executed
+        /// Checks if command can be executed
         /// </summary>
         /// <param name="parameter">
         /// Additionals parameters
@@ -41,7 +41,7 @@
             return true;
         }
         /// <summary>
-        /// Execute command
+        /// Executes command
         /// </summary>
         /// <param name="parameter">
         /// Command parameters
@@ -53,7 +53,7 @@
             // gets index 
             Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, "Gets photo index");
             int index = mainWindowViewModel.SelectedPhotoIndex;
-            Core.Logger.GetLogger.LogAsync(Core.LogMode.Info, $"{nameof(index)} = {index}");
+            Core.Logger.GetLogger.LogAsync(Core.LogMode.Info, $"Photo index = {index}");
 
             // check index
             if (index == Core.Configuration.Constants.WRONG_INDEX)
@@ -64,7 +64,7 @@
             
             Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, $"Open modal {nameof(Window.User.PhotoInside)} window");
             mainWindowViewModel.WindowManager.ShowWindowDialog(key: nameof(Window.User.PhotoInside), 
-                                                               viewModel: new ViewModel.User.PhotoInsideViewModel(photo: mainWindowViewModel.Photos[index]));
+                                                               viewModel: new ViewModel.User.PhotoInsideViewModel(photo: mainWindowViewModel.SelectedPhoto));
         }
     }
 }

@@ -1,6 +1,9 @@
-﻿using System.Windows.Input;
+﻿using System.Linq;
+using System.Windows.Input;
 using System.ComponentModel;
 using System.Collections.ObjectModel;
+
+using DataAccess.Wrappers;
 
 namespace Galagram.ViewModel.ViewModel.User
 {
@@ -10,18 +13,19 @@ namespace Galagram.ViewModel.ViewModel.User
     public class PhotoInsideViewModel : ViewModelBase
     {
         // FIELDS
-        DataAccess.Entities.Photo photo;
+        readonly DataAccess.Entities.Photo photo;
         int selectedCommentIndex;
         #warning set it to array after optimization in future milestones
-        ObservableCollection<DataAccess.Entities.Comment> comments;
+        ObservableCollection<CommentWrapper> comments;
         string commentText;
 
         DataAccess.Structs.LikeDislikeAmount likeDislikeAmount;
+        bool? likeValue;
 
-        ICommand likePhotoCommand;
-        ICommand likeCommentCommand;
-        ICommand writeCommentCommand;
-        ICommand deleteCommentCommand;
+        readonly ICommand likePhotoCommand;
+        readonly ICommand likeCommentCommand;
+        readonly ICommand writeCommentCommand;
+        readonly ICommand deleteCommentCommand;
         // CONSTRUCTORS
         /// <summary>
         /// Initialize a new instance of <see cref="PhotoInsideViewModel"/>
@@ -30,10 +34,11 @@ namespace Galagram.ViewModel.ViewModel.User
         {
             this.photo = photo;
             this.selectedCommentIndex = Core.Configuration.Constants.WRONG_INDEX;
-            this.comments = new ObservableCollection<DataAccess.Entities.Comment>(photo.Comments);
+            this.comments = new ObservableCollection<CommentWrapper>(photo.Comments.Select(comment => new CommentWrapper(comment)));
             this.commentText = string.Empty;
 
             this.likeDislikeAmount = UnitOfWork.PhotoRepository.GetLikeDislikeAmount(photo);
+            this.likeValue = UnitOfWork.PhotoLikeRepository.HasLiked(photo, Services.DataStorage.Instance.LoggedUser);
 
             this.likePhotoCommand = new Commands.User.PhotoInside.LikePhotoCommand(this);
             this.likeCommentCommand = new Commands.User.PhotoInside.LikeCommentCommand(this);
@@ -93,7 +98,7 @@ namespace Galagram.ViewModel.ViewModel.User
         /// <summary>
         /// Gets or sets comments to photo
         /// </summary>
-        public ObservableCollection<DataAccess.Entities.Comment> Comments // => to []
+        public ObservableCollection<CommentWrapper> Comments // => to []
         {
             get
             {
@@ -128,6 +133,25 @@ namespace Galagram.ViewModel.ViewModel.User
                 commentText = value;
 
                 OnPropertyChanged();
+            }
+        }
+        /// <summary>
+        /// Gets or sets value that determines if user liked current photo
+        /// </summary>
+        public bool? LikeValue
+        {
+            get
+            {
+                Logger.LogAsync(Core.LogMode.Debug | Core.LogMode.Info, $"Get {nameof(LikeValue)} with value = {likeValue}");
+
+                return likeValue;
+            }
+            set
+            {
+                Logger.LogAsync(Core.LogMode.Debug, $"Sets {nameof(LikeValue)}");
+                Logger.LogAsync(Core.LogMode.Info, $"{nameof(LikeValue)}. Old value = {likeValue}, new value = {value}");
+
+                SetProperty(ref likeValue, value);
             }
         }
 

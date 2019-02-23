@@ -5,12 +5,43 @@
     /// </summary>
     public abstract class CommandBase : System.Windows.Input.ICommand
     {
+        // FIELDS
+        Enums.Admin.CommandState commandState;
+
+        // CONSTRUCTORS
+        /// <summary>
+        /// Sets default field value
+        /// </summary>
+        public CommandBase()
+        {
+            commandState = Enums.Admin.CommandState.Default;
+        }
+
+        // PROPERTIES
+        /// <summary>
+        /// Gets state of the command executing
+        /// </summary>
+        public Enums.Admin.CommandState CommandState
+        {
+            get
+            {
+                return commandState;
+            }
+            protected set
+            {
+                commandState = value;
+            }
+        }
+
+        // EVENTS
         /// <summary>
         /// Occurs when state of the command has been changed
         /// </summary>
         public virtual event System.EventHandler CanExecuteChanged;
+
+        // METHODS
         /// <summary>
-        /// Check if command  can be executed
+        /// Checks if command can be executed
         /// </summary>
         /// <param name="parameter">
         /// Additionals parameters
@@ -20,7 +51,7 @@
         /// </returns>
         public abstract bool CanExecute(object parameter);
         /// <summary>
-        /// Execute the command
+        /// Executes the command
         /// </summary>
         /// <param name="parameter">
         /// Command parameter
@@ -28,7 +59,7 @@
         public abstract void Execute(object parameter);
 
         /// <summary>
-        /// Raise when state of command has been changed
+        /// Raises when state of command has been changed
         /// </summary>
         /// <param name="e">
         /// Event arguments

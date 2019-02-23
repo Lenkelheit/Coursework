@@ -14,7 +14,6 @@ namespace UnitTest.DataAccess.Repositories
     public class SubjectRepositoryTest
     {
         // FIELDS
-        static string connectionString = @"Data Source=(localdb)\MSSQLLocalDB; Integrated Security=True; Initial Catalog=SubjectTestDB";
         static DA.AppContext dbContext;
         static Resources.Classes.DbFiller dbFiller;
         // PROPERTIES
@@ -23,14 +22,9 @@ namespace UnitTest.DataAccess.Repositories
         [ClassInitialize]
         public static void Constructor(TestContext context)
         {
-            dbFiller = new Resources.Classes.DbFiller();
-            dbContext = new DA.AppContext(connectionString);
-        }
-        [ClassCleanup]
-        public static void Finalizer()
-        {
-            dbContext.Dispose();
-            System.Data.Entity.Database.Delete(connectionString);
+            dbFiller = Resources.Classes.DbFiller.Instance;
+
+            dbContext = Resources.Initializers.DatabaseInitializer.DBContext;
         }
         [TestInitialize]
         public void Filler()
@@ -64,10 +58,13 @@ namespace UnitTest.DataAccess.Repositories
         {
             // Arrange
             SubjectRepository subjectRepository = new SubjectRepository(dbContext);
-            int expectedSubjectWithMessagesInDb = 1;
+            int numberOfMessagesperSubject = 4;
+            int expectedSubjectWithMessagesInDb = Resources.Classes.DbFiller.Instance.SubjectMessageAmount
+                .Count(s => s.Value == numberOfMessagesperSubject);
 
             // Act
-            int actualSubjectWith4Messages = subjectRepository.Count(subject => {Console.WriteLine(subject.Messages.Count); return subject.Messages.Count == 4; });
+            int actualSubjectWith4Messages = subjectRepository
+                .Count(subject => subject.Messages.Count == numberOfMessagesperSubject);
 
             // Assert
             Assert.AreEqual(expectedSubjectWithMessagesInDb, actualSubjectWith4Messages);
@@ -80,15 +77,15 @@ namespace UnitTest.DataAccess.Repositories
         {
             // Arrange
             SubjectRepository subjectRepository = new SubjectRepository(dbContext);
-            int expectedSubjectInDb = 5;
+            int expectedSubjectInDb = Resources.Classes.DbFiller.Instance.SubjectAmount;
 
             // Act
-            IEnumerable<Subject> subjectFromDB = subjectRepository.Get();
-            int actualSubjectInDb = subjectFromDB.Count();
+            Subject[] subjectFromDB = subjectRepository.Get().ToArray();
+            int actualSubjectInDb = subjectFromDB.Length;
 
             // Assert
             Assert.AreEqual(expectedSubjectInDb, actualSubjectInDb);
-            CollectionAssert.AreEquivalent(dbContext.Subjects.ToArray(), subjectFromDB.ToArray());
+            CollectionAssert.AreEquivalent(dbContext.Subjects.ToArray(), subjectFromDB);
         }
         [TestMethod]
         public void GetFilterByMessageAmount()
@@ -98,42 +95,43 @@ namespace UnitTest.DataAccess.Repositories
             int expectedSubjectInDb = 2;
 
             // Act
-            IEnumerable<Subject> subjectFromDb = subjectRepository.Get(filter: subject => subject.Messages.Count > 2);
-            int actualSubjectInDb = subjectFromDb.Count();
+            Subject[] subjectFromDb = subjectRepository.Get(filter: subject => subject.Messages.Count > 2).ToArray();
+            int actualSubjectInDb = subjectFromDb.Length;
 
             // Assert
             Assert.AreEqual(expectedSubjectInDb, actualSubjectInDb);
-            CollectionAssert.IsSubsetOf(subjectFromDb.ToArray(), dbContext.Subjects.ToArray());
+            CollectionAssert.IsSubsetOf(subjectFromDb, dbContext.Subjects.ToArray());
         }
         [TestMethod]
         public void GetOrder()
         {
             // Arrange
             SubjectRepository subjectRepository = new SubjectRepository(dbContext);
-            int expectedSubjectInDb = 5;
+            int expectedSubjectInDb = Resources.Classes.DbFiller.Instance.SubjectAmount;
 
             // Act
-            IEnumerable<Subject> subjectFromDb = subjectRepository.Get(orderBy: subject => subject.OrderBy(s => s.Name));
-            int actualUserInDb = subjectFromDb.Count();
+            Subject[] subjectFromDb = subjectRepository.Get(orderBy: subject => subject.OrderBy(s => s.Name)).ToArray();
+            int actualUserInDb = subjectFromDb.Length;
 
             // Assert
             Assert.AreEqual(expectedSubjectInDb, actualUserInDb);
-            CollectionAssert.AreEqual(dbContext.Subjects.OrderBy(s => s.Name).ToArray(), subjectFromDb.ToArray());
+            CollectionAssert.AreEqual(dbContext.Subjects.OrderBy(s => s.Name).ToArray(), subjectFromDb);
         }
         [TestMethod]
         public void GetFilterAndOrder()
         {
             // Arrange
             SubjectRepository subjectRepository = new SubjectRepository(dbContext);
-            int expectedSubjectInDB = 5;
+            int expectedSubjectInDB = Resources.Classes.DbFiller.Instance.SubjectAmount;
+            Subject[] valuesInDataBase = dbContext.Subjects.Where(s => s.Messages.Count > 0).OrderByDescending(s => s.Name).ToArray();
 
             // Act
-            IEnumerable<Subject> subjectFromDb = subjectRepository.Get(filter: subject => subject.Messages.Count > 0, orderBy: o => o.OrderByDescending(s => s.Name));
-            int actualSubjectFromDb = subjectFromDb.Count();
+            Subject[] subjectFromDb = subjectRepository.Get(filter: subject => subject.Messages.Count > 0, orderBy: o => o.OrderByDescending(s => s.Name)).ToArray();
+            int actualSubjectFromDb = subjectFromDb.Length;
 
             // Assert
             Assert.AreEqual(expectedSubjectInDB, actualSubjectFromDb);
-            CollectionAssert.AreEqual(dbContext.Subjects.Where(s => s.Messages.Count > 0).OrderByDescending(s => s.Name).ToArray(), subjectFromDb.ToArray());
+            CollectionAssert.AreEqual(valuesInDataBase, subjectFromDb);
         }
         #endregion
         // GET BY ID
@@ -143,7 +141,7 @@ namespace UnitTest.DataAccess.Repositories
         {
             // Arrange
             SubjectRepository subjectRepository = new SubjectRepository(dbContext);
-            int idToSearch = 4;
+            Guid idToSearch = dbContext.Subjects.First().Id;
             Subject expectedSubject = dbContext.Subjects.Find(idToSearch);
 
             // Act
@@ -157,7 +155,7 @@ namespace UnitTest.DataAccess.Repositories
         {
             // Arrange
             SubjectRepository subjectRepository = new SubjectRepository(dbContext);
-            int wrongId = 69;
+            Guid wrongId = default(Guid);
             Subject expectedSubjectFromDb = null;
 
             // Act
@@ -196,8 +194,6 @@ namespace UnitTest.DataAccess.Repositories
             dataAccessMethod: DataAccessMethod.Random)]
         public void AddSubjectWithWrongNameLength()
         {
-            // test with wrong min length fail
-
             // Arrange
             SubjectRepository subjectRepository = new SubjectRepository(dbContext);
             Subject subject = new Subject { Name = Convert.ToString(TestContext.DataRow["Name"]) };
@@ -218,22 +214,25 @@ namespace UnitTest.DataAccess.Repositories
         {
             // Arrange
             SubjectRepository subjectRepository = new SubjectRepository(dbContext);
-            Subject expectedDeletedSubject = dbContext.Subjects.First();
-            int idToDelete = expectedDeletedSubject.Id;
+            Subject expectedDeletedSubject = dbContext.Subjects.First(s => s.Name == "Subject 1");
+            Guid idToDelete = expectedDeletedSubject.Id;
 
             // Act
+            // This subject has messages that must have "subject: null" when one will be deleted.
             subjectRepository.Delete(idToDelete);
             dbContext.SaveChanges();
 
             // Assert
             CollectionAssert.DoesNotContain(dbContext.Subjects.ToArray(), expectedDeletedSubject);
+            // Checks if all subject's messages are null.
+            Assert.IsTrue(dbContext.Messages.AsEnumerable().Any(m => m.Subject == null || m.Subject.Id != expectedDeletedSubject.Id));
         }
         [TestMethod]
         public void DeleteByWrongKey_Exception()
         {
             // Arrange
             SubjectRepository subjectRepository = new SubjectRepository(dbContext);
-            int wrongId = 200;
+            Guid wrongId = default(Guid);
 
             // Act
             // Assert
@@ -258,14 +257,17 @@ namespace UnitTest.DataAccess.Repositories
         {
             // Arrange
             SubjectRepository subjectRepository = new SubjectRepository(dbContext);
-            Subject subjectToDelete = dbContext.Subjects.First();
+            Subject subjectToDelete = dbContext.Subjects.First(s => s.Name == "Subject 1");
 
             // Act
+            // This subject has messages that must have "subject: null" when one will be deleted.
             subjectRepository.Delete(subjectToDelete);
             dbContext.SaveChanges();
 
             // Assert
             CollectionAssert.DoesNotContain(dbContext.Subjects.ToArray(), subjectToDelete);
+            // Checks if all subject's messages are null.
+            Assert.IsTrue(dbContext.Messages.AsEnumerable().Any(m => m.Subject == null || m.Subject.Id != subjectToDelete.Id));
         }
         [TestMethod]
         public void DeleteByNullValue()
@@ -282,8 +284,8 @@ namespace UnitTest.DataAccess.Repositories
         {
             // Arrange
             SubjectRepository subjectRepository = new SubjectRepository(dbContext);
-            Subject changedSubjectToDelete = dbContext.Subjects.Where(s => s.Name == "Subject 1").First();
-            changedSubjectToDelete.Name += "Chnaged it";
+            Subject changedSubjectToDelete = dbContext.Subjects.First(s => s.Name == "Subject 1");
+            changedSubjectToDelete.Name += "Changed it";
 
             // Act
             subjectRepository.Delete(entityToDelete: changedSubjectToDelete);
@@ -291,6 +293,8 @@ namespace UnitTest.DataAccess.Repositories
 
             // Assert
             CollectionAssert.DoesNotContain(dbContext.Subjects.ToArray(), changedSubjectToDelete);
+            // Checks if all subject's messages are null.
+            Assert.IsTrue(dbContext.Messages.AsEnumerable().Any(m => m.Subject == null || m.Subject.Id != changedSubjectToDelete.Id));
         }
         #endregion
         // UPDATE
@@ -306,6 +310,7 @@ namespace UnitTest.DataAccess.Repositories
             // Act
             subjectToUpdate.Name = newSubjectName;
             subjectRepository.Update(subjectToUpdate);
+            dbContext.SaveChanges();
 
             // Assert
             Assert.AreEqual(dbContext.Subjects.Find(subjectToUpdate.Id).Name, newSubjectName);

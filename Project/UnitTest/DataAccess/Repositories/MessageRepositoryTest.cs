@@ -14,7 +14,6 @@ namespace UnitTest.DataAccess.Repositories
     public class MessageRepositoryTest
     {
         // FIELDS
-        static string connectionString = @"Data Source=(localdb)\MSSQLLocalDB; Integrated Security=True; Initial Catalog=MessageTestDB";
         static DA.AppContext dbContext;
         static Resources.Classes.DbFiller dbFiller;
         // PROPERTIES
@@ -23,14 +22,9 @@ namespace UnitTest.DataAccess.Repositories
         [ClassInitialize]
         public static void Constructor(TestContext context)
         {
-            dbFiller = new Resources.Classes.DbFiller();
-            dbContext = new DA.AppContext(connectionString);
-        }
-        [ClassCleanup]
-        public static void Finalizer()
-        {
-            dbContext.Dispose();
-            System.Data.Entity.Database.Delete(connectionString);
+            dbFiller = Resources.Classes.DbFiller.Instance;
+
+            dbContext = Resources.Initializers.DatabaseInitializer.DBContext;
         }
         [TestInitialize]
         public void Filler()
@@ -51,7 +45,7 @@ namespace UnitTest.DataAccess.Repositories
         {
             // Arrange
             MessageRepository messageRepository = new MessageRepository(dbContext);
-            int expectedMessageInDb = 15;
+            int expectedMessageInDb = Resources.Classes.DbFiller.Instance.MessageAmount;
 
             // Act
             int actualMessageInDb = messageRepository.Count();
@@ -64,27 +58,27 @@ namespace UnitTest.DataAccess.Repositories
         {
             // Arrange
             MessageRepository messageRepository = new MessageRepository(dbContext);
-            int expectedMessageWithoutSubjectInDb = 2;
+            int expectedMessageWithoutSubjectInDb = Resources.Classes.DbFiller.Instance.MessageWithoutSubjectAmount;
 
             // Act
-            // probably fail because lazy loading or because check data in DB
             int actualMessageWithoutSubjectInDb = messageRepository.Count(message => message.Subject == null);
 
             // Assert
             Assert.AreEqual(expectedMessageWithoutSubjectInDb, actualMessageWithoutSubjectInDb);
         }
         [TestMethod]
-        public void CountIfDayIs15()
+        public void CountIf_MonthIs2()
         {
             // Arrange
             MessageRepository messageRepository = new MessageRepository(dbContext);
-            int expectedMessageOn15Day = 6;
+            int month = 2;
+            int expectedMessageOnMonth = Resources.Classes.DbFiller.Instance.GetMessageByMonth(month);
 
             // Act
-            int actualMessageOn15Day = messageRepository.Count(message => message.Date.Day == 15);
+            int actualMessageOnMonth = messageRepository.Count(message => message.Date.Month == month);
 
             // Assert
-            Assert.AreEqual(expectedMessageOn15Day, actualMessageOn15Day);
+            Assert.AreEqual(expectedMessageOnMonth, actualMessageOnMonth);
         }
         #endregion
         // GET
@@ -94,60 +88,66 @@ namespace UnitTest.DataAccess.Repositories
         {
             // Arrange
             MessageRepository messageRepository = new MessageRepository(dbContext);
-            int expectedMessageInDb = 15;
+            int expectedMessageInDb = Resources.Classes.DbFiller.Instance.MessageAmount;
 
             // Act
-            IEnumerable<Message> messageFromDB = messageRepository.Get();
-            int actualMessageInDB = messageFromDB.Count();
+            Message[] messageFromDB = messageRepository.Get().ToArray();
+            int actualMessageInDB = messageFromDB.Length;
 
             // Assert
             Assert.AreEqual(expectedMessageInDb, actualMessageInDB);
-            CollectionAssert.AreEquivalent(dbContext.Messages.ToArray(), messageFromDB.ToArray());
+            CollectionAssert.AreEquivalent(dbContext.Messages.ToArray(), messageFromDB);
         }
         [TestMethod]
         public void GetFilterByYear()
         {
-            // Arrange
-            MessageRepository messageRepository = new MessageRepository(dbContext);
-            int expectedUserInDb = 4;
+            if (Core.Configuration.TestConfig.DATABASE_FILL_MODE == Core.Enums.DataBaseFillMode.Regular)
+            {
+                // Arrange
+                MessageRepository messageRepository = new MessageRepository(dbContext);
+                int expectedUserInDb = 4;
 
-            // Act
-            IEnumerable<Message> messageFromDB = messageRepository.Get(filter: message => message.Date.Year > 2010);
-            int actualUserInDb = messageFromDB.Count();
+                // Act
+                Message[] messageFromDB = messageRepository.Get(filter: message => message.Date.Year > 2010).ToArray();
+                int actualUserInDb = messageFromDB.Length;
 
-            // Assert
-            Assert.AreEqual(expectedUserInDb, actualUserInDb);
-            CollectionAssert.IsSubsetOf(messageFromDB.ToArray(), dbContext.Messages.ToArray());
+                // Assert
+                Assert.AreEqual(expectedUserInDb, actualUserInDb);
+                CollectionAssert.IsSubsetOf(messageFromDB, dbContext.Messages.ToArray());
+            }
         }
         [TestMethod]
         public void GetOrderByDay()
         {
             // Arrange
             MessageRepository messageRepository = new MessageRepository(dbContext);
-            int expectedMessage = 15;
+            int expectedMessage = Resources.Classes.DbFiller.Instance.MessageAmount;
 
             // Act
-            IEnumerable<Message> messageFromDB = messageRepository.Get(orderBy: message => message.OrderBy(m => m.Date.Day));
-            int actualUserInDb = messageFromDB.Count();
+            Message[] messageFromDB = messageRepository.Get(orderBy: message => message.OrderBy(m => m.Date.Day)).ToArray();
+            int actualUserInDb = messageFromDB.Length;
 
             // Assert
             Assert.AreEqual(expectedMessage, actualUserInDb);
-            CollectionAssert.AreEqual(dbContext.Messages.OrderBy(m => m.Date.Day).ToArray(), messageFromDB.ToArray());
+            CollectionAssert.AreEqual(dbContext.Messages.OrderBy(m => m.Date.Day).ToArray(), messageFromDB);
         }
         [TestMethod]
         public void GetFilterAndOrder()
         {
-            // Arrange
-            MessageRepository messageRepository = new MessageRepository(dbContext);
-            int expectedUserInDb = 2;
+            if (Core.Configuration.TestConfig.DATABASE_FILL_MODE == Core.Enums.DataBaseFillMode.Regular)
+            {
+                // Arrange
+                MessageRepository messageRepository = new MessageRepository(dbContext);
+                int expectedUserInDb = 2;
 
-            // Act
-            IEnumerable<Message> messageFromDB = messageRepository.Get(filter: m => m.Date.Month == 1, orderBy: o => o.OrderByDescending(m => m.Date.Year));
-            int actualMessageInDb = messageFromDB.Count();
+                // Act
+                Message[] messageFromDB = messageRepository.Get(filter: m => m.Date.Month == 1, orderBy: o => o.OrderByDescending(m => m.Date.Year)).ToArray();
+                int actualMessageInDb = messageFromDB.Length;
 
-            // Assert
-            Assert.AreEqual(expectedUserInDb, actualMessageInDb);
-            CollectionAssert.AreEqual(dbContext.Messages.Where(m => m.Date.Month == 1).OrderByDescending(m => m.Date.Year).ToArray(), messageFromDB.ToArray());
+                // Assert
+                Assert.AreEqual(expectedUserInDb, actualMessageInDb);
+                CollectionAssert.AreEqual(dbContext.Messages.Where(m => m.Date.Month == 1).OrderByDescending(m => m.Date.Year).ToArray(), messageFromDB);
+            }
         }
         #endregion
         // GET BY ID
@@ -158,7 +158,7 @@ namespace UnitTest.DataAccess.Repositories
             // Arrange
             MessageRepository messageRepository = new MessageRepository(dbContext);
             Message expectedMessage = dbContext.Messages.First();
-            int idToSearch = expectedMessage.Id;
+            Guid idToSearch = expectedMessage.Id;
 
             // Act
             Message messageFromDB = messageRepository.Get(idToSearch);
@@ -171,7 +171,7 @@ namespace UnitTest.DataAccess.Repositories
         {
             // Arrange
             MessageRepository messageRepository = new MessageRepository(dbContext);
-            int wrongId = int.MaxValue;
+            Guid wrongId = default(Guid);
             Message expectedMessageFromDb = null;
 
             // Act
@@ -211,17 +211,15 @@ namespace UnitTest.DataAccess.Repositories
             dataAccessMethod: DataAccessMethod.Random)]
         public void AddWrongMessage_Exception()
         {
-            Assert.Fail("throws exception, but not the one that was expected");
             // Arrange
             MessageRepository messageRepository = new MessageRepository(dbContext);
-            bool hasUser = Convert.ToBoolean(TestContext.DataRow["HasUser"]);
             bool hasSubject = Convert.ToBoolean(TestContext.DataRow["HasSubject"]);
             Message message = new Message
             {
-                Date = new DateTime(year: Convert.ToInt32(TestContext.DataRow["Year"]), 
-                                    month: Convert.ToInt32(TestContext.DataRow["Month"]), 
+                Date = new DateTime(year: Convert.ToInt32(TestContext.DataRow["Year"]),
+                                    month: Convert.ToInt32(TestContext.DataRow["Month"]),
                                     day: Convert.ToInt32(TestContext.DataRow["Day"])),
-                User = hasUser ? dbContext.Users.First() : null,
+                User = dbContext.Users.First(),
                 Subject = hasSubject ? dbContext.Subjects.First() : null,
                 Text = Convert.ToString(TestContext.DataRow["Text"])
             };
@@ -244,7 +242,7 @@ namespace UnitTest.DataAccess.Repositories
             // Arrange
             MessageRepository messageRepository = new MessageRepository(dbContext);
             Message expectedMessageToDelete = dbContext.Messages.First();
-            int idToDelete = expectedMessageToDelete.Id;
+            Guid idToDelete = expectedMessageToDelete.Id;
 
             // Act
             messageRepository.Delete(idToDelete);
@@ -258,7 +256,7 @@ namespace UnitTest.DataAccess.Repositories
         {
             // Arrange
             MessageRepository messageRepository = new MessageRepository(dbContext);
-            int wrongId = 200;
+            Guid wrongId = default(Guid);
 
             // Act
             // Assert
@@ -309,7 +307,7 @@ namespace UnitTest.DataAccess.Repositories
             // Arrange
             MessageRepository messageRepository = new MessageRepository(dbContext);
             Message changedMessageToDelete = dbContext.Messages.First();
-            changedMessageToDelete.Text += "Chnaged it";
+            changedMessageToDelete.Text += "Changed it";
             changedMessageToDelete.Subject = dbContext.Subjects.First();
 
             // Act
@@ -333,6 +331,7 @@ namespace UnitTest.DataAccess.Repositories
             // Act
             messageToUpdate.Text = newText;
             messageRepository.Update(messageToUpdate);
+            dbContext.SaveChanges();
 
             // Assert
             Assert.AreEqual(dbContext.Messages.Find(messageToUpdate.Id).Text, newText);

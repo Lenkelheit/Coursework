@@ -10,6 +10,7 @@
 
     <Color x:Key="BlueColor">#5C6BC0</Color>
     <Color x:Key="LightBlueColor">#26C6DA</Color>
+    <Color x:Key="LightBlueColorV2">#BDF4FB</Color>
     <Color x:Key="BlueHoverColor">#5D71E2</Color>
 
     <Color x:Key="PinkColor">#EC407A</Color>

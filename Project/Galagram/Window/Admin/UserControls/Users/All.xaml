@@ -1,0 +1,138 @@
+﻿<UserControl x:Class="Galagram.Window.Admin.UserControls.Users.All"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Galagram.Window.Admin.UserControls.Users"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid>
+        <!--SCALING-->
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="60"/>
+            <RowDefinition Height="60"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <!--HEADER-->
+        <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"
+            Content="User" 
+            Style="{StaticResource CenterHeaderLabel_Admin}"/>
+
+        <!--FILTER BY NAME PATTERN-->
+        <Grid Grid.Row="1" Grid.Column="0" Grid.RowSpan="2">
+            <!--smaller scaling-->
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="2*"/>
+            </Grid.ColumnDefinitions>
+
+            <!--FILTER-->
+            <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"
+                   Content="Filter"
+                   Style="{StaticResource CenterHeaderLabel_Admin}"/>
+
+            <!--NAME PATTERN-->
+            <Label Grid.Row="1" Grid.Column="0"
+                   Content="name: "
+                   Style="{StaticResource ItemLabel_Admin}"/>
+            <TextBox Grid.Row="1" Grid.Column="1"
+                     Style="{StaticResource ItemTextBox_Admin}"
+                     Text="{Binding NicknameSubstring, Mode=OneWayToSource}"/>
+
+            <!--SHOWN IS BLOCKED-->
+            <Label Grid.Row="2" Grid.Column="0" 
+                    Content="is blocked:"
+                    Style="{StaticResource ItemLabel_Admin}"/>
+
+            <CheckBox Grid.Row="2" Grid.Column="1"
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Center"
+                    IsThreeState="True"
+                    IsChecked="{Binding IsBlocked, Mode=OneWayToSource}">
+                <CheckBox.LayoutTransform>
+                    <ScaleTransform ScaleX="2.5" ScaleY="2.5" />
+                </CheckBox.LayoutTransform>
+            </CheckBox>
+        </Grid>
+
+        <!--FILTER BUTTON-->
+        <Button Grid.Row="1" Grid.Column="1"
+                Content="Filter"
+                Margin="5"
+                Style="{StaticResource AdminInterfaceButton}"
+                Command="{Binding SetFilterCommand}"/>
+        <!--RESET BUTTON-->
+        <Button Grid.Row="2" Grid.Column="1"
+                Content="Reset"
+                Margin="5"
+                Style="{StaticResource AdminInterfaceButton}"
+                Command="{Binding ResetFilterCommand}"/>
+
+        <!--DATA GRID-->
+        <DataGrid Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2"
+                  Style="{StaticResource DataGridAdmin}"
+                  RowHeight="40"
+                  ItemsSource="{Binding Entities}"
+                  SelectedItem="{Binding SelectedItem}">
+            <DataGrid.Resources>
+                <Style TargetType="ScrollBar"/>
+            </DataGrid.Resources>
+            
+            <!--cols-->
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="ID" 
+                                    Binding="{Binding Id}"
+                                    MinWidth="80"
+                                    Width="80"/>
+                <DataGridTemplateColumn Header="Avatar" 
+                                        CanUserSort="False" 
+                                        CanUserResize="False"
+                                        Width="40"                                        
+                                        CellTemplate="{StaticResource AvatarColumnGridTemplate}"/>
+                <DataGridTextColumn Header="User&#x0a;Nickname" 
+                                    MinWidth="100"
+                                    Width="*"
+                                    Binding="{Binding NickName}"/>
+                <DataGridTextColumn Header="Photo&#x0a;Count" 
+                                    Width="70"
+                                    CanUserResize="False"
+                                    Binding="{Binding Photos.Count}"/>
+                <DataGridTextColumn Header="Followers&#x0a;Count" 
+                                    Width="70"
+                                    CanUserResize="False"
+                                    Binding="{Binding Followers.Count}"/>
+                <DataGridTextColumn Header="Following&#x0a;Count" 
+                                    Width="70"
+                                    CanUserResize="False"
+                                    Binding="{Binding Following.Count}"/>
+                <!--CRUDE-->
+                <DataGridTemplateColumn Header="Read" 
+                                        CanUserSort="False"  
+                                        CanUserResize="False"
+                                        Width="40"
+                                        CellTemplate="{StaticResource ReadColumnGridTemplate}"/>
+                <DataGridTemplateColumn Header="Edit" 
+                                        CanUserSort="False"  
+                                        CanUserResize="False"
+                                        Width="40"
+                                        CellTemplate="{StaticResource EditColumnGridTemplate}"/>
+                <DataGridTemplateColumn Header="Delete" 
+                                        CanUserSort="False"  
+                                        CanUserResize="False"
+                                        Width="40"
+                                        CellTemplate="{StaticResource RemoveColumnGridTemplate}"/>
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</UserControl>

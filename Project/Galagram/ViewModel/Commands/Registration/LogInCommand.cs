@@ -1,7 +1,7 @@
 ﻿namespace Galagram.ViewModel.Commands.Registration
 {
     /// <summary>
-    /// Check if name and password is correct
+    /// Checks if name and password is correct
     /// <para/>
     /// If everything is correct, log in a user
     /// </summary>
@@ -9,9 +9,10 @@
     {
         // FIELDS
         ViewModel.RegistrationViewModel registrationViewModel;
+        
         // CONSTRUCTORS
         /// <summary>
-        /// Initialize a new instance of <see cref="LogInCommand"/>
+        /// Initializes a new instance of <see cref="LogInCommand"/>
         /// </summary>
         /// <param name="registrationViewModel">
         /// An instance of <see cref="ViewModel.RegistrationViewModel"/>
@@ -23,7 +24,7 @@
 
         // METHODS
         /// <summary>
-        /// Check if command  can be executed
+        /// Checks if command  can be executed
         /// </summary>
         /// <param name="parameter">
         /// Additionals parameters
@@ -38,7 +39,7 @@
             return true;
         }
         /// <summary>
-        /// Execute the command
+        /// Executes the command
         /// </summary>
         /// <param name="parameter">
         /// Command parameter
@@ -52,33 +53,58 @@
 
             // check if name and password is valid
             Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, $"Check if user nickname and password is in DataBase");
-
-            DataAccess.Structs.ValidNameAndPassword validNamaAndPassword = registrationViewModel.UnitOfWork.UserRepository.IsDataValid(registrationViewModel.Nickname, registrationViewModel.Password);
-
-            if (!validNamaAndPassword.IsNameValid)
+            DataAccess.Structs.ValidNameAndPasswordAndUser validNameAndPasswordAndUser = 
+                registrationViewModel.UnitOfWork.UserRepository.IsDataValid(registrationViewModel.Nickname, registrationViewModel.Password);
+            
+            // name is not valid
+            if (!validNameAndPasswordAndUser.ValidNameAndPassword.IsNameValid)
             {
-                registrationViewModel.WindowManager.ShowMessageWindow(Core.Messages.Info.ViewModel.Command.Registration.NICKNAME_IS_WRONG);
+                // shows error message, cancel command executing
+                registrationViewModel.WindowManager.ShowMessageWindow(Core.Messages.Info.ViewModel.NICKNAME_IS_WRONG);
                 Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, $"User can not log in, because his nickname is wrong");
                 return;
             }
-            if (!validNamaAndPassword.IsPasswordValid)
+            // password is not valid
+            if (!validNameAndPasswordAndUser.ValidNameAndPassword.IsPasswordValid)
             {
-                registrationViewModel.WindowManager.ShowMessageWindow(Core.Messages.Info.ViewModel.Command.Registration.PASSWORD_IS_WRONG);
+                // shows error message, cancel command executing
+                registrationViewModel.WindowManager.ShowMessageWindow(Core.Messages.Info.ViewModel.PASSWORD_IS_WRONG);
                 Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, $"User can not log in, because his password is wrong");
                 return;
             }
-
-            // gets current user
-            DataAccess.Entities.User user = registrationViewModel.UnitOfWork.UserRepository.Get(registrationViewModel.Nickname);
-            registrationViewModel.DataStorage.LoggedUser = user;
-            registrationViewModel.DataStorage.ShownUser = user;
-
-            // open new window with current user
-            Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, "User logged in. Registration window close. Main window opens.");
-            registrationViewModel.WindowManager.SwitchMainWindow(
-                key: nameof(Window.User.MainWindow),
-                viewModel: new ViewModel.User.MainWindowViewModel());
             
+            // sets current user as shown and as logged one
+            registrationViewModel.DataStorage.LoggedUser = validNameAndPasswordAndUser.User;
+            registrationViewModel.DataStorage.ShownUser = validNameAndPasswordAndUser.User;
+
+
+            // check if want to log in as admin
+            bool doLogInAsAdmin = false;
+            if (validNameAndPasswordAndUser.User.IsAdmin)
+            {
+                doLogInAsAdmin = Services.WindowManager.Instance.ShowMessageWindow(
+                    text: Core.Messages.Info.ViewModel.IS_NEED_LOG_IN_AS_ADMIN, 
+                    header: string.Empty, 
+                    buttonType: Window.Enums.MessageBoxButton.YesNo).Value;
+            }
+
+            // log in
+            if (doLogInAsAdmin)
+            {
+                // opens admin window
+                Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, "User logged in. Registration window close. Admin window opens.");
+                registrationViewModel.WindowManager.SwitchMainWindow(
+                    key: nameof(Window.Admin.AdminWindow),
+                    viewModel: new ViewModel.Admin.AdminWindowViewModel());
+            }
+            else
+            {
+                // opens new window with current user
+                Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, "User logged in. Registration window close. Main window opens.");
+                registrationViewModel.WindowManager.SwitchMainWindow(
+                    key: nameof(Window.User.MainWindow),
+                    viewModel: new ViewModel.User.MainWindowViewModel());
+            }            
         }
     }
 }

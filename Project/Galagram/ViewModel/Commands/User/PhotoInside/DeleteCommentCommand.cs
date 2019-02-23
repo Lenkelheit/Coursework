@@ -1,7 +1,7 @@
 ﻿namespace Galagram.ViewModel.Commands.User.PhotoInside
 {
     /// <summary>
-    /// Delete comments to photo
+    /// Deletes comments to photo
     /// </summary>
     public class DeleteCommentCommand : CommandBase
     {
@@ -10,7 +10,7 @@
 
         // CONSTRUCTORS
         /// <summary>
-        /// Initialize a new instance of <see cref="DeleteCommentCommand"/>
+        /// Initializes a new instance of <see cref="DeleteCommentCommand"/>
         /// </summary>
         /// <param name="photoInsideViewModel">
         /// An instance of <see cref="ViewModel.User.PhotoInsideViewModel"/>
@@ -21,7 +21,7 @@
         }
         // METHODS
         /// <summary>
-        /// Check if command can be executed
+        /// Checks if command can be executed
         /// </summary>
         /// <param name="parameter">
         /// Additionals parameters
@@ -35,10 +35,12 @@
             return true;
         }
         /// <summary>
-        /// Execute command
+        /// Executes command
         /// </summary>
         /// <param name="parameter">
         /// Command parameters
+        /// <para/>
+        /// 1 — command wrapper to delete
         /// </param>
         public override void Execute(object parameter)
         {
@@ -49,16 +51,16 @@
             // delete your comments on someone photo
 
             // delete comment
-            Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, $"Convert to {nameof(DataAccess.Entities.Comment)}");
-            DataAccess.Entities.Comment commentToDelete = (DataAccess.Entities.Comment)parameter;
+            Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, $"Convert to {nameof(DataAccess.Wrappers.CommentWrapper)}");
+            DataAccess.Wrappers.CommentWrapper commentWrapperToDelete = (DataAccess.Wrappers.CommentWrapper)parameter;
 
             // remove from db
             Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, "Remove value from data base");
-            photoInsideViewModel.UnitOfWork.CommentRepository.Delete(commentToDelete);
+            photoInsideViewModel.UnitOfWork.CommentRepository.Delete(commentWrapperToDelete.Comment);
             
             // update view
             Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, "Update View");
-            photoInsideViewModel.Comments.Remove(commentToDelete);
+            photoInsideViewModel.Comments.Remove(commentWrapperToDelete);
 
             // update data base
             Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, "Update Data base");

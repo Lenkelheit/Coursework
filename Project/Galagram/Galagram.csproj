@@ -57,12 +57,6 @@
     <ApplicationIcon>Resources\Ico\ico.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Core">
-      <HintPath>..\Core\bin\Debug\Core.dll</HintPath>
-    </Reference>
-    <Reference Include="DataAccess">
-      <HintPath>..\DataAccess\bin\Debug\DataAccess.dll</HintPath>
-    </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
@@ -96,26 +90,49 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Converters\CommentCollectionToLengthConverter.cs" />
+    <Compile Include="Collections\ReverseCollection.cs" />
+    <Compile Include="Converters\ImageConverter.cs" />
+    <Compile Include="Converters\IntToStringConverter.cs" />
     <Compile Include="Converters\ItemsToArrayConverter.cs" />
+    <Compile Include="Converters\ReverseBooleanConverter.cs" />
     <Compile Include="Converters\UserConverter.cs" />
     <Compile Include="Services\DataStorage.cs" />
+    <Compile Include="Services\NavigationManager.cs" />
+    <Compile Include="Services\NavigationManagerInitializers\DefaultNavigationManagerInitilizer.cs" />
+    <Compile Include="Services\NavigationManagerInitializers\NavigationManagerInitializerBase.cs" />
+    <Compile Include="Services\WindowManagerInitializers\DefaultWindowInitializers.cs" />
+    <Compile Include="Services\WindowManagerInitializers\WindowManagerInitializerBase.cs" />
     <Compile Include="ViewModel\CommandBase.cs" />
+    <Compile Include="ViewModel\Commands\Admin\Comment\Single\ValidateCommand.cs" />
+    <Compile Include="ViewModel\Commands\Admin\DeleteCommand.cs" />
+    <Compile Include="ViewModel\Commands\Admin\DeleteItem\DeleteItemCommand.cs" />
+    <Compile Include="ViewModel\Commands\Admin\UpdateCommand.cs" />
+    <Compile Include="ViewModel\Commands\Admin\User\Single\ValidateCommand.cs" />
+    <Compile Include="ViewModel\Commands\MultipleCommand.cs" />
+    <Compile Include="ViewModel\Commands\Shared\DeleteAvatarFromServerCommand.cs" />
+    <Compile Include="ViewModel\Commands\Shared\DeletePhotoFolderCommand.cs" />
+    <Compile Include="ViewModel\Commands\Shared\DeletePhotoFromServerCommand.cs" />
+    <Compile Include="ViewModel\Commands\User\Setting\RemoveAccountCommand.cs" />
+    <Compile Include="ViewModel\Enums\Admin\CommandState.cs" />
+    <Compile Include="ViewModel\ViewModel\Admin\AllItemViewModelBase.cs" />
+    <Compile Include="ViewModel\ViewModel\Admin\Comments\SingleViewModel.cs" />
+    <Compile Include="ViewModel\ViewModel\Admin\DeleteItemViewModel.cs" />
+    <Compile Include="ViewModel\Commands\Admin\MainAdminWindowControl\SelectItemCommand.cs" />
+    <Compile Include="ViewModel\Commands\Admin\GoBackCommand.cs" />
+    <Compile Include="ViewModel\Commands\Admin\Subject\Single\CreateUpdateCommand.cs" />
     <Compile Include="ViewModel\Commands\Registration\LogInCommand.cs" />
     <Compile Include="ViewModel\Commands\Registration\SignUpCommand.cs" />
     <Compile Include="ViewModel\Commands\RelayCommand.cs" />
     <Compile Include="ViewModel\Commands\User\AskQuestion\AskCommand.cs" />
     <Compile Include="ViewModel\Commands\User\Follow\DeleteFollowCommand.cs" />
-    <Compile Include="ViewModel\Commands\User\Follow\OpenProfileCommand.cs" />
-    <Compile Include="ViewModel\Commands\User\Search\OpenProfileCommand.cs" />
+    <Compile Include="ViewModel\Commands\User\OpenProfileCommand.cs" />
     <Compile Include="ViewModel\Commands\User\MainWindow\AskQuestionCommand.cs" />
     <Compile Include="ViewModel\Commands\User\MainWindow\FollowCommand.cs" />
     <Compile Include="ViewModel\Commands\User\MainWindow\GoHomeCommand.cs" />
     <Compile Include="ViewModel\Commands\User\MainWindow\LogOutCommand.cs" />
     <Compile Include="ViewModel\Commands\User\MainWindow\SearchUserCommand.cs" />
     <Compile Include="ViewModel\Commands\User\MainWindow\SettingCommand.cs" />
-    <Compile Include="ViewModel\Commands\User\MainWindow\ShowFollowersListCommand.cs" />
-    <Compile Include="ViewModel\Commands\User\MainWindow\ShowFollowingListCommand.cs" />
+    <Compile Include="ViewModel\Commands\User\MainWindow\ShowFollowListCommand.cs" />
     <Compile Include="ViewModel\Commands\User\MainWindow\ShowPhotoCommand.cs" />
     <Compile Include="ViewModel\Commands\User\MainWindow\UploadPhotoCommand.cs" />
     <Compile Include="ViewModel\Commands\User\PhotoInside\DeleteCommentCommand.cs" />
@@ -124,26 +141,70 @@
     <Compile Include="ViewModel\Commands\User\PhotoInside\WriteCommentCommand.cs" />
     <Compile Include="ViewModel\Commands\User\Search\SearchCommand.cs" />
     <Compile Include="ViewModel\Commands\User\Setting\ApplyChangesCommand.cs" />
-    <Compile Include="ViewModel\Commands\User\Setting\CleanOnCloseCommand.cs" />
+    <Compile Include="ViewModel\Commands\User\Setting\CloseCommand.cs" />
     <Compile Include="ViewModel\Commands\User\Setting\LoadNewAvatarCommand.cs" />
+    <Compile Include="ViewModel\Commands\User\Setting\ResetAvatarCommand.cs" />
     <Compile Include="ViewModel\Enums\User\FollowMode.cs" />
     <Compile Include="ViewModel\Enums\User\SettingField.cs" />
+    <Compile Include="ViewModel\EventToCommandBehavior.cs" />
     <Compile Include="ViewModel\ViewModelBase.cs" />
+    <Compile Include="ViewModel\ViewModel\Admin\AdminWindowViewModel.cs" />
+    <Compile Include="ViewModel\ViewModel\Admin\Comments\AllViewModel.cs" />
+    <Compile Include="ViewModel\ViewModel\Admin\Message\AllViewModel.cs" />
+    <Compile Include="ViewModel\ViewModel\Admin\Message\SingleViewModel.cs" />
+    <Compile Include="ViewModel\ViewModel\Admin\Photo\SingleViewModel.cs" />
+    <Compile Include="ViewModel\ViewModel\Admin\Services\MenuItemViewModelFactory.cs" />
+    <Compile Include="ViewModel\ViewModel\Admin\SingleItemViewModelBase.cs" />
+    <Compile Include="ViewModel\ViewModel\Admin\Subject\AllViewModel.cs" />
+    <Compile Include="ViewModel\ViewModel\Admin\Subject\SingleViewModel.cs" />
+    <Compile Include="ViewModel\ViewModel\Admin\User\AllViewModel.cs" />
+    <Compile Include="ViewModel\ViewModel\Admin\User\SingleViewModel.cs" />
     <Compile Include="ViewModel\ViewModel\RegistrationViewModel.cs" />
     <Compile Include="ViewModel\ViewModel\User\AskQuestionViewModel.cs" />
     <Compile Include="ViewModel\ViewModel\User\FollowViewModel.cs" />
     <Compile Include="ViewModel\ViewModel\User\MainWindowViewModel.cs" />
+    <Compile Include="ViewModel\ViewModel\User\OpenProfileViewModelBase.cs" />
     <Compile Include="ViewModel\ViewModel\User\PhotoInsideViewModel.cs" />
     <Compile Include="ViewModel\ViewModel\User\SearchViewModel.cs" />
     <Compile Include="ViewModel\ViewModel\User\SettingViewModel.cs" />
-    <Compile Include="Window\Dialogs\MessageBoxButton.cs" />
+    <Compile Include="Window\Dialogs\DropWindow.xaml.cs">
+      <DependentUpon>DropWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Window\Enums\MessageBoxButton.cs" />
+    <Compile Include="Window\Admin\UserControls\Comments\All.xaml.cs">
+      <DependentUpon>All.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Window\Admin\UserControls\Comments\Single.xaml.cs">
+      <DependentUpon>Single.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Window\Admin\UserControls\Messages\All.xaml.cs">
+      <DependentUpon>All.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Window\Admin\UserControls\Photo\Single.xaml.cs">
+      <DependentUpon>Single.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Window\Admin\UserControls\Subjects\All.xaml.cs">
+      <DependentUpon>All.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Window\Admin\UserControls\Subjects\Single.xaml.cs">
+      <DependentUpon>Single.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Window\Admin\UserControls\Users\All.xaml.cs">
+      <DependentUpon>All.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Window\Admin\UserControls\Users\Single.xaml.cs">
+      <DependentUpon>Single.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Services\WindowManager.cs" />
     <Compile Include="Window\Admin\UserControls\DeleteItem.xaml.cs">
       <DependentUpon>DeleteItem.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Window\Admin\UserControls\Messages\MessageInside.xaml.cs">
-      <DependentUpon>MessageInside.xaml</DependentUpon>
+    <Compile Include="Window\Admin\UserControls\Messages\Single.xaml.cs">
+      <DependentUpon>Single.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Window\Interfaces\IFileDialog.cs" />
+    <Compile Include="Window\Interfaces\IMessageBox.cs" />
+    <Compile Include="Window\UserControls\CornersContentControl.cs" />
     <Compile Include="Window\User\AskQuestion.xaml.cs">
       <DependentUpon>AskQuestion.xaml</DependentUpon>
     </Compile>
@@ -174,7 +235,19 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Theme\AdminPanel\Classic\Styles\Collections.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Theme\AdminPanel\Classic\Styles\Default.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Theme\AdminPanel\Classic\Styles\Texts.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Theme\AdminPanel\Classic\Templates\Collections.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -210,11 +283,47 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Window\Admin\UserControls\Comments\All.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Window\Admin\UserControls\Comments\Single.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Window\Admin\UserControls\DeleteItem.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Window\Admin\UserControls\Messages\MessageInside.xaml">
+    <Page Include="Window\Admin\UserControls\Messages\All.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Window\Admin\UserControls\Messages\Single.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Window\Admin\UserControls\Photo\Single.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Window\Admin\UserControls\Subjects\All.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Window\Admin\UserControls\Subjects\Single.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Window\Admin\UserControls\Users\All.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Window\Admin\UserControls\Users\Single.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Window\Dialogs\DropWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -336,21 +445,42 @@
     <Resource Include="Resources\InterfaceImage\Heart.png" />
     <Resource Include="Resources\InterfaceImage\Minus.png" />
     <Resource Include="Resources\InterfaceImage\Plus.png" />
+    <Resource Include="Resources\InterfaceImage\DropDown.png" />
     <Resource Include="Resources\MenuImg\Add.png" />
     <Resource Include="Resources\MenuImg\Exit.png" />
     <Resource Include="Resources\MenuImg\Search.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\OtherImg\NoImg.png" />
+    <Resource Include="Resources\OtherImg\NoAvatar.png" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Theme\AdminPanel\Classic\Templates\" />
-    <Folder Include="ViewModel\Commands\Admin\" />
-    <Folder Include="ViewModel\ViewModel\Admin\" />
+    <ProjectReference Include="..\Core\Core.csproj">
+      <Project>{a5d47a88-abdd-4ad3-806f-ed0703b0feda}</Project>
+      <Name>Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DataAccess\DataAccess.csproj">
+      <Project>{a45e7081-b247-42ae-b58d-ad90539e2863}</Project>
+      <Name>DataAccess</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\Ico\ico.ico" />
     <Resource Include="Resources\Ico\png.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\OtherImg\NoPhoto.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\AdminImg\DataGrid\eye.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\AdminImg\DataGrid\edit.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\AdminImg\DataGrid\remove.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\InterfaceImage\Conversation.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

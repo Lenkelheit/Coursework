@@ -41,7 +41,7 @@
         /// <summary>
         /// Photo server path string min length
         /// </summary>
-        public const int PHOTO_PATH_MIN_LENGTH = 4;
+        public const int PHOTO_PATH_MIN_LENGTH = 5;
         /// <summary>
         /// Photo server path string max length
         /// </summary>
@@ -58,9 +58,9 @@
         /// <summary>
         /// Avatar server path string min length
         /// </summary>
-        public const int AVATAR_MIN_LENGTH = 4;
+        public const int AVATAR_MIN_LENGTH = 5;
         /// <summary>
-        /// Avatar server path strng max length
+        /// Avatar server path string max length
         /// </summary>
         public const int AVATAR_MAX_LENGTH = 264;
 
@@ -80,6 +80,6 @@
         /// <summary>
         /// Password text max length
         /// </summary>
-        public const int PASSWORD_MAX_LENGTH = 14;
+        public const int PASSWORD_MAX_LENGTH = 15;
     }
 }

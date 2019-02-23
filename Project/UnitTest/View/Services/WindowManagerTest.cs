@@ -38,6 +38,8 @@ namespace UnitTest.View.Services
             WindowManager windowManager = WindowManager.Instance;
             PrivateObject privateObject = new PrivateObject(windowManager);
             IDictionary<string, Type> factory = (privateObject.GetField("factory") as IDictionary<string, Type>);
+            // clean up
+            factory.Clear();
 
 
             string keyNull = null;
@@ -51,8 +53,8 @@ namespace UnitTest.View.Services
             Type typeInterface = typeof(IDisposable);
             Type typeAbstract = typeof(Array);
 
-            int expectedRegisteredValueBeforeRegistration = 8;
-            int expectedRegisteredValueAfterRegistration = 9;
+            int expectedRegisteredValueBeforeRegistration = 0;
+            int expectedRegisteredValueAfterRegistration = 1;
 
             KeyValuePair<string, Type> registeredValue = new KeyValuePair<string, Type>(keyTwice, type);
             // Act
@@ -100,6 +102,8 @@ namespace UnitTest.View.Services
             WindowManager windowManager = WindowManager.Instance;
             PrivateObject privateObject = new PrivateObject(windowManager);
             IDictionary<string, Type> factory = (privateObject.GetField("factory") as IDictionary<string, Type>);
+            // clean up
+            factory.Clear();
 
 
             string keyNull = null;
@@ -107,9 +111,10 @@ namespace UnitTest.View.Services
             string keyEmpty = String.Empty;
             string keyMissing = "there is no such key";
             string keyPresent = nameof(Galagram.Window.User.MainWindow);
+            factory.Add(keyPresent, typeof(int));
 
-            int expectedFactoryAmountBeforeUnregistrate = 8;
-            int expectedFactoryAmountAfterUnregistrate = 7;
+            int expectedFactoryAmountBeforeUnregistrate = 1;
+            int expectedFactoryAmountAfterUnregistrate = 0;
 
             KeyValuePair<string, Type> unRegisteredValue = new KeyValuePair<string, Type>(nameof(Galagram.Window.User.MainWindow), typeof(Galagram.Window.User.MainWindow));
             // Act
@@ -129,9 +134,6 @@ namespace UnitTest.View.Services
             Assert.AreEqual(expectedFactoryAmountAfterUnregistrate, actualFactoryAmouneAfterUnregistrate);
             CollectionAssert.DoesNotContain(factory.Keys.ToArray(), unRegisteredValue.Key);
             CollectionAssert.DoesNotContain(factory.Values.ToArray(), unRegisteredValue.Value);
-
-            // clean up
-            factory.Add(unRegisteredValue);
         }
         [TestMethod]
         public void MakeInstance()
@@ -151,6 +153,8 @@ namespace UnitTest.View.Services
             WindowManager windowManager = WindowManager.Instance;
             PrivateObject privateObject = new PrivateObject(windowManager);
             IDictionary<string, Type> factory = (privateObject.GetField("factory") as IDictionary<string, Type>);
+            // clean up
+            factory.Clear();
 
 
             string keyNull = null;

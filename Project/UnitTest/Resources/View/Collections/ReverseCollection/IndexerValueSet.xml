@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<CollectionDetails>
+  <!-- current collection: { 5, 4, 3, 2, 1 } -->
+  <SetValue Index="0" OldValue="5" NewValue="10"/>
+  <SetValue Index="1" OldValue="4" NewValue="11"/>
+  <SetValue Index="2" OldValue="3" NewValue="12"/>
+  <SetValue Index="3" OldValue="2" NewValue="13"/>
+  <SetValue Index="4" OldValue="1" NewValue="14"/>
+</CollectionDetails>

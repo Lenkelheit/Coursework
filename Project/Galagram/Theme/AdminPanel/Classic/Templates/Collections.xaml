@@ -1,0 +1,182 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:Galagram.Theme.AdminPanel.Classic.Templates">
+
+
+    <!--DATA GTID-->
+
+    <!--READ COLUMN TEMPLATE-->
+    <DataTemplate x:Key="ReadColumnGridTemplate">
+        <StackPanel>
+            <Button 
+                Style="{DynamicResource DataGridCellButton_Admin}" 
+                Command="{Binding DataContext.OpenCommand, RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=UserControl}}"
+                CommandParameter="{Binding DataContext.SelectedItem, RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=UserControl}}">
+                <Image Source="/Resources/AdminImg/DataGrid/eye.png" 
+                   Cursor="Hand"
+                   Width="20" Height="20"/>
+            </Button>
+        </StackPanel>
+    </DataTemplate>
+
+    <!--EDIT COLUMN TEMPLATE-->
+    <DataTemplate x:Key="EditColumnGridTemplate">
+        <StackPanel>
+            <Button 
+                Style="{DynamicResource DataGridCellButton_Admin}" 
+                Command="{Binding DataContext.EditCommand, RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=UserControl}}"
+                CommandParameter="{Binding DataContext.SelectedItem, RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=UserControl}}">
+                <Image Source="/Resources/AdminImg/DataGrid/edit.png" 
+                   Cursor="Hand"
+                   Width="20" Height="20"/>
+            </Button>
+        </StackPanel>
+    </DataTemplate>
+    
+    <!--REMOVE COLUMN TEMPLATE-->
+    <DataTemplate x:Key="RemoveColumnGridTemplate">
+        <StackPanel >
+            <Button 
+                Style="{DynamicResource DataGridCellButton_Admin}" 
+                Command="{Binding DataContext.DeleteCommand, RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=UserControl}}"
+                CommandParameter="{Binding DataContext.SelectedItem, RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=UserControl}}">
+                <Image Source="/Resources/AdminImg/DataGrid/remove.png"
+                   Cursor="Hand"
+                   Width="20" Height="20"/>
+            </Button>
+        </StackPanel>
+    </DataTemplate>
+    
+    <!--AVATAR COLUMN TEMPLATE-->
+    <DataTemplate x:Key="AvatarColumnGridTemplate">
+        <StackPanel>
+            <Image Width="30" Height="40">
+                <Image.Source>
+                    <Binding Path="MainPhotoPath" 
+                             Converter="{StaticResource ImageConverter}">
+                        <Binding.FallbackValue>
+                            <ImageSource>/Resources/OtherImg/NoAvatar.png</ImageSource>
+                        </Binding.FallbackValue>
+                        <Binding.TargetNullValue>
+                            <ImageSource>/Resources/OtherImg/NoAvatar.png</ImageSource>
+                        </Binding.TargetNullValue>
+                    </Binding>
+                </Image.Source>
+            </Image>
+        </StackPanel>
+    </DataTemplate>
+
+    <!--LIST BOX ITEM FOR ADMIN LEFT MENU-->
+    <ControlTemplate TargetType="ListBoxItem" x:Key="ListBoxItemAdminMenuTemplate">
+        <Border 
+            Background="{TemplateBinding Background}"
+            BorderThickness="{TemplateBinding BorderThickness}"
+            BorderBrush="{TemplateBinding BorderBrush}"
+            HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
+            VerticalAlignment="{TemplateBinding VerticalAlignment}"
+            Width="{TemplateBinding Width}"
+            Height="{TemplateBinding Height}">
+            <Label 
+                Content="{TemplateBinding Content}"
+                Foreground="{TemplateBinding Foreground}"
+                BorderThickness="{TemplateBinding BorderThickness}"/>
+        </Border>
+    </ControlTemplate>
+
+    <!--LIST BOX WITH CHECK BOXES ITEM-->
+    <ControlTemplate TargetType="ListBoxItem" x:Key="CheckedListBoxItem">
+        <StackPanel 
+                Height="{Binding ItemHeight, ElementName=CheckedListBoxControl}"
+                Name="StackPanel"
+                Orientation="Horizontal">
+
+            <!--ELEMENTS-->
+            <Viewbox Height="{Binding Path=ActualHeight, ElementName=StackPanel}">
+                <CheckBox Name="CheckBox"/>
+            </Viewbox>
+            <Viewbox>
+                <Label
+                    Content="Test Name"
+                    HorizontalAlignment="Center"
+                    Margin="5, 0, 0, 0"/>
+            </Viewbox>
+        </StackPanel>
+
+        <ControlTemplate.Triggers>
+            <Trigger Property="IsSelected" Value="True">
+                <Setter TargetName="StackPanel" Property="Background" Value="{StaticResource GrayColorBrushV3}"/>
+            </Trigger>
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter TargetName="CheckBox" Property="Visibility" Value="Collapsed"/>
+            </Trigger>
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
+    
+    <!--LIST BOX WITH PHOTO-->
+    <ControlTemplate TargetType="ListBox" x:Key="PhotoList_Admin">
+        <ScrollViewer Background="{TemplateBinding Background}" 
+                      Margin="{TemplateBinding Margin}"
+                      HorizontalScrollBarVisibility="Disabled">
+            <WrapPanel IsItemsHost="True" Orientation="Horizontal"/>
+        </ScrollViewer>
+    </ControlTemplate>
+    
+    <!--LIST BOX WITH PHOTO ITEM-->
+    <ControlTemplate TargetType="ListBoxItem" x:Key="PhotoListItem_Admin">
+        <Grid Width="60" Height="80"
+              Background="{TemplateBinding Background}">
+            <!--SCALING-->
+            <Grid.RowDefinitions>
+                <RowDefinition Height="55"/>
+                <RowDefinition Height="25"/>
+            </Grid.RowDefinitions>
+            <!--CONTENT-->
+            <Image Width="50" Height="50" Grid.Row="0" Margin="0, 5, 0, 0">
+                <Image.Source>
+                    <Binding Path="Photo.Path"
+                             Converter="{StaticResource ImageConverter}">
+                        <Binding.TargetNullValue>
+                            <ImageSource>/Resources/OtherImg/NoPhoto.png</ImageSource>
+                        </Binding.TargetNullValue>
+                        <Binding.FallbackValue>
+                            <ImageSource>/Resources/OtherImg/NoPhoto.png</ImageSource>
+                        </Binding.FallbackValue>
+                    </Binding>
+                </Image.Source>
+            </Image>
+
+            <!--PHOTO INFO-->
+            <Grid Grid.Row="1" Margin="0, 5, 0, 0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="10"/>
+                    <RowDefinition Height="15"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <!--like amount-->
+                <Image Grid.Row="0" Grid.Column="0" Source="/Resources/InterfaceImage/Heart.png"/>
+                <Label Grid.Row="1" Grid.Column="0" 
+                       Content="{Binding LikeAmount}"
+                       Style="{DynamicResource ListBoxPhotoLabel_Admin}"/>
+
+                <!--dislike amount-->
+                <Image Grid.Row="0" Grid.Column="1" Source="/Resources/InterfaceImage/BrokenHeart.png"/>
+                <Label Grid.Row="1" Grid.Column="1" 
+                       Content="{Binding DislikeAmount}"
+                       Style="{DynamicResource ListBoxPhotoLabel_Admin}"/>
+
+                <!--comments amount-->
+                <Image Grid.Row="0" Grid.Column="2" Source="/Resources/InterfaceImage/Conversation.png"/>
+                <Label Grid.Row="1" Grid.Column="2" 
+                       Content="{Binding CommentAmount}"
+                       Style="{DynamicResource ListBoxPhotoLabel_Admin}"/>
+            </Grid>
+        </Grid>
+    </ControlTemplate>
+                   
+    
+</ResourceDictionary>

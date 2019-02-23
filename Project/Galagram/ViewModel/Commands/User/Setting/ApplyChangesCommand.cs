@@ -3,7 +3,7 @@
 namespace Galagram.ViewModel.Commands.User.Setting
 {
     /// <summary>
-    /// Change current user
+    /// Changes current user
     /// </summary>
     public class ApplyChangesCommand : CommandBase
     {
@@ -12,7 +12,7 @@ namespace Galagram.ViewModel.Commands.User.Setting
 
         // CONSTRUCTORS
         /// <summary>
-        /// Initialize a new instance of <see cref="ApplyChangesCommand"/>
+        /// Initializes a new instance of <see cref="ApplyChangesCommand"/>
         /// </summary>
         /// <param name="settingViewModel">
         /// An instance of <see cref="ViewModel.User.SettingViewModel"/>
@@ -24,7 +24,7 @@ namespace Galagram.ViewModel.Commands.User.Setting
 
         // METHODS
         /// <summary>
-        /// Check if command can be executed
+        /// Checks if command can be executed
         /// </summary>
         /// <param name="parameter">
         /// Additionals parameters
@@ -38,7 +38,7 @@ namespace Galagram.ViewModel.Commands.User.Setting
             return true;
         }
         /// <summary>
-        /// Execute command
+        /// Executes command
         /// </summary>
         /// <param name="parameter">
         /// Command parameters
@@ -52,22 +52,44 @@ namespace Galagram.ViewModel.Commands.User.Setting
             if (!settingViewModel.DoesFieldChanged())
             {
                 settingViewModel.Logger.LogAsync(Core.LogMode.Debug, "There were no changes");
-                settingViewModel.WindowManager.ShowMessageWindow(Core.Messages.Info.ViewModel.Command.User.Setting.ApplyChanges.NO_CHANGES);
+                settingViewModel.WindowManager.ShowMessageWindow(Core.Messages.Info.ViewModel.NO_CHANGES);
                 return;
             }
 
             // check fields
+            // nickname
+            if (settingViewModel.DoesFieldChanged((int)SettingFieldChanged.Nickname))
+            {
+                if (!settingViewModel.UnitOfWork.UserRepository.IsNicknameFree(settingViewModel.NewNickname))
+                {
+                    // do not change nickname, its occupied
+                    settingViewModel.Logger.LogAsync(Core.LogMode.Info, "Nickname can not be changed");
+                    settingViewModel.WindowManager.ShowMessageWindow(Core.Messages.Info.ViewModel.NICKNAME_IS_NOT_FREE);
+
+                    return;
+                }
+                // nickname is wrong
+                if (!settingViewModel.IsNewNicknameValid())
+                {
+                    return;
+                }
+            }
+
+            // password
             if (string.IsNullOrWhiteSpace(settingViewModel.Password))
             {
-                settingViewModel.Logger.LogAsync(Core.LogMode.Debug, "Changes can not be applied. Password is emoty");
-                settingViewModel.WindowManager.ShowMessageWindow(Core.Messages.Info.ViewModel.Command.User.Setting.ApplyChanges.EMPTY_PASSWORD);
+                settingViewModel.Logger.LogAsync(Core.LogMode.Debug, "Changes can not be applied. Password is empty");
+                settingViewModel.WindowManager.ShowMessageWindow(Core.Messages.Info.ViewModel.EMPTY_PASSWORD);
                 return;
             }
-            // is password right
             if (settingViewModel.Password != settingViewModel.DataStorage.LoggedUser.Password)
             {
                 settingViewModel.Logger.LogAsync(Core.LogMode.Debug, $"Changes can not be applied. Password is wrong. User password = {settingViewModel.DataStorage.LoggedUser.Password}, written password = {settingViewModel.Password}");
-                settingViewModel.WindowManager.ShowMessageWindow(Core.Messages.Info.ViewModel.Command.User.Setting.ApplyChanges.PASSWORD_IS_NOT_THE_SAME);
+                settingViewModel.WindowManager.ShowMessageWindow(Core.Messages.Info.ViewModel.PASSWORD_IS_NOT_THE_SAME);
+                return;
+            }
+            if (settingViewModel.DoesFieldChanged((int)SettingFieldChanged.Password) && !settingViewModel.IsNewPasswordValid())
+            {
                 return;
             }
             #endregion
@@ -78,26 +100,48 @@ namespace Galagram.ViewModel.Commands.User.Setting
             if (settingViewModel.DoesFieldChanged((int)SettingFieldChanged.Avatar))
             {
                 settingViewModel.Logger.LogAsync(Core.LogMode.Debug, "Sets new avatar");
-                settingViewModel.Logger.LogAsync(Core.LogMode.Info, $"Avatar = {settingViewModel.DataStorage.LoggedUser.MainPhotoPath}, temp avatar = {settingViewModel.TempAvatarPath}");
 
-                // create folder if not exist
-                if (!System.IO.Directory.Exists(Core.Configuration.AppConfig.AVATAR_FOLDER))
-                {
-                    settingViewModel.Logger.LogAsync(Core.LogMode.Debug, "Create avatar folder");
-                    System.IO.Directory.CreateDirectory(Core.Configuration.AppConfig.AVATAR_FOLDER);
-                }
-
-                // move to constant avatar path
-                settingViewModel.Logger.LogAsync(Core.LogMode.Debug, "Move avatar to constant folder");
                 string tempAvatarPath = settingViewModel.TempAvatarPath;
-                string constAvatarPath = string.Format(Core.Configuration.AppConfig.AVATAR_FORMAT, settingViewModel.DataStorage.LoggedUser.Id, System.IO.Path.GetExtension(tempAvatarPath));
+                settingViewModel.Logger.LogAsync(Core.LogMode.Info, $"Avatar = {settingViewModel.DataStorage.LoggedUser.MainPhotoPath}, temp avatar = {tempAvatarPath}");
 
-                // move photo to that folder
-                settingViewModel.TempAvatarPath = null;
-                System.IO.File.Copy(tempAvatarPath, constAvatarPath, overwrite: true);
+                if (string.IsNullOrEmpty(tempAvatarPath))// reset avatar
+                {
+                    settingViewModel.Logger.LogAsync(Core.LogMode.Debug, "Reset avatar");
 
-                // sets new avatar
-                settingViewModel.DataStorage.LoggedUser.MainPhotoPath = constAvatarPath;
+                    // delete previous avatar if can
+                    if (!string.IsNullOrEmpty(settingViewModel.DataStorage.LoggedUser.MainPhotoPath))
+                    {
+                        System.IO.File.Delete(settingViewModel.DataStorage.LoggedUser.MainPhotoPath);
+                    }
+
+                    // sets new value to NULL
+                    settingViewModel.DataStorage.LoggedUser.MainPhotoPath = null;
+                }
+                else // set new avatar
+                {
+                    
+                    settingViewModel.Logger.LogAsync(Core.LogMode.Debug, "Sets new avatar");
+
+                    // create folder if not exist
+                    if (!System.IO.Directory.Exists(Core.Configuration.AppConfig.AVATAR_FOLDER))
+                    {
+                        settingViewModel.Logger.LogAsync(Core.LogMode.Debug, "Create avatar folder");
+                        System.IO.DirectoryInfo avatarFolder = System.IO.Directory.CreateDirectory(Core.Configuration.AppConfig.AVATAR_FOLDER);
+                        avatarFolder.Attributes = Core.Configuration.AppConfig.AVATAR_FOLDER_ATTRIBUTES;
+                    }
+
+                    // move to constant avatar path
+                    settingViewModel.Logger.LogAsync(Core.LogMode.Debug, "Move avatar to constant folder");
+                    string constAvatarPath = string.Format(Core.Configuration.AppConfig.AVATAR_FORMAT, settingViewModel.DataStorage.LoggedUser.Id, System.IO.Path.GetExtension(tempAvatarPath));
+
+                    // move photo to that folder
+                    // move if not exist, overwrite if exist
+                    System.IO.File.Copy(tempAvatarPath, constAvatarPath, overwrite: true);
+
+                    // sets new avatar
+                    // sets if null, do nothing if exist
+                    settingViewModel.DataStorage.LoggedUser.MainPhotoPath = constAvatarPath;
+                }
             }
             #endregion
 
@@ -107,16 +151,9 @@ namespace Galagram.ViewModel.Commands.User.Setting
             {
                 settingViewModel.Logger.LogAsync(Core.LogMode.Debug, "Sets new nickname");
                 settingViewModel.Logger.LogAsync(Core.LogMode.Info, $"Old nickname = {settingViewModel.DataStorage.LoggedUser.NickName}, new nickname = {settingViewModel.NewNickname}");
-
-                if (!settingViewModel.UnitOfWork.UserRepository.IsNicknameFree(settingViewModel.NewNickname) || !settingViewModel.IsNewNicknameValid())// do not change nickname, its occupied or wrong
-                {
-                    settingViewModel.Logger.LogAsync(Core.LogMode.Info, "Nickname can not be changed. Its occupied or not valid");
-                    settingViewModel.WindowManager.ShowMessageWindow(Core.Messages.Info.ViewModel.Command.User.Setting.ApplyChanges.NICKNAME_IS_NOT_FREE);
-                }
-                else // sets new nickname
-                {
-                    settingViewModel.DataStorage.LoggedUser.NickName = settingViewModel.NewNickname;
-                }
+                
+                // sets new nickname
+                settingViewModel.DataStorage.LoggedUser.NickName = settingViewModel.NewNickname;
             }
             #endregion
             // password
@@ -126,11 +163,8 @@ namespace Galagram.ViewModel.Commands.User.Setting
                 settingViewModel.Logger.LogAsync(Core.LogMode.Debug, "Sets new password");
                 settingViewModel.Logger.LogAsync(Core.LogMode.Info, $"Old password = {settingViewModel.DataStorage.LoggedUser.Password}, new password = {settingViewModel.Password}");
 
-                // change password if can, or show error message
-                if (settingViewModel.IsNewPasswordValid())
-                {
-                    settingViewModel.DataStorage.LoggedUser.Password = settingViewModel.NewPassword;
-                }
+                // change password
+                settingViewModel.DataStorage.LoggedUser.Password = settingViewModel.NewPassword;
             }
             #endregion
 
@@ -144,7 +178,7 @@ namespace Galagram.ViewModel.Commands.User.Setting
             settingViewModel.ResetFields();
             
             // notify user about success
-            settingViewModel.WindowManager.ShowMessageWindow(Core.Messages.Info.ViewModel.Command.User.Setting.ApplyChanges.CHANGES_APPLIED);
+            settingViewModel.WindowManager.ShowMessageWindow(Core.Messages.Info.ViewModel.CHANGES_APPLIED);
         }
     }
 }

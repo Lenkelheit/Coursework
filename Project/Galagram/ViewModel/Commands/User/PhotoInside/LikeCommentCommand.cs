@@ -1,4 +1,7 @@
-﻿namespace Galagram.ViewModel.Commands.User.PhotoInside
+﻿using DataAccess.Wrappers;
+using DataAccess.Entities;
+
+namespace Galagram.ViewModel.Commands.User.PhotoInside
 {
     /// <summary>
     /// Sets like or dislike to current comment
@@ -10,7 +13,7 @@
 
         // CONSTRUCTORS
         /// <summary>
-        /// Initialize a new instance of <see cref="LikeCommentCommand"/>
+        /// Initializes a new instance of <see cref="LikeCommentCommand"/>
         /// </summary>
         /// <param name="photoInsideViewModel">
         /// An instance of <see cref="ViewModel.User.PhotoInsideViewModel"/>
@@ -22,7 +25,7 @@
 
         // METHODS
         /// <summary>
-        /// Check if command can be executed
+        /// Checks if command can be executed
         /// </summary>
         /// <param name="parameter">
         /// Additionals parameters
@@ -36,7 +39,7 @@
             return true;
         }
         /// <summary>
-        /// Execute command
+        /// Executes command
         /// </summary>
         /// <param name="parameter">
         /// Current comment
@@ -44,7 +47,7 @@
         /// An array of values :
         /// <para/>
         /// 1 — bool value. True if like, false if dislike <para/>
-        /// 2 — current comments
+        /// 2 — current comments wrapper
         /// </param>
         public override void Execute(object parameter)
         {
@@ -52,16 +55,16 @@
 
             // gets value
             bool isLike = System.Convert.ToBoolean((parameter as System.Array).GetValue(0));
-            DataAccess.Entities.Comment comment = (DataAccess.Entities.Comment)(parameter as System.Array).GetValue(1);
+            CommentWrapper commentWrapper = (CommentWrapper)(parameter as System.Array).GetValue(1);
             DataAccess.Entities.User user = Services.DataStorage.Instance.LoggedUser;
-            DataAccess.Entities.CommentLike commentLike = photoInsideViewModel.UnitOfWork.CommentLikeRepository.TryGetUserLike(comment, user);
+            CommentLike commentLike = photoInsideViewModel.UnitOfWork.CommentLikeRepository.TryGetUserLike(commentWrapper.Comment, user);
 
             // suitable for likes and dislikes
             // STEPS
             // 1. if like is new -> add it
             // 2. else if there is like or dislike
             //      2.1. if click on the same button type -> remove like
-            //      2.2  else if click on the oposite button type -> toggle like
+            //      2.2  else if click on the opposite button type -> toggle like
 
             Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, isLike ? "Liking" : "Disliking");
 
@@ -71,12 +74,17 @@
                 Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, "Add to data base");
 
                 // update data base
-                DataAccess.Context.UnitOfWork.Instance.CommentLikeRepository.Insert(new DataAccess.Entities.CommentLike
+                DataAccess.Context.UnitOfWork.Instance.CommentLikeRepository.Insert(new CommentLike
                 {
                     IsLiked = isLike,
-                    Comment = comment,
+                    Comment = commentWrapper.Comment,
                     User = user
                 });
+
+                // update view
+                Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, "Update View");
+                if (isLike) ++commentWrapper.LikesAmount;
+                else ++commentWrapper.DisLikesAmount;
             }
             else// 2. there is a like
             {
@@ -87,24 +95,39 @@
 
                     // updata data base
                     DataAccess.Context.UnitOfWork.Instance.CommentLikeRepository.Delete(commentLike);
-                    DataAccess.Context.UnitOfWork.Instance.CommentRepository.Update(comment);
+                    DataAccess.Context.UnitOfWork.Instance.CommentRepository.Update(commentWrapper.Comment);
+
+                    // update view
+                    Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, "Update View");
+                    if (isLike) --commentWrapper.LikesAmount;
+                    else --commentWrapper.DisLikesAmount;
                 }
                 else// 2.2 toggle dislike to like
                 {
                     Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, "Toggle like");
                     Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, "Update valuse in data base");
 
-                    // updata data base
+                    // updata database
                     commentLike.IsLiked = isLike; // toggle
                     DataAccess.Context.UnitOfWork.Instance.CommentLikeRepository.Update(commentLike);
+
+
+                    // update view, toggle value
+                    Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, "Update View");
+                    if (isLike)
+                    {
+                        ++commentWrapper.LikesAmount;
+                        --commentWrapper.DisLikesAmount;
+                    }
+                    else
+                    {
+                        --commentWrapper.LikesAmount;
+                        ++commentWrapper.DisLikesAmount;
+                    }
                 }
             }
-
-            // update interface, comment likes
-            Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, "Update view");
-            comment.PropertyUpdates(nameof(DataAccess.Entities.Comment.Likes));
             
-            //  save changes to data base
+            // save changes to database
             Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, "Save changes to data base");
             DataAccess.Context.UnitOfWork.Instance.Save();
         }

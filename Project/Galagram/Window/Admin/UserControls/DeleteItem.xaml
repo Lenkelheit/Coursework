@@ -4,12 +4,16 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
-
+             d:DesignHeight="600" d:DesignWidth="900">
+    <!--DATA CONTEXT-->
     <Grid>
+        <!--SCALING-->
         <Grid.RowDefinitions>
             <RowDefinition Height="50"/>
             <RowDefinition Height="*"/>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="50"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="50"/>
         </Grid.RowDefinitions>
@@ -17,24 +21,33 @@
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-
-        <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"
-               VerticalContentAlignment="Center" HorizontalContentAlignment="Center"
-               FontSize="20" Foreground="White"
-               Content="Delete item"/>
-
-        <TextBlock Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"
-               TextAlignment="Center" VerticalAlignment="Bottom"
-                   FontSize="20" Foreground="White"
-               Text="Are you sure you want to delete"/>
         
-        <TextBlock Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2"
-               TextAlignment="Center" VerticalAlignment="Top"
-                   FontSize="20" Foreground="Red" x:Name="DeleteItemLbl"
-               Text=" item"/>
+        <!--HEADER-->
+        <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"
+               Style="{StaticResource CenterHeaderLabel_Admin}"
+               Content="Delete item"/>
+        
+        <!--DELETE ITEM INFO-->
+        <Label Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2"
+               Content="Are you sure you want to delete"
+               Style="{StaticResource CenterHeaderLabel_Admin}"/>
+        <Label Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2"
+               x:Name="DeleteItemLbl"
+               Style="{StaticResource ImportantLabel_Admin}"
+               Content="{Binding Name, Mode=OneTime}"/>
+        <Label Grid.Row="4" Grid.Column="0" 
+               Style="{StaticResource CenterHeaderLabel_Admin}"
+               Content="By id"/>
+        <Label Grid.Row="4" Grid.Column="1" 
+               Style="{StaticResource ImportantLabel_Admin}"
+               Content="{Binding ID, Mode=OneTime}"/>
 
-
-        <Button Grid.Row="3" Grid.Column="0" Content="Cancel" Style="{StaticResource AdminButton}"/>
-        <Button Grid.Row="3" Grid.Column="1" Content="Ok" Style="{StaticResource AdminButton}" />
+        <!--BUTTONS-->
+        <Button Grid.Row="6" Grid.Column="0" Content="Cancel" 
+                Style="{StaticResource AdminButton}"
+                Command="{Binding CancelCommand}"/>
+        <Button Grid.Row="6" Grid.Column="1" Content="Ok" 
+                Style="{StaticResource AdminButton}" 
+                Command="{Binding AcceptCommand}"/>
     </Grid>
 </UserControl>
