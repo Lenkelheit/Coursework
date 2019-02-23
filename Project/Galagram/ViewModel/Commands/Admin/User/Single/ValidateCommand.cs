@@ -58,19 +58,25 @@
             if (userNickname.Length > Core.Configuration.DBConfig.NICKNAME_MAX_LENGTH ||
                 userNickname.Length < Core.Configuration.DBConfig.NICKNAME_MIN_LENGTH)
             {
+                // interrupt command executing, wrong user's nickname length
                 Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, "User's nickname is wrong. Interrupt command executing");
 
+                // show message
                 Services.WindowManager.Instance.ShowMessageWindow(Core.Messages.Info.Admin.ADMIN_WRONG_USER_NICKNAME_LENGTH);
 
+                // interrupt command
                 CommandState = Enums.Admin.CommandState.Interrupted;
                 return;
             }
             else if (userSingleViewModel.RealNickname != userNickname && !userSingleViewModel.UnitOfWork.UserRepository.IsNicknameFree(userNickname)) 
             {
+                // interrupt command executing, wrong user's nickname has already been taked
                 Core.Logger.GetLogger.LogAsync(Core.LogMode.Info, "Nickname can not be changed. It is occupied");
 
+                // show message
                 userSingleViewModel.WindowManager.ShowMessageWindow(Core.Messages.Info.ViewModel.Command.User.Setting.ApplyChanges.NICKNAME_IS_NOT_FREE);
 
+                // interrupt command
                 CommandState = Enums.Admin.CommandState.Interrupted;
                 return;
             }
@@ -82,13 +88,31 @@
             if (userPassword.Length > Core.Configuration.DBConfig.PASSWORD_MAX_LENGTH ||
                 userPassword.Length < Core.Configuration.DBConfig.PASSWORD_MIN_LENGTH)
             {
+                // interrupt command executing, wrong user's password length
                 Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, "User's password is wrong. Interrupt command executing");
 
+                // show message
                 Services.WindowManager.Instance.ShowMessageWindow(Core.Messages.Info.Admin.ADMIN_WRONG_USER_PASSWORD_LENGTH);
 
+                // interrupt command
                 CommandState = Enums.Admin.CommandState.Interrupted;
                 return;
             }
+
+            // delete avatar from server if can
+            if (string.IsNullOrEmpty(user.MainPhotoPath))
+            {
+                // if avatar is null, and it has file on server
+                // delete file from server
+                if (System.IO.File.Exists(userSingleViewModel.RealAvatarPath))
+                {
+                    System.IO.File.Delete(userSingleViewModel.RealAvatarPath);
+                }
+            }
+
+
+            // command has been successfully executed
+            CommandState = Enums.Admin.CommandState.Executed;
         }
     }
 }

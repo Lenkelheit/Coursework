@@ -5,15 +5,41 @@
     /// </summary>
     public abstract class CommandBase : System.Windows.Input.ICommand
     {
-        /// <summary>
-        /// State of the command executing
-        /// </summary>
-        public Enums.Admin.CommandState CommandState { get; set; } = Enums.Admin.CommandState.Default;
+        // FIELDS
+        Enums.Admin.CommandState commandState;
 
+        // CONSTRUCTORS
+        /// <summary>
+        /// Sets default field value
+        /// </summary>
+        public CommandBase()
+        {
+            commandState = Enums.Admin.CommandState.Default;
+        }
+
+        // PROPERTIES
+        /// <summary>
+        /// Gets state of the command executing
+        /// </summary>
+        public Enums.Admin.CommandState CommandState
+        {
+            get
+            {
+                return commandState;
+            }
+            protected set
+            {
+                commandState = value;
+            }
+        }
+
+        // EVENTS
         /// <summary>
         /// Occurs when state of the command has been changed
         /// </summary>
         public virtual event System.EventHandler CanExecuteChanged;
+
+        // METHODS
         /// <summary>
         /// Checks if command can be executed
         /// </summary>

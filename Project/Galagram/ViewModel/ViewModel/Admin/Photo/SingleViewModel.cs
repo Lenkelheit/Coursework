@@ -32,7 +32,11 @@ namespace Galagram.ViewModel.ViewModel.Admin.Photo
             disLikedUserName = groupLikes[false].ToArray();
 
             // commands
-            this.deleteCommand = new Commands.Admin.DeleteCommand();
+            this.deleteCommand = new Commands.MultipleCommand(new CommandBase[]
+            {
+                new Commands.Admin.DeleteCommand(),
+                new Commands.Shared.DeletePhotoFromServerCommand(photo.Path)
+            });
 
             Logger.LogAsync(Core.LogMode.Debug, $"Initializes {nameof(SingleViewModel)}");
         }

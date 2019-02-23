@@ -57,17 +57,39 @@ namespace Galagram.ViewModel.Commands.User.Setting
             }
 
             // check fields
+            // nickname
+            if (settingViewModel.DoesFieldChanged((int)SettingFieldChanged.Nickname))
+            {
+                if (!settingViewModel.UnitOfWork.UserRepository.IsNicknameFree(settingViewModel.NewNickname))
+                {
+                    // do not change nickname, its occupied
+                    settingViewModel.Logger.LogAsync(Core.LogMode.Info, "Nickname can not be changed");
+                    settingViewModel.WindowManager.ShowMessageWindow(Core.Messages.Info.ViewModel.Command.User.Setting.ApplyChanges.NICKNAME_IS_NOT_FREE);
+
+                    return;
+                }
+                // nickname is wrong
+                if (!settingViewModel.IsNewNicknameValid())
+                {
+                    return;
+                }
+            }
+
+            // password
             if (string.IsNullOrWhiteSpace(settingViewModel.Password))
             {
                 settingViewModel.Logger.LogAsync(Core.LogMode.Debug, "Changes can not be applied. Password is empty");
                 settingViewModel.WindowManager.ShowMessageWindow(Core.Messages.Info.ViewModel.Command.User.Setting.ApplyChanges.EMPTY_PASSWORD);
                 return;
             }
-            // is password right
             if (settingViewModel.Password != settingViewModel.DataStorage.LoggedUser.Password)
             {
                 settingViewModel.Logger.LogAsync(Core.LogMode.Debug, $"Changes can not be applied. Password is wrong. User password = {settingViewModel.DataStorage.LoggedUser.Password}, written password = {settingViewModel.Password}");
                 settingViewModel.WindowManager.ShowMessageWindow(Core.Messages.Info.ViewModel.Command.User.Setting.ApplyChanges.PASSWORD_IS_NOT_THE_SAME);
+                return;
+            }
+            if (settingViewModel.DoesFieldChanged((int)SettingFieldChanged.Password) && !settingViewModel.IsNewPasswordValid())
+            {
                 return;
             }
             #endregion
@@ -85,6 +107,14 @@ namespace Galagram.ViewModel.Commands.User.Setting
                 if (string.IsNullOrEmpty(tempAvatarPath))// reset avatar
                 {
                     settingViewModel.Logger.LogAsync(Core.LogMode.Debug, "Reset avatar");
+
+                    // delete previous avatar if can
+                    if (!string.IsNullOrEmpty(settingViewModel.DataStorage.LoggedUser.MainPhotoPath))
+                    {
+                        System.IO.File.Delete(settingViewModel.DataStorage.LoggedUser.MainPhotoPath);
+                    }
+
+                    // sets new value to NULL
                     settingViewModel.DataStorage.LoggedUser.MainPhotoPath = null;
                 }
                 else // set new avatar
@@ -121,16 +151,9 @@ namespace Galagram.ViewModel.Commands.User.Setting
             {
                 settingViewModel.Logger.LogAsync(Core.LogMode.Debug, "Sets new nickname");
                 settingViewModel.Logger.LogAsync(Core.LogMode.Info, $"Old nickname = {settingViewModel.DataStorage.LoggedUser.NickName}, new nickname = {settingViewModel.NewNickname}");
-
-                if (!settingViewModel.UnitOfWork.UserRepository.IsNicknameFree(settingViewModel.NewNickname) || !settingViewModel.IsNewNicknameValid())// do not change nickname, its occupied or wrong
-                {
-                    settingViewModel.Logger.LogAsync(Core.LogMode.Info, "Nickname can not be changed. Its occupied or not valid");
-                    settingViewModel.WindowManager.ShowMessageWindow(Core.Messages.Info.ViewModel.Command.User.Setting.ApplyChanges.NICKNAME_IS_NOT_FREE);
-                }
-                else // sets new nickname
-                {
-                    settingViewModel.DataStorage.LoggedUser.NickName = settingViewModel.NewNickname;
-                }
+                
+                // sets new nickname
+                settingViewModel.DataStorage.LoggedUser.NickName = settingViewModel.NewNickname;
             }
             #endregion
             // password
@@ -140,11 +163,8 @@ namespace Galagram.ViewModel.Commands.User.Setting
                 settingViewModel.Logger.LogAsync(Core.LogMode.Debug, "Sets new password");
                 settingViewModel.Logger.LogAsync(Core.LogMode.Info, $"Old password = {settingViewModel.DataStorage.LoggedUser.Password}, new password = {settingViewModel.Password}");
 
-                // change password if can, or show error message
-                if (settingViewModel.IsNewPasswordValid())
-                {
-                    settingViewModel.DataStorage.LoggedUser.Password = settingViewModel.NewPassword;
-                }
+                // change password
+                settingViewModel.DataStorage.LoggedUser.Password = settingViewModel.NewPassword;
             }
             #endregion
 

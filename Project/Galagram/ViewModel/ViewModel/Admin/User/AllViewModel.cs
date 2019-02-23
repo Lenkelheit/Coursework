@@ -30,7 +30,14 @@ namespace Galagram.ViewModel.ViewModel.Admin.User
             // commands
             openCommand = new Commands.RelayCommand(NavigateToReadContent);
             editCommand = new Commands.RelayCommand(NavigateToEditContent);
-            
+            deleteCommand = new Commands.MultipleCommand(new CommandBase[]
+            {
+                new Commands.Admin.DeleteCommand(),
+                new Commands.Shared.DeletePhotoFolderCommand(),
+                new Commands.Shared.DeleteAvatarFromServerCommand()
+            });
+
+
             Logger.LogAsync(Core.LogMode.Debug, $"Initializes {nameof(AllViewModel)}");
         }
 

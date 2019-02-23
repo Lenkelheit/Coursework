@@ -42,7 +42,13 @@ namespace Galagram.ViewModel.ViewModel.User
             this.loadNewAvatarCommand = new Commands.User.Setting.LoadNewAvatarCommand(this);
             this.closeCommand = new Commands.User.Setting.CloseCommand(this);
             this.resetAvatarCommand = new Commands.User.Setting.ResetAvatarCommand(this);
-            this.removeAccountCommand = new Commands.User.Setting.RemoveAccountCommand(this);
+            this.removeAccountCommand = new Commands.MultipleCommand(new CommandBase[]
+            {
+                 new Commands.User.Setting.RemoveAccountCommand(this),
+                 new Commands.Shared.DeletePhotoFolderCommand(DataStorage.LoggedUser.Id.ToString()),
+                 new Commands.Shared.DeleteAvatarFromServerCommand(DataStorage.LoggedUser.MainPhotoPath),
+                 new Commands.User.MainWindow.LogOutCommand()
+            });
         }
 
         // PROPERTIES

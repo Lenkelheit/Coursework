@@ -51,17 +51,23 @@
             // checks is password right
             if (string.IsNullOrWhiteSpace(settingViewModel.Password))
             {
+                // password is empty, interrupt command
+
                 settingViewModel.Logger.LogAsync(Core.LogMode.Debug, $"Account can not be deleted. Password is empty.");
                 settingViewModel.WindowManager.ShowMessageWindow(Core.Messages.Info.ViewModel.Command.User.Setting.ApplyChanges.EMPTY_PASSWORD);
 
+                this.CommandState = Enums.Admin.CommandState.Interrupted;
                 return;
             }
 
             if (settingViewModel.Password != settingViewModel.DataStorage.LoggedUser.Password)
             {
+                // password is not the same, interrupt command
+
                 settingViewModel.Logger.LogAsync(Core.LogMode.Debug | Core.LogMode.Info, $"Account can not be deleted. Password is wrong. User password = {settingViewModel.DataStorage.LoggedUser.Password}, written password = {settingViewModel.Password}");
                 settingViewModel.WindowManager.ShowMessageWindow(Core.Messages.Info.ViewModel.Command.User.Setting.ApplyChanges.PASSWORD_IS_NOT_THE_SAME);
 
+                this.CommandState = Enums.Admin.CommandState.Interrupted;
                 return;
             }
 
@@ -77,6 +83,7 @@
             {
                 settingViewModel.Logger.LogAsync(Core.LogMode.Debug | Core.LogMode.Info, $"Cancel exetuting of {nameof(RemoveAccountCommand)}. User choice = {doDeleteAccount.Value}");
 
+                this.CommandState = Enums.Admin.CommandState.Interrupted;
                 return;
             }
 
@@ -86,9 +93,8 @@
             DataAccess.Context.UnitOfWork.Instance.UserRepository.Delete(Services.DataStorage.Instance.LoggedUser);
             DataAccess.Context.UnitOfWork.Instance.Save();
 
-            // move to main window
-            Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, "Switch to main window");
-            new MainWindow.LogOutCommand().Execute(parameter);
+            // command has been executed successfully
+            this.CommandState = Enums.Admin.CommandState.Executed;
         }
     }
 }

@@ -3,7 +3,7 @@
     /// <summary>
     /// A WPF command which represents action as <see cref="System.Action"/>.
     /// </summary>
-    public class RelayCommand : System.Windows.Input.ICommand
+    public class RelayCommand : CommandBase
     {
         // FIELDS
         private System.Action<object> execute;
@@ -13,7 +13,7 @@
         /// <summary>
         /// Raises when <see cref="CanExecute(object)"/> changed.
         /// </summary>
-        public event System.EventHandler CanExecuteChanged
+        public override event System.EventHandler CanExecuteChanged
         {
             add
             {
@@ -51,7 +51,7 @@
         /// <returns>
         /// True — if command can be executed, otherwise — false.
         /// </returns>
-        public bool CanExecute(object parameter)
+        public override bool CanExecute(object parameter)
         {
             return this.canExecute == null || this.canExecute(parameter);
         }
@@ -61,7 +61,7 @@
         /// <param name="parameter">
         /// The parameter which command needs to be executed.
         /// </param>
-        public void Execute(object parameter)
+        public override void Execute(object parameter)
         {
             this.execute(parameter);
         }

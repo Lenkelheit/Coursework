@@ -1,14 +1,16 @@
 ﻿using System.Windows.Input;
 
-namespace Galagram.ViewModel.Commands.Admin
+namespace Galagram.ViewModel.Commands
 {
     /// <summary>
     /// Represents multiple command
+    /// <para/>
+    /// Implements Chain-of-Responsibility pattern
     /// </summary>
     public class MultipleCommand : CommandBase
     {
         // FIELDS
-        ICommand[] commands;
+        CommandBase[] commands;
 
         // EVENT
         /// <summary>
@@ -28,12 +30,12 @@ namespace Galagram.ViewModel.Commands.Admin
 
         // CONSTRUCTORS
         /// <summary>
-        /// Initialize a new instance of <see cref="MultipleCommand"/>
+        /// Initializes a new instance of <see cref="MultipleCommand"/>
         /// </summary>
         /// <param name="commands">
-        /// The array of <see cref="ICommand"/>
+        /// The array of <see cref="CommandBase"/>
         /// </param>
-        public MultipleCommand(ICommand[] commands)
+        public MultipleCommand(CommandBase[] commands)
         {
             this.commands = commands;
         }
@@ -50,23 +52,21 @@ namespace Galagram.ViewModel.Commands.Admin
         /// </returns>
         public override bool CanExecute(object parameter)
         {
-            Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, $"Can execute {nameof(MultipleCommand)}");
-
             // check if all commands can be executed
-            bool canExecute = true;
-            foreach (ICommand command in commands)
+            foreach (CommandBase command in commands)
             {
-                canExecute &= command.CanExecute(parameter);
+                if (!command.CanExecute(parameter))
+                {
+                    return false;
+                }
             }
-
-            Core.Logger.GetLogger.LogAsync(Core.LogMode.Info, $"{nameof(canExecute)} value = {canExecute}");
-
-            // return
-            return canExecute;
+            
+            // all command can be executed
+            return true;
         }
 
         /// <summary>
-        /// Execute the command
+        /// Executes the command
         /// </summary>
         /// <param name="parameter">
         /// Command parameter
@@ -75,13 +75,14 @@ namespace Galagram.ViewModel.Commands.Admin
         {
             Core.Logger.GetLogger.LogAsync(Core.LogMode.Debug, $"Execute {nameof(MultipleCommand)}");
 
-            foreach (ICommand command in commands)
+            // execute command one by one
+            foreach (CommandBase command in commands)
             {
                 command.Execute(parameter);
-                if ((command as CommandBase).CommandState == Enums.Admin.CommandState.Interrupted) 
+
+                // stop command executing, if current command has been interrupted
+                if (command.CommandState == Enums.Admin.CommandState.Interrupted) 
                 {
-                    // don't execute next command if current is interrupted
-                    (command as CommandBase).CommandState = Enums.Admin.CommandState.Default;
                     return;
                 }
             }
